@@ -29,7 +29,7 @@ function Login() {
   function submitLogin() {
     postRequest(
       // "http://localhost:5001/user/login",
-      `${apiKey}/user/login`,
+      `${apiKey}/packuser/login`,
       { username: username, password: formPassword },
       (data) => {
         if (data.accessToken) {
@@ -49,7 +49,7 @@ function Login() {
       console.log("Enter key pressed!");
       //Here is the post request
       postRequest(
-        `${apiKey}/user/login`,
+        `${apiKey}/packuser/login`,
         { username: username, password: formPassword },
         (data) => {
           if (data.accessToken) {
