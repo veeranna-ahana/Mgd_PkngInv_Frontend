@@ -28,17 +28,15 @@ function DCCreateNew() {
   const dcSelectedRow = location.state?.dcSelectedRow || "";
 
   const [formData, setFormData] = useState({
+    // Create New
     unitName: "Jigani",
     unitStateId: "29",
+    UnitGSTNo: "29AABCM1970H1ZE",
     dcNo: "",
     dcInvNo: "",
     dcDate: "",
     dcType: "Returnable DC",
     dcStatus: "Draft",
-    reviewPeriod: "FinanceYear",
-    resetValue: 0,
-    voucherNoLenght: 4,
-    finYear: "",
     customerNames: [],
     selectedCustomer: null,
     custCode: "",
@@ -65,6 +63,7 @@ function DCCreateNew() {
     selectedTax: [],
     selectedRowData: {},
     dcCancel: "",
+    isGovOrg: 0,
 
     // Add New
     partName: "",
@@ -93,11 +92,12 @@ function DCCreateNew() {
     scrapWeight: 0,
     vehicleDetails: "",
     eWayRef: "",
+    deliveryContactName: "",
+    deliveryContactNo: "",
 
     // Job Work Goods Receipt Voucher
     rvId: "",
     receiptDate: "",
-    voucherNo: "",
     rvNo: "",
     rvDate: "",
     rvCustCode: "",
@@ -118,6 +118,7 @@ function DCCreateNew() {
     secondTable: [],
     secondTableArray: [],
     receiveTable: [],
+    updatedCount: 0,
   });
 
   const updateFormData = (data) => {
@@ -257,18 +258,50 @@ function DCCreateNew() {
 
     if (formData.tableData.length === 0) {
       toast.error("Missing Details");
-    } else if (!formData.selectedMode) {
+      return;
+    }
+
+    if (!formData.selectedMode) {
       toast.error("Select Transport Mode");
-    } else if (!formData.vehicleDetails) {
+      return;
+    }
+    if (!formData.vehicleDetails) {
       toast.error("Enter Dispatch/ Vehicle Details");
-    } else if (formData.selectedTax.length === 0) {
+      return;
+    }
+    if (!formData.deliveryContactName) {
+      toast.error("Enter Delivery Customer Name");
+      return;
+    }
+
+    if (!formData.deliveryContactNo) {
+      toast.error("Enter Delivery Contact No");
+      return;
+    }
+
+    // if (formData.isGovOrg !== 1 && formData.gstNo !== formData.UnitGSTNo) {
+    //   if (formData.selectedTax.length === 0) {
+    //     toast.error("Select taxes");
+    //     return;
+    //   }
+    // }
+
+    if (formData.taxDetails?.length > 0 && formData.selectedTax.length === 0) {
       toast.error("Select taxes");
-    } else if (!formData.reference) {
+      return;
+    }
+
+    if (!formData.reference) {
       toast.error("Missing Reference");
+      return;
     } else {
       setShowInspModal(true);
     }
   };
+
+  // console.log("isGovOrg", formData.isGovOrg);
+  // console.log("gstNo", formData.gstNo);
+  // console.log("Unit GST No", formData.UnitGSTNo);
 
   const closeInspModal = (inspectedBy, packedBy) => {
     setShowInspModal(false);
@@ -408,7 +441,10 @@ function DCCreateNew() {
           custCode: selectedCustomer.Cust_Code,
         });
 
-        console.log("Branch", customerDetails.data.Branch);
+        console.log("ISGOVORG", selectedCustomer.IsGovtOrg);
+        console.log("ISForeign", selectedCustomer.IsForiegn);
+
+        // console.log("selectedCustomer Address", selectedCustomer);
 
         const dcInvNo = formData.dcInvNo;
 
@@ -424,18 +460,23 @@ function DCCreateNew() {
                 ? `${customerDetails.data.Branch}\n`
                 : ""
             }${customerDetails.data.Address}` || "",
-
           custCity: customerDetails.data.City || "",
           custPin: customerDetails.data.Pin_Code || "",
           custState: customerDetails.data.State || "",
           gstNo: customerDetails.data.GSTNo || "",
           custStateId: customerDetails.data.StateId || "",
+          isGovOrg: selectedCustomer.IsGovtOrg || "",
+          isForiegn: selectedCustomer.IsForiegn || "",
         }));
 
         try {
           const taxResponse = await Axios.post(apipoints.loadTaxes, {
             stateId: selectedCustomer.StateId,
+            isGovOrg: selectedCustomer.IsGovtOrg,
+            isForiegn: selectedCustomer.IsForiegn,
+            gstNo: selectedCustomer.GSTNo,
             unitStateId: formData.unitStateId,
+            UnitGSTNo: formData.UnitGSTNo,
           });
 
           const taxDetails = taxResponse.data;
@@ -500,28 +541,66 @@ function DCCreateNew() {
   };
 
   useEffect(() => {
-    const loadTaxes = async () => {
-      try {
-        const taxResponse = await Axios.post(apipoints.loadTaxes, {
-          stateId: formData.custStateId,
-          unitStateId: formData.unitStateId,
-        });
+    const fetchData = async () => {
+      const loadCustomerDetails = async (customerCode) => {
+        try {
+          const customerDetails = await Axios.post(
+            apipoints.getCustomerDetails,
+            {
+              custCode: customerCode,
+            }
+          );
 
-        const taxDetails = taxResponse.data;
+          // console.log("customerDetails", customerDetails.data);
+          // console.log("isGovOrg", customerDetails.data.IsGovtOrg);
+          // console.log("isForiegn", customerDetails.data.IsForiegn);
 
-        updateFormData((prevData) => ({
-          ...prevData,
-          taxDetails: taxDetails,
-        }));
-      } catch (error) {
-        console.error("Error loading taxes:", error);
+          const { IsGovtOrg, IsForiegn, GSTNo } = customerDetails.data;
+
+          // Update customerDetails in formData state
+          updateFormData((prevData) => ({
+            ...prevData,
+            customerDetails: customerDetails.data,
+            isGovOrg: IsGovtOrg,
+            isForiegn: IsForiegn,
+            // gstNo: GSTNo,
+          }));
+
+          await loadTaxes(customerCode, IsGovtOrg, IsForiegn, GSTNo);
+        } catch (error) {
+          console.error("Error loading customer details:", error);
+        }
+      };
+
+      const loadTaxes = async (customerCode, isGovOrg, isForiegn, gstNo) => {
+        try {
+          const taxResponse = await Axios.post(apipoints.loadTaxes, {
+            stateId: formData.custStateId,
+            unitStateId: formData.unitStateId,
+            isGovOrg: isGovOrg,
+            isForiegn: isForiegn,
+            gstNo: formData.gstNo,
+            UnitGSTNo: formData.UnitGSTNo,
+          });
+
+          const taxDetails = taxResponse.data;
+
+          updateFormData((prevData) => ({
+            ...prevData,
+            taxDetails: taxDetails,
+          }));
+        } catch (error) {
+          console.error("Error loading taxes:", error);
+        }
+      };
+
+      if (dcSelectedRow) {
+        await loadCustomerDetails(dcSelectedRow.custCode);
       }
     };
 
-    if (dcSelectedRow) {
-      loadTaxes();
-    }
-  }, [dcSelectedRow.custStateId, formData.custStateId]);
+    fetchData();
+  }, [dcSelectedRow.custStateId, formData.custStateId, dcSelectedRow.custCode]);
 
   const handleRowSelectTable1 = (srl) => {
     const selectedRowData = formData.tableData.find(
@@ -608,7 +687,6 @@ function DCCreateNew() {
       updateFormData((prevData) => ({
         ...prevData,
         rvId: response.data[0].RvID,
-        voucherNo: `${startYearShort}/${formData.dcNo}`,
         rvCustomer: response.data[0].Customer,
         rvCustCode: response.data[0].Cust_Code,
         rvTotalWeight: response.data[0].TotalWeight,
@@ -774,12 +852,12 @@ function DCCreateNew() {
           scrapWeight: formData.scrapWeight,
           totalWeight: formData.totalWeight,
           vehicleDetails: formData.vehicleDetails,
+          deliveryContactName: formData.deliveryContactName,
+          deliveryContactNo: formData.deliveryContactNo,
           eWayRef: formData.eWayRef,
           taxableAmount: formData.taxableAmount,
           taxAmt: formData.taxAmt,
-
           tableData: formData.tableData,
-
           selectedTax: formData.selectedTax,
         };
 
@@ -792,14 +870,23 @@ function DCCreateNew() {
     }
   };
 
-  const getDC = async () => {
+  const getDCNo = async () => {
+    const srlType = "ReturnableGoodDC";
+    const ResetPeriod = "FinanceYear";
+    const ResetValue = 0;
+    const VoucherNoLength = 4;
+    const prefix = `${formData.unitName.charAt(0).toUpperCase()}G`;
     try {
-      const response = await Axios.post(apipoints.getDC, {
-        dcInvNo: formData.dcInvNo,
+      const response = await Axios.post(apipoints.insertRunNoRow, {
         unit: formData.unitName,
+        srlType: srlType,
+        ResetPeriod: ResetPeriod,
+        ResetValue: ResetValue,
+        VoucherNoLength: VoucherNoLength,
+        prefix: prefix,
       });
 
-      console.log("getDC Response", response.data);
+      console.log("getDCNo Response", response.data);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -844,9 +931,13 @@ function DCCreateNew() {
             custCode: draft_dc_inv_register.length
               ? draft_dc_inv_register[0].Cust_Code
               : "",
+
             custState: draft_dc_inv_register.length
-              ? draft_dc_inv_register[0].Cust_State
+              ? draft_dc_inv_register[0].Cust_State === "null"
+                ? ""
+                : draft_dc_inv_register[0].Cust_State
               : "",
+
             custCity: draft_dc_inv_register.length
               ? draft_dc_inv_register[0].Cust_Place
               : "",
@@ -868,8 +959,12 @@ function DCCreateNew() {
               : "",
 
             deliveryAddress: draft_dc_inv_register.length
-              ? draft_dc_inv_register[0].Del_Address
+              ? draft_dc_inv_register[0].Del_Address === "null" ||
+                draft_dc_inv_register[0].Del_Address === "undefined"
+                ? ""
+                : draft_dc_inv_register[0].Del_Address
               : "",
+
             deliveryState: state_codelist.length ? state_codelist[0].State : "",
             custStateId: draft_dc_inv_register.length
               ? draft_dc_inv_register[0].Cust_StateId
@@ -922,6 +1017,18 @@ function DCCreateNew() {
               ? draft_dc_inv_register[0].VehNo === "null"
                 ? ""
                 : draft_dc_inv_register[0].VehNo
+              : "",
+
+            deliveryContactName: draft_dc_inv_register.length
+              ? draft_dc_inv_register[0].Del_ContactName === "null"
+                ? ""
+                : draft_dc_inv_register[0].Del_ContactName
+              : "",
+
+            deliveryContactNo: draft_dc_inv_register.length
+              ? draft_dc_inv_register[0].Del_ContactNo === "null"
+                ? ""
+                : draft_dc_inv_register[0].Del_ContactNo
               : "",
 
             eWayRef: draft_dc_inv_register.length
@@ -980,6 +1087,8 @@ function DCCreateNew() {
 
   const blockInvalidQtyChar = (e) =>
     ["e", "E", "+", "-", "."].includes(e.key) && e.preventDefault();
+
+  console.log("TaxDetails", formData.taxDetails);
 
   return (
     <div>
@@ -1043,7 +1152,6 @@ function DCCreateNew() {
           ewayBillPrint={ewayBillPrint}
           closeEwayBillPrint={closeEwayBillPrint}
           openEwayBillPdf={openEwayBillPdf}
-          closeEwayBillPdf={closeEwayBillPdf}
         />
 
         <EwayBillPdfModal
@@ -1070,12 +1178,12 @@ function DCCreateNew() {
           <input type="number" value={formData.custCode} disabled />
         </div>
 
-        <div className="col-md-2">
+        <div className="col-md-2 col-sm-12">
           <label className="form-label">Status</label>
           <input type="text" disabled value={formData.dcStatus} />
         </div>
 
-        <div className="col-md-3">
+        <div className="col-md-3 col-sm-12">
           <label className="form-label">Reference</label>
           <input
             type="text"
@@ -1127,18 +1235,31 @@ function DCCreateNew() {
             name="dcCancel"
             value={formData.dcCancel}
             onChange={handleInputChange}
-            disabled={formData.dcStatus === "Cancelled"}
+            disabled={
+              formData.dcStatus === "Cancelled" ||
+              formData.dcStatus === "Closed" ||
+              !formData.dcInvNo ||
+              formData.receiveTable.length > 0
+            }
           />
         </div>
 
         <div className="col-md-2 mt-3">
           <button
             className={
-              formData.dcStatus === "Cancelled" || !formData.dcInvNo
+              formData.dcStatus === "Cancelled" ||
+              !formData.dcInvNo ||
+              formData.dcStatus === "Closed" ||
+              formData.receiveTable.length > 0
                 ? "button-style button-disabled"
                 : "button-style"
             }
-            disabled={formData.dcStatus === "Cancelled" || !formData.dcInvNo}
+            disabled={
+              formData.dcStatus === "Cancelled" ||
+              formData.dcStatus === "Closed" ||
+              !formData.dcInvNo ||
+              formData.receiveTable.length > 0
+            }
             onClick={openCancelDC}
           >
             Cancel DC
@@ -1182,7 +1303,11 @@ function DCCreateNew() {
                 ? "button-style button-disabled"
                 : "button-style"
             }
-            onClick={openInspModal}
+            // onClick={openInspModal}
+            onClick={() => {
+              getDCNo();
+              openInspModal();
+            }}
             disabled={
               formData.dcStatus === "Despatched" ||
               formData.dcStatus === "Closed" ||

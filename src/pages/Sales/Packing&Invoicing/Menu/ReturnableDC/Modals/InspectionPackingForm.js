@@ -60,14 +60,17 @@ function InspectionPackingForm({
   };
 
   const handlePrintYes = () => {
+    const srlType = "ReturnableGoodDC";
+    const prefix = `${formData.unitName.charAt(0).toUpperCase()}G`;
     if (inspectedBy.trim() === "" || packedBy.trim() === "") {
       toast.error("Enter the name of Inspected By and Packed By to continue");
       setShowPrintModal(false);
     } else {
       Axios.post(apipoints.createDC, {
         dcInvNo: formData.dcInvNo,
-        dcNo: formData.dcNo,
         unit: formData.unitName,
+        srlType: srlType,
+        prefix: prefix,
       })
         .then((response) => {
           if (response.status === 200) {
@@ -193,7 +196,7 @@ function InspectionPackingForm({
       {showgstModal && (
         <Modal show={showgstModal} onHide={handleGSTModalClose} size="md">
           <Modal.Header closeButton>
-            <Modal.Title>magod_Packing_And_Invoicing</Modal.Title>
+            <Modal.Title>Magod ReturnableDC</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>

@@ -178,9 +178,15 @@ export default function ConsigneeInfo(props) {
               name="PO_No"
               value={props.invRegisterData?.PO_No}
               onChange={props.inputHandler}
-              disabled={props.invRegisterData.DC_No.length > 0}
+              disabled={
+                props.invRegisterData.Inv_No?.length > 0 ||
+                props.invRegisterData.DCStatus === "Cancelled"
+              }
               className={
-                props.invRegisterData.DC_No.length > 0 ? "input-disabled" : ""
+                props.invRegisterData.Inv_No?.length > 0 ||
+                props.invRegisterData.DCStatus === "Cancelled"
+                  ? "input-disabled"
+                  : ""
               }
             />
           </div>
@@ -195,17 +201,19 @@ export default function ConsigneeInfo(props) {
               style={{ width: "100%" }}
               name="Cust_Address"
               value={props.invRegisterData?.Cust_Address}
-              onChange={props.inputHandler}
-              disabled={
-                props.invRegisterData.Inv_No?.length > 0 ||
-                props.invRegisterData.DCStatus === "Cancelled"
-              }
-              className={
-                props.invRegisterData.Inv_No?.length > 0 ||
-                props.invRegisterData.DCStatus === "Cancelled"
-                  ? "input-disabled"
-                  : ""
-              }
+              disabled
+              className="input-disabled"
+              // onChange={props.inputHandler}
+              // disabled={
+              //   props.invRegisterData.Inv_No?.length > 0 ||
+              //   props.invRegisterData.DCStatus === "Cancelled"
+              // }
+              // className={
+              //   props.invRegisterData.Inv_No?.length > 0 ||
+              //   props.invRegisterData.DCStatus === "Cancelled"
+              //     ? "input-disabled"
+              //     : ""
+              // }
             ></textarea>
           </div>
           <div className="col-md-6">
@@ -245,24 +253,33 @@ export default function ConsigneeInfo(props) {
             <input
               name="Cust_Place"
               value={props.invRegisterData?.Cust_Place}
-              disabled={
-                props.invRegisterData.Inv_No?.length > 0 ||
-                props.invRegisterData.DCStatus === "Cancelled"
-              }
-              className={
-                props.invRegisterData.Inv_No?.length > 0 ||
-                props.invRegisterData.DCStatus === "Cancelled"
-                  ? "input-disabled"
-                  : ""
-              }
-              onChange={props.inputHandler}
-              maxLength="30"
+              disabled
+              className="input-disabled"
+
+              // maxLength="30"
+              // disabled={
+              //   props.invRegisterData.Inv_No?.length > 0 ||
+              //   props.invRegisterData.DCStatus === "Cancelled"
+              // }
+              // className={
+              //   props.invRegisterData.Inv_No?.length > 0 ||
+              //   props.invRegisterData.DCStatus === "Cancelled"
+              //     ? "input-disabled"
+              //     : ""
+              // }
+              // onChange={props.inputHandler}
             />
           </div>
           <div className="col-md-3">
             <b>State</b>
 
-            <select
+            <input
+              name="Cust_State"
+              value={props.invRegisterData.Cust_State}
+              disabled
+              className="input-disabled"
+            />
+            {/* <select
               style={{
                 fontSize: "inherit",
               }}
@@ -287,45 +304,51 @@ export default function ConsigneeInfo(props) {
               {props.allStates.map((state, key) => (
                 <option value={state.State}>{state.State}</option>
               ))}
-            </select>
+            </select> */}
           </div>
           <div className="col-md-3">
             <b>Pin Code</b>
             <input
-              maxLength="15"
-              name="PIN_Code"
-              // className="input-disabled"
               value={props.invRegisterData?.PIN_Code}
-              onChange={props.inputHandler}
-              disabled={
-                props.invRegisterData.Inv_No?.length > 0 ||
-                props.invRegisterData.DCStatus === "Cancelled"
-              }
-              className={
-                props.invRegisterData.Inv_No?.length > 0 ||
-                props.invRegisterData.DCStatus === "Cancelled"
-                  ? "input-disabled"
-                  : ""
-              }
+              name="PIN_Code"
+              disabled
+              className="input-disabled"
+
+              // maxLength="15"
+              // // className="input-disabled"
+              // onChange={props.inputHandler}
+              // disabled={
+              //   props.invRegisterData.Inv_No?.length > 0 ||
+              //   props.invRegisterData.DCStatus === "Cancelled"
+              // }
+              // className={
+              //   props.invRegisterData.Inv_No?.length > 0 ||
+              //   props.invRegisterData.DCStatus === "Cancelled"
+              //     ? "input-disabled"
+              //     : ""
+              // }
             />
           </div>
 
           <div className="col-md-3">
             <b>GST No</b>
             <input
-              name="GSTNo"
               value={props.invRegisterData?.GSTNo}
-              onChange={props.inputHandler}
-              disabled={
-                props.invRegisterData.Inv_No?.length > 0 ||
-                props.invRegisterData.DCStatus === "Cancelled"
-              }
-              className={
-                props.invRegisterData.Inv_No?.length > 0 ||
-                props.invRegisterData.DCStatus === "Cancelled"
-                  ? "input-disabled"
-                  : ""
-              }
+              name="GSTNo"
+              disabled
+              className="input-disabled"
+
+              // onChange={props.inputHandler}
+              // disabled={
+              //   props.invRegisterData.Inv_No?.length > 0 ||
+              //   props.invRegisterData.DCStatus === "Cancelled"
+              // }
+              // className={
+              //   props.invRegisterData.Inv_No?.length > 0 ||
+              //   props.invRegisterData.DCStatus === "Cancelled"
+              //     ? "input-disabled"
+              //     : ""
+              // }
             />
           </div>
         </div>

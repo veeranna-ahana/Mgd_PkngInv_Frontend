@@ -9,7 +9,7 @@ function EwayBillSaveModal({
   return (
     <Modal show={ewayBillSave} onHide={closeEwayBillSave} size="md">
       <Modal.Header closeButton>
-        <Modal.Title>magod_Packing_And_Invoicing</Modal.Title>
+        <Modal.Title>Magod ReturnableDC</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         Do you wish to Save the E way Bill No for this DC/Inv?

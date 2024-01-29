@@ -33,6 +33,7 @@ export const apipoints = {
   dcClosed: `${url}/pnrdc/dcClosed`,
   dcAll: `${url}/pnrdc/dcAll`,
   allCreateNewData: `${url}/pnrdc/allCreateNewData`,
-
-  getDC: `${url}/pnrdc/getDC`,
+  insertRunNoRow: `${url}/pnrdc/insertRunNoRow`,
+  customerCount: `${url}/pnrdc/customerCount`,
+  updateCount: `${url}/pnrdc/updateCount`,
 };

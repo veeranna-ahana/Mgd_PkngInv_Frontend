@@ -21,7 +21,7 @@ export default function OrderSchDetails() {
   const nav = useNavigate();
   const location = useLocation();
   const [scheduleID, setScheduleID] = useState(location.state);
-  const [headerData, setHeaderData] = useState([]);
+  const [headerData, setHeaderData] = useState({});
   const [orderScheduleDetailsData, setOrderScheduleDetailsData] = useState([]);
   const [insAndPack, setInsAndPack] = useState({
     inspectedBy: "",
@@ -47,17 +47,36 @@ export default function OrderSchDetails() {
     }).then((res) => {
       console.log("ressss..............1", res.data);
       //console.log("ressssonseee tbl data..", res.data);
-      setHeaderData(res.data.headerData);
+
+      // console.log(
+      //   "header",
+      //   res.data.headerData.CreditTerms?.split("Credit"),
+      //   "...",
+      //   res.data.headerData.CreditTerms?.split("Credit").length
+      // );
+      let BillType = "";
+      if (res.data.headerData.CreditTerms?.split("Credit").length > 1) {
+        BillType = "Credit";
+      } else {
+        BillType = "Cash";
+      }
+      setHeaderData({
+        ...res.data.headerData,
+        BillType: BillType,
+        PaymentTerms: res.data.headerData.CreditTerms,
+      });
       setOrderScheduleDetailsData(res.data.orderScheduleDetailsData);
       setInvRegisterData(res.data.invRegisterData);
       setAllInvDetailsData(res.data.allInvDetailsData);
       setInsAndPack({
-        inspectedBy: res.data.headerData[0].SalesContact || "",
-        packedBy: res.data.headerData[0].Inspected_By || "",
+        inspectedBy: res.data.headerData.SalesContact || "",
+        packedBy: res.data.headerData.Inspected_By || "",
       });
     });
   };
 
+  console.log("header", headerData);
+  console.log("insAndPack123", insAndPack);
   const handleRejectionTab = () => {
     // //console.log("entering into handleRejectionTab");
     Axios.post(apipoints.testRejectData, { scheduleID: scheduleID }).then(
@@ -169,7 +188,9 @@ export default function OrderSchDetails() {
             id="btnclose"
             style={{ width: "100px", marginLeft: "4px" }}
             type="submit"
-            onClick={() => nav("/PackingAndInvoices")}
+            onClick={() =>
+              nav("/PackingAndInvoices/Inspection/Profile/ScheduleList")
+            }
           >
             Close
           </button>

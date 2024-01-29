@@ -472,7 +472,7 @@ function CreateNewJobWork({
           updateFormData((prevData) => ({
             ...prevData,
             firstTable: response.data.firstTable,
-            receiveTable: response.data.materialReceiptRegister,
+            // receiveTable: response.data.materialReceiptRegister,
           }));
         }
 
@@ -501,13 +501,40 @@ function CreateNewJobWork({
     }
   };
 
+  const getRVNo = async () => {
+    const srlType = "ReturnedGoodsVr";
+    const ResetPeriod = "FinanceYear";
+    const ResetValue = 0;
+    const VoucherNoLength = 4;
+    const prefix = `${formData.unitName.charAt(0).toUpperCase()}`;
+    try {
+      const response = await Axios.post(apipoints.insertRunNoRow, {
+        unit: formData.unitName,
+        srlType: srlType,
+        ResetPeriod: ResetPeriod,
+        ResetValue: ResetValue,
+        VoucherNoLength: VoucherNoLength,
+        prefix: prefix,
+      });
+
+      console.log("getRVNo Response", response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   const handleAccept = async () => {
+    const srlType = "ReturnedGoodsVr";
+    const prefix = `${formData.unitName.charAt(0).toUpperCase()}`;
     try {
       const response = await Axios.post(apipoints.accept, {
         rvId: formData.rvId,
         firstTable: formData.firstTable,
         dcInvNo: formData.dcInvNo,
         ewayBillNo: formData.ewayBillNo,
+        unit: formData.unitName,
+        srlType: srlType,
+        prefix: prefix,
       });
 
       const date = new Date(response.data.updatedRvDate);
@@ -520,6 +547,8 @@ function CreateNewJobWork({
         "draft_dc_inv_register",
         response.data.draft_dc_inv_register[0].DCStatus
       );
+
+      // console.log("countUpdate", response.data.countUpdate[0].UpdatedCount);
 
       updateFormData((prevData) => ({
         ...prevData,
@@ -571,11 +600,6 @@ function CreateNewJobWork({
         "draft_dc_inv_register",
         response.data.draft_dc_inv_register[0].DCStatus
       );
-
-      // updateFormData((prevData) => ({
-      //   ...prevData,
-      //   tableData: response.data.draft_dc_inv_details,
-      // }));
 
       updateFormData((prevData) => ({
         ...prevData,
@@ -726,7 +750,11 @@ function CreateNewJobWork({
                 formData.RVStatus === "Updated" ||
                 formData.RVStatus === "Cancelled"
               }
-              onClick={acceptModal}
+              // onClick={acceptModal}
+              onClick={() => {
+                getRVNo();
+                acceptModal();
+              }}
             >
               Accept
             </button>
@@ -989,7 +1017,7 @@ function CreateNewJobWork({
       {accept && (
         <Modal show={accept} onHide={acceptModalClose}>
           <Modal.Header closeButton>
-            <Modal.Title>magod_Packing_And_Invoicing</Modal.Title>
+            <Modal.Title>Magod ReturnableDC</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             Are you accepting the good returned and accepted/rejected?
@@ -1017,7 +1045,7 @@ function CreateNewJobWork({
       {cancel && (
         <Modal show={cancel} onHide={cancelModalClose}>
           <Modal.Header closeButton>
-            <Modal.Title>magod_Packing_And_Invoicing</Modal.Title>
+            <Modal.Title>Magod ReturnableDC</Modal.Title>
           </Modal.Header>
           <Modal.Body>Do you wish to cancel this Receipt Voucher?</Modal.Body>
           <Modal.Footer>
@@ -1043,7 +1071,7 @@ function CreateNewJobWork({
       {print && (
         <Modal show={print} onHide={printModalClose}>
           <Modal.Header closeButton>
-            <Modal.Title>magod_Packing_And_Invoicing</Modal.Title>
+            <Modal.Title>Magod ReturnableDC</Modal.Title>
           </Modal.Header>
           <Modal.Body>Print Returned Goods Receipt Voucher?</Modal.Body>
           <Modal.Footer>

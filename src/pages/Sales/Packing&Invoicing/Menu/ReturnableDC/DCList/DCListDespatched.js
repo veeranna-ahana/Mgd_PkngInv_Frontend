@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
+import { Typeahead } from "react-bootstrap-typeahead";
 import { useNavigate } from "react-router-dom";
 import { apipoints } from "../../../../../api/PackInv_API/ReturnableDC/ReturnableDC";
 import Axios from "axios";
@@ -9,6 +10,9 @@ function DCListDespatched() {
   const [despatchTable, setDespatchTable] = useState([]);
   const [dcSelectedRow, setDCSelectedRow] = useState(null);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const [allCustomers, setAllCustomers] = useState([]);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   const handleRowSelect = (selectedRow) => {
@@ -20,13 +24,28 @@ function DCListDespatched() {
   console.log("selected row", dcSelectedRow);
 
   useEffect(() => {
-    Axios.get(apipoints.dcDespatched)
-      .then((response) => {
-        setDespatchTable(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching states", error);
-      });
+    async function fetchData() {
+      try {
+        const [dcResponse, customersResponse] = await Promise.all([
+          Axios.get(apipoints.dcDespatched),
+          Axios.get(apipoints.getAllCust),
+        ]);
+
+        setDespatchTable(dcResponse.data);
+
+        const customerNames = customersResponse.data.map((customer) => ({
+          label: customer.Cust_name,
+          ...customer,
+        }));
+        setAllCustomers(customerNames);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching data", error);
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
   }, []);
 
   const requestSort = (key) => {
@@ -53,8 +72,12 @@ function DCListDespatched() {
 
   const sortedData = () => {
     const dataCopy = [...despatchTable];
+    const filtered = selectedCustomer
+      ? dataCopy.filter((data) => data.Cust_Name === selectedCustomer.label)
+      : dataCopy;
+
     if (sortConfig.key) {
-      dataCopy.sort((a, b) => {
+      filtered.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
           return sortConfig.direction === "asc" ? -1 : 1;
         }
@@ -64,7 +87,12 @@ function DCListDespatched() {
         return 0;
       });
     }
-    return dataCopy;
+
+    return filtered;
+  };
+
+  const handleCustomerSelect = (selected) => {
+    setSelectedCustomer(selected && selected.length > 0 ? selected[0] : null);
   };
 
   return (
@@ -76,42 +104,37 @@ function DCListDespatched() {
         <b>PN List : Returnable DC Status Dispatched</b>
       </h5>
 
-      {/* <div className="p-2">
-        <div>
-          <button
-            className="button-style"
-            style={{ width: "150px" }}
-            onClick={handleOpenClick}
-          >
-            Open
-          </button>
-        </div>
-      </div> */}
-
-      <div className="row p-2">
-        <div className="col-md-2">
-          <button
-            className="button-style"
-            style={{ width: "120px" }}
-            onClick={handleOpenClick}
-          >
-            Open
-          </button>
+      <div className="row">
+        <div className="col-md-5">
+          <label className="form-label">Customer</label>
+          <Typeahead
+            id="customerFilterTypeahead"
+            labelKey="label"
+            options={allCustomers}
+            onChange={handleCustomerSelect}
+            placeholder="Select a customer..."
+          />
         </div>
 
-        <div className="col-md-2">
-          <button
-            className="button-style"
-            style={{ width: "120px" }}
-            onClick={handleCloseClick}
-          >
-            Close
-          </button>
-        </div>
+        <button
+          className="button-style"
+          style={{ width: "120px", marginTop: "2%", marginLeft: "1%" }}
+          onClick={handleOpenClick}
+        >
+          Open
+        </button>
+
+        <button
+          className="button-style"
+          style={{ width: "120px", marginTop: "2%", marginLeft: "2%" }}
+          onClick={handleCloseClick}
+        >
+          Close
+        </button>
       </div>
 
-      <div className="mt-3 row">
-        <div className="col-md-6 col-sm-12">
+      <div className="mt-4 row">
+        <div className="col-md-8 col-sm-12">
           <div
             style={{
               overflowX: "scroll",
@@ -154,44 +177,49 @@ function DCListDespatched() {
               </thead>
 
               <tbody>
-                {sortedData().map((data, index) => (
-                  <tr
-                    key={index}
-                    // onClick={() => handleRowSelect(data.DC_Inv_No)}
-                    onClick={() =>
-                      handleRowSelect({
-                        dcInvNo: data.DC_Inv_No,
-                        custStateId: data.Cust_StateId,
-                        delStateId: data.Del_StateId,
-                        custName: data.Cust_Name,
-                      })
-                    }
-                    // className={`${
-                    //   data.DC_Inv_No === dcSelectedRow ? "selected-row" : ""
-                    // } ${
-                    //   data.DC_Inv_No === dcSelectedRow ? "selectedRowClr" : ""
-                    // }`}
-
-                    className={`${
-                      dcSelectedRow &&
-                      dcSelectedRow.dcInvNo === data.DC_Inv_No &&
-                      dcSelectedRow.custStateId === data.Cust_StateId &&
-                      dcSelectedRow.delStateId === data.Del_StateId &&
-                      dcSelectedRow.custName === data.Cust_Name
-                        ? "selected-row"
-                        : ""
-                    } `}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <td>{data.DC_No}</td>
-                    <td>
-                      {data.DC_Date
-                        ? new Date(data.DC_Date).toLocaleDateString("en-GB")
-                        : ""}
-                    </td>
-                    <td>{data.Cust_Name}</td>
+                {isLoading ? (
+                  <tr>
+                    <td colSpan="3">Loading...</td>
                   </tr>
-                ))}
+                ) : sortedData().length === 0 ? (
+                  <tr>
+                    <td colSpan="3">No data found</td>
+                  </tr>
+                ) : (
+                  sortedData().map((data, index) => (
+                    <tr
+                      key={index}
+                      onClick={() =>
+                        handleRowSelect({
+                          dcInvNo: data.DC_Inv_No,
+                          custStateId: data.Cust_StateId,
+                          delStateId: data.Del_StateId,
+                          custName: data.Cust_Name,
+                          custCode: data.Cust_Code,
+                          gstNo: data.GSTNo,
+                        })
+                      }
+                      className={`${
+                        dcSelectedRow &&
+                        dcSelectedRow.dcInvNo === data.DC_Inv_No &&
+                        dcSelectedRow.custStateId === data.Cust_StateId &&
+                        dcSelectedRow.delStateId === data.Del_StateId &&
+                        dcSelectedRow.custName === data.Cust_Name
+                          ? "selected-row"
+                          : ""
+                      } `}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <td>{data.DC_No}</td>
+                      <td>
+                        {data.DC_Date
+                          ? new Date(data.DC_Date).toLocaleDateString("en-GB")
+                          : ""}
+                      </td>
+                      <td>{data.Cust_Name}</td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </Table>
           </div>

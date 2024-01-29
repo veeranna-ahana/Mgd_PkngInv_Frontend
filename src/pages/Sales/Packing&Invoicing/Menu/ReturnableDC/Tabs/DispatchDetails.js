@@ -47,26 +47,12 @@ function DispatchDetails({ handleInputChange, formData, updateFormData }) {
               name="scrapWeight"
               value={formData.scrapWeight}
               onChange={handleInputChange}
-              disabled={
-                formData.dcStatus === "Despatched" ||
-                formData.dcStatus === "Closed" ||
-                formData.dcStatus === "Cancelled"
-              }
+              disabled
             />
           </div>
         </div>
 
         <div className="row">
-          <div className="col-md-3 col-sm-12">
-            <label className="form-label">Date Time</label>
-            <input
-              className="mt-1"
-              type="text"
-              name="dcDate"
-              value={formData.dcDate}
-              disabled
-            />
-          </div>
           <div className="col-md-3 col-sm-12">
             <label className="form-label">Mode</label>
 
@@ -107,18 +93,46 @@ function DispatchDetails({ handleInputChange, formData, updateFormData }) {
             />
           </div>
           <div className="col-md-3 col-sm-12">
-            <label className="form-label">E Way Ref</label>
+            <label className="form-label">Delivery Contact Name</label>
             <input
               type="text"
-              name="eWayRef"
-              value={formData.eWayRef}
+              name="deliveryContactName"
+              value={formData.deliveryContactName}
               onChange={handleInputChange}
-              disabled
+              disabled={
+                formData.dcStatus === "Despatched" ||
+                formData.dcStatus === "Closed" ||
+                formData.dcStatus === "Cancelled"
+              }
+            />
+          </div>
+          <div className="col-md-3 col-sm-12">
+            <label className="form-label">Contact No</label>
+            <input
+              type="text"
+              name="deliveryContactNo"
+              value={formData.deliveryContactNo}
+              onChange={handleInputChange}
+              disabled={
+                formData.dcStatus === "Despatched" ||
+                formData.dcStatus === "Closed" ||
+                formData.dcStatus === "Cancelled"
+              }
             />
           </div>
         </div>
 
         <div className="row">
+          <div className="col-md-3 col-sm-12">
+            <label className="form-label">Date Time</label>
+            <input
+              className="mt-1"
+              type="text"
+              name="dcDate"
+              value={formData.dcDate}
+              disabled
+            />
+          </div>
           <div className="col-md-3 col-sm-12">
             <label className="form-label">Net Value</label>
             <input
@@ -134,6 +148,16 @@ function DispatchDetails({ handleInputChange, formData, updateFormData }) {
               type="text"
               value={totalTaxAmount.toFixed(2)}
               name="totalTaxAmount"
+              disabled
+            />
+          </div>
+          <div className="col-md-3 col-sm-12">
+            <label className="form-label">E Way Ref</label>
+            <input
+              type="text"
+              name="eWayRef"
+              value={formData.eWayRef}
+              onChange={handleInputChange}
               disabled
             />
           </div>

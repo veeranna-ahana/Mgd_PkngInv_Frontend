@@ -12,7 +12,9 @@ import AddGoods from "./Modals/AddGoods";
 import ConfirmationModal from "./Modals/ConfirmationModals/ConfirmationModal";
 import ImportFromIV from "./Modals/ImportFromIV";
 import ModalPackingNote from "../../../PDFs/PackingNote/ModalPackingNote";
-import ModalInvoiceAndAnnexure from "../../../PDFs/InvoiceAndAnnexure/ModalInvoiceAndAnnexure";
+import ModalAnnexure from "../../../PDFs/Annexure/ModalAnnexure";
+import ModalInvoice from "../../../PDFs/Invoice/ModalInvoice";
+
 import { Link, useLocation } from "react-router-dom";
 
 export default function Form(props) {
@@ -58,6 +60,8 @@ export default function Form(props) {
     VehNo: "",
     Remarks: "",
     PO_Value: 0.0,
+    Del_ContactName: "",
+    Del_ContactNo: "",
     // BillType: "Cash",
     // PaymentTerms: "Cash on Delivery",
   });
@@ -88,6 +92,7 @@ export default function Form(props) {
   const [printCopyModal, setPrintCopyModal] = useState(false);
 
   const [printAnneureModal, setPrintAnneureModal] = useState(false);
+  const [printInvoiceModal, setPrintInvoiceModal] = useState(false);
 
   const [selectIV, setSelectIV] = useState(false);
 
@@ -95,6 +100,10 @@ export default function Form(props) {
 
   const [buttonClicked, setButtonClicked] = useState("");
 
+  const [formData, setFormData] = useState({
+    unitName: "Jigani",
+  });
+  // console.log("inv", invRegisterData);
   // const [detailsDataToPost, setDetailsDataToPost] = useState([])
 
   useEffect(() => {
@@ -152,6 +161,8 @@ export default function Form(props) {
       setTaxDropDownData(res.data);
     });
   }, []);
+
+  const rowLimit = 20;
 
   const deleteTaxes = () => {
     setInvTaxData([]);
@@ -252,12 +263,16 @@ export default function Form(props) {
   };
 
   const printPackingNoteCopy = () => {
-    toast.success("PN Created");
+    // toast.success("PN Created");
     setPrintCopyModal(true);
   };
 
-  const printPackingNoteAnnexure = () => {
+  const printAnnexure = () => {
     setPrintAnneureModal(true);
+  };
+
+  const printInvoice = () => {
+    setPrintInvoiceModal(true);
   };
 
   const cancelPN = () => {
@@ -303,7 +318,11 @@ export default function Form(props) {
       setInvRegisterData(res.data.registerData[0]);
       if (res.data.flag === 1) {
         toast.success(res.data.message);
-        printPackingNoteAnnexure();
+        if (invDetailsData.length > rowLimit) {
+          printAnnexure();
+        } else {
+          printInvoice();
+        }
       } else if (res.data.flag === 0) {
         toast.error(res.data.message);
       } else {
@@ -347,125 +366,157 @@ export default function Form(props) {
   //   // console.log("newnettotal", newNetTotal);
   // }, [invDetailsData]);
 
+  // console.log("invreguster", invRegisterData);
   const createPNValidationFunc = () => {
-    if (invRegisterData.PO_No.length === 0) {
-      toast.warning("Enter the PO No");
+    if (
+      (invRegisterData.Iv_Id && invDetailsData.length === 0) ||
+      (!invRegisterData.Iv_Id && invDetailsData.length <= 1)
+    ) {
+      toast.warning("There are no Srls for creating the Packing Note");
+      setInvDetailsData([
+        {
+          SL_No: "",
+          Dwg_No: "",
+          Material: "",
+          Excise_CL_no: "",
+          Qty: "0",
+          Unit_Wt: "0.00",
+          DC_Srl_Wt: "0.00",
+          Unit_Rate: "0.00",
+          DC_Srl_Amt: "0.00",
+          PkngLevel: "Pkng1",
+          InspLevel: "Insp1",
+        },
+      ]);
+      setInvRegisterData({ ...invRegisterData, Iv_Id: "" });
+      return { result: false, data: [{}] };
     } else {
-      if (invDetailsData.length <= 1) {
-        toast.warning("There are no Srls for creating the Packing Note");
-        setInvDetailsData([
-          {
-            SL_No: "",
-            Dwg_No: "",
-            Material: "",
-            Excise_CL_no: "",
-            Qty: "0",
-            Unit_Wt: "0.00",
-            DC_Srl_Wt: "0.00",
-            Unit_Rate: "0.00",
-            DC_Srl_Amt: "0.00",
-            PkngLevel: "Pkng1",
-            InspLevel: "Insp1",
-          },
-        ]);
-        return { result: false, data: [{}] };
-      } else {
-        const detailsDataToPost = invDetailsData.filter(
-          (obj) =>
-            !(
-              obj.Dwg_No === "" ||
-              obj.Dwg_No === null ||
-              obj.Dwg_No === "null" ||
-              obj.Dwg_No === "NaN" ||
-              obj.Dwg_No === undefined ||
-              obj.Material === "" ||
-              obj.Material === null ||
-              obj.Material === "null" ||
-              obj.Material === "NaN" ||
-              obj.Material === undefined ||
-              parseInt(obj.Qty) === 0 ||
-              obj.Qty === "" ||
-              obj.Qty === null ||
-              obj.Qty === "null" ||
-              obj.Qty === "NaN" ||
-              obj.Qty === undefined
-            )
-        );
+      const detailsDataToPost = invDetailsData.filter(
+        (obj) =>
+          !(
+            obj.Dwg_No === "" ||
+            obj.Dwg_No === null ||
+            obj.Dwg_No === "null" ||
+            obj.Dwg_No === "NaN" ||
+            obj.Dwg_No === undefined ||
+            obj.Material === "" ||
+            obj.Material === null ||
+            obj.Material === "null" ||
+            obj.Material === "NaN" ||
+            obj.Material === undefined ||
+            parseInt(obj.Qty) === 0 ||
+            obj.Qty === "" ||
+            obj.Qty === null ||
+            obj.Qty === "null" ||
+            obj.Qty === "NaN" ||
+            obj.Qty === undefined
+          )
+      );
 
-        // const detailsDataToRemove = invDetailsData.filter(
-        //   (obj) =>
-        //     (
-        //       obj.Dwg_No === "" ||
-        //       obj.Dwg_No === null ||
-        //       obj.Dwg_No === "null" ||
-        //       obj.Dwg_No === "NaN" ||
-        //       obj.Dwg_No === undefined ||
-        //       obj.Material === "" ||
-        //       obj.Material === null ||
-        //       obj.Material === "null" ||
-        //       obj.Material === "NaN" ||
-        //       obj.Material === undefined ||
-        //       parseInt(obj.Qty) === 0 ||
-        //       obj.Qty === "" ||
-        //       obj.Qty === null ||
-        //       obj.Qty === "null" ||
-        //       obj.Qty === "NaN" ||
-        //       obj.Qty === undefined
-        //     )
-        // );
+      // const detailsDataToRemove = invDetailsData.filter(
+      //   (obj) =>
+      //     (
+      //       obj.Dwg_No === "" ||
+      //       obj.Dwg_No === null ||
+      //       obj.Dwg_No === "null" ||
+      //       obj.Dwg_No === "NaN" ||
+      //       obj.Dwg_No === undefined ||
+      //       obj.Material === "" ||
+      //       obj.Material === null ||
+      //       obj.Material === "null" ||
+      //       obj.Material === "NaN" ||
+      //       obj.Material === undefined ||
+      //       parseInt(obj.Qty) === 0 ||
+      //       obj.Qty === "" ||
+      //       obj.Qty === null ||
+      //       obj.Qty === "null" ||
+      //       obj.Qty === "NaN" ||
+      //       obj.Qty === undefined
+      //     )
+      // );
 
-        setInvDetailsData(detailsDataToPost);
-        if (detailsDataToPost.length < invDetailsData.length - 1) {
-          toast.warning("Deleting Srl without basic information");
+      setInvDetailsData(detailsDataToPost);
+      if (
+        (invRegisterData.Iv_Id && detailsDataToPost.length === 0) ||
+        (!invRegisterData.Iv_Id &&
+          detailsDataToPost.length < invDetailsData.length - 1)
+      ) {
+        toast.warning("Deleting Srl without basic information");
 
-          if (detailsDataToPost.length === 0) {
-            setTimeout(() => {
-              toast.warning("There are no Srls for creating the Packing Note");
-            }, 150);
-            setInvDetailsData([
-              {
-                SL_No: "",
-                Dwg_No: "",
-                Material: "",
-                Excise_CL_no: "",
-                Qty: "0",
-                Unit_Wt: "0.00",
-                DC_Srl_Wt: "0.00",
-                Unit_Rate: "0.00",
-                DC_Srl_Amt: "0.00",
-                PkngLevel: "Pkng1",
-                InspLevel: "Insp1",
-              },
-            ]);
-            document.getElementById("materialDropdown").value = "";
-            return { result: false, data: [{}] };
-          } else {
-            // post
-            return { result: true, data: detailsDataToPost };
-            // setTimeout(() => {
-            //   createPNFunc();
-            // }, 600);
-          }
+        if (detailsDataToPost.length === 0) {
+          setTimeout(() => {
+            toast.warning("There are no Srls for creating the Packing Note");
+          }, 150);
+          setInvDetailsData([
+            {
+              SL_No: "",
+              Dwg_No: "",
+              Material: "",
+              Excise_CL_no: "",
+              Qty: "0",
+              Unit_Wt: "0.00",
+              DC_Srl_Wt: "0.00",
+              Unit_Rate: "0.00",
+              DC_Srl_Amt: "0.00",
+              PkngLevel: "Pkng1",
+              InspLevel: "Insp1",
+            },
+          ]);
+          setInvRegisterData({ ...invRegisterData, Iv_Id: "" });
+
+          document.getElementById("materialDropdown").value = "";
+          return { result: false, data: [{}] };
         } else {
           // post
           return { result: true, data: detailsDataToPost };
-          // createPNFunc();
+          // setTimeout(() => {
+          //   createPNFunc();
+          // }, 600);
         }
-
-        // console.log("detailsDataToPost", detailsDataToPost);
-        // setButtonClicked("Create PN");
-        // setConfirmModalOpen(true);
+      } else {
+        // post
+        return { result: true, data: detailsDataToPost };
+        // createPNFunc();
       }
+
+      // console.log("detailsDataToPost", detailsDataToPost);
+      // setButtonClicked("Create PN");
+      // setConfirmModalOpen(true);
     }
   };
 
+  const getDCNo = async () => {
+    const srlType = "PkngNoteNo";
+    const ResetPeriod = "FinanceYear";
+    const ResetValue = 0;
+    const VoucherNoLength = 5;
+    // const prefix = `${formData.unitName.charAt(0).toUpperCase()}G`;
+    const prefix = "";
+    try {
+      const response = await Axios.post(apipoints.insertRunNoRow, {
+        unit: formData.unitName,
+        srlType: srlType,
+        ResetPeriod: ResetPeriod,
+        ResetValue: ResetValue,
+        VoucherNoLength: VoucherNoLength,
+        prefix: prefix,
+      });
+
+      console.log("getDCNo Response", response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   const createPNFunc = () => {
     // console.log('details data', invDetailsData)
+    getDCNo();
     setButtonClicked("Create PN");
     setConfirmModalOpen(true);
   };
   const createPN = () => {
-    // console.log("detais", invDetailsData);
+    const srlType = "PkngNoteNo";
+    const prefix = "";
+    const VoucherNoLength = 5;
 
     const resp = createPNValidationFunc();
     // setTimeout(() => {
@@ -476,9 +527,13 @@ export default function Form(props) {
         invRegisterData: invRegisterData,
         invDetailsData: resp.data,
         invTaxData: invTaxData,
+        srlType: srlType,
+        prefix: prefix,
+        unit: formData.unitName,
+        VoucherNoLength: VoucherNoLength,
       }).then((res) => {
         if (res.data.flag === 1) {
-          // toast.success(res.data.message);
+          toast.success(res.data.message);
           setInvRegisterData(res.data.invRegisterData[0]);
           printPackingNoteCopy();
         } else if (res.data.flag === 0) {
@@ -493,6 +548,7 @@ export default function Form(props) {
     // }, 300);
   };
   // console.log("invDetailsData", invDetailsData);
+
   return (
     <>
       <div>
@@ -523,7 +579,9 @@ export default function Form(props) {
               // inv
               // and
               // annexure
-              printPackingNoteAnnexure={printPackingNoteAnnexure} //func
+              rowLimit={rowLimit}
+              printAnnexure={printAnnexure} //func
+              printInvoice={printInvoice} //func
               invDetailsData={invDetailsData}
               invTaxData={invTaxData}
               printAnneureModal={printAnneureModal}
@@ -531,6 +589,7 @@ export default function Form(props) {
               buttonClicked={buttonClicked}
               setButtonClicked={setButtonClicked}
               setConfirmModalOpen={setConfirmModalOpen}
+              TaxDropDownData={TaxDropDownData}
             />
           </Tab>
         </Tabs>
@@ -1063,9 +1122,18 @@ export default function Form(props) {
           invDetailsData={invDetailsData}
           invTaxData={invTaxData}
         />
-        <ModalInvoiceAndAnnexure
+        <ModalAnnexure
           setPrintAnneureModal={setPrintAnneureModal}
           printAnneureModal={printAnneureModal}
+          // data...
+          invRegisterData={invRegisterData}
+          invDetailsData={invDetailsData}
+          invTaxData={invTaxData}
+        />
+        <ModalInvoice
+          setPrintInvoiceModal={setPrintInvoiceModal}
+          printInvoiceModal={printInvoiceModal}
+          rowLimit={rowLimit}
           // data...
           invRegisterData={invRegisterData}
           invDetailsData={invDetailsData}

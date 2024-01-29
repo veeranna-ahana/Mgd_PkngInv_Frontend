@@ -10,7 +10,7 @@ function EwayBillPrintModal({
   return (
     <Modal show={ewayBillPrint} onHide={closeEwayBillPrint} size="md">
       <Modal.Header closeButton>
-        <Modal.Title>magod_Packing_And_Invoicing</Modal.Title>
+        <Modal.Title>Magod ReturnableDC</Modal.Title>
       </Modal.Header>
       <Modal.Body>Do you wish to print DC?</Modal.Body>
 
@@ -26,7 +26,7 @@ function EwayBillPrintModal({
         <button
           className="button-style"
           style={{ width: "50px", backgroundColor: "rgb(173, 173, 173)" }}
-          onClick={closeEwayBillPdf}
+          onClick={closeEwayBillPrint}
         >
           No
         </button>
