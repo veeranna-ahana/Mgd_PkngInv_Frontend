@@ -9,6 +9,7 @@ let API = process.env.REACT_APP_API_KEY;
 
 export const endpoints = {
   getCustomers: `${API}/customers/allcustomers`,
+  getCustomers: `${API}/packcustomers/allcustomers`,
   getCustCodeName: `${API}/customers/allcustcodename`,
   getCustomerDets: `${API}/customers/getcustomer`,
   dueListCustomer: `${API}/customers/customerduelist`,

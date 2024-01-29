@@ -80,6 +80,12 @@ import SalesInvoice from "./pages/Sales/Packing&Invoicing/Menu/Invoice/Menus/Sal
 import FabricationInvoice from "./pages/Sales/Packing&Invoicing/Menu/Invoice/Menus/FabricationInvoice/FabricationInvoice";
 // invoice details
 import InvoiceDetails from "./pages/Sales/Packing&Invoicing/Menu/Invoice/Pages/InvoiceDetails/InvoiceDetails";
+import InspProfileScheduleList from "./pages/Sales/Packing&Invoicing/Menu/Inspection/Menus/Profile/InspProfileScheduleList";
+import InspProfileFindSchedule from "./pages/Sales/Packing&Invoicing/Menu/Inspection/Menus/Profile/InspProfileFindSchedule";
+import InspFabricationScheduleList from "./pages/Sales/Packing&Invoicing/Menu/Inspection/Menus/Fabrication/InspFabricationScheduleList";
+import InspFabricationFindSchedule from "./pages/Sales/Packing&Invoicing/Menu/Inspection/Menus/Fabrication/InspFabricationFindSchedule";
+import InspServiceScheduleList from "./pages/Sales/Packing&Invoicing/Menu/Inspection/Menus/Service/InspServiceScheduleList";
+import InspServiceFindSchedule from "./pages/Sales/Packing&Invoicing/Menu/Inspection/Menus/Service/InspServiceFindSchedule";
 function App() {
   return (
     <BrowserRouter>
@@ -102,16 +108,44 @@ function App() {
           <Route path="/PackingAndInvoices" element={<Parentroute />}>
             <Route index={true} />
             <Route path="Inspection">
-              <Route path="ScheduleList" element={<ScheduleList />} />
-              <Route path="FindSchedule" element={<FindSchedule />} />
-              <Route
-                path="InternalRejectionForm"
-                element={<InternalRejectionModal />}
-              />
+              <Route path="Profile">
+                <Route
+                  path="ScheduleList"
+                  element={<InspProfileScheduleList />}
+                />
+                <Route
+                  path="FindSchedule"
+                  element={<InspProfileFindSchedule />}
+                />
+              </Route>
+              <Route path="Fabrication">
+                <Route
+                  path="ScheduleList"
+                  element={<InspFabricationScheduleList />}
+                />
+                <Route
+                  path="FindSchedule"
+                  element={<InspFabricationFindSchedule />}
+                />
+              </Route>
+              <Route path="Services">
+                <Route
+                  path="ScheduleList"
+                  element={<InspServiceScheduleList />}
+                />
+                <Route
+                  path="FindSchedule"
+                  element={<InspServiceFindSchedule />}
+                />
+              </Route>
               <Route
                 path="OrderScheduleDetails"
                 element={<OrderSchDetails />}
               ></Route>
+              <Route
+                path="InternalRejectionForm"
+                element={<InternalRejectionModal />}
+              />
             </Route>
 
             <Route path="PackingNote">
