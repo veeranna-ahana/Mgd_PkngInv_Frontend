@@ -174,7 +174,6 @@ const SidebarComp = () => {
           if (subNavFiltered.length > 0 || accessPaths.includes(element.path)) {
             // if(element.path)
             //   element.path = element.path.toLowerCase();
-
             filterSidebar.push(element);
           }
         } else {

@@ -31,64 +31,123 @@ export const PakingInvSidebar = [
   {
     title: "Inspection",
     icon: <RiFileInfoLine />,
+    // subNav: [
+    //   {
+    //     title: "Profile/Fabrication/Services",
+    //     // path: "/PackingAndInvoices/Inspection/Main",
+    //     icon: <TiFlowSwitch />,
+    //     subNav: [
+    //       {
+    //         title: "ScheduleList",
+    //         path: "/PackingAndInvoices/Inspection/ScheduleList",
+    //         icon: <BsReverseLayoutTextWindowReverse />,
+    //       },
+    //       {
+    //         title: "FindSchedule",
+    //         path: "/PackingAndInvoices/Inspection/FindSchedule",
+    //         icon: <TbListDetails />,
+    //       },
+    //     ],
+    //   },
+
+    //   // {
+    //   //   title: "Fabrication",
+
+    //   //   icon: <AiIcons.AiOutlineDeploymentUnit />,
+
+    //   //   subNav: [
+    //   //     {
+    //   //       title: "ScheduleList",
+    //   //       path: "/PackingAndInvoices/fabrication/ScheduleList",
+    //   //       icon: <AiIcons.AiOutlineArrowRight />,
+    //   //     },
+
+    //   //     {
+    //   //       title: "FindSchedule",
+    //   //       path: "/PackingAndInvoices/fabrication/FindSchedule",
+    //   //       icon: <AiIcons.AiOutlineArrowRight />,
+    //   //     },
+    //   //   ],
+    //   // },
+
+    //   // {
+    //   //   title: "Services",
+    //   //   icon: <MdIcon.MdOutlineOtherHouses />,
+    //   //   subNav: [
+    //   //     {
+    //   //       title: "ScheduleList",
+    //   //       path: "/PackingAndInvoices/service/ScheduleList",
+    //   //       icon: <AiIcons.AiOutlineArrowRight />,
+    //   //     },
+
+    //   //     {
+    //   //       title: "FindSchedule",
+
+    //   //       path: "/PackingAndInvoices/service/FindSchedule",
+
+    //   //       icon: <AiIcons.AiOutlineArrowRight />,
+    //   //     },
+    //   //   ],
+    //   // },
+    // ],
+
     subNav: [
       {
-        title: "Profile/Fabrication/Services",
-        // path: "/PackingAndInvoices/Inspection/Main",
-        icon: <TiFlowSwitch />,
+        title: "Profile",
+        icon: <AiOutlineDeploymentUnit />,
+        // path: "/PackingAndInvoices/PackingNote/FabricationOpenForm",
         subNav: [
           {
             title: "ScheduleList",
-            path: "/PackingAndInvoices/Inspection/ScheduleList",
-            icon: <BsReverseLayoutTextWindowReverse />,
+            path: "/PackingAndInvoices/Inspection/Profile/ScheduleList",
+            icon: <AiIcons.AiOutlineArrowRight />,
           },
+
           {
             title: "FindSchedule",
-            path: "/PackingAndInvoices/Inspection/FindSchedule",
-            icon: <TbListDetails />,
+            path: "/PackingAndInvoices/Inspection/Profile/FindSchedule",
+            icon: <AiIcons.AiOutlineArrowRight />,
           },
         ],
       },
 
-      // {
-      //   title: "Fabrication",
+      {
+        title: "Fabrication",
+        icon: <MdMiscellaneousServices />,
+        // path: "/PackingAndInvoices/PackingNote/ServicesOpenForm",
+        subNav: [
+          {
+            title: "ScheduleList",
+            path: "/PackingAndInvoices/Inspection/Fabrication/ScheduleList",
+            icon: <AiIcons.AiOutlineArrowRight />,
+          },
 
-      //   icon: <AiIcons.AiOutlineDeploymentUnit />,
+          {
+            title: "FindSchedule",
+            path: "/PackingAndInvoices/Inspection/Fabrication/FindSchedule",
+            icon: <AiIcons.AiOutlineArrowRight />,
+          },
+        ],
+      },
 
-      //   subNav: [
-      //     {
-      //       title: "ScheduleList",
-      //       path: "/PackingAndInvoices/fabrication/ScheduleList",
-      //       icon: <AiIcons.AiOutlineArrowRight />,
-      //     },
+      {
+        title: "Services",
+        icon: <FiSliders />,
+        // path: "/PackingAndInvoices/PackingNote/ProfileOpenForm",
+        subNav: [
+          {
+            title: "ScheduleList",
+            path: "/PackingAndInvoices/Inspection/Services/ScheduleList",
+            icon: <AiIcons.AiOutlineArrowRight />,
+          },
 
-      //     {
-      //       title: "FindSchedule",
-      //       path: "/PackingAndInvoices/fabrication/FindSchedule",
-      //       icon: <AiIcons.AiOutlineArrowRight />,
-      //     },
-      //   ],
-      // },
-
-      // {
-      //   title: "Services",
-      //   icon: <MdIcon.MdOutlineOtherHouses />,
-      //   subNav: [
-      //     {
-      //       title: "ScheduleList",
-      //       path: "/PackingAndInvoices/service/ScheduleList",
-      //       icon: <AiIcons.AiOutlineArrowRight />,
-      //     },
-
-      //     {
-      //       title: "FindSchedule",
-
-      //       path: "/PackingAndInvoices/service/FindSchedule",
-
-      //       icon: <AiIcons.AiOutlineArrowRight />,
-      //     },
-      //   ],
-      // },
+          {
+            title: "FindSchedule",
+            path: "/PackingAndInvoices/Inspection/services/FindSchedule",
+            icon: <AiIcons.AiOutlineArrowRight />,
+          },
+        ],
+      },
     ],
   },
   {
