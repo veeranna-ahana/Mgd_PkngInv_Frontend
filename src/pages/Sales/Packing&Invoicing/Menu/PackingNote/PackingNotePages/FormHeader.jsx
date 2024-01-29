@@ -54,9 +54,31 @@ export default function FormHeader(props) {
           <div className="col-md-4">
             <b>PO No.</b>
             <input
-              defaultValue={props.invRegisterData?.PO_No}
-              disabled
-              className="input-disabled"
+              // defaultValue={props.invRegisterData?.PO_No}
+              // disabled
+              // className="input-disabled"
+              maxLength={"49"}
+              value={
+                props.invRegisterData?.PO_No === null ||
+                props.invRegisterData?.PO_No === "null" ||
+                props.invRegisterData?.PO_No === undefined ||
+                props.invRegisterData?.PO_No === "undefined" ||
+                props.invRegisterData?.PO_No === ""
+                  ? ""
+                  : props.invRegisterData?.PO_No
+              }
+              name="PO_No"
+              onChange={props.inputHandler}
+              disabled={
+                props.invRegisterData.Inv_No ||
+                props.invRegisterData.DCStatus === "Cancelled"
+              }
+              className={
+                props.invRegisterData.Inv_No ||
+                props.invRegisterData.DCStatus === "Cancelled"
+                  ? "input-disabled"
+                  : ""
+              }
             ></input>
           </div>
         </div>

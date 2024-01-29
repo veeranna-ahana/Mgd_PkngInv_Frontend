@@ -11,8 +11,8 @@ export default function InspectionAndPacking(props) {
 
   useEffect(() => {
     props.setInsAndPack({
-      inspectedBy: props.headerData[0]?.SalesContact,
-      packedBy: props.headerData[0]?.Inspected_By,
+      inspectedBy: props.headerData?.SalesContact,
+      packedBy: props.headerData?.Inspected_By,
     });
   }, [props.InspectionAndPackingModal]);
 
@@ -27,8 +27,8 @@ export default function InspectionAndPacking(props) {
     props.setConfirmModalOpen(true);
     // closeModal();
     // props.setInsAndPack({
-    //   inspectedBy: props.headerData[0].SalesContact,
-    //   packedBy: props.headerData[0].Inspected_By,
+    //   inspectedBy: props.headerData.SalesContact,
+    //   packedBy: props.headerData.Inspected_By,
     // });
   };
 

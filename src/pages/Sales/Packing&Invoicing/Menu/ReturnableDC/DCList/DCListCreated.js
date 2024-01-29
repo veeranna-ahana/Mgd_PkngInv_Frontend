@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Typeahead } from "react-bootstrap-typeahead";
 import { Table } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { apipoints } from "../../../../../api/PackInv_API/ReturnableDC/ReturnableDC";
@@ -9,6 +10,9 @@ function DCListCreated() {
   const [draftTable, setDraftTable] = useState([]);
   const [dcSelectedRow, setDCSelectedRow] = useState(null);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+  const [allCustomers, setAllCustomers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
   const navigate = useNavigate();
 
   const handleRowSelect = (selectedRow) => {
@@ -20,13 +24,28 @@ function DCListCreated() {
   console.log("selected row", dcSelectedRow);
 
   useEffect(() => {
-    Axios.get(apipoints.dcDraft)
-      .then((response) => {
-        setDraftTable(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching states", error);
-      });
+    async function fetchData() {
+      try {
+        const [dcResponse, customersResponse] = await Promise.all([
+          Axios.get(apipoints.dcDraft),
+          Axios.get(apipoints.getAllCust),
+        ]);
+
+        setDraftTable(dcResponse.data);
+
+        const customerNames = customersResponse.data.map((customer) => ({
+          label: customer.Cust_name,
+          ...customer,
+        }));
+        setAllCustomers(customerNames);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching data", error);
+        setIsLoading(false);
+      }
+    }
+
+    fetchData();
   }, []);
 
   const requestSort = (key) => {
@@ -53,8 +72,12 @@ function DCListCreated() {
 
   const sortedData = () => {
     const dataCopy = [...draftTable];
+    const filtered = selectedCustomer
+      ? dataCopy.filter((data) => data.Cust_Name === selectedCustomer.label)
+      : dataCopy;
+
     if (sortConfig.key) {
-      dataCopy.sort((a, b) => {
+      filtered.sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
           return sortConfig.direction === "asc" ? -1 : 1;
         }
@@ -64,7 +87,12 @@ function DCListCreated() {
         return 0;
       });
     }
-    return dataCopy;
+
+    return filtered;
+  };
+
+  const handleCustomerSelect = (selected) => {
+    setSelectedCustomer(selected && selected.length > 0 ? selected[0] : null);
   };
 
   return (
@@ -72,34 +100,44 @@ function DCListCreated() {
       <div className="col-md-12">
         <h4 className="title">Returnable DC List</h4>
       </div>
-      <h5 className="mt-3">
-        <b>PN List : Returnable DC Status Draft</b>
-      </h5>
 
-      <div className="row p-2">
-        <div className="col-md-2">
-          <button
-            className="button-style"
-            style={{ width: "120px" }}
-            onClick={handleOpenClick}
-          >
-            Open
-          </button>
-        </div>
-
-        <div className="col-md-2">
-          <button
-            className="button-style"
-            style={{ width: "120px" }}
-            onClick={handleCloseClick}
-          >
-            Close
-          </button>
-        </div>
+      <div className="row">
+        <h5>
+          <b>PN List : Returnable DC Status Draft</b>
+        </h5>
       </div>
 
-      <div className="mt-3 row">
-        <div className="col-md-6 col-sm-12">
+      <div className="row">
+        <div className="col-md-5">
+          <label className="form-label">Customer</label>
+          <Typeahead
+            id="customerFilterTypeahead"
+            labelKey="label"
+            options={allCustomers}
+            onChange={handleCustomerSelect}
+            placeholder="Select a customer..."
+          />
+        </div>
+
+        <button
+          className="button-style"
+          style={{ width: "120px", marginTop: "2%", marginLeft: "1%" }}
+          onClick={handleOpenClick}
+        >
+          Open
+        </button>
+
+        <button
+          className="button-style"
+          style={{ width: "120px", marginTop: "2%", marginLeft: "2%" }}
+          onClick={handleCloseClick}
+        >
+          Close
+        </button>
+      </div>
+
+      <div className="mt-4 row">
+        <div className="col-md-8 col-sm-12">
           <div
             style={{
               overflowX: "scroll",
@@ -142,34 +180,46 @@ function DCListCreated() {
               </thead>
 
               <tbody>
-                {sortedData().map((data, index) => (
-                  <tr
-                    key={index}
-                    // onClick={() => handleRowSelect(data.DC_Inv_No)}
-                    onClick={() =>
-                      handleRowSelect({
-                        dcInvNo: data.DC_Inv_No,
-                        custStateId: data.Cust_StateId,
-                        delStateId: data.Del_StateId,
-                        custName: data.Cust_Name,
-                      })
-                    }
-                    className={`${
-                      dcSelectedRow &&
-                      dcSelectedRow.dcInvNo === data.DC_Inv_No &&
-                      dcSelectedRow.custStateId === data.Cust_StateId &&
-                      dcSelectedRow.delStateId === data.Del_StateId &&
-                      dcSelectedRow.custName === data.Cust_Name
-                        ? "selectedRowClr"
-                        : ""
-                    }`}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <td>{data.DC_No}</td>
-                    <td>{data.DC_Date}</td>
-                    <td>{data.Cust_Name}</td>
+                {isLoading ? (
+                  <tr>
+                    <td colSpan="3">Loading...</td>
                   </tr>
-                ))}
+                ) : sortedData().length === 0 ? (
+                  <tr>
+                    <td colSpan="3">No data found</td>
+                  </tr>
+                ) : (
+                  sortedData().map((data, index) => (
+                    <tr
+                      key={index}
+                      // onClick={() => handleRowSelect(data.DC_Inv_No)}
+                      onClick={() =>
+                        handleRowSelect({
+                          dcInvNo: data.DC_Inv_No,
+                          custStateId: data.Cust_StateId,
+                          delStateId: data.Del_StateId,
+                          custName: data.Cust_Name,
+                          custCode: data.Cust_Code,
+                          gstNo: data.GSTNo,
+                        })
+                      }
+                      className={`${
+                        dcSelectedRow &&
+                        dcSelectedRow.dcInvNo === data.DC_Inv_No &&
+                        dcSelectedRow.custStateId === data.Cust_StateId &&
+                        dcSelectedRow.delStateId === data.Del_StateId &&
+                        dcSelectedRow.custName === data.Cust_Name
+                          ? "selectedRowClr"
+                          : ""
+                      }`}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <td>{data.DC_No}</td>
+                      <td>{data.DC_Date}</td>
+                      <td>{data.Cust_Name}</td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </Table>
           </div>

@@ -29,4 +29,5 @@ export const apipoints = {
   saveDraftPN: `${url}/inspection/saveDraftPN`,
   preparePN: `${url}/inspection/preparePN`,
   getOrderScheduleData: `${url}/inspection/getOrderScheduleData`,
+  insertRunNoRow: `${url}/inspection/insertRunNoRow`,
 };

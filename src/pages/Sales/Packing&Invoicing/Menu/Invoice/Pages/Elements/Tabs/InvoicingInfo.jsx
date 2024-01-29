@@ -37,11 +37,17 @@ export default function InvoicingInfo(props) {
         obj.Unit_Rate === "0" ||
         obj.Unit_Rate === "0.0" ||
         obj.Unit_Rate === "0.00" ||
+        obj.Unit_Rate === null ||
+        obj.Unit_Rate === "null" ||
+        obj.Unit_Rate === "" ||
         obj.Qty === 0 ||
         obj.Qty === 0.0 ||
         obj.Qty === "0" ||
         obj.Qty === "0.0" ||
-        obj.Qty === "0.00"
+        obj.Qty === "0.00" ||
+        obj.Qty === "null" ||
+        obj.Qty === null ||
+        obj.Qty === ""
     );
 
     if (checkForZero.length > 0) {
@@ -50,17 +56,21 @@ export default function InvoicingInfo(props) {
       );
       e.preventDefault();
     } else {
-      if (props.invRegisterData.Cust_Address.length === 0) {
-        toast.warning("Please enter customer address");
-        e.preventDefault();
-      } else if (props.invRegisterData.Cust_Place.length === 0) {
-        toast.warning("Please enter customer district");
-        e.preventDefault();
-      } else if (props.invRegisterData.Cust_State.length === 0) {
-        toast.warning("Please enter customer state");
-        e.preventDefault();
-      } else if (props.invRegisterData.PIN_Code.length === 0) {
-        toast.warning("Please enter customer pincode");
+      // if (props.invRegisterData.Cust_Address.length === 0) {
+      //   toast.warning("Please enter customer address");
+      //   e.preventDefault();
+      // } else if (props.invRegisterData.Cust_Place.length === 0) {
+      //   toast.warning("Please enter customer district");
+      //   e.preventDefault();
+      // } else if (props.invRegisterData.Cust_State.length === 0) {
+      //   toast.warning("Please enter customer state");
+      //   e.preventDefault();
+      // } else if (props.invRegisterData.PIN_Code.length === 0) {
+      //   toast.warning("Please enter customer pincode");
+      //   e.preventDefault();
+      // }
+      if (props.TaxDropDownData?.length > 0 && props.invTaxData.length === 0) {
+        toast.warning("Please select SGST and CST for Tax");
         e.preventDefault();
       } else if (
         props.invRegisterData.Del_Address.length === 0 ||
@@ -77,14 +87,54 @@ export default function InvoicingInfo(props) {
       //   toast.warning("Please enter customer GST");
       //   e.preventDefault();
       // }
-      else if (props.invRegisterData.DespatchDate.length === 0) {
+      else if (
+        props.invRegisterData.DespatchDate === null ||
+        props.invRegisterData.DespatchDate === undefined ||
+        props.invRegisterData.DespatchDate === "" ||
+        props.invRegisterData.DespatchDate === "null" ||
+        props.invRegisterData.DespatchDate === "undefined" ||
+        props.invRegisterData.DespatchDate.length === 0
+      ) {
         toast.warning("Please enter Dispatch Date");
         e.preventDefault();
-      } else if (props.invRegisterData.TptMode.length === 0) {
+      } else if (
+        props.invRegisterData.TptMode === null ||
+        props.invRegisterData.TptMode === undefined ||
+        props.invRegisterData.TptMode === "" ||
+        props.invRegisterData.TptMode === "null" ||
+        props.invRegisterData.TptMode === "undefined" ||
+        props.invRegisterData.TptMode.length === 0
+      ) {
         toast.warning("Please select Dispatch Mode");
         e.preventDefault();
-      } else if (props.invRegisterData.VehNo.length === 0) {
+      } else if (
+        props.invRegisterData.VehNo === null ||
+        props.invRegisterData.VehNo === undefined ||
+        props.invRegisterData.VehNo === "" ||
+        props.invRegisterData.VehNo === "null" ||
+        props.invRegisterData.VehNo === "undefined" ||
+        props.invRegisterData.VehNo.length === 0
+      ) {
         toast.warning("Please enter Vehicle Number");
+        e.preventDefault();
+      } else if (
+        props.invRegisterData.Del_ContactName === null ||
+        props.invRegisterData.Del_ContactName === undefined ||
+        props.invRegisterData.Del_ContactName === "" ||
+        props.invRegisterData.Del_ContactName === "null" ||
+        props.invRegisterData.Del_ContactName === "undefined" ||
+        props.invRegisterData.Del_ContactName.length === 0
+      ) {
+        toast.warning("Please enter delivery person name");
+        e.preventDefault();
+      } else if (
+        props.invRegisterData.Del_ContactNo === null ||
+        props.invRegisterData.Del_ContactNo === undefined ||
+        props.invRegisterData.Del_ContactNo === "" ||
+        props.invRegisterData.Del_ContactNo === "null" ||
+        props.invRegisterData.Del_ContactNo.length === 0
+      ) {
+        toast.warning("Please enter delivery person conatct number");
         e.preventDefault();
       } else if (
         props.invRegisterData?.BillType === "Cash" &&
@@ -102,33 +152,105 @@ export default function InvoicingInfo(props) {
       } else if (
         parseFloat(props.invRegisterData.GrandTotal).toFixed(2) < 0.0
       ) {
-        toast.warning("Can't create the invoice with negative grand total");
+        toast.warning("Can't create the invoice with negative amount");
       } else if (props.invRegisterData.BillType.length > 0) {
-        // console.log("jfsdhkjlk");
         if (props.invRegisterData.BillType === "Cash") {
           if (
-            (props.invRegisterData.PaymentTerms === cashMode[0] &&
-              props.invRegisterData.PaymentReceiptDetails?.length === 0) ||
-            (props.invRegisterData.PaymentTerms === cashMode[3] &&
-              props.invRegisterData.PaymentReceiptDetails?.length === 0)
+            props.invRegisterData.PaymentTerms === cashMode[0] ||
+            props.invRegisterData.PaymentTerms === cashMode[3]
           ) {
-            toast.warning("Please enter the Cash Reciept No and Details");
-            e.preventDefault();
-          } else if (
-            props.invRegisterData.PaymentTerms === cashMode[1] &&
-            props.invRegisterData.PaymentReceiptDetails?.length === 0
-          ) {
-            toast.warning("Please enter the Cheque Details");
-            e.preventDefault();
-          } else if (
-            props.invRegisterData.PaymentTerms === cashMode[2] &&
-            props.invRegisterData.PaymentReceiptDetails?.length === 0
-          ) {
-            toast.warning("Please enter the DD Details");
-            e.preventDefault();
-          } else {
-            createInvoiceWorkFunc();
+            if (
+              props.invRegisterData.PaymentReceiptDetails === null ||
+              props.invRegisterData.PaymentReceiptDetails === undefined ||
+              props.invRegisterData.PaymentReceiptDetails === "" ||
+              props.invRegisterData.PaymentReceiptDetails === "null" ||
+              props.invRegisterData.PaymentReceiptDetails.length < 8 ||
+              props.invRegisterData.PymtAmtRecd.length === 0 ||
+              parseFloat(props.invRegisterData.PymtAmtRecd).toFixed(1) === 0.0
+            ) {
+              toast.warning("Please enter the Cash Reciept No and Details");
+              e.preventDefault();
+            } else {
+              if (
+                parseFloat(props.invRegisterData.PymtAmtRecd).toFixed(2) <
+                parseFloat(props.invRegisterData.GrandTotal).toFixed(2)
+              ) {
+                toast.warning("Amount collected is less then Invoice Amount");
+                e.preventDefault();
+              } else {
+                createInvoiceWorkFunc();
+              }
+            }
+          } else if (props.invRegisterData.PaymentTerms === cashMode[1]) {
+            if (
+              props.invRegisterData.PaymentReceiptDetails === null ||
+              props.invRegisterData.PaymentReceiptDetails === undefined ||
+              props.invRegisterData.PaymentReceiptDetails === "" ||
+              props.invRegisterData.PaymentReceiptDetails === "null" ||
+              props.invRegisterData.PaymentReceiptDetails.length < 8 ||
+              props.invRegisterData.PymtAmtRecd.length === 0 ||
+              parseFloat(props.invRegisterData.PymtAmtRecd).toFixed(1) === 0.0
+            ) {
+              toast.warning("Please enter the Cheque Details");
+              e.preventDefault();
+            } else {
+              if (
+                parseFloat(props.invRegisterData.PymtAmtRecd) <
+                parseFloat(props.invRegisterData.GrandTotal)
+              ) {
+                toast.warning("Amount collected is less then Invoice Amount");
+                e.preventDefault();
+              } else {
+                createInvoiceWorkFunc();
+              }
+            }
+          } else if (props.invRegisterData.PaymentTerms === cashMode[2]) {
+            if (
+              props.invRegisterData.PaymentReceiptDetails === null ||
+              props.invRegisterData.PaymentReceiptDetails === undefined ||
+              props.invRegisterData.PaymentReceiptDetails === "" ||
+              props.invRegisterData.PaymentReceiptDetails === "null" ||
+              props.invRegisterData.PaymentReceiptDetails.length < 8 ||
+              props.invRegisterData.PymtAmtRecd.length === 0 ||
+              parseFloat(props.invRegisterData.PymtAmtRecd).toFixed(1) === 0.0
+            ) {
+              toast.warning("Please enter the DD Details");
+              e.preventDefault();
+            } else {
+              if (
+                parseFloat(props.invRegisterData.PymtAmtRecd).toFixed(2) <
+                parseFloat(props.invRegisterData.GrandTotal).toFixed(2)
+              ) {
+                toast.warning("Amount collected is less then Invoice Amount");
+                e.preventDefault();
+              } else {
+                createInvoiceWorkFunc();
+              }
+            }
           }
+          // if (
+          //   (props.invRegisterData.PaymentTerms === cashMode[0] &&
+          //     props.invRegisterData.PaymentReceiptDetails?.length <8) ||
+          //   (props.invRegisterData.PaymentTerms === cashMode[3] &&
+          //     props.invRegisterData.PaymentReceiptDetails?.length <8)
+          // ) {
+          //   toast.warning("Please enter the Cash Reciept No and Details");
+          //   e.preventDefault();
+          // } else if (
+          //   props.invRegisterData.PaymentTerms === cashMode[1] &&
+          //   props.invRegisterData.PaymentReceiptDetails?.length <8
+          // ) {
+          //   toast.warning("Please enter the Cheque Details");
+          //   e.preventDefault();
+          // } else if (
+          //   props.invRegisterData.PaymentTerms === cashMode[2] &&
+          //   props.invRegisterData.PaymentReceiptDetails?.length <8
+          // ) {
+          //   toast.warning("Please enter the DD Details");
+          //   e.preventDefault();
+          // } else {
+          //   createInvoiceWorkFunc();
+          // }
         } else {
           createInvoiceWorkFunc();
         }
@@ -137,11 +259,21 @@ export default function InvoicingInfo(props) {
       }
     }
   };
+
+  const today = new Date();
+  const todayDateforDispatch =
+    today.getFullYear() +
+    "-" +
+    (today.getMonth() + 1 < 10 ? "0" : "") +
+    (today.getMonth() + 1) +
+    "-" +
+    (today.getDate() + 1 < 10 ? "0" : "") +
+    today.getDate();
   return (
     <>
       <div>
         <div className="row">
-          <div className="col-md-9">
+          <div className="col-md-8">
             <div className="col">
               {/* dispatch details */}
               <div>
@@ -155,7 +287,12 @@ export default function InvoicingInfo(props) {
                     <input
                       type="date"
                       name="DespatchDate"
-                      value={props.invRegisterData?.DespatchDate?.split("T")[0]}
+                      value={
+                        props.invRegisterData?.DespatchDate?.split("T")[0]
+                          ? props.invRegisterData.DespatchDate.split("T")[0]
+                          : null
+                      }
+                      min={todayDateforDispatch}
                       onChange={props.inputHandler}
                       disabled={
                         props.invRegisterData.Inv_No?.length > 0 ||
@@ -328,7 +465,7 @@ export default function InvoicingInfo(props) {
               <div>
                 <b>Remarks</b>
                 <textarea
-                  rows="2"
+                  // rows="2"
                   style={{
                     border: "1px solid lightgray",
                     borderRadius: "5px",
@@ -353,7 +490,56 @@ export default function InvoicingInfo(props) {
               </div>
             </div>
           </div>
-          <div className="col-md-3">
+          <div className="col-md-4">
+            {/* delivery details */}
+            <div>
+              <b>Delivery Details</b>
+              <div
+                className="p-1 pb-2"
+                style={{ border: "1px solid lightgray", borderRadius: "5px" }}
+              >
+                <div className="row">
+                  <div className="col-md-6">
+                    <b>Person Name</b>
+                    <input
+                      name="Del_ContactName"
+                      value={props.invRegisterData.Del_ContactName}
+                      onChange={props.inputHandler}
+                      disabled={
+                        props.invRegisterData.Inv_No ||
+                        props.invRegisterData.DCStatus === "Cancelled"
+                      }
+                      className={
+                        props.invRegisterData.Inv_No ||
+                        props.invRegisterData.DCStatus === "Cancelled"
+                          ? "input-disabled"
+                          : ""
+                      }
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <b>Person Contact No</b>
+                    <input
+                      // type="number"
+                      // min={"0"}
+                      name="Del_ContactNo"
+                      value={props.invRegisterData.Del_ContactNo}
+                      onChange={props.inputHandler}
+                      disabled={
+                        props.invRegisterData.Inv_No ||
+                        props.invRegisterData.DCStatus === "Cancelled"
+                      }
+                      className={
+                        props.invRegisterData.Inv_No ||
+                        props.invRegisterData.DCStatus === "Cancelled"
+                          ? "input-disabled"
+                          : ""
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
             {/* Payment details */}
             <div>
               <b>Payment Details</b>
@@ -362,103 +548,124 @@ export default function InvoicingInfo(props) {
                 style={{ border: "1px solid lightgray", borderRadius: "5px" }}
               >
                 <div className="row">
-                  <div className="col-md-12">
-                    <div className="">
-                      <b>Bill Type</b>
-                      <select
-                        style={{
-                          fontSize: "inherit",
-                        }}
-                        name="BillType"
-                        value={props.invRegisterData.BillType}
-                        onChange={props.inputHandler}
-                        // onChange={(e) => {
-                        //   props.inputHandler(e);
-                        //   props.invRegisterData.PaymentTerms =
-                        //     e.target.value === "Cash"
-                        //       ? cashMode[0]
-                        //       : creditDays[0];
-                        //   props.setInvRegisterData(props.invRegisterData);
-                        // }}
-                        disabled={
-                          props.invRegisterData.Inv_No?.length > 0 ||
-                          props.invRegisterData.DCStatus === "Cancelled"
-                        }
-                        className={
-                          props.invRegisterData.Inv_No?.length > 0 ||
-                          props.invRegisterData.DCStatus === "Cancelled"
-                            ? "input-disabled ip-select"
-                            : "ip-select"
-                        }
-                      >
-                        <option value="" selected disabled hidden>
-                          Select Bill Type
-                        </option>
-                        {billType.map((val, key) => (
-                          <option value={val}>{val}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="">
-                      <b>
+                  {/* <div className="col-md-12"> */}
+                  <div className="col-md-6">
+                    <b>Bill Type</b>
+                    <select
+                      style={{
+                        fontSize: "inherit",
+                      }}
+                      name="BillType"
+                      value={props.invRegisterData.BillType}
+                      onChange={props.inputHandler}
+                      // onChange={(e) => {
+                      //   props.inputHandler(e);
+                      //   props.invRegisterData.PaymentTerms =
+                      //     e.target.value === "Cash"
+                      //       ? cashMode[0]
+                      //       : creditDays[0];
+                      //   props.setInvRegisterData(props.invRegisterData);
+                      // }}
+                      disabled={
+                        props.invRegisterData.Inv_No?.length > 0 ||
+                        props.invRegisterData.DCStatus === "Cancelled"
+                      }
+                      className={
+                        props.invRegisterData.Inv_No?.length > 0 ||
+                        props.invRegisterData.DCStatus === "Cancelled"
+                          ? "input-disabled ip-select"
+                          : "ip-select"
+                      }
+                    >
+                      <option value="" selected disabled hidden>
+                        Select Bill Type
+                      </option>
+                      {billType.map((val, key) => (
+                        <option value={val}>{val}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="col-md-6">
+                    <b>
+                      {props.invRegisterData?.BillType === "Cash"
+                        ? "Cash Mode"
+                        : "Credit Days"}
+                    </b>
+                    <select
+                      style={{
+                        fontSize: "inherit",
+                      }}
+                      name="PaymentTerms"
+                      // className="ip-select"
+                      value={
+                        props.invRegisterData?.PaymentTerms
+                        // props.invRegisterData.BillType === "Cash"
+                        //   ? props.invRegisterData?.PaymentTerms || cashMode[0]
+                        //   : props.invRegisterData?.PaymentTerms
+                      }
+                      onChange={props.inputHandler}
+                      disabled={
+                        props.invRegisterData.Inv_No?.length > 0 ||
+                        props.invRegisterData.DCStatus === "Cancelled"
+                      }
+                      className={
+                        props.invRegisterData.Inv_No?.length > 0 ||
+                        props.invRegisterData.DCStatus === "Cancelled"
+                          ? "input-disabled ip-select"
+                          : "ip-select"
+                      }
+                    >
+                      <option value="" selected disabled hidden>
                         {props.invRegisterData?.BillType === "Cash"
-                          ? "Cash Mode"
-                          : "Credit Days"}
-                      </b>
-                      <select
-                        style={{
-                          fontSize: "inherit",
-                        }}
-                        name="PaymentTerms"
-                        // className="ip-select"
-                        value={
-                          props.invRegisterData?.PaymentTerms
-                          // props.invRegisterData.BillType === "Cash"
-                          //   ? props.invRegisterData?.PaymentTerms || cashMode[0]
-                          //   : props.invRegisterData?.PaymentTerms
-                        }
-                        onChange={props.inputHandler}
-                        disabled={
-                          props.invRegisterData.Inv_No?.length > 0 ||
-                          props.invRegisterData.DCStatus === "Cancelled"
-                        }
-                        className={
-                          props.invRegisterData.Inv_No?.length > 0 ||
-                          props.invRegisterData.DCStatus === "Cancelled"
-                            ? "input-disabled ip-select"
-                            : "ip-select"
-                        }
-                      >
-                        <option value="" selected disabled hidden>
-                          {props.invRegisterData?.BillType === "Cash"
-                            ? "Select Cash Mode"
-                            : "Select Credit Days"}
-                        </option>
-                        {(props.invRegisterData?.BillType === "Cash"
-                          ? cashMode
-                          : creditDays
-                        ).map((val, key) => (
-                          <option value={val}>{val}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="">
-                      <b>Grand Total</b>
-                      <input
-                        disabled
-                        className="input-disabled"
-                        name="GrandTotal"
-                        value={props.invRegisterData?.GrandTotal}
-                        onChange={props.inputHandler}
-                      />
-                    </div>
-                    <div className="">
-                      <b>Amount Recieved</b>
-                      <input
-                        type="number"
-                        min={"0"}
-                        name="PymtAmtRecd"
-                        value={props.invRegisterData?.PymtAmtRecd}
+                          ? "Select Cash Mode"
+                          : "Select Credit Days"}
+                      </option>
+                      {(props.invRegisterData?.BillType === "Cash"
+                        ? cashMode
+                        : creditDays
+                      ).map((val, key) => (
+                        <option value={val}>{val}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="col-md-6">
+                    <b>Grand Total</b>
+                    <input
+                      disabled
+                      className="input-disabled"
+                      name="GrandTotal"
+                      value={props.invRegisterData?.GrandTotal}
+                      onChange={props.inputHandler}
+                    />
+                  </div>
+                  <div className="col-md-6">
+                    <b>Amount Recieved</b>
+                    <input
+                      type="number"
+                      min={"0"}
+                      name="PymtAmtRecd"
+                      value={props.invRegisterData?.PymtAmtRecd}
+                      onChange={props.inputHandler}
+                      disabled={
+                        props.invRegisterData.Inv_No?.length > 0 ||
+                        props.invRegisterData.DCStatus === "Cancelled"
+                      }
+                      className={
+                        props.invRegisterData.Inv_No?.length > 0 ||
+                        props.invRegisterData.DCStatus === "Cancelled"
+                          ? "input-disabled"
+                          : ""
+                      }
+                    />
+                  </div>
+                  {props.invRegisterData?.BillType === "Cash" ? (
+                    <div className="col-md-12">
+                      <b>Description</b>
+                      <textarea
+                        rows="4"
+                        style={{ width: "100%" }}
+                        name="PaymentReceiptDetails"
+                        value={props.invRegisterData?.PaymentReceiptDetails}
                         onChange={props.inputHandler}
                         disabled={
                           props.invRegisterData.Inv_No?.length > 0 ||
@@ -470,33 +677,12 @@ export default function InvoicingInfo(props) {
                             ? "input-disabled"
                             : ""
                         }
-                      />
+                      ></textarea>
                     </div>
-                    {props.invRegisterData?.BillType === "Cash" ? (
-                      <div className="">
-                        <b>Description</b>
-                        <textarea
-                          rows="4"
-                          style={{ width: "100%" }}
-                          name="PaymentReceiptDetails"
-                          value={props.invRegisterData?.PaymentReceiptDetails}
-                          onChange={props.inputHandler}
-                          disabled={
-                            props.invRegisterData.Inv_No?.length > 0 ||
-                            props.invRegisterData.DCStatus === "Cancelled"
-                          }
-                          className={
-                            props.invRegisterData.Inv_No?.length > 0 ||
-                            props.invRegisterData.DCStatus === "Cancelled"
-                              ? "input-disabled"
-                              : ""
-                          }
-                        ></textarea>
-                      </div>
-                    ) : (
-                      <div></div>
-                    )}
-                  </div>
+                  ) : (
+                    <div></div>
+                  )}
+                  {/* </div> */}
                 </div>
               </div>
             </div>
@@ -531,21 +717,25 @@ export default function InvoicingInfo(props) {
 
                 disabled={
                   !(props.invRegisterData.Inv_No?.length > 0) ||
-                  props.invDetailsData?.length > 20 ||
                   props.invRegisterData.DCStatus === "Cancelled"
                 }
                 className={
                   !(props.invRegisterData.Inv_No?.length > 0) ||
-                  props.invDetailsData?.length > 20 ||
                   props.invRegisterData.DCStatus === "Cancelled"
                     ? "button-style button-disabled"
                     : "button-style"
                 }
-                onClick={props.printPackingNoteAnnexure}
+                onClick={
+                  props.invDetailsData?.length > props.rowLimit
+                    ? props.printAnnexure
+                    : props.printInvoice
+                }
               >
-                Print Copy
+                {props.invDetailsData?.length > props.rowLimit
+                  ? "Print Annexure"
+                  : "Print Invoice"}
               </button>
-              <button
+              {/* <button
                 // className="button-disabled"
                 disabled={
                   !(props.invRegisterData.Inv_No?.length > 0) ||
@@ -557,10 +747,10 @@ export default function InvoicingInfo(props) {
                     ? "button-style button-disabled"
                     : "button-style"
                 }
-                onClick={props.printPackingNoteAnnexure}
+                onClick={props.printAnnexure}
               >
                 Print Annexure
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

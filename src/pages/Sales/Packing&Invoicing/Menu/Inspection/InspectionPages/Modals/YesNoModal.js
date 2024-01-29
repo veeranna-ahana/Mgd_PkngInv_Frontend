@@ -54,6 +54,7 @@ export default function YesNoModal(props) {
           }, 0);
 
           // Display a toast based on the totalQtyCleared value
+
           // if (totalQtyCleared > 0) {
           //   toast.success(`Parts Cleared and Saved Successfully`);
           //   // setSelectedScheduleDetailsRows([]);
@@ -70,7 +71,7 @@ export default function YesNoModal(props) {
           //console.error("Error:", error);
           toast.error("An error occurred while saving data.");
         });
-    } else {
+    } else if (actionType === "reset") {
       const updatedPartListData = [...orderScheduleDetailsData];
       // Loop through the rows and reset QtyCleared for selected rows
       updatedPartListData.forEach((row) => {
@@ -108,6 +109,61 @@ export default function YesNoModal(props) {
           toast.error("An error occurred while saving data.");
         });
     }
+
+    // else if (actionType === "reject") {
+    //   console.log("entering into the HandleRejectionReportClick...1");
+    //   const currentYear = new Date().getFullYear();
+    //   const nextYear = currentYear + 1;
+    //   const financialYear = `${currentYear.toString().slice(-2)}/${nextYear
+    //     .toString()
+    //     .slice(-2)}`;
+
+    //   let lastRejReportNo = rejFormData[0]?.Rej_ReportNo;
+    //   let numericPart = lastRejReportNo?.match(/\d+$/);
+    //   let nextSerialNumber = parseInt(numericPart[0]) + 1;
+    //   let newRejReportNo = `${financialYear}/ IR / ${nextSerialNumber
+    //     .toString()
+    //     .padStart(4, "0")}`;
+    //   setReportNo(newRejReportNo);
+
+    //   let lastRej_Id = rejFormData[0].Rej_Id;
+    //   let nextRej_Id = lastRej_Id + 1;
+    //   setNewRejId(nextRej_Id);
+    //   setRejFormData((prevState) => [
+    //     {
+    //       ...prevState[0],
+    //       Rej_ReportNo: newRejReportNo,
+    //       Rej_Id: nextRej_Id,
+    //     },
+    //   ]);
+    //   console.log("entering into the HandleRejectionReportClick...2");
+
+    //   try {
+    //     Axios.post(apipoints.submitRejectionReport, {
+    //       selectedScheduleDetailsRows,
+    //       ScheduleId: selectedScheduleDetailsRows[0]?.ScheduleId,
+    //       Cust_Code: selectedScheduleDetailsRows[0]?.Cust_Code,
+    //       Cust_Name: props.headerData[0]?.Cust_name,
+    //       Rejection_Ref: props.headerData[0]?.OrdSchNo,
+    //       reportNo: newRejReportNo,
+    //       Status: irstatus,
+    //       RaisedBy: raisedBy,
+    //       acceptedValue: acceptedValue,
+    //       rejectedValue: rejectedValue,
+    //       Rej_Id: nextRej_Id,
+    //       QtyRejected: qtyReject,
+    //       RejectedReason: rejectReason,
+    //     }).then((res) => {
+    //       console.log("res from submitRejectionReport..", res.data);
+    //       props.getOrderScheduleData();
+    //       console.log("getOrderScheduleData is exicuted");
+    //       setLgShow(false);
+    //       toast.success(
+    //         `Dwg Rejected Successfully, with Rej Report No ${newRejReportNo}`
+    //       );
+    //     });
+    //   } catch (error) {}
+    // }
     onOkButtonClick(); // Call the specified function
     onHide(); // Close the modal
   };

@@ -5,12 +5,35 @@ import { toast } from "react-toastify";
 import { apipoints } from "../../../../../api/PackInv_API/ReturnableDC/ReturnableDC";
 
 function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
-  const handleTaxSelection = async (selectedTaxPercent) => {
-    const taxesWithSelectedPercent = formData.taxDetails.filter(
-      (tax) => tax.Tax_Percent === selectedTaxPercent
+  const handleTaxSelection = async (e) => {
+    const selectedTaxDCTaxId = parseInt(e.target.value);
+    const taxesWithSelectedDCTaxId = formData.taxDetails.filter(
+      (tax) => tax.DCTaxId == selectedTaxDCTaxId
     );
 
-    const updatedSelectedTax = taxesWithSelectedPercent.map((tax) => ({
+    console.log("taxesWithSelectedPercent", taxesWithSelectedDCTaxId);
+
+    const newTaxOn = taxesWithSelectedDCTaxId[0].TaxOn.replace(
+      /[()]/g,
+      ""
+    ).split("+");
+    console.log("newTaxOn", newTaxOn);
+
+    const applicableTaxes = [];
+    for (let i = 0; i < newTaxOn.length; i++) {
+      const element = newTaxOn[i];
+      if (parseInt(element) === 1) {
+        applicableTaxes.push(...taxesWithSelectedDCTaxId);
+      } else {
+        formData.taxDetails
+          .filter((obj) => obj.DCTaxId === parseInt(element))
+          .map((value) => applicableTaxes.push(value));
+      }
+    }
+
+    console.log("applicableTaxes", applicableTaxes);
+
+    const updatedSelectedTax = applicableTaxes.map((tax) => ({
       ...tax,
       TaxableAmount: formData.taxableAmount,
       TaxAmount: parseFloat(
@@ -45,6 +68,7 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
       selectedTax: [],
     }));
   };
+  console.log("taxDetails", formData.taxDetails);
 
   return (
     <div>
@@ -78,7 +102,6 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
             <div className="row">
               <div className="col-md-6">
                 <label className="form-label">City</label>
-
                 <input
                   type="text"
                   className="in-fields"
@@ -101,9 +124,7 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
                   disabled
                 />
               </div>
-            </div>
 
-            <div className="row mb-2">
               <div className="col-md-6">
                 <label className="form-label">State</label>
                 <select
@@ -136,6 +157,40 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
                 />
               </div>
             </div>
+
+            {/* <div className="row mb-2">
+              <div className="col-md-6 col-sm-6">
+                <label className="form-label">State</label>
+                <select
+                  id=""
+                  className="ip-select mt-2 in-fields"
+                  name="custState"
+                  value={formData.custState}
+                  onChange={handleInputChange}
+                  style={{ height: "30px", backgroundColor: "white" }}
+                  disabled
+                >
+                  <option selected disabled hidden>
+                    {formData.custState}
+                  </option>
+                  {formData.states?.map((st) => (
+                    <option value={st.State}>{st.State}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-6 col-sm-6">
+                <label className="form-label">GST No</label>
+                <input
+                  type="text"
+                  className="in-fields"
+                  name="gstNo"
+                  value={formData.gstNo}
+                  onChange={handleInputChange}
+                  style={{ height: "30px", backgroundColor: "white" }}
+                  disabled
+                />
+              </div>
+            </div> */}
           </div>
         </div>
 
@@ -212,23 +267,27 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
                   id=""
                   className="ip-select mt-2 in-fields"
                   name="taxName"
-                  onChange={(e) => handleTaxSelection(e.target.value)}
+                  // onChange={(e) => handleTaxSelection(e.target.value)}
+                  onChange={handleTaxSelection}
                   style={{ height: "30px" }}
                   disabled={
                     formData.dcStatus === "Despatched" ||
                     formData.dcStatus === "Closed" ||
                     formData.dcStatus === "Cancelled" ||
-                    !formData.dcInvNo
+                    !formData.dcInvNo ||
+                    formData.tableData.length === 0
                   }
                 >
                   {/* <option selected disabled hidden>
                     {formData.TaxName}
                   </option> */}
-                  <option value="" selected disabled hidden>
+                  <option selected disabled hidden value="">
                     Select Taxes
                   </option>
-                  {formData.taxDetails.map((tax) => (
-                    <option value={tax.Tax_Percent}>{tax.TaxName}</option>
+                  {formData.taxDetails.map((tax, index) => (
+                    <option key={index} value={tax.DCTaxId}>
+                      {tax.TaxName}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -238,14 +297,17 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
                   className={
                     formData.dcStatus === "Despatched" ||
                     formData.dcStatus === "Closed" ||
-                    formData.dcStatus === "Cancelled"
+                    formData.dcStatus === "Cancelled" ||
+                    formData.taxDetails.length === 0
                       ? "button-style button-disabled"
                       : "button-style"
                   }
                   onClick={handleDeleteClick}
                   disabled={
                     formData.dcStatus === "Despatched" ||
-                    formData.dcStatus === "Closed"
+                    formData.dcStatus === "Closed" ||
+                    formData.dcStatus === "Cancelled" ||
+                    formData.taxDetails.length === 0
                   }
                 >
                   Delete Taxes

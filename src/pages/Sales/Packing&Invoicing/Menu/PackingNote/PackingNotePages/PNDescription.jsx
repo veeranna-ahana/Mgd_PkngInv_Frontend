@@ -41,6 +41,9 @@ export default function Profile() {
 
   const [allStates, setAllStates] = useState([]);
 
+  const [printCopyModal, setPrintCopyModal] = useState(false);
+  const [printAnneureModal, setPrintAnneureModal] = useState(false);
+  const [printInvoiceModal, setPrintInvoiceModal] = useState(false);
   // const [printCopyTableData, setPrintCopyTableData] = useState([]);
 
   // function* chunks(arr, n) {
@@ -65,6 +68,14 @@ export default function Profile() {
         scheduleId: res.data.registerData[0].ScheduleId,
       }).then((sechRes) => {
         setSetRateConsumerData(sechRes.data);
+      });
+      Axios.post(apipoints.getTaxData, {
+        Cust_Code: res.data.registerData[0].Cust_Code,
+        unitStateID: "29",
+        unitGST: "29AABCM1970H1ZE",
+      }).then((res) => {
+        setTaxDropDownData(res.data);
+        // console.log("tax dataaaaa", res.data);
       });
     });
     // get all states
@@ -98,12 +109,23 @@ export default function Profile() {
   //   });
   // }, []);
 
-  useEffect(() => {
-    Axios.post(apipoints.getTaxData, {}).then((res) => {
-      setTaxDropDownData(res.data);
-      // console.log("tax dataaaaa", res.data);
-    });
-  }, []);
+  // useEffect(() => {
+  //   Axios.post(apipoints.getTaxData, {}).then((res) => {
+  //     setTaxDropDownData(res.data);
+  //     // console.log("tax dataaaaa", res.data);
+  //   });
+  // }, []);
+
+  const printPN = () => {
+    setPrintCopyModal(true);
+  };
+  const printAnnexure = () => {
+    setPrintAnneureModal(true);
+  };
+  const printInvoice = () => {
+    setPrintInvoiceModal(true);
+  };
+  const rowLimit = 20;
 
   const deleteTaxFunc = () => {
     setInvTaxData([]);
@@ -291,6 +313,7 @@ export default function Profile() {
     Axios.post(apipoints.createInvoice, {
       invRegisterData: invRegisterData,
     }).then((res) => {
+      setInvRegisterData(res.data.registerData[0]);
       if (res.data.flag === 1) {
         // console.log("resssssssssss", res.data);
         // props.setNewINVNo(res.data.selectData[0].Inv_No);
@@ -298,8 +321,13 @@ export default function Profile() {
         // props.setTaxDataFromDB(res.data.taxData);
 
         toast.success(res.data.message);
-        // printPackingNoteCopy();
-        setInvRegisterData(res.data.registerData[0]);
+
+        if (invDetailsData.length > rowLimit) {
+          printAnnexure();
+        } else {
+          printInvoice();
+        }
+        // printPN();
         // console.log("resssss", res);
       } else if (res.data.flag === 0) {
         toast.error(res.data.message);
@@ -316,7 +344,11 @@ export default function Profile() {
       </div>
       <div className="p-1"></div>
       <div className="border rounded">
-        <FormHeader invRegisterData={invRegisterData} />
+        <FormHeader
+          invRegisterData={invRegisterData}
+          setInvRegisterData={setInvRegisterData}
+          inputHandler={inputHandler}
+        />
 
         <Tabs className="mt-3 p-2">
           <Tab eventKey="consigneeInfo" title="Consignee Info">
@@ -359,6 +391,17 @@ export default function Profile() {
               setButtonClicked={setButtonClicked}
               setConfirmModalOpen={setConfirmModalOpen}
               confirmModalOpen={confirmModalOpen}
+              printInvoice={printInvoice}
+              printAnnexure={printAnnexure}
+              printPN={printPN}
+              setPrintInvoiceModal={setPrintInvoiceModal}
+              setPrintAnneureModal={setPrintAnneureModal}
+              setPrintCopyModal={setPrintCopyModal}
+              printInvoiceModal={printInvoiceModal}
+              printAnneureModal={printAnneureModal}
+              printCopyModal={printCopyModal}
+              rowLimit={rowLimit}
+              TaxDropDownData={TaxDropDownData}
 
               // printCopyTableData={printCopyTableData}
               //
@@ -525,69 +568,286 @@ export default function Profile() {
                       fontSize: "inherit",
                     }}
                     onChange={(e) => {
-                      const newTaxArray = TaxDropDownData.filter(
-                        (obj) =>
-                          parseFloat(obj.Tax_Percent).toFixed(2) ===
-                          parseFloat(e.target.value).toFixed(2)
-                      );
-                      let arr = [];
-                      let taxAmountVal = 0;
-                      let TaxableAmount = (
-                        parseFloat(invRegisterData?.Net_Total) -
-                        parseFloat(invRegisterData?.Discount) +
-                        parseFloat(invRegisterData?.Del_Chg)
-                      ).toFixed(2);
-                      for (let i = 0; i < newTaxArray.length; i++) {
-                        const element = newTaxArray[i];
+                      // console.log("eee", TaxDropDownData[e.target.value]);
 
-                        let TaxAmt = (
-                          (TaxableAmount * parseFloat(element.Tax_Percent)) /
-                          100
-                        ).toFixed(2);
-                        if (arr.length > 0) {
-                          arr = [
-                            ...arr,
-                            {
-                              TaxID: element.TaxID,
-                              TaxOn: element.TaxOn,
-                              TaxPercent: element.Tax_Percent,
-                              Tax_Name: element.TaxName,
-                              TaxableAmount: TaxableAmount,
-                              TaxAmt: TaxAmt,
-                            },
-                          ];
-                          taxAmountVal =
-                            parseFloat(taxAmountVal) + parseFloat(TaxAmt);
-                        } else {
-                          arr = [
-                            {
-                              TaxID: element.TaxID,
-                              TaxOn: element.TaxOn,
-                              TaxPercent: element.Tax_Percent,
-                              Tax_Name: element.TaxName,
-                              TaxableAmount: TaxableAmount,
-                              TaxAmt: TaxAmt,
-                            },
-                          ];
-                          taxAmountVal =
-                            parseFloat(taxAmountVal) + parseFloat(TaxAmt);
+                      // console.log(
+                      //   "amount",
+                      //   parseFloat(invRegisterData?.Net_Total) -
+                      //     parseFloat(invRegisterData?.Discount) +
+                      //     parseFloat(invRegisterData?.Del_Chg)
+                      // );
+                      const newTaxOn = TaxDropDownData[
+                        e.target.value
+                      ].TaxOn.replace("(", "")
+                        .replace(")", "")
+                        .split("+");
+
+                      // console.log("newTaxOn", newTaxOn);
+                      let applicableTaxes = [];
+                      let arr = [];
+                      if (
+                        TaxDropDownData[
+                          e.target.value
+                        ].UnderGroup.toUpperCase() === "INCOMETAX" ||
+                        TaxDropDownData[
+                          e.target.value
+                        ].UnderGroup.toUpperCase() === "INCOME TAX"
+                      ) {
+                        // console.log("tcs");
+
+                        for (let i = 1; i < newTaxOn.length; i++) {
+                          const element = newTaxOn[i];
+                          TaxDropDownData.filter(
+                            (obj) => obj.TaxID === parseInt(element)
+                          ).map((value, key) => applicableTaxes.push(value));
                         }
+                        applicableTaxes.push(TaxDropDownData[e.target.value]);
+
+                        // console.log("applicableTaxes", applicableTaxes);
+
+                        let TaxableAmount = (
+                          parseFloat(invRegisterData?.Net_Total) -
+                          parseFloat(invRegisterData?.Discount) +
+                          parseFloat(invRegisterData?.Del_Chg)
+                        ).toFixed(2);
+
+                        // console.log("TaxableAmount", TaxableAmount);
+                        let TotalTaxAmount = 0;
+
+                        for (let i = 0; i < applicableTaxes.length; i++) {
+                          const element = applicableTaxes[i];
+                          if (
+                            element.UnderGroup.toUpperCase() === "INCOMETAX" ||
+                            element.UnderGroup.toUpperCase() === "INCOME TAX"
+                          ) {
+                            // console.log("tcs");
+                            let TaxableAmntForTCS =
+                              parseFloat(TaxableAmount) +
+                              parseFloat(TotalTaxAmount);
+                            let TaxAmtForRow = (
+                              (TaxableAmntForTCS *
+                                parseFloat(element.Tax_Percent)) /
+                              100
+                            ).toFixed(2);
+                            TotalTaxAmount =
+                              parseFloat(TotalTaxAmount) +
+                              parseFloat(TaxAmtForRow);
+
+                            arr = [
+                              ...arr,
+                              {
+                                TaxID: element.TaxID,
+                                TaxOn: element.TaxOn,
+                                TaxPercent: element.Tax_Percent,
+                                Tax_Name: element.TaxName,
+                                TaxableAmount: TaxableAmntForTCS,
+                                TaxAmt: TaxAmtForRow,
+                              },
+                            ];
+                          } else {
+                            let TaxAmtForRow = (
+                              (TaxableAmount *
+                                parseFloat(element.Tax_Percent)) /
+                              100
+                            ).toFixed(2);
+                            TotalTaxAmount =
+                              parseFloat(TotalTaxAmount) +
+                              parseFloat(TaxAmtForRow);
+
+                            if (arr.length > 0) {
+                              arr = [
+                                ...arr,
+                                {
+                                  TaxID: element.TaxID,
+                                  TaxOn: element.TaxOn,
+                                  TaxPercent: element.Tax_Percent,
+                                  Tax_Name: element.TaxName,
+                                  TaxableAmount: TaxableAmount,
+                                  TaxAmt: TaxAmtForRow,
+                                },
+                              ];
+                            } else {
+                              arr = [
+                                {
+                                  TaxID: element.TaxID,
+                                  TaxOn: element.TaxOn,
+                                  TaxPercent: element.Tax_Percent,
+                                  Tax_Name: element.TaxName,
+                                  TaxableAmount: TaxableAmount,
+                                  TaxAmt: TaxAmtForRow,
+                                },
+                              ];
+                            }
+                          }
+                        }
+
+                        setInvTaxData(arr);
+
+                        let newInvTotal =
+                          parseFloat(TaxableAmount) +
+                          parseFloat(TotalTaxAmount);
+
+                        let newGrandTotal = Math.round(newInvTotal);
+                        let newRoundOff = newGrandTotal - newInvTotal;
+
+                        setInvRegisterData({
+                          ...invRegisterData,
+                          TaxAmount: parseFloat(TotalTaxAmount).toFixed(2),
+                          InvTotal: newInvTotal.toFixed(2),
+                          GrandTotal: newGrandTotal.toFixed(2),
+                          Round_Off: newRoundOff.toFixed(2),
+                        });
+                      } else {
+                        // console.log("normal");
+
+                        for (let i = 0; i < newTaxOn.length; i++) {
+                          const element = newTaxOn[i];
+                          if (parseInt(element) === 1) {
+                            // console.log("self", TaxDropDownData[e.target.value]);
+                            applicableTaxes.push(
+                              TaxDropDownData[e.target.value]
+                            );
+                          } else {
+                            // console.log(
+                            //   "row no",
+
+                            //   TaxDropDownData.filter(
+                            //     (obj) => obj.TaxID === parseInt(element)
+                            //   )
+
+                            // );
+                            // filter gets the data in array, there may be more then 1 rows, so mappppp....
+                            TaxDropDownData.filter(
+                              (obj) => obj.TaxID === parseInt(element)
+                            ).map((value, key) => applicableTaxes.push(value));
+                          }
+                        }
+
+                        // console.log("applicableTaxes", applicableTaxes);
+
+                        let TaxableAmount = (
+                          parseFloat(invRegisterData?.Net_Total) -
+                          parseFloat(invRegisterData?.Discount) +
+                          parseFloat(invRegisterData?.Del_Chg)
+                        ).toFixed(2);
+                        let TotalTaxAmount = 0;
+                        for (let i = 0; i < applicableTaxes.length; i++) {
+                          const element = applicableTaxes[i];
+
+                          let TaxAmtForRow = (
+                            (TaxableAmount * parseFloat(element.Tax_Percent)) /
+                            100
+                          ).toFixed(2);
+                          TotalTaxAmount =
+                            parseFloat(TotalTaxAmount) +
+                            parseFloat(TaxAmtForRow);
+                          if (arr.length > 0) {
+                            arr = [
+                              ...arr,
+                              {
+                                TaxID: element.TaxID,
+                                TaxOn: element.TaxOn,
+                                TaxPercent: element.Tax_Percent,
+                                Tax_Name: element.TaxName,
+                                TaxableAmount: TaxableAmount,
+                                TaxAmt: TaxAmtForRow,
+                              },
+                            ];
+                          } else {
+                            arr = [
+                              {
+                                TaxID: element.TaxID,
+                                TaxOn: element.TaxOn,
+                                TaxPercent: element.Tax_Percent,
+                                Tax_Name: element.TaxName,
+                                TaxableAmount: TaxableAmount,
+                                TaxAmt: TaxAmtForRow,
+                              },
+                            ];
+                          }
+                        }
+
+                        // console.log("arr", arr);
+                        setInvTaxData(arr);
+                        let newInvTotal =
+                          parseFloat(TaxableAmount) +
+                          parseFloat(TotalTaxAmount);
+
+                        let newGrandTotal = Math.round(newInvTotal);
+                        let newRoundOff = newGrandTotal - newInvTotal;
+
+                        setInvRegisterData({
+                          ...invRegisterData,
+                          TaxAmount: parseFloat(TotalTaxAmount).toFixed(2),
+                          InvTotal: newInvTotal.toFixed(2),
+                          GrandTotal: newGrandTotal.toFixed(2),
+                          Round_Off: newRoundOff.toFixed(2),
+                        });
                       }
 
-                      setInvTaxData(arr);
-                      let newInvTotal =
-                        parseFloat(TaxableAmount) + parseFloat(taxAmountVal);
+                      //   const newTaxArray = TaxDropDownData.filter(
+                      //     (obj) =>
+                      //       parseFloat(obj.Tax_Percent).toFixed(2) ===
+                      //       parseFloat(e.target.value).toFixed(2)
+                      //   );
+                      //   let arr = [];
+                      //   let taxAmountVal = 0;
+                      //   let TaxableAmount = (
+                      //     parseFloat(invRegisterData?.Net_Total) -
+                      //     parseFloat(invRegisterData?.Discount) +
+                      //     parseFloat(invRegisterData?.Del_Chg)
+                      //   ).toFixed(2);
+                      //   for (let i = 0; i < newTaxArray.length; i++) {
+                      //     const element = newTaxArray[i];
 
-                      let newGrandTotal = Math.round(newInvTotal);
-                      let newRoundOff = newGrandTotal - newInvTotal;
+                      //     let TaxAmt = (
+                      //       (TaxableAmount * parseFloat(element.Tax_Percent)) /
+                      //       100
+                      //     ).toFixed(2);
+                      //     if (arr.length > 0) {
+                      //       arr = [
+                      //         ...arr,
+                      //         {
+                      //           TaxID: element.TaxID,
+                      //           TaxOn: element.TaxOn,
+                      //           TaxPercent: element.Tax_Percent,
+                      //           Tax_Name: element.TaxName,
+                      //           TaxableAmount: TaxableAmount,
+                      //           TaxAmt: TaxAmt,
+                      //         },
+                      //       ];
+                      //       taxAmountVal =
+                      //         parseFloat(taxAmountVal) + parseFloat(TaxAmt);
+                      //     } else {
+                      //       arr = [
+                      //         {
+                      //           TaxID: element.TaxID,
+                      //           TaxOn: element.TaxOn,
+                      //           TaxPercent: element.Tax_Percent,
+                      //           Tax_Name: element.TaxName,
+                      //           TaxableAmount: TaxableAmount,
+                      //           TaxAmt: TaxAmt,
+                      //         },
+                      //       ];
+                      //       taxAmountVal =
+                      //         parseFloat(taxAmountVal) + parseFloat(TaxAmt);
+                      //     }
+                      //   }
 
-                      setInvRegisterData({
-                        ...invRegisterData,
-                        TaxAmount: parseFloat(taxAmountVal).toFixed(2),
-                        InvTotal: newInvTotal.toFixed(2),
-                        GrandTotal: newGrandTotal.toFixed(2),
-                        Round_Off: newRoundOff.toFixed(2),
-                      });
+                      //   setInvTaxData(arr);
+                      //   let newInvTotal =
+                      //     parseFloat(TaxableAmount) + parseFloat(taxAmountVal);
+
+                      //   let newGrandTotal = Math.round(newInvTotal);
+                      //   let newRoundOff = newGrandTotal - newInvTotal;
+
+                      //   setInvRegisterData({
+                      //     ...invRegisterData,
+                      //     TaxAmount: parseFloat(taxAmountVal).toFixed(2),
+                      //     InvTotal: newInvTotal.toFixed(2),
+                      //     GrandTotal: newGrandTotal.toFixed(2),
+                      //     Round_Off: newRoundOff.toFixed(2),
+                      //   });
                     }}
                     disabled={
                       invRegisterData.Inv_No ||
@@ -603,8 +863,8 @@ export default function Profile() {
                     <option value="none" selected disabled hidden>
                       Select an Option
                     </option>
-                    {TaxDropDownData.map((val) => (
-                      <option value={val.Tax_Percent}>{val.TaxName}</option>
+                    {TaxDropDownData?.map((taxVal, key) => (
+                      <option value={key}>{taxVal.TaxName}</option>
                     ))}
                   </select>
                 </div>
@@ -663,7 +923,7 @@ export default function Profile() {
           setShowSetRateModal={setShowSetRateModal}
           DCInvNo={DCInvNo}
           // INVData={INVData}
-          INVData={[]}
+          // INVData={[]}
           invDetailsData={invDetailsData}
           setRateConsumerData={setRateConsumerData}
           setInvRegisterData={setInvRegisterData}

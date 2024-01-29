@@ -12,7 +12,7 @@ export default function FormHeader(props) {
               //   type="text"
               disabled
               className="input-disabled"
-              value={props.headerData[0]?.Cust_name}
+              value={props.headerData?.Cust_name}
             />
           </div>
           <div className="col-md-4">
@@ -21,7 +21,7 @@ export default function FormHeader(props) {
               //   type="text"
               disabled
               className="input-disabled" // value={tbldata.selectRow.SalesContact}
-              value={props.headerData[0]?.SalesContact}
+              value={props.headerData?.SalesContact}
             />
           </div>
         </div>
@@ -31,10 +31,10 @@ export default function FormHeader(props) {
             <div style={{ marginBottom: "9px" }}>
               <label className="form-label">Schedule No</label>
               <input
-                //   type="text"
+                // type="text"
                 disabled
                 className="input-disabled"
-                value={props.headerData[0]?.OrdSchNo}
+                value={props.headerData?.OrdSchNo}
                 // value={tbldata.selectRow.ScheduleNo}
               />
             </div>
@@ -46,7 +46,7 @@ export default function FormHeader(props) {
                 //   type="text"
                 disabled
                 className="input-disabled"
-                value={props.headerData[0]?.ScheduleType}
+                value={props.headerData?.ScheduleType}
                 //  value={tbldata.selectRow.ScheduleType}
               />
             </div>
@@ -58,7 +58,7 @@ export default function FormHeader(props) {
                 //   type="text"
                 disabled
                 className="input-disabled"
-                value={props.headerData[0]?.Schedule_Status}
+                value={props.headerData?.Schedule_Status}
                 // value={tbldata.selectRow.Schedule_Status}
               />
             </div>
@@ -89,7 +89,7 @@ export default function FormHeader(props) {
               //   type="text"
               disabled
               className="input-disabled"
-              value={props.headerData[0]?.Program_Engineer}
+              value={props.headerData?.Program_Engineer}
               // value={tbldata.selectRow.Program_Engineer}
             />
           </div>
@@ -99,7 +99,7 @@ export default function FormHeader(props) {
               //   type="text"
               disabled
               className="input-disabled"
-              value={props.headerData[0]?.PO}
+              value={props.headerData?.PO}
               // value={tbldata.selectRow.PO}
             />
           </div>
@@ -112,7 +112,7 @@ export default function FormHeader(props) {
               //   type="text"
               disabled
               className="input-disabled"
-              value={props.headerData[0]?.schTgtDate}
+              value={props.headerData?.schTgtDate}
               //  value={tbldata.selectRow.schTgtDate}
             />
           </div>
@@ -122,7 +122,7 @@ export default function FormHeader(props) {
               //   type="text"
               disabled
               className="input-disabled"
-              value={props.headerData[0]?.Delivery_Date}
+              value={props.headerData?.Delivery_Date}
               // value={tbldata.selectRow.Delivery_Date}
             />
           </div>
@@ -134,7 +134,7 @@ export default function FormHeader(props) {
 
               disabled
               className="for-control input-disabled"
-              value={props.headerData[0]?.Special_Instructions}
+              value={props.headerData?.Special_Instructions}
               // value={tbldata.selectRow.Special_Instructions}
             ></textarea>
           </div>

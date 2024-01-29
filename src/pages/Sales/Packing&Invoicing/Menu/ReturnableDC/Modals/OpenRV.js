@@ -577,7 +577,7 @@ function OpenRV({
       {print && (
         <Modal show={print} onHide={printModalClose}>
           <Modal.Header closeButton>
-            <Modal.Title>magod_Packing_And_Invoicing</Modal.Title>
+            <Modal.Title>Magod ReturnableDC</Modal.Title>
           </Modal.Header>
           <Modal.Body>Print Returned Goods Receipt Voucher?</Modal.Body>
           <Modal.Footer>
@@ -616,7 +616,7 @@ function OpenRV({
       {cancel && (
         <Modal show={cancel} onHide={cancelModalClose}>
           <Modal.Header closeButton>
-            <Modal.Title>magod_Packing_And_Invoicing</Modal.Title>
+            <Modal.Title>Magod ReturnableDC</Modal.Title>
           </Modal.Header>
           <Modal.Body>Do you wish to cancel this Receipt Voucher?</Modal.Body>
           <Modal.Footer>

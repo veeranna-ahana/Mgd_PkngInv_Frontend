@@ -54,6 +54,7 @@ export default function SetRateModal(props) {
 
     // props.onSave();
   };
+
   return (
     <>
       <Modal
@@ -151,7 +152,46 @@ export default function SetRateModal(props) {
                       <td>{i + 1}</td>
                       <td>{val.Dwg_No}</td>
                       <td>{val.Mtrl}</td>
-                      {props.INVData[0]?.DC_InvType === "Job Work" ? (
+
+                      <td>
+                        <input
+                          type="number"
+                          min="0"
+                          defaultValue={val.JW_Rate}
+                          className="border-0"
+                          onChange={(e) => {
+                            updatedRates[i].JW_Rate = e.target.value;
+                            updatedRates[i].Unit_Rate = (
+                              parseFloat(e.target.value || 0) +
+                              parseFloat(updatedRates[i].Mtrl_rate || 0)
+                            ).toFixed(2);
+                          }}
+                        />
+                      </td>
+
+                      <td>
+                        <input
+                          type="number"
+                          min="0"
+                          defaultValue={val.Mtrl_rate}
+                          disabled={
+                            props.invRegisterData?.DC_InvType === "Job Work"
+                          }
+                          className={
+                            props.invRegisterData?.DC_InvType === "Job Work"
+                              ? "border-0 input-disabled"
+                              : "border-0"
+                          }
+                          onChange={(e) => {
+                            updatedRates[i].Mtrl_rate = e.target.value;
+                            updatedRates[i].Unit_Rate = (
+                              parseFloat(e.target.value || 0) +
+                              parseFloat(updatedRates[i].JW_Rate || 0)
+                            ).toFixed(2);
+                          }}
+                        />
+                      </td>
+                      {/* {props.INVData[0]?.DC_InvType === "Job Work" ? (
                         <>
                           <td>
                             <input
@@ -161,6 +201,7 @@ export default function SetRateModal(props) {
                               className="border-0"
                               onChange={(e) => {
                                 updatedRates[i].JW_Rate = e.target.value;
+                                updatedRates[i].Unit_Rate = e.target.value;
                               }}
                             />
                           </td>
@@ -176,6 +217,10 @@ export default function SetRateModal(props) {
                               className="border-0"
                               onChange={(e) => {
                                 updatedRates[i].JW_Rate = e.target.value;
+                                updatedRates[i].Unit_Rate = (
+                                  parseFloat(e.target.value) +
+                                  parseFloat(updatedRates[i].Mtrl_rate)
+                                ).toFixed(2);
                               }}
                             />
                           </td>
@@ -187,11 +232,15 @@ export default function SetRateModal(props) {
                               className="border-0"
                               onChange={(e) => {
                                 updatedRates[i].Mtrl_rate = e.target.value;
+                                updatedRates[i].Unit_Rate = (
+                                  parseFloat(e.target.value) +
+                                  parseFloat(updatedRates[i].JW_Rate)
+                                ).toFixed(2);
                               }}
                             />
                           </td>
                         </>
-                      )}
+                      )} */}
                     </tr>
                   </>
                 ))}

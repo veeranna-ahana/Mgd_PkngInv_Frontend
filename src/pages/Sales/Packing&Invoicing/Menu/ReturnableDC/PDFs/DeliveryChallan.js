@@ -35,6 +35,19 @@ const styles = StyleSheet.create({
     width: "60%",
   },
 
+  HeadingText: {
+    textAlign: "center",
+    marginLeft: "160px",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  Heading: {
+    textAlign: "center",
+    flexDirection: "row",
+    width: "500px",
+    padding: "1px",
+  },
+
   tableTitle: {
     marginTop: "10px",
     fontSize: 12,
@@ -61,8 +74,9 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: "60px",
-    height: "70px",
+    height: "80px",
   },
+
   pdfName: {
     width: "180px",
     marginLeft: "20px",
@@ -104,12 +118,12 @@ const styles = StyleSheet.create({
   heading: {
     width: "50px",
     textalign: "right",
-    marginTop: "10px",
+    marginTop: "5px",
     marginLeft: "20px",
   },
   values: {
     width: "100px",
-    marginTop: "10px",
+    marginTop: "5px",
   },
 
   table: {
@@ -186,7 +200,7 @@ const DeliveryChallan = ({ formData }) => {
     <Document>
       <Page size="A4" style={styles.page}>
         <View>
-          <View style={styles.row}>
+          {/* <View style={styles.row}>
             <View style={styles.column}>
               <View style={styles.tableContainer}>
                 <View>
@@ -228,7 +242,7 @@ const DeliveryChallan = ({ formData }) => {
                         </View>
                         <View style={styles.upperleftLabelsValues}>
                           <Text style={styles.globalfontwithbold}>
-                            {formData.gstNo}
+                            29AABCM1970H1ZE
                           </Text>
                         </View>
                       </View>
@@ -259,101 +273,140 @@ const DeliveryChallan = ({ formData }) => {
                 </View>
               </View>
             </View>
-          </View>
+          </View> */}
           <View style={styles.row}>
-            <Text
-              style={{
-                marginLeft: "10px",
-                fontSize: "8px",
-                fontFamily: "Helvetica-Bold",
-                marginBottom: "0px",
-              }}
-            >
-              ISO9001 : 2008
-            </Text>
+            <View style={styles.tableContainer}>
+              <View>
+                <Image src={MLLogo} style={styles.logo} />
+              </View>
+              <View style={styles.column}>
+                <View style={[styles.Heading, { justifyContent: "center" }]}>
+                  <Text
+                    style={[
+                      styles.globalfontwithbold,
+                      { textDecoration: "underline" },
+                    ]}
+                  >
+                    Returnable Delivery Challan
+                  </Text>
+                </View>
+                <View
+                  style={[
+                    styles.Heading,
+                    { fontSize: "8px", justifyContent: "center" },
+                  ]}
+                >
+                  <Text style={styles.globalfontwithbold}>
+                    Magod Laser Machining Pvt Ltd.
+                  </Text>
+                </View>
+
+                <View style={[styles.Heading, { justifyContent: "center" }]}>
+                  <Text style={styles.globalfontwithbold}>
+                    GSTIN: 29AABCM1970H1ZE, CIN: U28900KA1995PTC018437
+                  </Text>
+                </View>
+
+                <View style={[styles.Heading, { justifyContent: "center" }]}>
+                  <Text style={styles.globalfontwithoutbold}>
+                    Plot No 72, 2nd Phase, KIADB Indl Area Jigani, Anekal Taluk
+                    Bengaluru - 560105
+                  </Text>
+                </View>
+
+                <View style={[styles.Heading, { justifyContent: "center" }]}>
+                  <Text style={styles.globalfontwithoutbold}>
+                    Ph : 08110 414313, 9513393352, sales@magodlaser.in,
+                    www.magodlaser.in
+                  </Text>
+                </View>
+              </View>
+            </View>
           </View>
 
           <View style={styles.row}>
             <View style={styles.column}>
               <View style={styles.subdetails}>
-                <View style={styles.section1}>
-                  <View style={styles.column}>
-                    <Text
-                      style={{
-                        ...styles.globalfontwithbold,
-                        marginLeft: "10px",
-                        padding: 3,
-                        textDecoration: "underline",
-                      }}
-                    >
-                      Consignee
-                    </Text>
+                <View style={styles.column}>
+                  <Text
+                    style={{
+                      ...styles.globalfontwithbold,
+                      marginLeft: "10px",
+                      padding: 3,
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Consignee
+                  </Text>
 
-                    <View style={styles.subsectiondata}>
-                      <Text style={styles.globalfontwithbold}>
-                        {formData.custName}
-                      </Text>
-                    </View>
-                    <View style={styles.subsectiondata}>
-                      {/* <Text style={styles.globalfontwithbold}>Branch: </Text> */}
-                      <Text style={styles.globalfontwithoutbold}>
-                        {formData.custAddress}
-                      </Text>
-                    </View>
-
-                    <Text
-                      style={{
-                        ...styles.globalfontwithbold,
-                        marginLeft: "10px",
-                        padding: 3,
-                      }}
-                    >
-                      {formData.custCity} PIN - {formData.custPin}
-                    </Text>
-
-                    <Text
-                      style={{
-                        ...styles.globalfontwithbold,
-                        marginLeft: "10px",
-                        padding: 3,
-                      }}
-                    >
-                      {formData.custState}
+                  <View style={styles.subsectiondata}>
+                    <Text style={styles.globalfontwithbold}>
+                      {formData.custName}
                     </Text>
                   </View>
+                  <View style={styles.subsectiondata}>
+                    {/* <Text style={styles.globalfontwithbold}>Branch: </Text> */}
+                    <Text style={styles.globalfontwithoutbold}>
+                      {formData.custAddress}
+                    </Text>
+                  </View>
+
+                  <Text
+                    style={{
+                      ...styles.globalfontwithbold,
+                      marginLeft: "10px",
+                      padding: 3,
+                    }}
+                  >
+                    {formData.custCity} PIN - {formData.custPin}
+                  </Text>
+
+                  <Text
+                    style={{
+                      ...styles.globalfontwithbold,
+                      marginLeft: "10px",
+                      padding: 3,
+                    }}
+                  >
+                    {formData.custState}
+                  </Text>
                 </View>
               </View>
             </View>
 
             <View style={styles.column}>
               <View style={styles.boldGstNo}>
-                <View style={styles.section1}>
-                  <View style={styles.column}>
-                    <View style={styles.row}>
-                      <Text
-                        style={{
-                          ...styles.globalfontwithoutbold,
-                          marginLeft: "10px",
-                          padding: 3,
-                        }}
-                      >
-                        GST NO :
-                      </Text>
+                <View style={styles.column}>
+                  <View style={styles.row}>
+                    <Text
+                      style={{
+                        ...styles.globalfontwithoutbold,
+                        marginLeft: "10px",
+                        padding: 3,
+                      }}
+                    >
+                      GST NO :
+                    </Text>
 
-                      <Text
-                        style={{
-                          ...styles.globalfontwithbold,
-                          marginLeft: "5px",
-                          paddingTop: "3px",
-                        }}
-                      >
-                        {formData.gstNo}
-                      </Text>
-                    </View>
+                    <Text
+                      style={{
+                        ...styles.globalfontwithbold,
+                        marginLeft: "5px",
+                        paddingTop: "3px",
+                      }}
+                    >
+                      {formData.gstNo}
+                    </Text>
                   </View>
 
                   <View style={styles.row}>
                     <View style={styles.column}>
+                      <View style={styles.heading}>
+                        <Text style={styles.globalfontwithoutbold}>DC No:</Text>
+                      </View>
+                      <View style={styles.heading}>
+                        <Text style={styles.globalfontwithoutbold}>Date:</Text>
+                      </View>
                       <View style={styles.heading}>
                         <Text style={styles.globalfontwithoutbold}>Value:</Text>
                       </View>
@@ -368,6 +421,16 @@ const DeliveryChallan = ({ formData }) => {
                     </View>
 
                     <View style={styles.column}>
+                      <View style={styles.values}>
+                        <Text style={styles.globalfontwithbold}>
+                          {formData.dcNo}
+                        </Text>
+                      </View>
+                      <View style={styles.values}>
+                        <Text style={styles.globalfontwithbold}>
+                          {formattedDate}
+                        </Text>
+                      </View>
                       <View style={styles.values}>
                         <Text style={styles.globalfontwithbold}>
                           {formData.taxableAmount}
@@ -389,7 +452,7 @@ const DeliveryChallan = ({ formData }) => {
                   <Text
                     style={{
                       ...styles.globalfontwithoutbold,
-                      marginTop: "25px",
+                      marginTop: "10px",
                       paddingLeft: 5,
                     }}
                   >

@@ -16,4 +16,5 @@ export const apipoints = {
   cancelPN: `${url}/pnprofile/cancelPN`,
   getIVList: `${url}/invoice/getIVList`,
   getIVDetails: `${url}/invoice/getIVDetails`,
+  insertRunNoRow: `${url}/invoice/insertRunNoRow`,
 };

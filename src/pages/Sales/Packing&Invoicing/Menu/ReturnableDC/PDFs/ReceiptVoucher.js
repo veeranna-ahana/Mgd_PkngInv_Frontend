@@ -50,7 +50,20 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: "60px",
-    height: "70px",
+    height: "80px",
+  },
+
+  HeadingText: {
+    textAlign: "center",
+    marginLeft: "160px",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  Heading: {
+    textAlign: "center",
+    flexDirection: "row",
+    width: "500px",
+    padding: "1px",
   },
 
   cusdetailsection: {
@@ -58,7 +71,18 @@ const styles = StyleSheet.create({
     width: "400px",
     border: 1,
     padding: "5px",
+    marginTop: "8px",
   },
+
+  contactsection: {
+    width: "170px",
+    borderRight: 1,
+    borderTop: 1,
+    borderBottom: 1,
+    padding: "5px",
+    marginTop: "8px",
+  },
+
   cusnameview: {
     width: "100px",
     // marginLeft: 15,
@@ -101,13 +125,7 @@ const styles = StyleSheet.create({
     paddingBottom: "3px",
     paddingHorizontal: "10px",
   },
-  contactsection: {
-    width: "170px",
-    borderRight: 1,
-    borderTop: 1,
-    borderBottom: 1,
-    padding: "5px",
-  },
+
   voucherNoLabel: {
     width: "80px",
     paddingBottom: "3px",
@@ -181,7 +199,7 @@ const ReceiptVoucher = ({ formData }) => {
     <Document>
       <Page size="A4" style={styles.page}>
         <View>
-          <View style={styles.row}>
+          {/* <View style={styles.row}>
             <View style={styles.column}>
               <View style={styles.tableContainer}>
                 <View>
@@ -219,6 +237,56 @@ const ReceiptVoucher = ({ formData }) => {
                     ]}
                   >
                     Returnable Material Receipt Voucher
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View> */}
+
+          <View style={styles.row}>
+            <View style={styles.tableContainer}>
+              <View>
+                <Image src={MLLogo} style={styles.logo} />
+              </View>
+              <View style={styles.column}>
+                <View style={[styles.Heading, { justifyContent: "center" }]}>
+                  <Text
+                    style={[
+                      styles.globalfontwithbold,
+                      { textDecoration: "underline" },
+                    ]}
+                  >
+                    Returnable Material Receipt Voucher
+                  </Text>
+                </View>
+                <View
+                  style={[
+                    styles.Heading,
+                    { fontSize: "8px", justifyContent: "center" },
+                  ]}
+                >
+                  <Text style={styles.globalfontwithbold}>
+                    Magod Laser Machining Pvt Ltd.
+                  </Text>
+                </View>
+
+                <View style={[styles.Heading, { justifyContent: "center" }]}>
+                  <Text style={styles.globalfontwithbold}>
+                    GSTIN: 29AABCM1970H1ZE, CIN: U28900KA1995PTC018437
+                  </Text>
+                </View>
+
+                <View style={[styles.Heading, { justifyContent: "center" }]}>
+                  <Text style={styles.globalfontwithoutbold}>
+                    Plot No 72, 2nd Phase, KIADB Indl Area Jigani, Anekal Taluk
+                    Bengaluru - 560105
+                  </Text>
+                </View>
+
+                <View style={[styles.Heading, { justifyContent: "center" }]}>
+                  <Text style={styles.globalfontwithoutbold}>
+                    Ph : 08110 414313, 9513393352, sales@magodlaser.in,
+                    www.magodlaser.in
                   </Text>
                 </View>
               </View>

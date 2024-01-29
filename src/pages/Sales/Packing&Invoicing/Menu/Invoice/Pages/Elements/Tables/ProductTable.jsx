@@ -127,9 +127,11 @@ export default function ProductTable(props) {
       element.SL_No = i + 1;
       if (i === key) {
         if (e.target.name === "Material") {
-          element.Material = materialData[e.target.value].Material || "";
-          element.Mtrl = materialData[e.target.value].Material || "";
-          element.Excise_CL_no = materialData[e.target.value].ExciseClNo || "";
+          element.Material = e.target.value || "";
+          element.Mtrl = e.target.value || "";
+          element.Excise_CL_no =
+            materialData.filter((obj) => obj.Material === e.target.value)[0]
+              .ExciseClNo || "";
         } else if (e.target.name === "Qty") {
           element[e.target.name] = e.target.value;
           element.DC_Srl_Wt = (
@@ -218,49 +220,43 @@ export default function ProductTable(props) {
                       onChange={inputTableRow}
                     /> */}
 
-                    {props.invRegisterData?.DC_No ? (
-                      <input
-                        value={tableData?.Material}
-                        disabled
-                        className="input-disabled tableRowInput"
-                      />
-                    ) : (
-                      <select
-                        defaultValue={tableData?.Material}
-                        // onChange={(e) => {
-                        //   setProductDetails({
-                        //     ...productDetails,
-                        //     Material: materialData[e.target.value].Material,
-                        //     Excise_CL_no: materialData[e.target.value].ExciseClNo,
-                        //   });
-                        // }}
-                        // required
-                        name="Material"
-                        id="materialDropdown"
-                        // className="tableRowInput"
-                        style={{
-                          fontSize: "inherit",
-                        }}
-                        onChange={(e) => {
-                          inputTableRow(e, key);
-                        }}
-                        // disabled={props.invRegisterData?.DC_No}
-                        // className={
-                        //   props.invRegisterData?.DC_No
-                        //     ? "input-disabled tableRowInput"
-                        //     : "tableRowInput"
-                        // }
-                        className="tableRowInput"
-                      >
-                        <option value="" selected disabled hidden>
-                          Select material
-                        </option>
+                    <select
+                      value={tableData?.Material}
+                      // onChange={(e) => {
+                      //   setProductDetails({
+                      //     ...productDetails,
+                      //     Material: materialData[e.target.value].Material,
+                      //     Excise_CL_no: materialData[e.target.value].ExciseClNo,
+                      //   });
+                      // }}
+                      // required
+                      name="Material"
+                      id="materialDropdown"
+                      // className="tableRowInput"
+                      style={{
+                        fontSize: "inherit",
+                      }}
+                      onChange={(e) => {
+                        inputTableRow(e, key);
+                      }}
+                      disabled={props.invRegisterData?.DC_No}
+                      className={
+                        props.invRegisterData?.DC_No
+                          ? "input-disabled tableRowInput"
+                          : "tableRowInput"
+                      }
+                      // className="tableRowInput"
+                    >
+                      <option value="" selected disabled hidden>
+                        Select material
+                      </option>
 
-                        {materialData?.map((material, key) => (
-                          <option value={key}>{material.Material}</option>
-                        ))}
-                      </select>
-                    )}
+                      {materialData?.map((material, key) => (
+                        <option value={material.Material}>
+                          {material.Material}
+                        </option>
+                      ))}
+                    </select>
                   </td>
                   <td>
                     <input

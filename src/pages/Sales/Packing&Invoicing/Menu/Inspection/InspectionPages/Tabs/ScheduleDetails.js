@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import { Table } from "react-bootstrap";
 import Axios from "axios";
 import { toast } from "react-toastify";
@@ -28,6 +28,12 @@ export default function ScheduleDetails(props) {
   const [acceptedValue, setAcceptedValue] = useState(0);
   const [showTooltip, setShowTooltip] = useState(false);
 
+  let initialValuess = selectedScheduleDetailsRows.map(
+    (val) => val.QtyProduced - val.QtyCleared - val.QtyRejected
+  );
+
+  const [qtyRejectt, setQtyRejectt] = useState(initialValuess);
+
   const handleMouseEnter = () => {
     setShowTooltip(true);
   };
@@ -46,7 +52,7 @@ export default function ScheduleDetails(props) {
     //   return;
     // }
     for (const row of selectedScheduleDetailsRows) {
-      if (row.QtyProduced === row.QtyRejected) {
+      if (row.QtyProduced === row.QtyRejected || row.QtyDelivered != 0) {
         toast.warning(
           `Please select the rows or ensure Cleared is less than Produced`
         );
@@ -131,38 +137,97 @@ export default function ScheduleDetails(props) {
       clearAndSave();
     } else if (actionType === "reset") {
       resetAndSave();
+    } else if (actionType === "reject") {
+      resetAndSave();
     }
 
     setSmShow(false);
     setActionType(null);
   };
 
+  for (let i = 0; i < selectedScheduleDetailsRows.length; i++) {
+    const element = selectedScheduleDetailsRows[i];
+
+    console.log(
+      "selectedScheduleDetailsRows.QtyDelivered",
+      element.QtyDelivered
+    );
+  }
+
+  // useEffect(() => {
+  //   getOrderScheduleData();
+  // }, []);
+
+  // useEffect(() => {
+  //   if (
+  //     orderScheduleDetailsData.length > 0 &&
+  //     !selectedScheduleDetailsRows.refName
+  //   ) {
+  //     selectedRowFn(orderScheduleDetailsData[0], 0); // Select the first row
+  //   }
+  // }, [orderScheduleDetailsData, selectedScheduleDetailsRows, selectedRowFn]);
+
   return (
     <>
       <div className="row justify-content-center m-2">
         <button
-          className="button-style "
+          className={
+            props.selectedScheduleDetailsRows.length === 0 ||
+            props.selectedScheduleDetailsRows.some(
+              (row) =>
+                row.QtyDelivered > 0 ||
+                row.QtyPacked > 0 ||
+                row.QtyRejected >= row.QtyProduced ||
+                row.QtyCleared === row.QtyProduced ||
+                row.QtyCleared + row.QtyRejected === row.QtyProduced
+            )
+              ? "button-style button-disabled"
+              : "button-style"
+          }
           onClick={clearAndSave}
           style={{ width: "150px", marginLeft: "4px" }}
+          disabled={props.selectedScheduleDetailsRows.length === 0}
         >
           Clear All Parts
         </button>
-        {/* <div className="tooltip-container"> */}
         <button
-          className="button-style "
+          className={
+            props.selectedScheduleDetailsRows.length === 0 ||
+            props.selectedScheduleDetailsRows.some(
+              (row) =>
+                row.QtyDelivered > 0 ||
+                row.QtyPacked > 0 ||
+                row.QtyRejected === row.QtyProduced ||
+                row.QtyCleared === 0
+            )
+              ? "button-style button-disabled"
+              : "button-style"
+          }
           style={{ width: "140px", marginLeft: "4px" }}
           onClick={resetAndSave}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
+          disabled={props.selectedScheduleDetailsRows.length === 0}
         >
           Reset All Parts
         </button>
-        {/* {showTooltip && <div className="tooltip">Tooltip content here</div>} */}
-        {/* </div> */}
         <button
-          className="button-style "
+          className={
+            props.selectedScheduleDetailsRows.length === 0 ||
+            props.selectedScheduleDetailsRows.some(
+              (row) =>
+                row.QtyDelivered > 0 ||
+                row.QtyPacked > 0 ||
+                row.QtyRejected >= row.QtyProduced ||
+                row.QtyCleared === row.QtyProduced ||
+                row.QtyCleared + row.QtyRejected === row.QtyProduced
+            )
+              ? "button-style button-disabled"
+              : "button-style"
+          }
           onClick={rejectAndSave}
           style={{ width: "120px", marginLeft: "4px" }}
+          disabled={props.selectedScheduleDetailsRows.length === 0}
         >
           Reject Parts
         </button>
@@ -182,6 +247,7 @@ export default function ScheduleDetails(props) {
           VeryNewRejData={VeryNewRejData}
           setVeryNewRejData={setVeryNewRejData}
           show={lgShow}
+          setLgShow={setLgShow}
           selectedScheduleDetailsRows={selectedScheduleDetailsRows}
           setSelectedScheduleDetailsRows={setSelectedScheduleDetailsRows}
           rejFormData={rejFormData}
@@ -198,6 +264,12 @@ export default function ScheduleDetails(props) {
           setOrderScheduleDetailsData={setOrderScheduleDetailsData}
           headerData={headerData}
           getOrderScheduleData={getOrderScheduleData}
+          qtyRejectt={qtyRejectt}
+          actionType={actionType}
+          setActionType={setActionType}
+          smShow={smShow}
+          setSmShow={setSmShow}
+          handleOkButtonClick={handleOkButtonClick}
           // qtyReject={qtyReject}
           // setQtyReject={setQtyReject}
           // rejectReason={rejectReason}

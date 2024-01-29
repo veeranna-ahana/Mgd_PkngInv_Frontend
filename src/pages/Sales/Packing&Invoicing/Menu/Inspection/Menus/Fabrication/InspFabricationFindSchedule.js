@@ -1,7 +1,13 @@
-import React from "react";
+import { React, useState } from "react";
+import FindSchedule from "../../InspectionPages/FindSchedule";
 
 function InspFabricationFindSchedule() {
-  return <div>InspFabricationFindSchedule</div>;
+  const [FabricationPNType, setFabricationPNType] = useState("Fabrication");
+  return (
+    <>
+      <FindSchedule PNType={FabricationPNType} />
+    </>
+  );
 }
 
 export default InspFabricationFindSchedule;

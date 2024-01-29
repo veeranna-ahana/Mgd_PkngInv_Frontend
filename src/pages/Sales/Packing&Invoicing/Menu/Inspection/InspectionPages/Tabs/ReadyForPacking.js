@@ -16,8 +16,11 @@ import ModalPackingNote from "../../../../PDFs/PackingNote/ModalPackingNote";
 import ConfirmationModal from "../Modals/ConfirmationModal";
 import InspectionAndPacking from "../Modals/InspectionAndPacking";
 
+import ModalDraftPackingNote from "../../../../PDFs/DraftPackingNote/ModalDraftPackingNote";
+
 export default function ReadyForPacking(props) {
-  const [printDraftPNModal, setprintDraftPNModal] = useState(false);
+  const [printPNModal, setPrintPNModal] = useState(false);
+  const [printDraftPNModal, setPrintDraftPNModal] = useState(false);
 
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const [confirmationModalFor, setConfirmationModalFor] = useState("");
@@ -27,7 +30,7 @@ export default function ReadyForPacking(props) {
     useState(false);
 
   // const [insAndPack, setInsAndPack] = useState({
-  //   inspectedBy: props.headerData[0]?.Dealing_Engineer,
+  //   inspectedBy: props.headerData?.Dealing_Engineer,
   //   packedBy: "",
   // });
   const createDraftPNFunc = () => {
@@ -92,7 +95,7 @@ export default function ReadyForPacking(props) {
     if (props.invDetailsData.length === 0) {
       toast.warning("Please select the packing note for printing");
     } else {
-      setprintDraftPNModal(true);
+      setPrintDraftPNModal(true);
     }
   };
 
@@ -171,11 +174,11 @@ export default function ReadyForPacking(props) {
     if (props.invDetailsData.length === 0) {
       toast.warning("Please select the packing note for printing");
     } else {
-      setprintDraftPNModal(true);
+      setPrintPNModal(true);
     }
   };
   // console.log("insAndPack", props.insAndPack);
-  // console.log("headerData", props.headerData[0]);
+  // console.log("headerData", props.headerData);
 
   // console.log("selectedRegisterRow", selectedRegisterRow);
   return (
@@ -345,9 +348,17 @@ export default function ReadyForPacking(props) {
       </div>
       {/* modals */}
       <div>
+        <ModalDraftPackingNote
+          setPrintDraftPNModal={setPrintDraftPNModal}
+          printDraftPNModal={printDraftPNModal}
+          // data...
+          invRegisterData={selectedRegisterRow}
+          invDetailsData={props.invDetailsData}
+          invTaxData={[]}
+        />
         <ModalPackingNote
-          setPrintCopyModal={setprintDraftPNModal}
-          printCopyModal={printDraftPNModal}
+          setPrintCopyModal={setPrintPNModal}
+          printCopyModal={printPNModal}
           // data...
           invRegisterData={selectedRegisterRow}
           invDetailsData={props.invDetailsData}

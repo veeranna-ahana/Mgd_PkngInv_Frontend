@@ -23,9 +23,12 @@ const {
 } = require("../../../../../api/apiinstance");
 const { endpoints } = require("../../../../../api/constants");
 
-function ScheduleList() {
+function ScheduleList(props) {
   // let navigate = useNavigate();
   const nav = useNavigate();
+  console.log("props.Type....", props.Type);
+  const [SchType, setSchType] = useState(props.Type);
+
   const [custdata, setCustData] = useState("");
 
   //form data
@@ -38,6 +41,7 @@ function ScheduleList() {
   // const [custname, setCustname] = useState();
 
   const [scheduleID, setScheduleID] = useState();
+
   const handleOptionChange = (event) => {
     const value = event.target.value;
     setSelectedOption(value);
@@ -47,6 +51,7 @@ function ScheduleList() {
     if (custcode && selectedOption) {
       Axios.post(apipoints.getOrderSchdata, {
         custCode: custcode,
+        SchType: SchType,
         selectedOption: selectedOption,
       }).then((res) => {
         // //console.log("ordersdata", res.data);
@@ -99,6 +104,7 @@ function ScheduleList() {
   // //console.log("tableData", tableData);
 
   let selectCust = async (e) => {
+    console.log("entering into customer selection");
     // //console.log("cust data = ", e);
     // //console.log("cust code = ", e[0].Cust_Code);
     // //console.log("cust code = ", e[0].Cust_name);
@@ -113,6 +119,16 @@ function ScheduleList() {
     }
     // //console.log(cust.Cust_Code);
     setCustCode(cust.Cust_Code);
+    // Fetch data for the selected customer and update the tableData state
+
+    Axios.post(apipoints.getOrderSchdata, {
+      custCode: cust.Cust_Code,
+      SchType: SchType,
+      selectedOption: selectedOption,
+    }).then((res) => {
+      console.log(" getOrderSchdata", res.data);
+      setTableData(res.data);
+    });
   };
 
   const selectedRowFun = (val) => {
@@ -135,7 +151,7 @@ function ScheduleList() {
   return (
     <>
       <div>
-        <h4 className="title">Schedule List</h4>
+        <h4 className="title">{props.Type} Schedule List</h4>
 
         <div className="row">
           <div className="col-md-4">
@@ -151,84 +167,26 @@ function ScheduleList() {
                 *
               </Form.Label>
               {custdata.length > 0 ? (
+                // <Typeahead
+                //   className="mt-1"
+                //   id="basic-example "
+                //   options={custdata}
+                //   placeholder="Select Customer"
+                //   onChange={(label) => selectCust(label)}
+                // />
                 <Typeahead
                   className="mt-1"
                   id="basic-example "
                   options={custdata}
                   placeholder="Select Customer"
-                  onChange={(label) => selectCust(label)}
+                  onChange={(selectedCustomer) => selectCust(selectedCustomer)}
                 />
               ) : (
                 ""
               )}
             </Form.Group>
           </div>
-          <div className="col-md-4 d-flex flex-row align-items-center justify-content-center">
-            {/* <div className="d-flex align-items-center"> */}
-            <div className="row mt-3">
-              <div className="col-md-3">
-                <div className="form-check form-check-inline ">
-                  <input
-                    style={{ marginTop: "11px" }}
-                    className="form-check-input"
-                    type="radio"
-                    name="inlineRadioOptions"
-                    id="inlineRadio1"
-                    value="Profile"
-                    checked={selectedOption === "Profile"}
-                    onChange={handleOptionChange}
-                  />
-                  <label
-                    className="form-check-label form-label"
-                    htmlFor="inlineRadio1"
-                  >
-                    Profile
-                  </label>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div className="form-check form-check-inline ">
-                  <input
-                    style={{ marginTop: "11px" }}
-                    className="form-check-input"
-                    type="radio"
-                    name="inlineRadioOptions"
-                    id="inlineRadio2"
-                    value="Fabrication"
-                    checked={selectedOption === "Fabrication"}
-                    onChange={handleOptionChange}
-                  />
-                  <label
-                    className="form-check-label form-label"
-                    htmlFor="inlineRadio2"
-                  >
-                    Fabrication
-                  </label>
-                </div>
-              </div>
-              <div className="col-md-3">
-                <div className="form-check form-check-inline ">
-                  <input
-                    style={{ marginTop: "11px" }}
-                    className="form-check-input"
-                    type="radio"
-                    name="inlineRadioOptions"
-                    id="inlineRadio3"
-                    value="Services"
-                    checked={selectedOption === "Services"}
-                    onChange={handleOptionChange}
-                  />
-                  <label
-                    className="form-check-label form-label"
-                    htmlFor="inlineRadio3"
-                  >
-                    Services
-                  </label>
-                </div>
-              </div>
-            </div>
-            {/* </div> */}
-          </div>
+
           <div className="col-md-4">
             <div className="d-flex flex-row justify-content-center mt-3">
               <Link
@@ -316,13 +274,16 @@ function ScheduleList() {
           <div
             style={{
               maxHeight: "350px",
-              // width: "480px",
+              width: "780px",
               overflow: "auto",
               marginTop: "25px",
             }}
           >
             <Table striped className="table-data border">
-              <thead className="tableHeaderBGColor tablebody">
+              <thead
+                className="tableHeaderBGColor tablebody"
+                style={{ textAlign: "center" }}
+              >
                 <tr>
                   <th>SL No</th>
                   <th>OrdSchNo</th>
@@ -330,7 +291,7 @@ function ScheduleList() {
                 </tr>
               </thead>
 
-              <tbody className="tablebody">
+              <tbody className="tablebody" style={{ textAlign: "center" }}>
                 {tableData?.map((val, i) => (
                   <>
                     <tr
@@ -511,3 +472,68 @@ function ScheduleList() {
 }
 
 export default ScheduleList;
+
+// <div className="col-md-4 d-flex flex-row align-items-center justify-content-center">
+// <div className="row mt-3">
+//   <div className="col-md-3">
+//     <div className="form-check form-check-inline ">
+//       <input
+//         style={{ marginTop: "11px" }}
+//         className="form-check-input"
+//         type="radio"
+//         name="inlineRadioOptions"
+//         id="inlineRadio1"
+//         value="Profile"
+//         checked={selectedOption === "Profile"}
+//         onChange={handleOptionChange}
+//       />
+//       <label
+//         className="form-check-label form-label"
+//         htmlFor="inlineRadio1"
+//       >
+//         Profile
+//       </label>
+//     </div>
+//   </div>
+//   <div className="col-md-4">
+//     <div className="form-check form-check-inline ">
+//       <input
+//         style={{ marginTop: "11px" }}
+//         className="form-check-input"
+//         type="radio"
+//         name="inlineRadioOptions"
+//         id="inlineRadio2"
+//         value="Fabrication"
+//         checked={selectedOption === "Fabrication"}
+//         onChange={handleOptionChange}
+//       />
+//       <label
+//         className="form-check-label form-label"
+//         htmlFor="inlineRadio2"
+//       >
+//         Fabrication
+//       </label>
+//     </div>
+//   </div>
+//   <div className="col-md-3">
+//     <div className="form-check form-check-inline ">
+//       <input
+//         style={{ marginTop: "11px" }}
+//         className="form-check-input"
+//         type="radio"
+//         name="inlineRadioOptions"
+//         id="inlineRadio3"
+//         value="Services"
+//         checked={selectedOption === "Services"}
+//         onChange={handleOptionChange}
+//       />
+//       <label
+//         className="form-check-label form-label"
+//         htmlFor="inlineRadio3"
+//       >
+//         Services
+//       </label>
+//     </div>
+//   </div>
+// </div>
+// </div>
