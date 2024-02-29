@@ -169,7 +169,13 @@ export default function PrintPackingNote(props) {
                 alignItems: "center",
               }}
             >
-              <Text style={{ ...style.fontBold, ...style.globalPadding }}>
+              <Text
+                style={{
+                  ...style.fontBold,
+                  ...style.globalPadding,
+                  fontSize: "11px",
+                }}
+              >
                 Draft Packing List
               </Text>
             </View>

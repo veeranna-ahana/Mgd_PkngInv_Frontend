@@ -108,31 +108,34 @@ export default function InvoicingInfo(props) {
         toast.warning("Please select Dispatch Mode");
         e.preventDefault();
       } else if (
-        props.invRegisterData.VehNo === null ||
-        props.invRegisterData.VehNo === undefined ||
-        props.invRegisterData.VehNo === "" ||
-        props.invRegisterData.VehNo === "null" ||
-        props.invRegisterData.VehNo === "undefined" ||
-        props.invRegisterData.VehNo.length === 0
+        props.invRegisterData.TptMode === "By Road" &&
+        (props.invRegisterData.VehNo === null ||
+          props.invRegisterData.VehNo === undefined ||
+          props.invRegisterData.VehNo === "" ||
+          props.invRegisterData.VehNo === "null" ||
+          props.invRegisterData.VehNo === "undefined" ||
+          props.invRegisterData.VehNo.length === 0)
       ) {
         toast.warning("Please enter Vehicle Number");
         e.preventDefault();
       } else if (
-        props.invRegisterData.Del_ContactName === null ||
-        props.invRegisterData.Del_ContactName === undefined ||
-        props.invRegisterData.Del_ContactName === "" ||
-        props.invRegisterData.Del_ContactName === "null" ||
-        props.invRegisterData.Del_ContactName === "undefined" ||
-        props.invRegisterData.Del_ContactName.length === 0
+        (props.invRegisterData.Del_ContactName === null ||
+          props.invRegisterData.Del_ContactName === undefined ||
+          props.invRegisterData.Del_ContactName === "" ||
+          props.invRegisterData.Del_ContactName === "null" ||
+          props.invRegisterData.Del_ContactName === "undefined" ||
+          props.invRegisterData.Del_ContactName.length === 0) &&
+        props.invRegisterData.DC_InvType === "Services"
       ) {
         toast.warning("Please enter delivery person name");
         e.preventDefault();
       } else if (
-        props.invRegisterData.Del_ContactNo === null ||
-        props.invRegisterData.Del_ContactNo === undefined ||
-        props.invRegisterData.Del_ContactNo === "" ||
-        props.invRegisterData.Del_ContactNo === "null" ||
-        props.invRegisterData.Del_ContactNo.length === 0
+        (props.invRegisterData.Del_ContactNo === null ||
+          props.invRegisterData.Del_ContactNo === undefined ||
+          props.invRegisterData.Del_ContactNo === "" ||
+          props.invRegisterData.Del_ContactNo === "null" ||
+          props.invRegisterData.Del_ContactNo.length === 0) &&
+        props.invRegisterData.DC_InvType === "Services"
       ) {
         toast.warning("Please enter delivery person conatct number");
         e.preventDefault();
@@ -647,10 +650,12 @@ export default function InvoicingInfo(props) {
                       value={props.invRegisterData?.PymtAmtRecd}
                       onChange={props.inputHandler}
                       disabled={
+                        props.invRegisterData?.BillType === "Credit" ||
                         props.invRegisterData.Inv_No?.length > 0 ||
                         props.invRegisterData.DCStatus === "Cancelled"
                       }
                       className={
+                        props.invRegisterData?.BillType === "Credit" ||
                         props.invRegisterData.Inv_No?.length > 0 ||
                         props.invRegisterData.DCStatus === "Cancelled"
                           ? "input-disabled"

@@ -186,7 +186,17 @@ export default function ScheduleDetails(props) {
           }
           onClick={clearAndSave}
           style={{ width: "150px", marginLeft: "4px" }}
-          disabled={props.selectedScheduleDetailsRows.length === 0}
+          disabled={
+            props.selectedScheduleDetailsRows.length === 0 ||
+            props.selectedScheduleDetailsRows.some(
+              (row) =>
+                row.QtyDelivered > 0 ||
+                row.QtyPacked > 0 ||
+                row.QtyRejected >= row.QtyProduced ||
+                row.QtyCleared === row.QtyProduced ||
+                row.QtyCleared + row.QtyRejected === row.QtyProduced
+            )
+          }
         >
           Clear All Parts
         </button>
@@ -207,7 +217,16 @@ export default function ScheduleDetails(props) {
           onClick={resetAndSave}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          disabled={props.selectedScheduleDetailsRows.length === 0}
+          disabled={
+            props.selectedScheduleDetailsRows.length === 0 ||
+            props.selectedScheduleDetailsRows.some(
+              (row) =>
+                row.QtyDelivered > 0 ||
+                row.QtyPacked > 0 ||
+                row.QtyRejected === row.QtyProduced ||
+                row.QtyCleared === 0
+            )
+          }
         >
           Reset All Parts
         </button>
@@ -227,7 +246,17 @@ export default function ScheduleDetails(props) {
           }
           onClick={rejectAndSave}
           style={{ width: "120px", marginLeft: "4px" }}
-          disabled={props.selectedScheduleDetailsRows.length === 0}
+          disabled={
+            props.selectedScheduleDetailsRows.length === 0 ||
+            props.selectedScheduleDetailsRows.some(
+              (row) =>
+                row.QtyDelivered > 0 ||
+                row.QtyPacked > 0 ||
+                row.QtyRejected >= row.QtyProduced ||
+                row.QtyCleared === row.QtyProduced ||
+                row.QtyCleared + row.QtyRejected === row.QtyProduced
+            )
+          }
         >
           Reject Parts
         </button>

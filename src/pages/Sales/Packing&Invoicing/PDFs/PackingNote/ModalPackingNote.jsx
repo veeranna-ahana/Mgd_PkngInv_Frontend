@@ -29,7 +29,12 @@ export default function ModalPackingNote(props) {
 
   return (
     <>
-      <Modal fullscreen show={props.printCopyModal} onHide={handleClose}>
+      <Modal
+        fullscreen
+        // show={true}
+        show={props.printCopyModal}
+        onHide={handleClose}
+      >
         <Modal.Header closeButton>
           <Modal.Title>Print Packing Note</Modal.Title>
         </Modal.Header>

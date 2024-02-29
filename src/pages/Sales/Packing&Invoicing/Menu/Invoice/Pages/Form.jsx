@@ -18,6 +18,17 @@ import ModalInvoice from "../../../PDFs/Invoice/ModalInvoice";
 import { Link, useLocation } from "react-router-dom";
 
 export default function Form(props) {
+  const todayDate = new Date();
+
+  let year = todayDate.getFullYear();
+  let month = todayDate.getMonth() + 1;
+  let datee = todayDate.getDate();
+
+  let formatedTodayDate = `${year}-${
+    month < 10 ? "0" + month : month
+  }-${datee}`;
+
+  // console.log("formatedTodayDate", formatedTodayDate);
   const [TaxDropDownData, setTaxDropDownData] = useState([]);
 
   const [invRegisterData, setInvRegisterData] = useState({
@@ -55,11 +66,12 @@ export default function Form(props) {
     GrandTotal: 0.0,
     Total_Wt: 0.0,
     DCStatus: "Created",
-    DespatchDate: "",
+    DespatchDate: formatedTodayDate,
     TptMode: "",
     VehNo: "",
     Remarks: "",
     PO_Value: 0.0,
+    PAN_No: "",
     Del_ContactName: "",
     Del_ContactNo: "",
     // BillType: "Cash",

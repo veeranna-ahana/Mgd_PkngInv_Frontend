@@ -194,6 +194,21 @@ export default function List(props) {
                   >
                     Open
                   </button>
+                ) : (props.PNList === "Profile" ||
+                    props.PNList === "Service" ||
+                    props.PNList === "Fabrication") &
+                  (props.Status === "Dispatched") ? (
+                  <Link
+                    to={"/PackingAndInvoices/PackingNote/Description"}
+                    state={selectedRow?.DC_Inv_No}
+                  >
+                    <button
+                      style={{ width: "-webkit-fill-available" }}
+                      className={"button-style m-0"}
+                    >
+                      Open
+                    </button>
+                  </Link>
                 ) : (
                   <Link
                     to={"/PackingAndInvoices/Invoice/InvoiceDetails"}

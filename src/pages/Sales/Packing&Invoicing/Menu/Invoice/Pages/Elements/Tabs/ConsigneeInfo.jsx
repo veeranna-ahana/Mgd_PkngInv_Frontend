@@ -85,6 +85,7 @@ export default function ConsigneeInfo(props) {
                         Del_Address: props.AllCust[e[0]?.varID]?.Delivery,
                         Del_StateId: props.AllCust[e[0]?.varID]?.StateId,
                         GSTNo: props.AllCust[e[0]?.varID]?.GSTNo,
+                        PAN_No: props.AllCust[e[0]?.varID]?.PAN_No,
                         // PaymentTerms: props.AllCust[e[0]?.varID]?.CreditTerms,
                         // BillType:
                         //   props.AllCust[e[0]?.varID]?.CreditTerms?.split(
