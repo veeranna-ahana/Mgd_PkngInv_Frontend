@@ -183,10 +183,43 @@ export default function PrintInvoiceAndAnnexure(props) {
   } else {
   }
 
-  // console.log(
-  //   "invregister",
-  //   wordify(parseInt(props.invRegisterData?.GrandTotal))
-  // );
+  // finyear
+
+  let pnDate = new Date(
+    `${props.invRegisterData.Printable_DC_Date?.split("/")[1]}-${
+      props.invRegisterData.Printable_DC_Date?.split("/")[0]
+    }-${props.invRegisterData.Printable_DC_Date?.split("/")[2]}`
+  );
+  let InvDate = new Date(
+    `${props.invRegisterData.Printable_Inv_Date?.split("/")[1]}-${
+      props.invRegisterData.Printable_Inv_Date?.split("/")[0]
+    }-${props.invRegisterData.Printable_Inv_Date?.split("/")[2]}`
+  );
+
+  let PNFinYear = "";
+  let InvFinYear = "";
+
+  // calculating PNFinYear
+  if (pnDate.getMonth() + 1 <= 3) {
+    PNFinYear = `${String(pnDate.getFullYear() - 1).substring(2)}/${String(
+      pnDate.getFullYear()
+    ).substring(2)}`;
+  } else {
+    PNFinYear = `${String(pnDate.getFullYear()).substring(2)}/${String(
+      parseInt(pnDate.getFullYear()) + 1
+    ).substring(2)}`;
+  }
+
+  // calculating InvFinYear
+  if (InvDate.getMonth() + 1 <= 3) {
+    InvFinYear = `${String(InvDate.getFullYear() - 1).substring(2)}/${String(
+      InvDate.getFullYear()
+    ).substring(2)}`;
+  } else {
+    InvFinYear = `${String(InvDate.getFullYear()).substring(2)}/${String(
+      parseInt(InvDate.getFullYear()) + 1
+    ).substring(2)}`;
+  }
 
   return (
     <>
@@ -220,15 +253,13 @@ export default function PrintInvoiceAndAnnexure(props) {
                         style={{
                           borderBottom: "1px",
                           ...style.fontBold,
-                          fontSize: headerFontSize,
+                          fontSize: "11px",
                         }}
                       >
                         TAX INVOICE
                       </Text>
                     </View>
-                    <Text
-                      style={{ ...style.fontBold, fontSize: headerFontSize }}
-                    >
+                    <Text style={{ ...style.fontBold, fontSize: "11px" }}>
                       Magod Laser Machining Private Limited
                     </Text>
                     <Text
@@ -384,7 +415,12 @@ export default function PrintInvoiceAndAnnexure(props) {
                             ...style.globalPadding,
                           }}
                         >
-                          <Text>{props.invRegisterData.Inv_No}</Text>
+                          <Text>
+                            {props.invRegisterData?.Inv_No
+                              ? `${props.invRegisterData?.Inv_No} - ${InvFinYear}`
+                              : ""}
+                            {/* {`${props.invRegisterData?.Inv_No} - ${InvFinYear}`} */}
+                          </Text>
                         </View>
                         <View
                           style={{
@@ -430,7 +466,11 @@ export default function PrintInvoiceAndAnnexure(props) {
                             ...style.globalPadding,
                           }}
                         >
-                          <Text>{props.invRegisterData.DC_No}</Text>
+                          <Text>
+                            {props.invRegisterData?.DC_No
+                              ? `${PNFinYear}/${props.invRegisterData?.DC_No}`
+                              : props.invRegisterData?.DCStatus}
+                          </Text>
                         </View>
                         <View
                           style={{
@@ -469,8 +509,8 @@ export default function PrintInvoiceAndAnnexure(props) {
                         </View>
                         <View
                           style={{
-                            width: "25%",
-                            borderRight: "1px",
+                            width: "75%",
+                            // borderRight: "1px",
                             ...style.globalPadding,
                           }}
                         >
@@ -482,7 +522,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                               : props.invRegisterData.EWayBillRef}
                           </Text>
                         </View>
-                        <View
+                        {/* <View
                           style={{
                             width: "25%",
                             borderRight: "1px",
@@ -495,7 +535,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                         </View>
                         <View style={{ width: "25%", ...style.globalPadding }}>
                           <Text>{payOnBefore}</Text>
-                        </View>
+                        </View> */}
                       </View>
 
                       {/* irn No */}
@@ -646,7 +686,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                         <View
                           style={{
                             ...style.globalPadding,
-                            width: "41%",
+                            width: "47%",
                             borderRight: "1px",
                           }}
                         >
@@ -657,11 +697,11 @@ export default function PrintInvoiceAndAnnexure(props) {
                         <View
                           style={{
                             ...style.globalPadding,
-                            width: "23%",
+                            width: "19%",
                             borderRight: "1px",
                           }}
                         >
-                          <Text>Material </Text>
+                          <Text>Material</Text>
                         </View>
 
                         {/* Quantity */}
@@ -669,7 +709,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                         <View
                           style={{
                             ...style.globalPadding,
-                            width: "9%",
+                            width: "7%",
                             borderRight: "1px",
                           }}
                         >
@@ -733,7 +773,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                               <View
                                 style={{
                                   ...style.rowPadding,
-                                  width: "41%",
+                                  width: "47%",
                                   borderRight: "1px",
                                 }}
                               >
@@ -744,7 +784,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                               <View
                                 style={{
                                   ...style.rowPadding,
-                                  width: "23%",
+                                  width: "19%",
                                   borderRight: "1px",
                                 }}
                               >
@@ -756,7 +796,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                               <View
                                 style={{
                                   ...style.rowPadding,
-                                  width: "9%",
+                                  width: "7%",
                                   borderRight: "1px",
                                 }}
                               >
@@ -1259,8 +1299,12 @@ export default function PrintInvoiceAndAnnexure(props) {
                       }}
                     >
                       <Text>
-                        {"Rupees" +
-                          wordify(parseInt(props.invRegisterData?.GrandTotal)) +
+                        {"Total Value in words Rupees" +
+                          (parseInt(props.invRegisterData?.GrandTotal) === 0
+                            ? " Zero "
+                            : wordify(
+                                parseInt(props.invRegisterData?.GrandTotal)
+                              )) +
                           "Only."}
                         {/* {"Rupees" +
                           wordify(

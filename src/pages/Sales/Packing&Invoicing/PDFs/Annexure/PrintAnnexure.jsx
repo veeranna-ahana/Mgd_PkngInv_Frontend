@@ -174,6 +174,44 @@ export default function PrintInvoiceAndAnnexure(props) {
   } else {
   }
 
+  // finyear
+
+  let pnDate = new Date(
+    `${props.invRegisterData.Printable_DC_Date?.split("/")[1]}-${
+      props.invRegisterData.Printable_DC_Date?.split("/")[0]
+    }-${props.invRegisterData.Printable_DC_Date?.split("/")[2]}`
+  );
+  let InvDate = new Date(
+    `${props.invRegisterData.Printable_Inv_Date?.split("/")[1]}-${
+      props.invRegisterData.Printable_Inv_Date?.split("/")[0]
+    }-${props.invRegisterData.Printable_Inv_Date?.split("/")[2]}`
+  );
+
+  let PNFinYear = "";
+  let InvFinYear = "";
+
+  // calculating PNFinYear
+  if (pnDate.getMonth() + 1 <= 3) {
+    PNFinYear = `${String(pnDate.getFullYear() - 1).substring(2)}/${String(
+      pnDate.getFullYear()
+    ).substring(2)}`;
+  } else {
+    PNFinYear = `${String(pnDate.getFullYear()).substring(2)}/${String(
+      parseInt(pnDate.getFullYear()) + 1
+    ).substring(2)}`;
+  }
+
+  // calculating InvFinYear
+  if (InvDate.getMonth() + 1 <= 3) {
+    InvFinYear = `${String(InvDate.getFullYear() - 1).substring(2)}/${String(
+      InvDate.getFullYear()
+    ).substring(2)}`;
+  } else {
+    InvFinYear = `${String(InvDate.getFullYear()).substring(2)}/${String(
+      parseInt(InvDate.getFullYear()) + 1
+    ).substring(2)}`;
+  }
+
   return (
     <>
       <Document>
@@ -202,11 +240,17 @@ export default function PrintInvoiceAndAnnexure(props) {
                     }}
                   >
                     <View>
-                      <Text style={{ borderBottom: "1px", ...style.fontBold }}>
+                      <Text
+                        style={{
+                          borderBottom: "1px",
+                          ...style.fontBold,
+                          fontSize: "11px",
+                        }}
+                      >
                         TAX INVOICE
                       </Text>
                     </View>
-                    <Text style={{ ...style.fontBold }}>
+                    <Text style={{ ...style.fontBold, fontSize: "11px" }}>
                       Magod Laser Machining Private Limited
                     </Text>
                     <Text style={{ ...style.fontBold }}>
@@ -358,7 +402,12 @@ export default function PrintInvoiceAndAnnexure(props) {
                             ...style.globalPadding,
                           }}
                         >
-                          <Text>{props.invRegisterData.Inv_No}</Text>
+                          <Text>
+                            {props.invRegisterData?.Inv_No
+                              ? `${props.invRegisterData?.Inv_No} - ${InvFinYear}`
+                              : ""}
+                            {/* {`${props.invRegisterData?.Inv_No} - ${InvFinYear}`} */}
+                          </Text>
                         </View>
                         <View
                           style={{
@@ -404,7 +453,11 @@ export default function PrintInvoiceAndAnnexure(props) {
                             ...style.globalPadding,
                           }}
                         >
-                          <Text>{props.invRegisterData.DC_No}</Text>
+                          <Text>
+                            {props.invRegisterData?.DC_No
+                              ? `${PNFinYear}/${props.invRegisterData?.DC_No}`
+                              : props.invRegisterData?.DCStatus}
+                          </Text>
                         </View>
                         <View
                           style={{
@@ -443,8 +496,8 @@ export default function PrintInvoiceAndAnnexure(props) {
                         </View>
                         <View
                           style={{
-                            width: "25%",
-                            borderRight: "1px",
+                            width: "75%",
+                            // borderRight: "1px",
                             ...style.globalPadding,
                           }}
                         >
@@ -456,7 +509,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                               : props.invRegisterData.EWayBillRef}
                           </Text>
                         </View>
-                        <View
+                        {/* <View
                           style={{
                             width: "25%",
                             borderRight: "1px",
@@ -469,7 +522,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                         </View>
                         <View style={{ width: "25%", ...style.globalPadding }}>
                           <Text>{payOnBefore}</Text>
-                        </View>
+                        </View> */}
                       </View>
 
                       {/* irn No */}
@@ -983,11 +1036,18 @@ export default function PrintInvoiceAndAnnexure(props) {
                       }}
                     >
                       <Text>
-                        {"Rupees" +
+                        {"Total Value in words Rupees" +
+                          (parseInt(props.invRegisterData?.GrandTotal) === 0
+                            ? " Zero "
+                            : wordify(
+                                parseInt(props.invRegisterData?.GrandTotal)
+                              )) +
+                          "Only."}
+                        {/* {"Rupees" +
                           wordify(
                             props.invRegisterData.GrandTotal?.split(".")[0]
                           ) +
-                          "Only."}
+                          "Only."} */}
                       </Text>
                     </View>
 
@@ -1122,7 +1182,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                   <View
                     style={{
                       ...style.globalPadding,
-                      width: "31%",
+                      width: "44%",
                       borderRight: "1px",
                     }}
                   >
@@ -1133,14 +1193,26 @@ export default function PrintInvoiceAndAnnexure(props) {
                   <View
                     style={{
                       ...style.globalPadding,
-                      width: "28%",
+                      width: "22%",
                       borderRight: "1px",
                     }}
                   >
-                    <Text>Material </Text>
+                    <Text>Material</Text>
                   </View>
 
                   {/* Quantity */}
+
+                  <View
+                    style={{
+                      ...style.globalPadding,
+                      width: "7%",
+                      borderRight: "1px",
+                    }}
+                  >
+                    <Text>Qty</Text>
+                  </View>
+
+                  {/* Unit Price */}
 
                   <View
                     style={{
@@ -1149,25 +1221,13 @@ export default function PrintInvoiceAndAnnexure(props) {
                       borderRight: "1px",
                     }}
                   >
-                    <Text>Quantity </Text>
-                  </View>
-
-                  {/* Unit Price */}
-
-                  <View
-                    style={{
-                      ...style.globalPadding,
-                      width: "12%",
-                      borderRight: "1px",
-                    }}
-                  >
-                    <Text>Unit Price </Text>
+                    <Text>Unit Price</Text>
                   </View>
 
                   {/* amount */}
 
-                  <View style={{ ...style.globalPadding, width: "12%" }}>
-                    <Text>Amount </Text>
+                  <View style={{ ...style.globalPadding, width: "10%" }}>
+                    <Text>Amount</Text>
                   </View>
                 </View>
                 {/* table content */}
@@ -1208,7 +1268,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                       <View
                         style={{
                           ...style.globalPadding,
-                          width: "31%",
+                          width: "44%",
                           borderRight: "1px",
                         }}
                       >
@@ -1219,7 +1279,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                       <View
                         style={{
                           ...style.globalPadding,
-                          width: "28%",
+                          width: "22%",
                           borderRight: "1px",
                         }}
                       >
@@ -1231,7 +1291,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                       <View
                         style={{
                           ...style.globalPadding,
-                          width: "10%",
+                          width: "7%",
                           borderRight: "1px",
                         }}
                       >
@@ -1243,7 +1303,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                       <View
                         style={{
                           ...style.globalPadding,
-                          width: "12%",
+                          width: "10%",
                           borderRight: "1px",
                         }}
                       >
@@ -1252,7 +1312,7 @@ export default function PrintInvoiceAndAnnexure(props) {
 
                       {/* amount */}
 
-                      <View style={{ ...style.globalPadding, width: "12%" }}>
+                      <View style={{ ...style.globalPadding, width: "10%" }}>
                         <Text>{val.DC_Srl_Amt}</Text>
                       </View>
                     </View>

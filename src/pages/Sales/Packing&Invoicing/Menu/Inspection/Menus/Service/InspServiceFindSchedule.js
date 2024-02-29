@@ -143,13 +143,13 @@
 // export default InspServiceFindSchedule;
 
 import { React, useState } from "react";
-import ScheduleList from "../../InspectionPages/ScheduleList";
+import FindSchedule from "../../InspectionPages/FindSchedule";
 
 function InspServiceFindSchedule() {
   const [ServiceType, setServiceType] = useState("Service");
   return (
     <>
-      <ScheduleList Type={ServiceType} />
+      <FindSchedule Type={ServiceType} />
     </>
   );
 }

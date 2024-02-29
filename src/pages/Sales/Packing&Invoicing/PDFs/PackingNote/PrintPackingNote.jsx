@@ -149,6 +149,44 @@ export default function PrintPackingNote(props) {
   } else {
   }
 
+  // finyear
+
+  let pnDate = new Date(
+    `${props.invRegisterData.Printable_DC_Date?.split("/")[1]}-${
+      props.invRegisterData.Printable_DC_Date?.split("/")[0]
+    }-${props.invRegisterData.Printable_DC_Date?.split("/")[2]}`
+  );
+  let InvDate = new Date(
+    `${props.invRegisterData.Printable_Inv_Date?.split("/")[1]}-${
+      props.invRegisterData.Printable_Inv_Date?.split("/")[0]
+    }-${props.invRegisterData.Printable_Inv_Date?.split("/")[2]}`
+  );
+
+  let PNFinYear = "";
+  let InvFinYear = "";
+
+  // calculating PNFinYear
+  if (pnDate.getMonth() + 1 <= 3) {
+    PNFinYear = `${String(pnDate.getFullYear() - 1).substring(2)}/${String(
+      pnDate.getFullYear()
+    ).substring(2)}`;
+  } else {
+    PNFinYear = `${String(pnDate.getFullYear()).substring(2)}/${String(
+      parseInt(pnDate.getFullYear()) + 1
+    ).substring(2)}`;
+  }
+
+  // calculating InvFinYear
+  if (InvDate.getMonth() + 1 <= 3) {
+    InvFinYear = `${String(InvDate.getFullYear() - 1).substring(2)}/${String(
+      InvDate.getFullYear()
+    ).substring(2)}`;
+  } else {
+    InvFinYear = `${String(InvDate.getFullYear()).substring(2)}/${String(
+      parseInt(InvDate.getFullYear()) + 1
+    ).substring(2)}`;
+  }
+
   return (
     <>
       <Document>
@@ -179,12 +217,16 @@ export default function PrintPackingNote(props) {
                     >
                       <View>
                         <Text
-                          style={{ borderBottom: "1px", ...style.fontBold }}
+                          style={{
+                            borderBottom: "1px",
+                            ...style.fontBold,
+                            fontSize: "11px",
+                          }}
                         >
                           Packing Note and Delivery Challan
                         </Text>
                       </View>
-                      <Text style={{ ...style.fontBold }}>
+                      <Text style={{ ...style.fontBold, fontSize: "11px" }}>
                         Magod Laser Machining Private Limited
                       </Text>
                       <Text style={{ ...style.fontBold }}>
@@ -287,7 +329,7 @@ export default function PrintPackingNote(props) {
                       >
                         <View
                           style={{
-                            width: "25%",
+                            width: "20%",
                             borderRight: "1px",
                             ...style.globalPadding,
                           }}
@@ -296,7 +338,7 @@ export default function PrintPackingNote(props) {
                         </View>
                         <View
                           style={{
-                            width: "25%",
+                            width: "30%",
                             borderRight: "1px",
                             ...style.globalPadding,
                           }}
@@ -305,14 +347,14 @@ export default function PrintPackingNote(props) {
                         </View>
                         <View
                           style={{
-                            width: "25%",
+                            width: "20%",
                             borderRight: "1px",
                             ...style.globalPadding,
                           }}
                         >
                           <Text style={{ ...style.fontBold }}>Page</Text>
                         </View>
-                        <View style={{ width: "25%", ...style.globalPadding }}>
+                        <View style={{ width: "30%", ...style.globalPadding }}>
                           <Text>
                             {outerKey + 1} of {props.invDetailsData.length}
                           </Text>
@@ -330,7 +372,7 @@ export default function PrintPackingNote(props) {
                       >
                         <View
                           style={{
-                            width: "25%",
+                            width: "20%",
                             borderRight: "1px",
                             ...style.globalPadding,
                           }}
@@ -341,19 +383,20 @@ export default function PrintPackingNote(props) {
                         </View>
                         <View
                           style={{
-                            width: "25%",
+                            width: "30%",
                             borderRight: "1px",
                             ...style.globalPadding,
                           }}
                         >
                           <Text>
-                            {props.invRegisterData?.DC_No ||
-                              props.invRegisterData?.DCStatus}
+                            {props.invRegisterData?.DC_No
+                              ? `${PNFinYear}/${props.invRegisterData?.DC_No}`
+                              : props.invRegisterData?.DCStatus}
                           </Text>
                         </View>
                         <View
                           style={{
-                            width: "25%",
+                            width: "20%",
                             borderRight: "1px",
                             ...style.globalPadding,
                           }}
@@ -362,7 +405,7 @@ export default function PrintPackingNote(props) {
                             Packing Date
                           </Text>
                         </View>
-                        <View style={{ width: "25%", ...style.globalPadding }}>
+                        <View style={{ width: "30%", ...style.globalPadding }}>
                           <Text>
                             {props.invRegisterData?.Printable_DC_Date}
                           </Text>
@@ -378,7 +421,7 @@ export default function PrintPackingNote(props) {
                       >
                         <View
                           style={{
-                            width: "25%",
+                            width: "20%",
                             borderRight: "1px",
                             ...style.globalPadding,
                           }}
@@ -389,7 +432,7 @@ export default function PrintPackingNote(props) {
                         </View>
                         <View
                           style={{
-                            width: "25%",
+                            width: "30%",
                             borderRight: "1px",
                             ...style.globalPadding,
                           }}
@@ -398,14 +441,14 @@ export default function PrintPackingNote(props) {
                         </View>
                         <View
                           style={{
-                            width: "25%",
+                            width: "20%",
                             borderRight: "1px",
                             ...style.globalPadding,
                           }}
                         >
                           <Text style={{ ...style.fontBold }}></Text>
                         </View>
-                        <View style={{ width: "25%", ...style.globalPadding }}>
+                        <View style={{ width: "30%", ...style.globalPadding }}>
                           <Text></Text>
                         </View>
                       </View>
@@ -419,7 +462,7 @@ export default function PrintPackingNote(props) {
                       >
                         <View
                           style={{
-                            width: "25%",
+                            width: "20%",
                             borderRight: "1px",
                             ...style.globalPadding,
                           }}
@@ -428,16 +471,21 @@ export default function PrintPackingNote(props) {
                         </View>
                         <View
                           style={{
-                            width: "25%",
+                            width: "30%",
                             borderRight: "1px",
                             ...style.globalPadding,
                           }}
                         >
-                          <Text>{props.invRegisterData?.Inv_No}</Text>
+                          <Text>
+                            {props.invRegisterData?.Inv_No
+                              ? `${props.invRegisterData?.Inv_No} - ${InvFinYear}`
+                              : ""}
+                            {/* {`${props.invRegisterData?.Inv_No} - ${InvFinYear}`} */}
+                          </Text>
                         </View>
                         <View
                           style={{
-                            width: "25%",
+                            width: "20%",
                             borderRight: "1px",
                             ...style.globalPadding,
                           }}
@@ -446,7 +494,7 @@ export default function PrintPackingNote(props) {
                             Invoice Date
                           </Text>
                         </View>
-                        <View style={{ width: "25%", ...style.globalPadding }}>
+                        <View style={{ width: "30%", ...style.globalPadding }}>
                           <Text>
                             {props.invRegisterData?.Printable_Inv_Date}
                           </Text>
@@ -462,7 +510,7 @@ export default function PrintPackingNote(props) {
                       >
                         <View
                           style={{
-                            width: "25%",
+                            width: "20%",
                             borderRight: "1px",
                             ...style.globalPadding,
                           }}
@@ -473,16 +521,16 @@ export default function PrintPackingNote(props) {
                         </View>
                         <View
                           style={{
-                            width: "25%",
-                            borderRight: "1px",
+                            width: "80%",
+                            // borderRight: "1px",
                             ...style.globalPadding,
                           }}
                         >
                           <Text>{props.invRegisterData?.EWayBillRef}</Text>
                         </View>
-                        <View
+                        {/* <View
                           style={{
-                            width: "25%",
+                            width: "20%",
                             borderRight: "1px",
                             ...style.globalPadding,
                           }}
@@ -491,10 +539,9 @@ export default function PrintPackingNote(props) {
                             Pay on Before
                           </Text>
                         </View>
-                        <View style={{ width: "25%", ...style.globalPadding }}>
-                          {/* <Text>action needed</Text> */}
+                        <View style={{ width: "30%", ...style.globalPadding }}>
                           <Text>{payOnBefore}</Text>
-                        </View>
+                        </View> */}
                       </View>
 
                       {/* pan no and msme no */}
@@ -507,7 +554,7 @@ export default function PrintPackingNote(props) {
                       >
                         <View
                           style={{
-                            width: "25%",
+                            width: "20%",
                             borderRight: "1px",
                             ...style.globalPadding,
                           }}
@@ -516,7 +563,7 @@ export default function PrintPackingNote(props) {
                         </View>
                         <View
                           style={{
-                            width: "18%",
+                            width: "23%",
                             borderRight: "1px",
                             ...style.globalPadding,
                           }}
@@ -572,7 +619,7 @@ export default function PrintPackingNote(props) {
                               // flexDirection: "row",
                               // justifyContent: "flex-satrt",
                               borderRight: "1px",
-                              width: "8%",
+                              width: "7%",
                               ...style.globalPadding,
                             }}
                           >
@@ -585,7 +632,7 @@ export default function PrintPackingNote(props) {
                               // flexDirection: "row",
                               // justifyContent: "flex-satrt",
                               borderRight: "1px",
-                              width: "33%",
+                              width: "46%",
                               ...style.globalPadding,
                             }}
                           >
@@ -600,7 +647,7 @@ export default function PrintPackingNote(props) {
                               // flexDirection: "row",
                               // justifyContent: "flex-satrt",
                               borderRight: "1px",
-                              width: "17%",
+                              width: "21%",
                               ...style.globalPadding,
                             }}
                           >
@@ -614,13 +661,11 @@ export default function PrintPackingNote(props) {
                               // flexDirection: "row",
                               // justifyContent: "flex-satrt",
                               borderRight: "1px",
-                              width: "15%",
+                              width: "9%",
                               ...style.globalPadding,
                             }}
                           >
-                            <Text style={{ ...style.fontBold }}>
-                              Packing Level
-                            </Text>
+                            <Text style={{ ...style.fontBold }}>Pnkg Lvl</Text>
                           </View>
 
                           {/* inspection level */}
@@ -631,13 +676,11 @@ export default function PrintPackingNote(props) {
                               // flexDirection: "row",
                               // justifyContent: "flex-satrt",
                               borderRight: "1px",
-                              width: "15%",
+                              width: "9%",
                               ...style.globalPadding,
                             }}
                           >
-                            <Text style={{ ...style.fontBold }}>
-                              Inspection Level
-                            </Text>
+                            <Text style={{ ...style.fontBold }}>Insp Lvl</Text>
                           </View>
 
                           {/* Qty */}
@@ -647,11 +690,11 @@ export default function PrintPackingNote(props) {
                               // flexDirection: "row",
                               // justifyContent: "flex-satrt",
                               // borderRight: "1px",
-                              width: "12%",
+                              width: "8%",
                               ...style.globalPadding,
                             }}
                           >
-                            <Text style={{ ...style.fontBold }}>Quantity</Text>
+                            <Text style={{ ...style.fontBold }}>Qty</Text>
                           </View>
                         </View>
                         {/* table data */}
@@ -682,7 +725,7 @@ export default function PrintPackingNote(props) {
                                   // flexDirection: "row",
                                   // justifyContent: "flex-satrt",
                                   borderRight: "1px",
-                                  width: "8%",
+                                  width: "7%",
                                   ...style.globalPadding,
                                 }}
                               >
@@ -697,7 +740,7 @@ export default function PrintPackingNote(props) {
                                   // flexDirection: "row",
                                   // justifyContent: "flex-satrt",
                                   borderRight: "1px",
-                                  width: "33%",
+                                  width: "46%",
                                   ...style.globalPadding,
                                 }}
                               >
@@ -710,7 +753,7 @@ export default function PrintPackingNote(props) {
                                   // flexDirection: "row",
                                   // justifyContent: "flex-satrt",
                                   borderRight: "1px",
-                                  width: "17%",
+                                  width: "21%",
                                   ...style.globalPadding,
                                 }}
                               >
@@ -724,7 +767,7 @@ export default function PrintPackingNote(props) {
                                   // flexDirection: "row",
                                   // justifyContent: "flex-satrt",
                                   borderRight: "1px",
-                                  width: "15%",
+                                  width: "9%",
                                   ...style.globalPadding,
                                 }}
                               >
@@ -739,7 +782,7 @@ export default function PrintPackingNote(props) {
                                   // flexDirection: "row",
                                   // justifyContent: "flex-satrt",
                                   borderRight: "1px",
-                                  width: "15%",
+                                  width: "9%",
                                   ...style.globalPadding,
                                 }}
                               >
@@ -753,7 +796,7 @@ export default function PrintPackingNote(props) {
                                   // flexDirection: "row",
                                   // justifyContent: "flex-satrt",
                                   // borderRight: "1px",
-                                  width: "12%",
+                                  width: "8%",
                                   ...style.globalPadding,
                                 }}
                               >
