@@ -15,12 +15,6 @@ import TaxTable from "./Tables/TaxTable";
 import SetRateModal from "./Modals/SetRateModal";
 import ConfirmationModal from "./Modals/ConfirmationModal";
 
-import { useParams } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-
-// toast
-
 export default function Profile() {
   const location = useLocation();
 
@@ -44,15 +38,8 @@ export default function Profile() {
   const [printCopyModal, setPrintCopyModal] = useState(false);
   const [printAnneureModal, setPrintAnneureModal] = useState(false);
   const [printInvoiceModal, setPrintInvoiceModal] = useState(false);
-  // const [printCopyTableData, setPrintCopyTableData] = useState([]);
 
-  // function* chunks(arr, n) {
-  //   for (let i = 0; i < arr.length; i += n) {
-  //     yield arr.slice(i, i + n);
-  //   }
-  // }
-
-  // const rowLimit = 20;
+  const rowLimit = 20;
 
   const fetchData = () => {
     Axios.post(apipoints.aboutInvoicePN, {
@@ -60,7 +47,6 @@ export default function Profile() {
     }).then((res) => {
       res.data.registerData[0].TptMode =
         res.data.registerData[0].TptMode || "By Hand";
-
       setInvRegisterData(res.data.registerData[0]);
       setInvDetailsData(res.data.detailsData);
       setInvTaxData(res.data.taxData);
@@ -75,7 +61,6 @@ export default function Profile() {
         unitGST: "29AABCM1970H1ZE",
       }).then((res) => {
         setTaxDropDownData(res.data);
-        // console.log("tax dataaaaa", res.data);
       });
     });
     // get all states
@@ -88,44 +73,17 @@ export default function Profile() {
     fetchData();
   }, []);
 
-  // console.log("data", invRegisterData);
-  // useEffect(() => {
-  //   Axios.post(apipoints.invoiceDetailTableData, {
-  //     DCInvNo: DCInvNo,
-  //   }).then((res) => {
-  //     console.log("InvDetailsData", res.data);
-
-  //     setInvDetailsData(res.data);
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   Axios.post(apipoints.getPrintData, {
-  //     DCInvNo: DCInvNo,
-  //   }).then((res) => {
-  //     console.log("response from BE in profile", res);
-  //     // setInvoiceDetailsTableData(res.data);
-  //     setPrintableData(res.data);
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   Axios.post(apipoints.getTaxData, {}).then((res) => {
-  //     setTaxDropDownData(res.data);
-  //     // console.log("tax dataaaaa", res.data);
-  //   });
-  // }, []);
-
   const printPN = () => {
     setPrintCopyModal(true);
   };
+
   const printAnnexure = () => {
     setPrintAnneureModal(true);
   };
+
   const printInvoice = () => {
     setPrintInvoiceModal(true);
   };
-  const rowLimit = 20;
 
   const deleteTaxFunc = () => {
     setInvTaxData([]);
@@ -142,90 +100,14 @@ export default function Profile() {
     });
   };
 
-  // console.log("registrer data...", invRegisterData.DespatchDate?.split("T")[0]);
-
   const inputHandler = (e) => {
-    // debugger;
-    // console.log("eeeeeee", e.target.value);
-    // if (e.target.type === "number") {
-    //   setInvRegisterData({
-    //     ...invRegisterData,
-    //     [e.target.name]:
-    //       e.target.value.length <= 0 ||
-    //       e.target.value === undefined ||
-    //       e.target.value === null ||
-    //       e.target.value === ""
-    //         ? 0
-    //         : e.target.value,
-    //   });
-    //   // deleteTaxFunc();
-    // } else {
-    // }
     setInvRegisterData({
       ...invRegisterData,
       [e.target.name]: e.target.value,
     });
-    // console.log("111111111111", invRegisterData.Discount);
-    // console.log(object);
   };
 
-  // const calOnChangeInput = () => {
-  //   // console.log('discount',)
-  //   // console.log(name, "...", value);
-  //   // deleteTaxFunc;
-  //   // let amountBeforeTax;
-  //   // let value = 0;
-  //   // if (
-  //   //   e.target.value.length <= 0 ||
-  //   //   e.target.value === undefined ||
-  //   //   e.target.value === null ||
-  //   //   parseFloat(e.target.value).toFixed(1) === 0.0
-  //   // ) {
-  //   //   value = 0;
-  //   // } else {
-  //   //   value = parseFloat(e.target.value).toFixed(2);
-  //   // }
-  //   // // console.log("name", e.target.name, ".......", e.target.value);
-  //   // // console.log("value", e.target.value);
-  //   // // console.log("valu", value);
-  //   // let calculatedInvoiceTotal = 0;
-  //   // if (name === "Discount") {
-  //   //   calculatedInvoiceTotal =
-  //   //     parseFloat(invRegisterData.Net_Total) -
-  //   //     parseFloat(value) +
-  //   //     parseFloat(invRegisterData.Del_Chg);
-  //   //   // setInvRegisterData({
-  //   //   //   ...invRegisterData,
-  //   //   //   InvTotal: calculatedInvoiceTotal.toFixed(2),
-  //   //   // });
-  //   //   console.log("calculatedInvoiceTotal", calculatedInvoiceTotal);
-  //   // } else if (name === "Del_Chg") {
-  //   //   // calculatedInvoiceTotal =
-  //   //   //   parseFloat(invRegisterData.Net_Total) -
-  //   //   //   parseFloat(invRegisterData.Discount) +
-  //   //   //   parseFloat(value);
-  //   //   // setInvRegisterData({
-  //   //   //   ...invRegisterData,
-  //   //   //   InvTotal: calculatedInvoiceTotal.toFixed(2),
-  //   //   // });
-  //   // }
-  // };
-
-  // console.log("invvvvv", invRegisterData.Discount);
-
-  // console.log("discounttttt main", invRegisterData.Discount);
-
   const handleChangeDiscountDelivery = (e) => {
-    // console.log("valueueueu", e.target.value.length > 0 ? e.target.value : 0);
-    // props.setInvRegisterData({
-    //   ...props.invRegisterData,
-    //   Discount: e.target.value.length > 0 ? e.target.value : 0,
-    // });
-    // console.log(
-    //   "invvvv total...",
-    //   parseFloat(invRegisterData.Net_Total) -
-    //     parseFloat(e.target.value.length > 0 ? e.target.value : 0)
-    // );
     setInvTaxData([]);
     document.getElementById("taxDropdown").value = "none";
     let newInvTotal;
@@ -236,9 +118,7 @@ export default function Profile() {
         parseFloat(invRegisterData?.Net_Total) -
         parseFloat(e.target.value.length > 0 ? e.target.value : 0) +
         parseFloat(invRegisterData?.Del_Chg);
-
       newGrandTotal = Math.round(newInvTotal);
-
       newRoundOff = newGrandTotal - newInvTotal;
 
       setInvRegisterData({
@@ -246,7 +126,6 @@ export default function Profile() {
         Discount: e.target.value.length > 0 ? e.target.value : 0,
         TaxAmount: 0.0,
         InvTotal: newInvTotal.toFixed(2),
-
         GrandTotal: newGrandTotal.toFixed(2),
         Round_Off: newRoundOff.toFixed(2),
       });
@@ -255,9 +134,7 @@ export default function Profile() {
         parseFloat(invRegisterData?.Net_Total) -
         parseFloat(invRegisterData?.Discount) +
         parseFloat(e.target.value.length > 0 ? e.target.value : 0);
-
       newGrandTotal = Math.round(newInvTotal);
-
       newRoundOff = newGrandTotal - newInvTotal;
 
       setInvRegisterData({
@@ -272,11 +149,9 @@ export default function Profile() {
   };
 
   const cancelPN = () => {
-    // console.log("cancel pn clicked");
     Axios.post(apipoints.cancelPN, {
       invRegisterData: invRegisterData,
     }).then((res) => {
-      // console.log("resssssssssss", res.data);
       if (res.data.flag === 1) {
         toast.success(res.data.message);
         setInvRegisterData({ ...invRegisterData, DCStatus: "Cancelled" });
@@ -308,27 +183,17 @@ export default function Profile() {
 
   const handleCreateInvoice = () => {
     onSave();
-    // console.log("cretae invoeice");
-    // alert("cretae invoeice");
     Axios.post(apipoints.createInvoice, {
       invRegisterData: invRegisterData,
     }).then((res) => {
       setInvRegisterData(res.data.registerData[0]);
       if (res.data.flag === 1) {
-        // console.log("resssssssssss", res.data);
-        // props.setNewINVNo(res.data.selectData[0].Inv_No);
-        // props.setNewINVDate(res.data.selectData[0].Inv_Date);
-        // props.setTaxDataFromDB(res.data.taxData);
-
         toast.success(res.data.message);
-
         if (invDetailsData.length > rowLimit) {
           printAnnexure();
         } else {
           printInvoice();
         }
-        // printPN();
-        // console.log("resssss", res);
       } else if (res.data.flag === 0) {
         toast.error(res.data.message);
       } else {
@@ -358,20 +223,6 @@ export default function Profile() {
               inputHandler={inputHandler}
               setAllStates={setAllStates}
               allStates={allStates}
-              // INVData={INVData}
-              // NewINVNo={NewINVNo}
-              // NewAddress={NewAddress}
-              // setNewAddress={setNewAddress}
-              // NewDelivery={NewDelivery}
-              // setNewDelivery={setNewDelivery}
-              // NewDistrict={NewDistrict}
-              // setNewDistrict={setNewDistrict}
-              // NewState={NewState}
-              // setNewState={setNewState}
-              // NewPinCode={NewPinCode}
-              // setNewPinCode={setNewPinCode}
-              // NewScheduleIntructions={NewScheduleIntructions}
-              // setNewScheduleIntructions={setNewScheduleIntructions}
             />
           </Tab>
           <Tab eventKey="Invoicing Info" title="Invoicing Info">
@@ -383,7 +234,6 @@ export default function Profile() {
               invTaxData={invTaxData}
               setInvTaxData={setInvTaxData}
               inputHandler={inputHandler} //func
-              // calOnChangeInput={calOnChangeInput}
               deleteTaxFunc={deleteTaxFunc} //func
               handleChangeDiscountDelivery={handleChangeDiscountDelivery}
               handleCreateInvoice={handleCreateInvoice}
@@ -402,69 +252,6 @@ export default function Profile() {
               printCopyModal={printCopyModal}
               rowLimit={rowLimit}
               TaxDropDownData={TaxDropDownData}
-
-              // printCopyTableData={printCopyTableData}
-              //
-              // INVData={INVData}
-              // setINVData={setINVData}
-              // NewINVNo={NewINVNo}
-              // setNewINVNo={setNewINVNo}
-              // NewINVDate={NewINVDate}
-              // setNewINVDate={setNewINVDate}
-              // netAmount={netAmount}
-              // taxAmount={taxAmount}
-              // NewAddress={NewAddress}
-              // setNewAddress={setNewAddress}
-              // NewDelivery={NewDelivery}
-              // setNewDelivery={setNewDelivery}
-              // NewDistrict={NewDistrict}
-              // setNewDistrict={setNewDistrict}
-              // NewState={NewState}
-              // setNewState={setNewState}
-              // NewPinCode={NewPinCode}
-              // setNewPinCode={setNewPinCode}
-              // NewScheduleIntructions={NewScheduleIntructions}
-              // setNewScheduleIntructions={setNewScheduleIntructions}
-              // NewDispatchDate={NewDispatchDate}
-              // setNewDispatchDate={setNewDispatchDate}
-              // NewDispatchMode={NewDispatchMode}
-              // setNewDispatchMode={setNewDispatchMode}
-              // NewVehicleNo={NewVehicleNo}
-              // setNewVehicleNo={setNewVehicleNo}
-              // NewDiscount={NewDiscount}
-              // setNewDiscount={setNewDiscount}
-              // NewDeliveryCharge={NewDeliveryCharge}
-              // setNewDeliveryCharge={setNewDeliveryCharge}
-              // NewRoundOff={NewRoundOff}
-              // setNewRoundOff={setNewRoundOff}
-              // NewRemarks={NewRemarks}
-              // setNewRemarks={setNewRemarks}
-              // // PrintableData={PrintableData}
-              // DCInvNo={DCInvNo}
-              // setSelectedTax={setSelectedTax}
-              // selectedTax={selectedTax}
-              // invoiceDetailsTableData={invoiceDetailsTableData}
-              // selectedTaxTable={selectedTaxTable}
-              // setTaxDataFromDB={setTaxDataFromDB}
-              // printAnnexureData={[
-              //   INVData,
-              //   invoiceDetailsTableData,
-              //   NewAddress,
-              //   NewDelivery,
-              //   NewDistrict,
-              //   NewState,
-              //   NewPinCode,
-              //   NewScheduleIntructions,
-              //   NewDispatchDate,
-              //   NewDispatchMode,
-              //   NewVehicleNo,
-              //   NewDiscount,
-              //   NewDeliveryCharge,
-              //   NewRoundOff,
-              //   NewRemarks,
-              //   NewINVNo,
-              //   NewINVDate,
-              // ]}
             />
           </Tab>
         </Tabs>
@@ -475,7 +262,6 @@ export default function Profile() {
           <div className="col-md-6 ">
             <div className="d-flex justify-content-space mt-3">
               <button
-                // className="button-style  m-0"
                 onClick={() => {
                   setLoadRateEvent(true);
                 }}
@@ -521,7 +307,6 @@ export default function Profile() {
                     ? "button-style button-disabled m-0"
                     : "button-style m-0"
                 }
-                // onClick={cancelPN}
                 onClick={(e) => {
                   setButtonClicked("Cancel PN");
                   setConfirmModalOpen(true);
@@ -532,12 +317,7 @@ export default function Profile() {
               <div className="p-1"></div>
 
               <Link to="/PackingAndInvoices">
-                <button
-                  className="button-style m-0"
-                  // style={{ width: "-webkit-fill-available" }}
-                >
-                  Close
-                </button>
+                <button className="button-style m-0">Close</button>
               </Link>
             </div>
           </div>
@@ -568,21 +348,11 @@ export default function Profile() {
                       fontSize: "inherit",
                     }}
                     onChange={(e) => {
-                      // console.log("eee", TaxDropDownData[e.target.value]);
-
-                      // console.log(
-                      //   "amount",
-                      //   parseFloat(invRegisterData?.Net_Total) -
-                      //     parseFloat(invRegisterData?.Discount) +
-                      //     parseFloat(invRegisterData?.Del_Chg)
-                      // );
                       const newTaxOn = TaxDropDownData[
                         e.target.value
                       ].TaxOn.replace("(", "")
                         .replace(")", "")
                         .split("+");
-
-                      // console.log("newTaxOn", newTaxOn);
                       let applicableTaxes = [];
                       let arr = [];
                       if (
@@ -593,8 +363,6 @@ export default function Profile() {
                           e.target.value
                         ].UnderGroup.toUpperCase() === "INCOME TAX"
                       ) {
-                        // console.log("tcs");
-
                         for (let i = 1; i < newTaxOn.length; i++) {
                           const element = newTaxOn[i];
                           TaxDropDownData.filter(
@@ -602,16 +370,11 @@ export default function Profile() {
                           ).map((value, key) => applicableTaxes.push(value));
                         }
                         applicableTaxes.push(TaxDropDownData[e.target.value]);
-
-                        // console.log("applicableTaxes", applicableTaxes);
-
                         let TaxableAmount = (
                           parseFloat(invRegisterData?.Net_Total) -
                           parseFloat(invRegisterData?.Discount) +
                           parseFloat(invRegisterData?.Del_Chg)
                         ).toFixed(2);
-
-                        // console.log("TaxableAmount", TaxableAmount);
                         let TotalTaxAmount = 0;
 
                         for (let i = 0; i < applicableTaxes.length; i++) {
@@ -620,7 +383,6 @@ export default function Profile() {
                             element.UnderGroup.toUpperCase() === "INCOMETAX" ||
                             element.UnderGroup.toUpperCase() === "INCOME TAX"
                           ) {
-                            // console.log("tcs");
                             let TaxableAmntForTCS =
                               parseFloat(TaxableAmount) +
                               parseFloat(TotalTaxAmount);
@@ -703,27 +465,16 @@ export default function Profile() {
                         for (let i = 0; i < newTaxOn.length; i++) {
                           const element = newTaxOn[i];
                           if (parseInt(element) === 1) {
-                            // console.log("self", TaxDropDownData[e.target.value]);
                             applicableTaxes.push(
                               TaxDropDownData[e.target.value]
                             );
                           } else {
-                            // console.log(
-                            //   "row no",
-
-                            //   TaxDropDownData.filter(
-                            //     (obj) => obj.TaxID === parseInt(element)
-                            //   )
-
-                            // );
                             // filter gets the data in array, there may be more then 1 rows, so mappppp....
                             TaxDropDownData.filter(
                               (obj) => obj.TaxID === parseInt(element)
                             ).map((value, key) => applicableTaxes.push(value));
                           }
                         }
-
-                        // console.log("applicableTaxes", applicableTaxes);
 
                         let TaxableAmount = (
                           parseFloat(invRegisterData?.Net_Total) -
@@ -766,8 +517,6 @@ export default function Profile() {
                             ];
                           }
                         }
-
-                        // console.log("arr", arr);
                         setInvTaxData(arr);
                         let newInvTotal =
                           parseFloat(TaxableAmount) +
@@ -784,70 +533,6 @@ export default function Profile() {
                           Round_Off: newRoundOff.toFixed(2),
                         });
                       }
-
-                      //   const newTaxArray = TaxDropDownData.filter(
-                      //     (obj) =>
-                      //       parseFloat(obj.Tax_Percent).toFixed(2) ===
-                      //       parseFloat(e.target.value).toFixed(2)
-                      //   );
-                      //   let arr = [];
-                      //   let taxAmountVal = 0;
-                      //   let TaxableAmount = (
-                      //     parseFloat(invRegisterData?.Net_Total) -
-                      //     parseFloat(invRegisterData?.Discount) +
-                      //     parseFloat(invRegisterData?.Del_Chg)
-                      //   ).toFixed(2);
-                      //   for (let i = 0; i < newTaxArray.length; i++) {
-                      //     const element = newTaxArray[i];
-
-                      //     let TaxAmt = (
-                      //       (TaxableAmount * parseFloat(element.Tax_Percent)) /
-                      //       100
-                      //     ).toFixed(2);
-                      //     if (arr.length > 0) {
-                      //       arr = [
-                      //         ...arr,
-                      //         {
-                      //           TaxID: element.TaxID,
-                      //           TaxOn: element.TaxOn,
-                      //           TaxPercent: element.Tax_Percent,
-                      //           Tax_Name: element.TaxName,
-                      //           TaxableAmount: TaxableAmount,
-                      //           TaxAmt: TaxAmt,
-                      //         },
-                      //       ];
-                      //       taxAmountVal =
-                      //         parseFloat(taxAmountVal) + parseFloat(TaxAmt);
-                      //     } else {
-                      //       arr = [
-                      //         {
-                      //           TaxID: element.TaxID,
-                      //           TaxOn: element.TaxOn,
-                      //           TaxPercent: element.Tax_Percent,
-                      //           Tax_Name: element.TaxName,
-                      //           TaxableAmount: TaxableAmount,
-                      //           TaxAmt: TaxAmt,
-                      //         },
-                      //       ];
-                      //       taxAmountVal =
-                      //         parseFloat(taxAmountVal) + parseFloat(TaxAmt);
-                      //     }
-                      //   }
-
-                      //   setInvTaxData(arr);
-                      //   let newInvTotal =
-                      //     parseFloat(TaxableAmount) + parseFloat(taxAmountVal);
-
-                      //   let newGrandTotal = Math.round(newInvTotal);
-                      //   let newRoundOff = newGrandTotal - newInvTotal;
-
-                      //   setInvRegisterData({
-                      //     ...invRegisterData,
-                      //     TaxAmount: parseFloat(taxAmountVal).toFixed(2),
-                      //     InvTotal: newInvTotal.toFixed(2),
-                      //     GrandTotal: newGrandTotal.toFixed(2),
-                      //     Round_Off: newRoundOff.toFixed(2),
-                      //   });
                     }}
                     disabled={
                       invRegisterData.Inv_No ||
@@ -899,20 +584,12 @@ export default function Profile() {
           >
             <ProductTable
               invDetailsData={invDetailsData}
-              // invoiceDetailsTableData={invoiceDetailsTableData}
               loadRateEvent={loadRateEvent}
             />
           </div>
           {/* tax table */}
           <div className="col-md-6">
-            <TaxTable
-              invTaxData={invTaxData}
-              // invoiceDetailsTableData={invoiceDetailsTableData}
-              // netAmount={netAmount}
-              // selectedTax={selectedTax}
-              // TaxDropDownData={TaxDropDownData}
-              // taxDataFromDB={taxDataFromDB}
-            />
+            <TaxTable invTaxData={invTaxData} />
           </div>
         </div>
         <div className="p-3"></div>
@@ -922,8 +599,6 @@ export default function Profile() {
           showSetRateModal={showSetRateModal}
           setShowSetRateModal={setShowSetRateModal}
           DCInvNo={DCInvNo}
-          // INVData={INVData}
-          // INVData={[]}
           invDetailsData={invDetailsData}
           setRateConsumerData={setRateConsumerData}
           setInvRegisterData={setInvRegisterData}
@@ -935,7 +610,6 @@ export default function Profile() {
         <ConfirmationModal
           confirmModalOpen={confirmModalOpen}
           setConfirmModalOpen={setConfirmModalOpen}
-          // yesClickedFunc={cancelPN}
           yesClickedFunc={
             buttonClicked === "Cancel PN"
               ? cancelPN

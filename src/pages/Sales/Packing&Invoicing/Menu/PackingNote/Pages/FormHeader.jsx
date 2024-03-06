@@ -54,9 +54,6 @@ export default function FormHeader(props) {
           <div className="col-md-4">
             <b>PO No.</b>
             <input
-              // defaultValue={props.invRegisterData?.PO_No}
-              // disabled
-              // className="input-disabled"
               maxLength={"49"}
               value={
                 props.invRegisterData?.PO_No === null ||

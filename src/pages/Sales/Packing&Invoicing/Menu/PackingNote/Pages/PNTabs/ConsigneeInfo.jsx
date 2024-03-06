@@ -23,17 +23,6 @@ export default function ConsigneeInfo(props) {
               name="Cust_Address"
               disabled
               className="input-disabled"
-              // onChange={props.inputHandler}
-              // disabled={
-              //   props.invRegisterData.Inv_No ||
-              //   props.invRegisterData.DCStatus === "Cancelled"
-              // }
-              // className={
-              //   props.invRegisterData.Inv_No ||
-              //   props.invRegisterData.DCStatus === "Cancelled"
-              //     ? "input-disabled"
-              //     : ""
-              // }
             ></textarea>
           </div>
           <div className="col-md-6">
@@ -77,17 +66,6 @@ export default function ConsigneeInfo(props) {
                   name="Cust_Place"
                   disabled
                   className="input-disabled"
-                  // onChange={props.inputHandler}
-                  // disabled={
-                  //   props.invRegisterData.Inv_No ||
-                  //   props.invRegisterData.DCStatus === "Cancelled"
-                  // }
-                  // className={
-                  //   props.invRegisterData.Inv_No ||
-                  //   props.invRegisterData.DCStatus === "Cancelled"
-                  //     ? "input-disabled"
-                  //     : ""
-                  // }
                 />
               </div>
               <div className="col-md-4">
@@ -97,31 +75,6 @@ export default function ConsigneeInfo(props) {
                   disabled
                   className="input-disabled"
                 />
-                {/* <select
-                  style={{
-                    fontSize: "inherit",
-                  }}
-                  name="Cust_State"
-                  value={props.invRegisterData.Cust_State}
-                  onChange={props.inputHandler}
-                  disabled={
-                    props.invRegisterData.Inv_No?.length > 0 ||
-                    props.invRegisterData.DCStatus === "Cancelled"
-                  }
-                  className={
-                    props.invRegisterData.Inv_No?.length > 0 ||
-                    props.invRegisterData.DCStatus === "Cancelled"
-                      ? "input-disabled ip-select"
-                      : "ip-select"
-                  }
-                >
-                  <option value="" selected disabled hidden>
-                    Select any option
-                  </option>
-                  {props.allStates.map((state, key) => (
-                    <option value={state.State}>{state.State}</option>
-                  ))}
-                </select> */}
               </div>
               <div className="col-md-4">
                 <b>Pin Code</b>
@@ -140,17 +93,6 @@ export default function ConsigneeInfo(props) {
                   name="PIN_Code"
                   disabled
                   className="input-disabled"
-                  // onChange={props.inputHandler}
-                  // disabled={
-                  //   props.invRegisterData.Inv_No ||
-                  //   props.invRegisterData.DCStatus === "Cancelled"
-                  // }
-                  // className={
-                  //   props.invRegisterData.Inv_No ||
-                  //   props.invRegisterData.DCStatus === "Cancelled"
-                  //     ? "input-disabled"
-                  //     : ""
-                  // }
                 />
               </div>
             </div>

@@ -8,13 +8,7 @@ export default function FormHeader(props) {
           <div className="col-md-4">
             <b>Invoice Form</b>
             <input
-              value={
-                props.invRegisterData?.DC_InvType
-                // +
-                // " (" +
-                // props.invRegisterData?.InvoiceFor +
-                // ")"
-              }
+              value={props.invRegisterData?.DC_InvType}
               disabled
               className="input-disabled"
             />
@@ -42,7 +36,6 @@ export default function FormHeader(props) {
           </div>
           <div className="col-md-4">
             <b>PN No</b>
-
             <input
               value={
                 props.invRegisterData.DC_No.length > 0
