@@ -343,11 +343,13 @@ export default function InvoicingInfo(props) {
                   name="VehNo"
                   onChange={props.inputHandler}
                   disabled={
-                    props.invRegisterData.Inv_No ||
+                    props.invRegisterData?.TptMode === "By Hand" ||
+                    props.invRegisterData.Inv_No?.length > 0 ||
                     props.invRegisterData.DCStatus === "Cancelled"
                   }
                   className={
-                    props.invRegisterData.Inv_No ||
+                    props.invRegisterData?.TptMode === "By Hand" ||
+                    props.invRegisterData.Inv_No?.length > 0 ||
                     props.invRegisterData.DCStatus === "Cancelled"
                       ? "input-disabled"
                       : ""
