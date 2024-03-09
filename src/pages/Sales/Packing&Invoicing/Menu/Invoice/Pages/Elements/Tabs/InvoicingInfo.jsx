@@ -238,16 +238,6 @@ export default function InvoicingInfo(props) {
     }
   };
 
-  const today = new Date();
-  const todayDateforDispatch =
-    today.getFullYear() +
-    "-" +
-    (today.getMonth() + 1 < 10 ? "0" : "") +
-    (today.getMonth() + 1) +
-    "-" +
-    (today.getDate() + 1 < 10 ? "0" : "") +
-    today.getDate();
-
   return (
     <>
       <div>
@@ -271,7 +261,7 @@ export default function InvoicingInfo(props) {
                           ? props.invRegisterData.DespatchDate.split("T")[0]
                           : null
                       }
-                      min={todayDateforDispatch}
+                      min={props.formatedTodayDate}
                       onChange={props.inputHandler}
                       disabled={
                         props.invRegisterData.Inv_No?.length > 0 ||

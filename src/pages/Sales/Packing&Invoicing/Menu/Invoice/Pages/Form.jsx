@@ -24,9 +24,9 @@ export default function Form(props) {
   let month = todayDate.getMonth() + 1;
   let datee = todayDate.getDate();
 
-  let formatedTodayDate = `${year}-${
-    month < 10 ? "0" + month : month
-  }-${datee}`;
+  let formatedTodayDate = `${year}-${month < 10 ? "0" + month : month}-${
+    datee < 10 ? "0" + datee : datee
+  }`;
 
   const [TaxDropDownData, setTaxDropDownData] = useState([]);
 
@@ -483,6 +483,7 @@ export default function Form(props) {
               printAnnexure={printAnnexure} //func
               printInvoice={printInvoice} //func
               rowLimit={rowLimit}
+              formatedTodayDate={formatedTodayDate}
               invDetailsData={invDetailsData}
               invTaxData={invTaxData}
               printAnneureModal={printAnneureModal}
