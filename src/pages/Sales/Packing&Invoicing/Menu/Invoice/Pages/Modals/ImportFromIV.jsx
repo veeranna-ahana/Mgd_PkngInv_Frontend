@@ -119,7 +119,6 @@ export default function ImportFromIV(props) {
               setConfirmModalOpen={setConfirmModalOpen}
               confirmModalOpen={confirmModalOpen}
               message={`Do you wish to convert IV No ${selectedIV?.IV_No} to ${props.invRegisterData?.InvoiceFor} DC ?`}
-              // `Are you sure to move the Scrap to ${props.invRegisterData?.DC_InvType} DC`
               yesClickedFunc={createPNForIV}
             />
           </div>

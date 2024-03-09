@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import InvoiceForm from "./pages/Sales/Packing&Invoicing/Menu/Inspection/InspectionPages/InvoiceForm";
 import "react-toastify/dist/ReactToastify.css";
 //PACKING NOTE
-import PNDescription from "./pages/Sales/Packing&Invoicing/Menu/PackingNote/PackingNotePages/PNDescription";
+import PNDescription from "./pages/Sales/Packing&Invoicing/Menu/PackingNote/Pages/PNDescription";
 import ProfileOpenForm from "./pages/Sales/Packing&Invoicing/Menu/PackingNote/Menus/Profile/ProfileOpenForm";
 import MiscOpenForm from "./pages/Sales/Packing&Invoicing/Menu/PackingNote/Menus/Misc/MiscOpenForm";
 import ServicesOpenForm from "./pages/Sales/Packing&Invoicing/Menu/PackingNote/Menus/Services/ServicesOpenForm";

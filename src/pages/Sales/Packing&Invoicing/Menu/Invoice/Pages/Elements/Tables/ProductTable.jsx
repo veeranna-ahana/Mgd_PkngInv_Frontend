@@ -13,8 +13,6 @@ export default function ProductTable(props) {
   }, []);
 
   const updateQTY = () => {
-    // props.deleteTaxes()
-    // console.log("updateQTY");
     let newNetTotal = 0;
     for (let i = 0; i < props.invDetailsData.length; i++) {
       const element = props.invDetailsData[i];
@@ -22,7 +20,6 @@ export default function ProductTable(props) {
     }
     props.setInvRegisterData({
       ...props.invRegisterData,
-      // Total_Wt: parseFloat(newTotalWeight).toFixed(2),
       Net_Total: parseFloat(newNetTotal).toFixed(2),
       Discount: 0.0,
       Del_Chg: 0.0,
@@ -35,37 +32,22 @@ export default function ProductTable(props) {
       AssessableValue: parseFloat(newNetTotal).toFixed(2),
     });
   };
+
   const updateWeight = () => {
-    // props.deleteTaxes()
-    // console.log("updateWeight");
-    // let newNetTotal = 0;
     let newTotalWeight = 0;
     for (let i = 0; i < props.invDetailsData.length; i++) {
       const element = props.invDetailsData[i];
       newTotalWeight =
         parseFloat(newTotalWeight) + parseFloat(element.DC_Srl_Wt);
-      // newNetTotal = parseFloat(newNetTotal) + parseFloat(element.DC_Srl_Amt);
     }
-    // console.log("newTotalWeight", newTotalWeight);
+
     props.setInvRegisterData({
       ...props.invRegisterData,
       Total_Wt: parseFloat(newTotalWeight).toFixed(2),
-      // Net_Total: parseFloat(newNetTotal).toFixed(2),
-      // Discount: 0.0,
-      // Del_Chg: 0.0,
-      // TaxAmount: "0.00",
-      // InvTotal: parseFloat(newNetTotal).toFixed(2),
-      // GrandTotal: Math.round(parseFloat(newNetTotal)).toFixed(2),
-      // Round_Off: (
-      //   Math.round(parseFloat(newNetTotal)) - parseFloat(newNetTotal)
-      // ).toFixed(2),
-      // AssessableValue: parseFloat(newNetTotal).toFixed(2),
     });
   };
 
   const updateRate = () => {
-    // props.deleteTaxes();
-    // console.log("updateRate");
     let newNetTotal = 0;
     for (let i = 0; i < props.invDetailsData.length; i++) {
       const element = props.invDetailsData[i];
@@ -73,7 +55,6 @@ export default function ProductTable(props) {
     }
     props.setInvRegisterData({
       ...props.invRegisterData,
-      // Total_Wt: parseFloat(newTotalWeight).toFixed(2),
       Net_Total: parseFloat(newNetTotal).toFixed(2),
       Discount: 0.0,
       Del_Chg: 0.0,
@@ -88,38 +69,27 @@ export default function ProductTable(props) {
   };
   const inputTableRow = (e, key) => {
     props.deleteTaxes();
-    // console.log("key", key);
     if (
       key === props.invDetailsData.length - 1 &&
       !props.invRegisterData?.DC_No &&
       !props.invRegisterData.Iv_Id
-      // ||
-      // !(props.invDetailsData.length - 1).SL_No
     ) {
-      // console.log("dada");
-      props.invDetailsData.push(
-        {
-          SL_No: props.invDetailsData.length,
-          Dwg_No: "",
-          Material: "",
-          Excise_CL_no: "",
-          Qty: "0",
-          Unit_Wt: "0.00",
-          DC_Srl_Wt: "0.00",
-          Unit_Rate: "0.00",
-          DC_Srl_Amt: "0.00",
-          PkngLevel: "Pkng1",
-          InspLevel: "Insp1",
-        }
-        // { SL_No: props.invDetailsData.length }
-      );
+      props.invDetailsData.push({
+        SL_No: props.invDetailsData.length,
+        Dwg_No: "",
+        Material: "",
+        Excise_CL_no: "",
+        Qty: "0",
+        Unit_Wt: "0.00",
+        DC_Srl_Wt: "0.00",
+        Unit_Rate: "0.00",
+        DC_Srl_Amt: "0.00",
+        PkngLevel: "Pkng1",
+        InspLevel: "Insp1",
+      });
       props.setInvDetailsData(props.invDetailsData);
     }
 
-    // console.log(
-    //   "props.invDetailsData.length - 1",
-    //   props.invDetailsData.length - 1
-    // );
     const newArray = [];
 
     for (let i = 0; i < props.invDetailsData.length; i++) {
@@ -213,26 +183,10 @@ export default function ProductTable(props) {
                     />
                   </td>
                   <td>
-                    {/* <input
-                      value={tableData.Material}
-                      className="tableRowInput"
-                      name="Material"
-                      onChange={inputTableRow}
-                    /> */}
-
                     <select
                       value={tableData?.Material}
-                      // onChange={(e) => {
-                      //   setProductDetails({
-                      //     ...productDetails,
-                      //     Material: materialData[e.target.value].Material,
-                      //     Excise_CL_no: materialData[e.target.value].ExciseClNo,
-                      //   });
-                      // }}
-                      // required
                       name="Material"
                       id="materialDropdown"
-                      // className="tableRowInput"
                       style={{
                         fontSize: "inherit",
                       }}
@@ -245,7 +199,6 @@ export default function ProductTable(props) {
                           ? "input-disabled tableRowInput"
                           : "tableRowInput"
                       }
-                      // className="tableRowInput"
                     >
                       <option value="" selected disabled hidden>
                         Select material
@@ -271,7 +224,6 @@ export default function ProductTable(props) {
                           ? "input-disabled  tableRowInput"
                           : "tableRowInput"
                       }
-                      // className="tableRowInput"
                       name="Excise_CL_no"
                       onChange={(e) => {
                         inputTableRow(e, key);
@@ -284,7 +236,6 @@ export default function ProductTable(props) {
                       type="number"
                       min="0"
                       value={tableData.Qty}
-                      // className="tableRowInput"
                       name="Qty"
                       onChange={(e) => {
                         inputTableRow(e, key);
@@ -316,7 +267,6 @@ export default function ProductTable(props) {
                           ? "input-disabled  tableRowInput"
                           : "tableRowInput"
                       }
-                      // className="tableRowInput"
                       name="Unit_Wt"
                       onChange={(e) => {
                         inputTableRow(e, key);
@@ -351,7 +301,6 @@ export default function ProductTable(props) {
                           ? "input-disabled  tableRowInput"
                           : "tableRowInput"
                       }
-                      // className="tableRowInput"
                       name="Unit_Rate"
                       onChange={(e) => {
                         inputTableRow(e, key);

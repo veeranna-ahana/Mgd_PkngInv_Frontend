@@ -191,56 +191,6 @@ export default function SetRateModal(props) {
                           }}
                         />
                       </td>
-                      {/* {props.INVData[0]?.DC_InvType === "Job Work" ? (
-                        <>
-                          <td>
-                            <input
-                              type="number"
-                              min="0"
-                              defaultValue={val.JW_Rate}
-                              className="border-0"
-                              onChange={(e) => {
-                                updatedRates[i].JW_Rate = e.target.value;
-                                updatedRates[i].Unit_Rate = e.target.value;
-                              }}
-                            />
-                          </td>
-                          <td>{val.Mtrl_rate}</td>
-                        </>
-                      ) : (
-                        <>
-                          <td>
-                            <input
-                              type="number"
-                              min="0"
-                              defaultValue={val.JW_Rate}
-                              className="border-0"
-                              onChange={(e) => {
-                                updatedRates[i].JW_Rate = e.target.value;
-                                updatedRates[i].Unit_Rate = (
-                                  parseFloat(e.target.value) +
-                                  parseFloat(updatedRates[i].Mtrl_rate)
-                                ).toFixed(2);
-                              }}
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              min="0"
-                              defaultValue={val.Mtrl_rate}
-                              className="border-0"
-                              onChange={(e) => {
-                                updatedRates[i].Mtrl_rate = e.target.value;
-                                updatedRates[i].Unit_Rate = (
-                                  parseFloat(e.target.value) +
-                                  parseFloat(updatedRates[i].JW_Rate)
-                                ).toFixed(2);
-                              }}
-                            />
-                          </td>
-                        </>
-                      )} */}
                     </tr>
                   </>
                 ))}

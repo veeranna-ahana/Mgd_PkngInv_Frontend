@@ -915,6 +915,11 @@ export default function PrintPackingNote(props) {
                             width: "66%",
                             borderRight: "1px",
                             ...style.globalPadding,
+                            ...style.globalPadding,
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "flex-end",
+                            alignItems: "center",
                           }}
                         >
                           <Text>Customer Signature with Seal</Text>

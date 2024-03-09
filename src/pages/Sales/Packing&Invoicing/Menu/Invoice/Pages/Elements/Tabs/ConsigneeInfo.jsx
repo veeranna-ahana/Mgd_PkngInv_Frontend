@@ -4,23 +4,6 @@ import { apipoints } from "../../../../../../../api/PackInv_API/Invoice/Invoice"
 import { Typeahead } from "react-bootstrap-typeahead";
 
 export default function ConsigneeInfo(props) {
-  // const [AllCust, setAllCust] = useState([]);
-  // const [allStates, setAllStates] = useState([]);
-
-  // // // get all cust
-  // useEffect(() => {
-  //   Axios.post(apipoints.getAllCust, {}).then((res) => {
-  //     setAllCust(res.data);
-  //   });
-  // }, []);
-
-  // // // get all states
-  // useEffect(() => {
-  //   Axios.get(apipoints.getAllStates, {}).then((res) => {
-  //     setAllStates(res.data);
-  //   });
-  // }, []);
-
   return (
     <>
       <div>
@@ -44,16 +27,9 @@ export default function ConsigneeInfo(props) {
                   }
                   options={props.AllCust}
                   className={props.AllCust ? "" : "input-disabled"}
-                  // style={{
-                  //   fontSize: "inherit",
-                  // }}
                   disabled={!props.AllCust}
                   onChange={(e) => {
-                    // console.log("eee", e.length);
-                    // console.log("props.AllCust", props.AllCust);
-                    // console.log("selected cust...", props.AllCust[e[0]?.varID]);
                     if (e.length > 0) {
-                      // console.log("if");
                       const arr =
                         props.AllCust[e[0]?.varID]?.State?.toLowerCase().split(
                           " "
@@ -66,7 +42,6 @@ export default function ConsigneeInfo(props) {
 
                       const newState = arr?.join(" ");
 
-                      // console.log("newState", newState);
                       props.setInvRegisterData({
                         ...props.invRegisterData,
 
@@ -86,19 +61,10 @@ export default function ConsigneeInfo(props) {
                         Del_StateId: props.AllCust[e[0]?.varID]?.StateId,
                         GSTNo: props.AllCust[e[0]?.varID]?.GSTNo,
                         PAN_No: props.AllCust[e[0]?.varID]?.PAN_No,
-                        // PaymentTerms: props.AllCust[e[0]?.varID]?.CreditTerms,
-                        // BillType:
-                        //   props.AllCust[e[0]?.varID]?.CreditTerms?.split(
-                        //     " "
-                        //   )?.reverse()[0] === "Credit"
-                        //     ? "Credit"
-                        //     : "Cash",
                       });
                     } else {
-                      // console.log("else");
                       props.setInvRegisterData({
                         ...props.invRegisterData,
-
                         Cust_Code: "",
                         Cust_Name: "",
                         Cust_Address: "",
@@ -114,67 +80,11 @@ export default function ConsigneeInfo(props) {
                     }
                   }}
                 />
-
-                {/* <select
-                  className={
-                    props.AllCust ? "ip-select" : "ip-select input-disabled"
-                  }
-                  style={{
-                    fontSize: "inherit",
-                  }}
-                  disabled={!props.AllCust}
-                  onChange={(e) => {
-                    const arr =
-                      props.AllCust[e.target.value].State?.toLowerCase().split(
-                        " "
-                      );
-
-                    for (var i = 0; i < arr.length; i++) {
-                      arr[i] = arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
-                    }
-
-                    const newState = arr.join(" ");
-
-                    props.setInvRegisterData({
-                      ...props.invRegisterData,
-
-                      Cust_Code: props.AllCust[e.target.value].Cust_Code,
-                      Cust_Name: props.AllCust[e.target.value].Cust_name,
-                      Cust_Address: props.AllCust[e.target.value].Address,
-                      Cust_Place: props.AllCust[e.target.value].City,
-                      Cust_State:
-                        props.allStates.filter((obj) => obj.State === newState)
-                          .length === 0
-                          ? "Others"
-                          : newState,
-                      Cust_StateId: props.AllCust[e.target.value].StateId,
-                      PIN_Code: props.AllCust[e.target.value].Pin_Code,
-                      Del_Address: props.AllCust[e.target.value].Delivery,
-                      Del_StateId: props.AllCust[e.target.value].StateId,
-                      GSTNo: props.AllCust[e.target.value].GSTNo,
-                      PaymentTerms: props.AllCust[e.target.value].CreditTerms,
-                      BillType:
-                        props.AllCust[e.target.value].CreditTerms?.split(
-                          " "
-                        )?.reverse()[0] === "Credit"
-                          ? "Credit"
-                          : "Cash",
-                    });
-                  }}
-                >
-                  <option value="none" selected disabled hidden>
-                    {props.AllCust ? "Select the Customer" : "Loading..."}
-                  </option>
-                  {props.AllCust?.map((custVal, key) => (
-                    <option value={key}>{custVal.Cust_name}</option>
-                  ))}
-                </select> */}
               </>
             )}
           </div>
           <div className="col-md-6">
             <b>PO No</b>
-
             <input
               name="PO_No"
               value={props.invRegisterData?.PO_No}
@@ -204,17 +114,6 @@ export default function ConsigneeInfo(props) {
               value={props.invRegisterData?.Cust_Address}
               disabled
               className="input-disabled"
-              // onChange={props.inputHandler}
-              // disabled={
-              //   props.invRegisterData.Inv_No?.length > 0 ||
-              //   props.invRegisterData.DCStatus === "Cancelled"
-              // }
-              // className={
-              //   props.invRegisterData.Inv_No?.length > 0 ||
-              //   props.invRegisterData.DCStatus === "Cancelled"
-              //     ? "input-disabled"
-              //     : ""
-              // }
             ></textarea>
           </div>
           <div className="col-md-6">
@@ -256,19 +155,6 @@ export default function ConsigneeInfo(props) {
               value={props.invRegisterData?.Cust_Place}
               disabled
               className="input-disabled"
-
-              // maxLength="30"
-              // disabled={
-              //   props.invRegisterData.Inv_No?.length > 0 ||
-              //   props.invRegisterData.DCStatus === "Cancelled"
-              // }
-              // className={
-              //   props.invRegisterData.Inv_No?.length > 0 ||
-              //   props.invRegisterData.DCStatus === "Cancelled"
-              //     ? "input-disabled"
-              //     : ""
-              // }
-              // onChange={props.inputHandler}
             />
           </div>
           <div className="col-md-3">
@@ -280,32 +166,6 @@ export default function ConsigneeInfo(props) {
               disabled
               className="input-disabled"
             />
-            {/* <select
-              style={{
-                fontSize: "inherit",
-              }}
-              name="Cust_State"
-              // className="ip-select"
-              value={props.invRegisterData.Cust_State}
-              onChange={props.inputHandler}
-              disabled={
-                props.invRegisterData.Inv_No?.length > 0 ||
-                props.invRegisterData.DCStatus === "Cancelled"
-              }
-              className={
-                props.invRegisterData.Inv_No?.length > 0 ||
-                props.invRegisterData.DCStatus === "Cancelled"
-                  ? "input-disabled ip-select"
-                  : "ip-select"
-              }
-            >
-              <option value="" selected disabled hidden>
-                Select any option
-              </option>
-              {props.allStates.map((state, key) => (
-                <option value={state.State}>{state.State}</option>
-              ))}
-            </select> */}
           </div>
           <div className="col-md-3">
             <b>Pin Code</b>
@@ -314,20 +174,6 @@ export default function ConsigneeInfo(props) {
               name="PIN_Code"
               disabled
               className="input-disabled"
-
-              // maxLength="15"
-              // // className="input-disabled"
-              // onChange={props.inputHandler}
-              // disabled={
-              //   props.invRegisterData.Inv_No?.length > 0 ||
-              //   props.invRegisterData.DCStatus === "Cancelled"
-              // }
-              // className={
-              //   props.invRegisterData.Inv_No?.length > 0 ||
-              //   props.invRegisterData.DCStatus === "Cancelled"
-              //     ? "input-disabled"
-              //     : ""
-              // }
             />
           </div>
 
@@ -338,18 +184,6 @@ export default function ConsigneeInfo(props) {
               name="GSTNo"
               disabled
               className="input-disabled"
-
-              // onChange={props.inputHandler}
-              // disabled={
-              //   props.invRegisterData.Inv_No?.length > 0 ||
-              //   props.invRegisterData.DCStatus === "Cancelled"
-              // }
-              // className={
-              //   props.invRegisterData.Inv_No?.length > 0 ||
-              //   props.invRegisterData.DCStatus === "Cancelled"
-              //     ? "input-disabled"
-              //     : ""
-              // }
             />
           </div>
         </div>

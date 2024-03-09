@@ -2,8 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 
 import Axios from "axios";
 import { toast } from "react-toastify";
-// import { apipoints } from "../../../../../../../api/PackInv_API/Invoice/Invoice";
-// import ModalInvoiceAndAnnexure from "../../../../../PDFs/InvoiceAndAnnexure/ModalInvoiceAndAnnexure";
 
 export default function InvoicingInfo(props) {
   const trnsMode = ["By Road", "By Hand", "By Air", "By Courier"];
@@ -231,29 +229,6 @@ export default function InvoicingInfo(props) {
               }
             }
           }
-          // if (
-          //   (props.invRegisterData.PaymentTerms === cashMode[0] &&
-          //     props.invRegisterData.PaymentReceiptDetails?.length <8) ||
-          //   (props.invRegisterData.PaymentTerms === cashMode[3] &&
-          //     props.invRegisterData.PaymentReceiptDetails?.length <8)
-          // ) {
-          //   toast.warning("Please enter the Cash Reciept No and Details");
-          //   e.preventDefault();
-          // } else if (
-          //   props.invRegisterData.PaymentTerms === cashMode[1] &&
-          //   props.invRegisterData.PaymentReceiptDetails?.length <8
-          // ) {
-          //   toast.warning("Please enter the Cheque Details");
-          //   e.preventDefault();
-          // } else if (
-          //   props.invRegisterData.PaymentTerms === cashMode[2] &&
-          //   props.invRegisterData.PaymentReceiptDetails?.length <8
-          // ) {
-          //   toast.warning("Please enter the DD Details");
-          //   e.preventDefault();
-          // } else {
-          //   createInvoiceWorkFunc();
-          // }
         } else {
           createInvoiceWorkFunc();
         }
@@ -263,15 +238,6 @@ export default function InvoicingInfo(props) {
     }
   };
 
-  const today = new Date();
-  const todayDateforDispatch =
-    today.getFullYear() +
-    "-" +
-    (today.getMonth() + 1 < 10 ? "0" : "") +
-    (today.getMonth() + 1) +
-    "-" +
-    (today.getDate() + 1 < 10 ? "0" : "") +
-    today.getDate();
   return (
     <>
       <div>
@@ -295,7 +261,7 @@ export default function InvoicingInfo(props) {
                           ? props.invRegisterData.DespatchDate.split("T")[0]
                           : null
                       }
-                      min={todayDateforDispatch}
+                      min={props.formatedTodayDate}
                       onChange={props.inputHandler}
                       disabled={
                         props.invRegisterData.Inv_No?.length > 0 ||
@@ -345,10 +311,12 @@ export default function InvoicingInfo(props) {
                       value={props.invRegisterData?.VehNo}
                       onChange={props.inputHandler}
                       disabled={
+                        props.invRegisterData?.TptMode === "By Hand" ||
                         props.invRegisterData.Inv_No?.length > 0 ||
                         props.invRegisterData.DCStatus === "Cancelled"
                       }
                       className={
+                        props.invRegisterData?.TptMode === "By Hand" ||
                         props.invRegisterData.Inv_No?.length > 0 ||
                         props.invRegisterData.DCStatus === "Cancelled"
                           ? "input-disabled"
@@ -523,8 +491,6 @@ export default function InvoicingInfo(props) {
                   <div className="col-md-6">
                     <b>Person Contact No</b>
                     <input
-                      // type="number"
-                      // min={"0"}
                       name="Del_ContactNo"
                       value={props.invRegisterData.Del_ContactNo}
                       onChange={props.inputHandler}
@@ -551,7 +517,6 @@ export default function InvoicingInfo(props) {
                 style={{ border: "1px solid lightgray", borderRadius: "5px" }}
               >
                 <div className="row">
-                  {/* <div className="col-md-12"> */}
                   <div className="col-md-6">
                     <b>Bill Type</b>
                     <select
@@ -561,14 +526,6 @@ export default function InvoicingInfo(props) {
                       name="BillType"
                       value={props.invRegisterData.BillType}
                       onChange={props.inputHandler}
-                      // onChange={(e) => {
-                      //   props.inputHandler(e);
-                      //   props.invRegisterData.PaymentTerms =
-                      //     e.target.value === "Cash"
-                      //       ? cashMode[0]
-                      //       : creditDays[0];
-                      //   props.setInvRegisterData(props.invRegisterData);
-                      // }}
                       disabled={
                         props.invRegisterData.Inv_No?.length > 0 ||
                         props.invRegisterData.DCStatus === "Cancelled"
@@ -599,13 +556,7 @@ export default function InvoicingInfo(props) {
                         fontSize: "inherit",
                       }}
                       name="PaymentTerms"
-                      // className="ip-select"
-                      value={
-                        props.invRegisterData?.PaymentTerms
-                        // props.invRegisterData.BillType === "Cash"
-                        //   ? props.invRegisterData?.PaymentTerms || cashMode[0]
-                        //   : props.invRegisterData?.PaymentTerms
-                      }
+                      value={props.invRegisterData?.PaymentTerms}
                       onChange={props.inputHandler}
                       disabled={
                         props.invRegisterData.Inv_No?.length > 0 ||
@@ -687,7 +638,6 @@ export default function InvoicingInfo(props) {
                   ) : (
                     <div></div>
                   )}
-                  {/* </div> */}
                 </div>
               </div>
             </div>
@@ -718,8 +668,6 @@ export default function InvoicingInfo(props) {
           <div className="col-md-6 p-0">
             <div className="d-flex justify-content-end">
               <button
-                // className="button-style"
-
                 disabled={
                   !(props.invRegisterData.Inv_No?.length > 0) ||
                   props.invRegisterData.DCStatus === "Cancelled"
@@ -740,22 +688,6 @@ export default function InvoicingInfo(props) {
                   ? "Print Annexure"
                   : "Print Invoice"}
               </button>
-              {/* <button
-                // className="button-disabled"
-                disabled={
-                  !(props.invRegisterData.Inv_No?.length > 0) ||
-                  !(props.invDetailsData?.length > 20)
-                }
-                className={
-                  !(props.invRegisterData.Inv_No?.length > 0) ||
-                  !(props.invDetailsData?.length > 20)
-                    ? "button-style button-disabled"
-                    : "button-style"
-                }
-                onClick={props.printAnnexure}
-              >
-                Print Annexure
-              </button> */}
             </div>
           </div>
         </div>
