@@ -18,6 +18,16 @@ import ConfirmationModal from "./Modals/ConfirmationModal";
 export default function Profile() {
   const location = useLocation();
 
+  const todayDate = new Date();
+
+  let year = todayDate.getFullYear();
+  let month = todayDate.getMonth() + 1;
+  let datee = todayDate.getDate();
+
+  let formatedTodayDate = `${year}-${month < 10 ? "0" + month : month}-${
+    datee < 10 ? "0" + datee : datee
+  }`;
+
   const [DCInvNo, setDCInvNo] = useState(location.state);
   const [invRegisterData, setInvRegisterData] = useState([]);
   const [invDetailsData, setInvDetailsData] = useState([]);
@@ -48,6 +58,13 @@ export default function Profile() {
       res.data.registerData[0].TptMode =
         res.data.registerData[0].TptMode || "By Hand";
       setInvRegisterData(res.data.registerData[0]);
+
+      if (!res.data.registerData[0].DespatchDate) {
+        setInvRegisterData({
+          ...res.data.registerData[0],
+          DespatchDate: formatedTodayDate,
+        });
+      }
       setInvDetailsData(res.data.detailsData);
       setInvTaxData(res.data.taxData);
       Axios.post(apipoints.getSetRateConsumerData, {
