@@ -16,6 +16,16 @@ import PrintInvoiceAndAnnexure from "./PrintInvoiceAndAnnexure";
 export default function ModalInvoiceAndAnnexure(props) {
   const handleClose = () => props.setPrintAnneureModal(false);
 
+  let exciseArr = [];
+  for (let i = 0; i < props.invDetailsData.length; i++) {
+    const element = props.invDetailsData[i];
+
+    if (exciseArr.filter((obj) => obj === element.Excise_CL_no).length > 0) {
+    } else {
+      exciseArr.push(element.Excise_CL_no);
+    }
+  }
+
   return (
     <>
       <Modal fullscreen show={props.printAnneureModal} onHide={handleClose}>
@@ -33,6 +43,7 @@ export default function ModalInvoiceAndAnnexure(props) {
                 invRegisterData={props.invRegisterData}
                 invDetailsData={props.invDetailsData}
                 invTaxData={props.invTaxData}
+                exciseArr={exciseArr}
               />
             </PDFViewer>
           </Fragment>
