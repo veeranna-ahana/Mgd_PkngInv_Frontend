@@ -67,12 +67,13 @@ export default function InvoicingInfo(props) {
         toast.warning("Please select SGST and CST for Tax");
         e.preventDefault();
       } else if (
-        props.invRegisterData.Del_Address.length === 0 ||
-        props.invRegisterData.Del_Address === null ||
-        props.invRegisterData.Del_Address === "null" ||
-        props.invRegisterData.Del_Address === undefined ||
-        props.invRegisterData.Del_Address === "undefined" ||
-        props.invRegisterData.Del_Address === ""
+        props.invRegisterData.InvoiceFor != "Profile" &&
+        (props.invRegisterData.Del_Address.length === 0 ||
+          props.invRegisterData.Del_Address === null ||
+          props.invRegisterData.Del_Address === "null" ||
+          props.invRegisterData.Del_Address === undefined ||
+          props.invRegisterData.Del_Address === "undefined" ||
+          props.invRegisterData.Del_Address === "")
       ) {
         toast.warning("Please enter customer delivery address");
         e.preventDefault();
