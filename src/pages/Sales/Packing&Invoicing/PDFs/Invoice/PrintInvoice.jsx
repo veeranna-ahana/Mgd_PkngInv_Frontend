@@ -834,547 +834,211 @@ export default function PrintInvoiceAndAnnexure(props) {
                   </View>
 
                   {/* footer starts */}
+
                   <View style={{ borderTop: "1px" }}>
-                    {/* remarks and net total */}
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        borderBottom: "1px",
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>Remarks</Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "61%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text>
-                          {props.invRegisterData.Remarks === "" ||
-                          props.invRegisterData.Remarks === null ||
-                          props.invRegisterData.Remarks === undefined
-                            ? ""
-                            : props.invRegisterData.Remarks}
-                        </Text>
+                    <View style={{ display: "flex", flexDirection: "row" }}>
+                      <View style={{ width: "73%", borderRight: "1px" }}>
+                        <Text>left</Text>
                       </View>
 
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>Net Total</Text>
-                      </View>
-                      <View style={{ width: "15%", ...style.globalPadding }}>
-                        <Text>{props.invRegisterData.Net_Total}</Text>
-                      </View>
-                    </View>
-
-                    {/* tax details heading and delivery charges... */}
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        borderBottom: "1px",
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>Tax Name</Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>Taxable</Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>Tax %</Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>Tax Amount</Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "25%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>
-                          Goods Under HSN Class
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>Del. Charge</Text>
-                      </View>
-                      <View style={{ width: "15%", ...style.globalPadding }}>
-                        <Text>{props.invRegisterData.Del_Chg}</Text>
-                      </View>
-                    </View>
-
-                    {/* tax detatils 1 and discount */}
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                          borderBottom: "1px",
-                        }}
-                      >
-                        <Text>{props.invTaxData[0]?.Tax_Name}</Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                          borderBottom: "1px",
-                        }}
-                      >
-                        <Text>{props.invTaxData[0]?.TaxableAmount}</Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                          borderBottom: "1px",
-                        }}
-                      >
-                        <Text>
-                          {props.invTaxData[0]?.TaxPercent
-                            ? parseFloat(
-                                props.invTaxData[0]?.TaxPercent
-                              ).toFixed(2)
-                            : ""}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                          borderBottom: "1px",
-                        }}
-                      >
-                        <Text>{props.invTaxData[0]?.TaxAmt}</Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "25%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text></Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                          borderBottom: "1px",
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>Discount</Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "15%",
-                          ...style.globalPadding,
-
-                          borderBottom: "1px",
-                        }}
-                      >
-                        <Text>{props.invRegisterData?.Discount}</Text>
-                      </View>
-                    </View>
-
-                    {/* tax detatils 2 and Total Taxes */}
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        borderBottom: "1px",
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text>{props.invTaxData[1]?.Tax_Name}</Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text>{props.invTaxData[1]?.TaxableAmount}</Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text>
-                          {props.invTaxData[1]?.TaxPercent
-                            ? parseFloat(
-                                props.invTaxData[1]?.TaxPercent
-                              ).toFixed(2)
-                            : ""}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text>{props.invTaxData[1]?.TaxAmt}</Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "25%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text></Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>Total Taxes</Text>
-                      </View>
-                      <View style={{ width: "15%", ...style.globalPadding }}>
-                        <Text>{props.invRegisterData.TaxAmount}</Text>
-                      </View>
-                    </View>
-
-                    {/*  Invoice total */}
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        borderBottom: "1px",
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text>{props.invTaxData[2]?.Tax_Name}</Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text>{props.invTaxData[2]?.TaxableAmount}</Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text>
-                          {props.invTaxData[2]?.TaxPercent
-                            ? parseFloat(
-                                props.invTaxData[2]?.TaxPercent
-                              ).toFixed(2)
-                            : ""}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text>{props.invTaxData[2]?.TaxAmt}</Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "25%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text></Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>Invoice Total</Text>
-                      </View>
-                      <View style={{ width: "15%", ...style.globalPadding }}>
-                        <Text>{props.invRegisterData.InvTotal}</Text>
-                      </View>
-                    </View>
-
-                    {/* rpund off */}
-
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        borderBottom: "1px",
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: "24%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>
-                          Goods Removed on
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "49%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text>
-                          {props.invRegisterData.Printable_DespatchDate}{" "}
-                          {props.invRegisterData.TptMode}{" "}
-                          {props.invRegisterData.VehNo}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>Round Off</Text>
-                      </View>
-                      <View style={{ width: "15%", ...style.globalPadding }}>
-                        <Text>{props.invRegisterData.Round_Off}</Text>
-                      </View>
-                    </View>
-
-                    {/* <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        borderBottom: "1px",
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: "73%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      ></View>
-
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>Round Off</Text>
-                      </View>
-                      <View style={{ width: "15%", ...style.globalPadding }}>
-                        <Text>{props.invRegisterData.Round_Off}</Text>
-                      </View>
-                    </View> */}
-
-                    {/* empty space and grand total */}
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        borderBottom: "1px",
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: "73%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text>{props.PDFData.ServiceTariffInfo}</Text>
-                      </View>
-
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>Grand Total</Text>
-                      </View>
-                      <View style={{ width: "15%", ...style.globalPadding }}>
-                        <Text>{props.invRegisterData.GrandTotal}</Text>
-                      </View>
-                    </View>
-
-                    {/* amount in words */}
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        borderBottom: "1px",
-                        justifyContent: "flex-end",
-                        ...style.globalPadding,
-                      }}
-                    >
-                      <Text>
-                        {"Total Value in words Rupees" +
-                          (parseInt(props.invRegisterData?.GrandTotal) === 0
-                            ? " Zero "
-                            : wordify(
-                                parseInt(props.invRegisterData?.GrandTotal)
-                              )) +
-                          "Only."}
-                        {/* {"Rupees" +
-                          wordify(
-                            props.invRegisterData?.GrandTotal?.split(".")[0]
-                          ) +
-                          "Only."} */}
-                      </Text>
-                    </View>
-
-                    {/* bank details */}
-
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        borderBottom: "1px",
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: "12%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>Bank Details</Text>
-                      </View>
-                      <View style={{ ...style.globalPadding }}>
-                        <Text>{props.PDFData.BankDetails}</Text>
-                      </View>
-                    </View>
-
-                    {/* disclaimer and signatory */}
-
-                    <View
-                      style={{
-                        display: "flex",
-                        flexDirection: "row",
-                        // borderBottom: "1px",
-                      }}
-                    >
-                      <View
-                        style={{
-                          width: "60%",
-                          borderRight: "1px",
-                          ...style.globalPadding,
-                        }}
-                      >
-                        <Text>{props.PDFData.InvoiceTerms}</Text>
-                      </View>
-                      <View
-                        style={{
-                          ...style.globalPadding,
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "flex-end",
-                          justifyContent: "space-between",
-                          width: "40%",
-                        }}
-                      >
-                        <Text style={{ ...style.fontBold }}>
-                          For, {props.PDFData.RegisteredName}
-                        </Text>
-                        <Text style={{ ...style.fontBold }}>
-                          Authorised Signatory
-                        </Text>
+                      <View style={{ width: "27%" }}>
+                        <View
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
+                          {/* net total */}
+                          <View
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              borderBottom: "1px",
+                            }}
+                          >
+                            <View
+                              style={{
+                                width: "42%",
+                                ...style.fontBold,
+                                ...style.footerRowPadding,
+                                borderRight: "1px",
+                              }}
+                            >
+                              <Text>Net Total</Text>
+                            </View>
+                            <View
+                              style={{
+                                width: "58%",
+                                ...style.footerRowPadding,
+                              }}
+                            >
+                              <Text>Data...</Text>
+                            </View>
+                          </View>
+                          {/* del charge */}
+                          <View
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              borderBottom: "1px",
+                            }}
+                          >
+                            <View
+                              style={{
+                                width: "42%",
+                                ...style.fontBold,
+                                ...style.footerRowPadding,
+                                borderRight: "1px",
+                              }}
+                            >
+                              <Text>Del. Charge</Text>
+                            </View>
+                            <View
+                              style={{
+                                width: "58%",
+                                ...style.footerRowPadding,
+                              }}
+                            >
+                              <Text>Data...</Text>
+                            </View>
+                          </View>
+                          {/* discount */}
+                          <View
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              borderBottom: "1px",
+                            }}
+                          >
+                            <View
+                              style={{
+                                width: "42%",
+                                ...style.fontBold,
+                                ...style.footerRowPadding,
+                                borderRight: "1px",
+                              }}
+                            >
+                              <Text>Discount</Text>
+                            </View>
+                            <View
+                              style={{
+                                width: "58%",
+                                ...style.footerRowPadding,
+                              }}
+                            >
+                              <Text>Data...</Text>
+                            </View>
+                          </View>
+                          {/* total taxes */}
+                          <View
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              borderBottom: "1px",
+                            }}
+                          >
+                            <View
+                              style={{
+                                width: "42%",
+                                ...style.fontBold,
+                                ...style.footerRowPadding,
+                                borderRight: "1px",
+                              }}
+                            >
+                              <Text>Total Taxes</Text>
+                            </View>
+                            <View
+                              style={{
+                                width: "58%",
+                                ...style.footerRowPadding,
+                              }}
+                            >
+                              <Text>Data...</Text>
+                            </View>
+                          </View>
+                          {/* invoice total */}
+                          <View
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              borderBottom: "1px",
+                            }}
+                          >
+                            <View
+                              style={{
+                                width: "42%",
+                                ...style.fontBold,
+                                ...style.footerRowPadding,
+                                borderRight: "1px",
+                              }}
+                            >
+                              <Text>Invoice Total</Text>
+                            </View>
+                            <View
+                              style={{
+                                width: "58%",
+                                ...style.footerRowPadding,
+                              }}
+                            >
+                              <Text>Data...</Text>
+                            </View>
+                          </View>
+                          {/* round off */}
+                          <View
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              borderBottom: "1px",
+                            }}
+                          >
+                            <View
+                              style={{
+                                width: "42%",
+                                ...style.fontBold,
+                                ...style.footerRowPadding,
+                                borderRight: "1px",
+                              }}
+                            >
+                              <Text>Round Off</Text>
+                            </View>
+                            <View
+                              style={{
+                                width: "58%",
+                                ...style.footerRowPadding,
+                              }}
+                            >
+                              <Text>Data...</Text>
+                            </View>
+                          </View>
+                          {/* grand total */}
+                          <View
+                            style={{
+                              display: "flex",
+                              flexDirection: "row",
+                              // borderBottom: "1px",
+                            }}
+                          >
+                            <View
+                              style={{
+                                width: "42%",
+                                ...style.fontBold,
+                                ...style.footerRowPadding,
+                                borderRight: "1px",
+                              }}
+                            >
+                              <Text>Grand Total</Text>
+                            </View>
+                            <View
+                              style={{
+                                width: "58%",
+                                ...style.footerRowPadding,
+                              }}
+                            >
+                              <Text>Data...</Text>
+                            </View>
+                          </View>
+                        </View>
                       </View>
                     </View>
                   </View>
+
                   {/* footer ends */}
                 </View>
                 {/* main content ends */}
