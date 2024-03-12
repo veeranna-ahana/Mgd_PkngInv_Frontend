@@ -238,7 +238,11 @@ export default function PrintInvoiceAndAnnexure(props) {
                   }}
                 >
                   {/* <View> */}
-                  <Image src={MLLogo} style={{ width: "8.3%" }} />
+                  <Image
+                    src={MLLogo}
+                    // src={props.PDFData.Logo?.data}
+                    style={{ width: "8.3%" }}
+                  />
                   {/* </View> */}
                   <View
                     style={{
@@ -260,20 +264,20 @@ export default function PrintInvoiceAndAnnexure(props) {
                       </Text>
                     </View>
                     <Text style={{ ...style.fontBold, fontSize: "11px" }}>
-                      Magod Laser Machining Private Limited
+                      {props.PDFData.RegisteredName}
                     </Text>
                     <Text
                       style={{ ...style.fontBold, fontSize: headerFontSize }}
                     >
-                      GST: 29AABCM1970H1ZE CIN: U28900KA1995PTC018437
+                      GST: {props.PDFData.GST_No} CIN: {props.PDFData.CIN_No}
                     </Text>
                     <Text style={{ fontSize: headerFontSize }}>
-                      Plot No 72, 2nd Phase, KIADB Indl Area Jigani, Anekal
-                      Taluk Bengaluru - 560105
+                      {props.PDFData.RegistredOfficeAddress}
                     </Text>
                     <Text style={{ fontSize: headerFontSize }}>
-                      Ph : 08110 414313, 9513393352, sales@magodlaser.in,
-                      www.magodlaser.in
+                      {props.PDFData.PhonePrimary},{" "}
+                      {props.PDFData.PhoneSecondary}, {props.PDFData.Email},{" "}
+                      {props.PDFData.URL}
                     </Text>
                   </View>
                   {/* <View> */}
@@ -602,7 +606,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                           <Text style={{ ...style.fontBold }}>MSME No</Text>
                         </View>
                         <View style={{ width: "40%", ...style.globalPadding }}>
-                          <Text></Text>
+                          <Text>{props.PDFData.MSMENo}</Text>
                         </View>
                       </View>
 
@@ -619,10 +623,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                             ...style.globalPadding,
                           }}
                         >
-                          <Text>
-                            Whether the Tax is payable on Reverse Charge Basis:
-                            No
-                          </Text>
+                          <Text>{props.PDFData.ReverseChargeNote}</Text>
                         </View>
                       </View>
                     </View>
@@ -1271,7 +1272,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                           ...style.globalPadding,
                         }}
                       >
-                        <Text></Text>
+                        <Text>{props.PDFData.ServiceTariffInfo}</Text>
                       </View>
 
                       <View
@@ -1333,10 +1334,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                         <Text style={{ ...style.fontBold }}>Bank Details</Text>
                       </View>
                       <View style={{ ...style.globalPadding }}>
-                        <Text>
-                          State Bank of India Current Account A/C No :
-                          33664104046 IFSC : SBIN0011355 Branch : Jigani
-                        </Text>
+                        <Text>{props.PDFData.BankDetails}</Text>
                       </View>
                     </View>
 
@@ -1356,14 +1354,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                           ...style.globalPadding,
                         }}
                       >
-                        <Text>
-                          Certified that the particulars given above are true &
-                          correct and the amount indicated represents the price
-                          actually charged and that there is no flow of
-                          additional consideration directly or indirectly from
-                          the buyer.
-                        </Text>
-                        <Text>SUBJECT TO BANGALORE JURISDICTION.</Text>
+                        <Text>{props.PDFData.InvoiceTerms}</Text>
                       </View>
                       <View
                         style={{
@@ -1375,7 +1366,9 @@ export default function PrintInvoiceAndAnnexure(props) {
                           width: "40%",
                         }}
                       >
-                        <Text>For, Magod Laser Machining Private Limited</Text>
+                        <Text style={{ ...style.fontBold }}>
+                          For, {props.PDFData.RegisteredName}
+                        </Text>
                         <Text style={{ ...style.fontBold }}>
                           Authorised Signatory
                         </Text>
@@ -1397,10 +1390,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                   }}
                 >
                   <Text style={{ ...style.fontBold }}>Registered office :</Text>
-                  <Text>
-                    #72, Phase II, KIADB Indl Area Jigani, Anekal Taluk
-                    Bengaluru - 560105
-                  </Text>
+                  <Text>{props.PDFData.RegistredOfficeAddress}</Text>
                 </View>
               </View>
             </Page>

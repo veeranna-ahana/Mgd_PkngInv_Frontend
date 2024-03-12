@@ -17,4 +17,5 @@ export const apipoints = {
   getIVList: `${url}/invoice/getIVList`,
   getIVDetails: `${url}/invoice/getIVDetails`,
   insertRunNoRow: `${url}/invoice/insertRunNoRow`,
+  getPDFData: `${url}/pdf/getPDFData`,
 };

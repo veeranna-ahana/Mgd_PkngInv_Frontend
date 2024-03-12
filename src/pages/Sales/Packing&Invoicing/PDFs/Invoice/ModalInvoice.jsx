@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+
 import {
   PDFDownloadLink,
   Page,
@@ -10,13 +11,26 @@ import {
 } from "@react-pdf/renderer";
 import { Button, Modal } from "react-bootstrap";
 import PrintInvoice from "./PrintInvoice";
-// import MLLogo from "../../../../../../../ML-LOGO.png";
-// PrintInvoice
+import Axios from "axios";
+
+import { apipoints } from "../../../../api/PackInv_API/Invoice/Invoice";
 
 export default function ModalInvoiceAndAnnexure(props) {
+  const [PDFData, setPDFData] = useState({});
+
   const handleClose = () => props.setPrintInvoiceModal(false);
 
-  // console.log("details", props.invDetailsData);
+  function fetchPDFData() {
+    Axios.post(apipoints.getPDFData, {}).then((res) => {
+      setPDFData(res.data[0]);
+    });
+  }
+
+  useEffect(() => {
+    fetchPDFData();
+  }, []);
+
+  // console.log("PDFData", PDFData);
 
   let exciseArr = [];
   for (let i = 0; i < props.invDetailsData.length; i++) {
@@ -38,6 +52,7 @@ export default function ModalInvoiceAndAnnexure(props) {
           <Fragment>
             <PDFViewer width="1358" height="595" filename="Invoice.pdf">
               <PrintInvoice
+                PDFData={PDFData}
                 rowLimit={props.rowLimit}
                 invRegisterData={props.invRegisterData}
                 invDetailsData={props.invDetailsData}
