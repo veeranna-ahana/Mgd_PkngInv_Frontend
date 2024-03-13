@@ -20,7 +20,7 @@ export default function PrintInvoiceAndAnnexure(props) {
       fontFamily: "Helvetica",
     },
     globalPadding: { padding: "0.6%" },
-    footerRowPadding: { padding: "5px" },
+    footerRowPadding: { padding: "3px" },
     rowPadding: { padding: "0.6%" },
     fontBold: {
       //   fontWeight: "bold",
@@ -221,7 +221,7 @@ export default function PrintInvoiceAndAnnexure(props) {
     ).substring(2)}`;
   }
 
-  console.log("props...", props);
+  // console.log("props...", props);
   return (
     <>
       <Document>
@@ -864,7 +864,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                                   ...style.footerRowPadding,
                                 }}
                               >
-                                <Text>Remarks</Text>
+                                <Text>{props.invRegisterData.Remarks}</Text>
                               </View>
                             </View>
                           </View>
@@ -1055,7 +1055,13 @@ export default function PrintInvoiceAndAnnexure(props) {
                                   ...style.footerRowPadding,
                                 }}
                               >
-                                <Text>data, with delivery person data</Text>
+                                <Text>
+                                  {props.invRegisterData.Printable_DespatchDate}
+                                  , {props.invRegisterData.TptMode},{" "}
+                                  {props.invRegisterData.VehNo},{" "}
+                                  {props.invRegisterData.Del_ContactName},{" "}
+                                  {props.invRegisterData.Del_ContactNo}
+                                </Text>
                               </View>
                             </View>
                           </View>
@@ -1097,7 +1103,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                                 ...style.footerRowPadding,
                               }}
                             >
-                              <Text>cleader under data</Text>
+                              <Text>{props.PDFData.ServiceTariffInfo}</Text>
                             </View>
                           </View>
                         </View>
@@ -1132,7 +1138,11 @@ export default function PrintInvoiceAndAnnexure(props) {
                                 ...style.footerRowPadding,
                               }}
                             >
-                              <Text>Data...</Text>
+                              <Text>
+                                {parseFloat(
+                                  props.invRegisterData.Net_Total
+                                ).toFixed(2)}
+                              </Text>
                             </View>
                           </View>
                           {/* del charge */}
@@ -1159,7 +1169,11 @@ export default function PrintInvoiceAndAnnexure(props) {
                                 ...style.footerRowPadding,
                               }}
                             >
-                              <Text>Data...</Text>
+                              <Text>
+                                {parseFloat(
+                                  props.invRegisterData.Del_Chg
+                                ).toFixed(2)}
+                              </Text>
                             </View>
                           </View>
                           {/* discount */}
@@ -1186,7 +1200,11 @@ export default function PrintInvoiceAndAnnexure(props) {
                                 ...style.footerRowPadding,
                               }}
                             >
-                              <Text>Data...</Text>
+                              <Text>
+                                {parseFloat(
+                                  props.invRegisterData.Discount
+                                ).toFixed(2)}
+                              </Text>
                             </View>
                           </View>
                           {/* total taxes */}
@@ -1213,7 +1231,11 @@ export default function PrintInvoiceAndAnnexure(props) {
                                 ...style.footerRowPadding,
                               }}
                             >
-                              <Text>Data...</Text>
+                              <Text>
+                                {parseFloat(
+                                  props.invRegisterData.TaxAmount
+                                ).toFixed(2)}
+                              </Text>
                             </View>
                           </View>
                           {/* invoice total */}
@@ -1240,7 +1262,11 @@ export default function PrintInvoiceAndAnnexure(props) {
                                 ...style.footerRowPadding,
                               }}
                             >
-                              <Text>Data...</Text>
+                              <Text>
+                                {parseFloat(
+                                  props.invRegisterData.InvTotal
+                                ).toFixed(2)}
+                              </Text>
                             </View>
                           </View>
                           {/* round off */}
@@ -1267,7 +1293,11 @@ export default function PrintInvoiceAndAnnexure(props) {
                                 ...style.footerRowPadding,
                               }}
                             >
-                              <Text>Data...</Text>
+                              <Text>
+                                {parseFloat(
+                                  props.invRegisterData.Round_Off
+                                ).toFixed(2)}
+                              </Text>
                             </View>
                           </View>
                           {/* grand total */}
@@ -1294,7 +1324,11 @@ export default function PrintInvoiceAndAnnexure(props) {
                                 ...style.footerRowPadding,
                               }}
                             >
-                              <Text>Data...</Text>
+                              <Text>
+                                {parseFloat(
+                                  props.invRegisterData.GrandTotal
+                                ).toFixed(2)}
+                              </Text>
                             </View>
                           </View>
                         </View>
@@ -1343,7 +1377,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                         ...style.footerRowPadding,
                       }}
                     >
-                      <Text>datatatatta</Text>
+                      <Text>{props.PDFData.BankDetails}</Text>
                     </View>
                   </View>
                   {/* signature line... */}
@@ -1362,16 +1396,21 @@ export default function PrintInvoiceAndAnnexure(props) {
                         ...style.footerRowPadding,
                       }}
                     >
-                      <Text>left</Text>
+                      <Text>{props.PDFData.InvoiceTerms}</Text>
                     </View>
                     <View
                       style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-end",
+                        justifyContent: "space-between",
                         width: "40%",
                         ...style.fontBold,
                         ...style.footerRowPadding,
                       }}
                     >
-                      <Text>signature</Text>
+                      <Text>For, {props.PDFData.RegisteredName}</Text>
+                      <Text>Authorised Signatory</Text>
                     </View>
                   </View>
                   {/* footer ends */}
