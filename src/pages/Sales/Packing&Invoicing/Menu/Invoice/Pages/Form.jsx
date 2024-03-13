@@ -103,7 +103,7 @@ export default function Form(props) {
   const [printCopyModal, setPrintCopyModal] = useState(false);
 
   const [printAnneureModal, setPrintAnneureModal] = useState(false);
-  const [printInvoiceModal, setPrintInvoiceModal] = useState(true);
+  const [printInvoiceModal, setPrintInvoiceModal] = useState(false);
 
   const [selectIV, setSelectIV] = useState(false);
 
