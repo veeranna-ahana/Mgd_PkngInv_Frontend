@@ -8,17 +8,8 @@ import {
   Image,
 } from "@react-pdf/renderer";
 import MLLogo from "../../../../../ML-LOGO.png";
-// import { apipoints } from "../../../../api/PackInv_API/PackingNote/PackingNote";
-
-// import Axios from "axios";
-// apipoints
 
 export default function PrintPackingNote(props) {
-  // console.log("props.... invRegisterData", props.invRegisterData);
-
-  // const rowLimit = 20;
-  // const [tableData, setTableData] = useState([]);
-
   const style = {
     pageStyling: { padding: "2%", fontSize: "10px", fontFamily: "Helvetica" },
     globalPadding: { padding: "0.6%" },
@@ -34,43 +25,6 @@ export default function PrintPackingNote(props) {
     { copyName: "Office Copy" },
   ];
 
-  // function* chunks(arr, n) {
-  //   for (let i = 0; i < arr.length; i += n) {
-  //     yield arr.slice(i, i + n);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   setTableData([...chunks(props?.invDetailsData, rowLimit)]);
-  // });
-
-  // console.log("inside print..", [...chunks(props?.invDetailsData, rowLimit)]);
-
-  // function* chunks(arr, n) {
-  //   for (let i = 0; i < arr.length; i += n) {
-  //     yield arr.slice(i, i + n);
-  //   }
-  // }
-
-  // console.log("props.invDetails", props.invDetailsData);
-  // console.log("table dataaaa", tableData);
-  // const [PrintableData, setPrintableData] = useState([]);
-
-  // useEffect(() => {
-  //   Axios.post(apipoints.getPrintData, {
-  //     DCInvNo: props.props?.DCInvNo,
-  //   }).then((res) => {
-  //     // console.log("response from BE in PDF", res);
-  //     setPrintableData(res.data);
-  //   });
-  // }, []);
-
-  // // console.log("props inside pdfffff", props);
-
-  // // console.log("PrintableData", PrintableData);
-  // // console.log("table data...", tableData);
-
-  // // page quantity calculation
   let pageQuantity = [];
   props.invDetailsData.map((v1, k1) => {
     pageQuantity[k1] = 0;
@@ -205,7 +159,12 @@ export default function PrintPackingNote(props) {
                     }}
                   >
                     {/* <View> */}
-                    <Image src={MLLogo} style={{ width: "8.3%" }} />
+                    <Image
+                      // src={props.PDFData.Logo?.data}
+
+                      src={MLLogo}
+                      style={{ width: "8.3%" }}
+                    />
                     {/* </View> */}
                     <View
                       style={{
@@ -227,18 +186,16 @@ export default function PrintPackingNote(props) {
                         </Text>
                       </View>
                       <Text style={{ ...style.fontBold, fontSize: "11px" }}>
-                        Magod Laser Machining Private Limited
+                        {props.PDFData.RegisteredName}
                       </Text>
                       <Text style={{ ...style.fontBold }}>
-                        GST: 29AABCM1970H1ZE CIN: U28900KA1995PTC018437
+                        GST: {props.PDFData.GST_No} CIN: {props.PDFData.CIN_No}
                       </Text>
+                      <Text>{props.PDFData.RegistredOfficeAddress}</Text>
                       <Text>
-                        Plot No 72, 2nd Phase, KIADB Indl Area Jigani, Anekal
-                        Taluk Bengaluru - 560105
-                      </Text>
-                      <Text>
-                        Ph : 08110 414313, 9513393352, sales@magodlaser.in,
-                        www.magodlaser.in
+                        {props.PDFData.PhonePrimary},{" "}
+                        {props.PDFData.PhoneSecondary}, {props.PDFData.Email},{" "}
+                        {props.PDFData.URL}
                       </Text>
                     </View>
                     {/* <View> */}
@@ -580,7 +537,7 @@ export default function PrintPackingNote(props) {
                           <Text style={{ ...style.fontBold }}>MSME No</Text>
                         </View>
                         <View style={{ width: "40%", ...style.globalPadding }}>
-                          {/* <Text>data...</Text> */}
+                          <Text>{props.PDFData.MSMENo}</Text>
                         </View>
                       </View>
                     </View>
@@ -883,15 +840,7 @@ export default function PrintPackingNote(props) {
                             flexDirection: "column",
                           }}
                         >
-                          <Text>
-                            Please receive the above goods return to us the
-                            duplicate copy of "Delivery Challian" Dulystamped
-                            and receipted in acknowledgment of having received
-                            the material in good condition.anyissuse on this
-                            transactions, kindly intimate to us in writing
-                            within 3days from the date receipt
-                          </Text>
-                          <Text>SUBJECT TO BANGALORE JURISDICTION</Text>
+                          <Text>{props.PDFData.DCterms}</Text>
                         </View>
                         <View style={{ width: "34%", ...style.globalPadding }}>
                           <Text>
@@ -915,7 +864,6 @@ export default function PrintPackingNote(props) {
                             width: "66%",
                             borderRight: "1px",
                             ...style.globalPadding,
-                            ...style.globalPadding,
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "flex-end",
@@ -934,8 +882,8 @@ export default function PrintPackingNote(props) {
                             alignItems: "flex-end",
                           }}
                         >
-                          <Text>For, Magod Laser Machining Pvt. Ltd.</Text>
-                          <Text>Authorised Signatory.</Text>
+                          <Text>For, {props.PDFData.RegisteredName}</Text>
+                          <Text>Authorised Signatory</Text>
                         </View>
                       </View>
                     </View>
@@ -946,14 +894,14 @@ export default function PrintPackingNote(props) {
                   <View
                     style={{
                       display: "flex",
+                      flexDirection: "row",
                       justifyContent: "center",
-                      alignItems: "center",
                     }}
                   >
-                    <Text>
-                      Registered office: #72, Phase II, KIADB Indl Area, Jigani,
-                      Anekal Taluk, Bengaluru - 560105.
+                    <Text style={{ ...style.fontBold }}>
+                      Registered office :
                     </Text>
+                    <Text>{props.PDFData.RegistredOfficeAddress}</Text>
                   </View>
                 </View>
               </Page>
@@ -964,628 +912,3 @@ export default function PrintPackingNote(props) {
     </>
   );
 }
-
-// .............................
-
-// {tableData.map((outerVal, outerKey) => (
-//   <View>
-//     {/* top heading */}
-//     <View
-//       style={{
-//         display: "flex",
-//         flexDirection: "row",
-//         justifyContent: "space-between",
-//         alignItems: "center",
-//       }}
-//     >
-//       {/* <View> */}
-//       <Image src={MLLogo} style={{ width: "8.3%" }} />
-//       {/* </View> */}
-//       <View
-//         style={{
-//           display: "flex",
-//           flexDirection: "column",
-//           //   justifyContent: "center",
-//           alignItems: "center",
-//         }}
-//       >
-//         <View>
-//           <Text style={{ borderBottom: "1px", ...style.fontBold }}>
-//             Packing Note and Delivery Challan
-//           </Text>
-//         </View>
-//         <Text style={{ ...style.fontBold }}>
-//           Magod Laser Machining Private Limited
-//         </Text>
-//         <Text style={{ ...style.fontBold }}>
-//           GST: 29AABCM1970H1ZE CIN: U28900KA1995PTC018437
-//         </Text>
-//         <Text>
-//           Plot No 72, 2nd Phase, KIADB Indl Area Jigani, Anekal
-//           Taluk Bengaluru - 560105
-//         </Text>
-//         <Text>
-//           Ph : 08110 414313, 9513393352, sales@magodlaser.in,
-//           www.magodlaser.in
-//         </Text>
-//       </View>
-//       {/* <View> */}
-//       <Text style={{ width: "10%" }}>{copyVal.copyName}</Text>
-//       {/* </View> */}
-//     </View>
-//     <View style={{ ...style.globalPadding }}></View>
-//     {/* main content starts */}
-//     <View style={{ border: "1px" }}>
-//       {/* address section */}
-//       <View
-//         style={{
-//           borderBottom: "1px",
-//           display: "flex",
-//           flexDirection: "row",
-//           minHeight: "90px",
-//         }}
-//       >
-//         <View
-//           style={{
-//             width: "65%",
-//             borderRight: "1px",
-//             ...style.globalPadding,
-//           }}
-//         >
-//           <Text style={{ ...style.fontBold }}>
-//             Billing Address :
-//           </Text>
-//           {/* <View style={{ ...style.globalPadding }}>
-//       <Text style={{ ...style.fontBold }}>
-//         {props.invRegisterData?.Cust_Name}
-//       </Text>
-
-//       <Text>
-//         {props.invRegisterData?.Cust_Address},
-//         {props.invRegisterData?.Cust_Place},
-//         {props.invRegisterData?.Cust_State} -
-//         {props.invRegisterData?.PIN_Code}
-//       </Text>
-
-//       <View style={{ display: "flex", flexDirection: "row" }}>
-//         <Text style={{ ...style.fontBold }}>GSTIN : </Text>
-//         <Text>
-//           {props.invRegisterData?.GSTNo === null ||
-//           props.invRegisterData?.GSTNo === "null" ||
-//           props.invRegisterData?.GSTNo === undefined ||
-//           props.invRegisterData?.GSTNo === ""
-//             ? ""
-//             : props.invRegisterData?.GSTNo}
-//         </Text>
-//       </View>
-//     </View> */}
-//         </View>
-//         <View style={{ width: "35%", ...style.globalPadding }}>
-//           <Text style={{ ...style.fontBold }}>
-//             Shipping Address :
-//           </Text>
-//           {/* <View style={{ ...style.globalPadding }}>
-//       <Text>
-//         {props.invRegisterData?.Del_Address === null ||
-//         props.invRegisterData?.Del_Address === "null" ||
-//         props.invRegisterData?.Del_Address === undefined ||
-//         props.invRegisterData?.Del_Address === ""
-//           ? ""
-//           : props.invRegisterData?.Del_Address}
-//       </Text>
-//     </View> */}
-//         </View>
-//       </View>
-//       {/* bill details */}
-//       <View
-//       // style={{
-//       //   display: "flex",
-//       //   flexDirection: "row",
-//       //   borderBottom: "1px",
-//       //   //   minHeight: "180px",
-//       // }}
-//       >
-//         {/* customer po and page */}
-//         <View
-//           style={{
-//             borderBottom: "1px",
-//             display: "flex",
-//             flexDirection: "row",
-//           }}
-//         >
-//           <View
-//             style={{
-//               width: "25%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             <Text style={{ ...style.fontBold }}>Customer PO</Text>
-//           </View>
-//           <View
-//             style={{
-//               width: "25%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             {/* <Text>{props.invRegisterData?.PO_No}</Text> */}
-//           </View>
-//           <View
-//             style={{
-//               width: "25%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             <Text style={{ ...style.fontBold }}>Page</Text>
-//           </View>
-//           <View style={{ width: "25%", ...style.globalPadding }}>
-//             {/* <Text>
-//         {outerKey + 1} of {tableData.length}
-//       </Text> */}
-//           </View>
-//         </View>
-
-//         {/* packing note no and  packing date */}
-//         <View
-//           style={{
-//             borderBottom: "1px",
-//             display: "flex",
-//             flexDirection: "row",
-//           }}
-//         >
-//           <View
-//             style={{
-//               width: "25%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             <Text style={{ ...style.fontBold }}>
-//               Packing Note No
-//             </Text>
-//           </View>
-//           <View
-//             style={{
-//               width: "25%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             {/* <Text>{props.invRegisterData?.DC_No}</Text> */}
-//           </View>
-//           <View
-//             style={{
-//               width: "25%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             <Text style={{ ...style.fontBold }}>Packing Date</Text>
-//           </View>
-//           <View style={{ width: "25%", ...style.globalPadding }}>
-//             {/* <Text>{props.invRegisterData?.DC_Date}</Text> */}
-//           </View>
-//         </View>
-//         {/* invoice type */}
-//         <View
-//           style={{
-//             borderBottom: "1px",
-//             display: "flex",
-//             flexDirection: "row",
-//           }}
-//         >
-//           <View
-//             style={{
-//               width: "25%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             <Text style={{ ...style.fontBold }}>Invoice Type</Text>
-//           </View>
-//           <View
-//             style={{
-//               width: "25%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             {/* <Text>{props.invRegisterData?.DC_InvType}</Text> */}
-//           </View>
-//           <View
-//             style={{
-//               width: "25%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             <Text style={{ ...style.fontBold }}></Text>
-//           </View>
-//           <View style={{ width: "25%", ...style.globalPadding }}>
-//             <Text></Text>
-//           </View>
-//         </View>
-//         {/* invoice no and invoice date */}
-//         <View
-//           style={{
-//             borderBottom: "1px",
-//             display: "flex",
-//             flexDirection: "row",
-//           }}
-//         >
-//           <View
-//             style={{
-//               width: "25%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             <Text style={{ ...style.fontBold }}>Invoice No</Text>
-//           </View>
-//           <View
-//             style={{
-//               width: "25%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             {/* <Text>{props.invRegisterData?.Inv_No}</Text> */}
-//           </View>
-//           <View
-//             style={{
-//               width: "25%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             <Text style={{ ...style.fontBold }}>Invoice Date</Text>
-//           </View>
-//           <View style={{ width: "25%", ...style.globalPadding }}>
-//             {/* <Text>{props.invRegisterData?.Inv_Date}</Text> */}
-//           </View>
-//         </View>
-//         {/* eway bill no and pay on before */}
-//         <View
-//           style={{
-//             borderBottom: "1px",
-//             display: "flex",
-//             flexDirection: "row",
-//           }}
-//         >
-//           <View
-//             style={{
-//               width: "25%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             <Text style={{ ...style.fontBold }}>Eway Bill No</Text>
-//           </View>
-//           <View
-//             style={{
-//               width: "25%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             {/* <Text>{props.invRegisterData?.EWayBillRef}</Text> */}
-//           </View>
-//           <View
-//             style={{
-//               width: "25%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             <Text style={{ ...style.fontBold }}>Pay on Before</Text>
-//           </View>
-//           <View style={{ width: "25%", ...style.globalPadding }}>
-//             <Text>data...</Text>
-//           </View>
-//         </View>
-
-//         {/* pan no and msme no */}
-//         <View
-//           style={{
-//             borderBottom: "1px",
-//             display: "flex",
-//             flexDirection: "row",
-//           }}
-//         >
-//           <View
-//             style={{
-//               width: "25%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             <Text style={{ ...style.fontBold }}>PAN No</Text>
-//           </View>
-//           <View
-//             style={{
-//               width: "18%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             {/* <Text>{props.invRegisterData?.PAN_No}</Text> */}
-//           </View>
-//           <View
-//             style={{
-//               width: "17%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             <Text style={{ ...style.fontBold }}>MSME No</Text>
-//           </View>
-//           <View style={{ width: "40%", ...style.globalPadding }}>
-//             <Text>data...</Text>
-//           </View>
-//         </View>
-//       </View>
-
-//       {/* table content */}
-//       <View>
-//         {/* table heading */}
-//         <View
-//           style={{
-//             display: "flex",
-//             flexDirection: "row",
-//             justifyContent: "center",
-//             borderBottom: "1px",
-//             ...style.globalPadding,
-//           }}
-//         >
-//           <Text style={{ ...style.fontBold }}>Item List</Text>
-//         </View>
-//         {/* table starts */}
-//         <View>
-//           {/* table header */}
-
-//           <View
-//             style={{
-//               display: "flex",
-//               flexDirection: "row",
-//               justifyContent: "flex-satrt",
-//               borderBottom: "1px",
-//               // ...style.globalPadding,
-//             }}
-//           >
-//             {/* sl no */}
-//             <View
-//               style={{
-//                 display: "flex",
-//                 // flexDirection: "row",
-//                 // justifyContent: "flex-satrt",
-//                 borderRight: "1px",
-//                 width: "8%",
-//                 ...style.globalPadding,
-//               }}
-//             >
-//               <Text style={{ ...style.fontBold }}>SL No</Text>
-//             </View>
-//             {/* desc of goods */}
-//             <View
-//               style={{
-//                 display: "flex",
-//                 // flexDirection: "row",
-//                 // justifyContent: "flex-satrt",
-//                 borderRight: "1px",
-//                 width: "33%",
-//                 ...style.globalPadding,
-//               }}
-//             >
-//               <Text style={{ ...style.fontBold }}>
-//                 Description of goods / Drawing No
-//               </Text>
-//             </View>
-//             {/* material */}
-//             <View
-//               style={{
-//                 display: "flex",
-//                 // flexDirection: "row",
-//                 // justifyContent: "flex-satrt",
-//                 borderRight: "1px",
-//                 width: "17%",
-//                 ...style.globalPadding,
-//               }}
-//             >
-//               <Text style={{ ...style.fontBold }}>Material</Text>
-//             </View>
-
-//             {/* Packaging level */}
-//             <View
-//               style={{
-//                 display: "flex",
-//                 // flexDirection: "row",
-//                 // justifyContent: "flex-satrt",
-//                 borderRight: "1px",
-//                 width: "15%",
-//                 ...style.globalPadding,
-//               }}
-//             >
-//               <Text style={{ ...style.fontBold }}>
-//                 Packing Level
-//               </Text>
-//             </View>
-
-//             {/* inspection level */}
-
-//             <View
-//               style={{
-//                 display: "flex",
-//                 // flexDirection: "row",
-//                 // justifyContent: "flex-satrt",
-//                 borderRight: "1px",
-//                 width: "15%",
-//                 ...style.globalPadding,
-//               }}
-//             >
-//               <Text style={{ ...style.fontBold }}>
-//                 Inspection Level
-//               </Text>
-//             </View>
-
-//             {/* Qty */}
-//             <View
-//               style={{
-//                 display: "flex",
-//                 // flexDirection: "row",
-//                 // justifyContent: "flex-satrt",
-//                 // borderRight: "1px",
-//                 width: "12%",
-//                 ...style.globalPadding,
-//               }}
-//             >
-//               <Text style={{ ...style.fontBold }}>Quantity</Text>
-//             </View>
-//           </View>
-//           {/* table data */}
-//           <View
-//             style={{ height: "315px", borderBottom: "1px" }}
-//           ></View>
-//         </View>
-//       </View>
-
-//       {/* footer starts */}
-//       <View>
-//         {/* page items count, page items quantiy, total items count, total items quantity */}
-
-//         <View
-//           style={{
-//             display: "flex",
-//             flexDirection: "row",
-//             borderBottom: "1px",
-//             ...style.fontBold,
-//           }}
-//         >
-//           <View
-//             style={{
-//               ...style.globalPadding,
-//               width: "25%",
-//               borderRight: "1px",
-//             }}
-//           >
-//             {/* <Text>Page Items Count = {outerVal.length}</Text> */}
-//           </View>
-
-//           <View
-//             style={{
-//               ...style.globalPadding,
-//               width: "25%",
-//               borderRight: "1px",
-//             }}
-//           >
-//             <Text>
-//               {/* Page Items Quantity = {pageQuantity[outerKey]} */}
-//             </Text>
-//           </View>
-//           <View
-//             style={{
-//               ...style.globalPadding,
-//               width: "25%",
-//               borderRight: "1px",
-//             }}
-//           >
-//             {/* <Text>Total Item Count = {PrintableData.length}</Text> */}
-//           </View>
-//           <View
-//             style={{
-//               ...style.globalPadding,
-//               width: "25%",
-//               // borderRight: "1px",
-//             }}
-//           >
-//             {/* <Text>Total Items Quantity = {totalQty}</Text> */}
-//           </View>
-//         </View>
-
-//         {/* acknowledgement and total weight */}
-//         <View
-//           style={{
-//             display: "flex",
-//             flexDirection: "row",
-//             borderBottom: "1px",
-//             minHeight: "51px",
-//           }}
-//         >
-//           <View
-//             style={{
-//               width: "66%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//               display: "flex",
-//               flexDirection: "column",
-//             }}
-//           >
-//             <Text>
-//               Please receive the above goods return to us the
-//               duplicate copy of "Delivery Challian" Dulystamped and
-//               receipted in acknowledgment of having received the
-//               material in good condition.anyissuse on this
-//               transactions, kindly intimate to us in writing within
-//               3days from the date receipt
-//             </Text>
-//             <Text>SUBJECT TO BANGALORE JURISDICTION</Text>
-//           </View>
-//           <View style={{ width: "34%", ...style.globalPadding }}>
-//             {/* <Text>
-//         Total Weight in KGs = {totalWeight.toFixed(2)}
-//       </Text> */}
-//           </View>
-//         </View>
-//         {/* signaturessss */}
-//         <View
-//           style={{
-//             display: "flex",
-//             flexDirection: "row",
-//             // borderBottom: "1px",
-//             ...style.fontBold,
-//             minHeight: "51px",
-//           }}
-//         >
-//           <View
-//             style={{
-//               width: "66%",
-//               borderRight: "1px",
-//               ...style.globalPadding,
-//             }}
-//           >
-//             <Text>Customer Signature with Seal</Text>
-//           </View>
-//           <View
-//             style={{
-//               width: "34%",
-//               ...style.globalPadding,
-//               display: "flex",
-//               flexDirection: "column",
-//               justifyContent: "space-between",
-//               alignItems: "flex-end",
-//             }}
-//           >
-//             <Text>For, Magod Laser Machining Pvt. Ltd.</Text>
-//             <Text>Authorised Signatory.</Text>
-//           </View>
-//         </View>
-//       </View>
-//       {/* footer ends */}
-//     </View>
-//     {/* border ends here */}
-//     {/* address after border */}
-//     <View
-//       style={{
-//         display: "flex",
-//         justifyContent: "center",
-//         alignItems: "center",
-//       }}
-//     >
-//       <Text>
-//         Registered office: #72, Phase II, KIADB Indl Area, Jigani,
-//         Anekal Taluk, Bengaluru - 560105.
-//       </Text>
-//     </View>
-//   </View>
-// ))}
