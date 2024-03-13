@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import {
   PDFDownloadLink,
   Page,
@@ -10,15 +10,27 @@ import {
 } from "@react-pdf/renderer";
 import { Button, Modal } from "react-bootstrap";
 import PrintPackingNote from "./PrintPackingNote";
-// import PrintInvoiceAndAnnexure from "./PrintInvoiceAndAnnexure";
-// import MLLogo from "../../../../../../../ML-LOGO.png";
-// PrintInvoiceAndAnnexure
+import Axios from "axios";
 
-// PrintPackingNote
+import { apipoints } from "../../../../api/PackInv_API/Invoice/Invoice";
+
 export default function ModalPackingNote(props) {
+  const [PDFData, setPDFData] = useState({});
+
   const handleClose = () => props.setPrintCopyModal(false);
 
-  // console.log("props... in modal", props);
+  function fetchPDFData() {
+    Axios.post(apipoints.getPDFData, {}).then((res) => {
+      setPDFData(res.data[0]);
+    });
+  }
+
+  useEffect(() => {
+    fetchPDFData();
+  }, []);
+
+  // console.log("PDFData", PDFData);
+
   const rowLimit = 20;
 
   function* chunks(arr, n) {
@@ -42,6 +54,7 @@ export default function ModalPackingNote(props) {
           <Fragment>
             <PDFViewer width="1358" height="595" filename="PackingNote.pdf">
               <PrintPackingNote
+                PDFData={PDFData}
                 invRegisterData={props.invRegisterData}
                 // invDetailsData={props.invDetailsData}
                 invTaxData={props.invTaxData}
