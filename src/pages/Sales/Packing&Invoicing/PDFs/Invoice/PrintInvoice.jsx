@@ -20,7 +20,7 @@ export default function PrintInvoiceAndAnnexure(props) {
       fontFamily: "Helvetica",
     },
     globalPadding: { padding: "0.6%" },
-    footerRowPadding: { padding: "3%" },
+    footerRowPadding: { padding: "5px" },
     rowPadding: { padding: "0.6%" },
     fontBold: {
       //   fontWeight: "bold",
@@ -221,6 +221,7 @@ export default function PrintInvoiceAndAnnexure(props) {
     ).substring(2)}`;
   }
 
+  console.log("props...", props);
   return (
     <>
       <Document>
@@ -837,10 +838,272 @@ export default function PrintInvoiceAndAnnexure(props) {
 
                   <View style={{ borderTop: "1px" }}>
                     <View style={{ display: "flex", flexDirection: "row" }}>
+                      {/* left */}
                       <View style={{ width: "73%", borderRight: "1px" }}>
-                        <Text>left</Text>
+                        <View
+                          style={{ display: "flex", flexDirection: "column" }}
+                        >
+                          {/* remarks */}
+                          <View style={{ borderBottom: "1px" }}>
+                            <View
+                              style={{ display: "flex", flexDirection: "row" }}
+                            >
+                              <View
+                                style={{
+                                  width: "15%",
+                                  ...style.fontBold,
+                                  ...style.footerRowPadding,
+                                  borderRight: "1px",
+                                }}
+                              >
+                                <Text>Remarks</Text>
+                              </View>
+                              <View
+                                style={{
+                                  width: "85%",
+                                  ...style.footerRowPadding,
+                                }}
+                              >
+                                <Text>Remarks</Text>
+                              </View>
+                            </View>
+                          </View>
+                          {/* tax and hsn heading */}
+                          <View style={{ borderBottom: "1px" }}>
+                            <View
+                              style={{ display: "flex", flexDirection: "row" }}
+                            >
+                              <View
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  borderRight: "1px",
+                                  width: "60.5%",
+                                }}
+                              >
+                                <View
+                                  style={{
+                                    width: "25%",
+                                    ...style.fontBold,
+                                    ...style.footerRowPadding,
+                                    borderRight: "1px",
+                                  }}
+                                >
+                                  <Text>Tax Name</Text>
+                                </View>
+                                <View
+                                  style={{
+                                    width: "25%",
+                                    ...style.fontBold,
+                                    ...style.footerRowPadding,
+                                    borderRight: "1px",
+                                  }}
+                                >
+                                  <Text>Taxable</Text>
+                                </View>
+                                <View
+                                  style={{
+                                    width: "25%",
+                                    ...style.fontBold,
+                                    ...style.footerRowPadding,
+                                    borderRight: "1px",
+                                  }}
+                                >
+                                  <Text>Tax %</Text>
+                                </View>
+                                <View
+                                  style={{
+                                    width: "25%",
+                                    ...style.fontBold,
+                                    ...style.footerRowPadding,
+                                    // borderRight: "1px",
+                                  }}
+                                >
+                                  <Text>Tax Amt</Text>
+                                </View>
+                              </View>
+                              <View
+                                style={{
+                                  width: "39%",
+                                  ...style.fontBold,
+                                  ...style.footerRowPadding,
+                                  // borderRight: "1px",
+                                }}
+                              >
+                                <Text>Goods Under HSN Class</Text>
+                              </View>
+                            </View>
+                          </View>
+                          {/* tax and hsn data */}
+                          <View style={{ borderBottom: "1px" }}>
+                            <View
+                              style={{ display: "flex", flexDirection: "row" }}
+                            >
+                              <View
+                                style={{
+                                  width: "60.5%",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                }}
+                              >
+                                {props.invTaxData?.map((taxVal, key) => (
+                                  <View
+                                    style={
+                                      key + 1 != props.invTaxData.length
+                                        ? {
+                                            borderBottom: "1px",
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            borderRight: "1px",
+                                          }
+                                        : {
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            borderRight: "1px",
+                                          }
+                                    }
+                                  >
+                                    <View
+                                      style={{
+                                        width: "25%",
+                                        // ...style.fontBold,
+                                        ...style.footerRowPadding,
+                                        borderRight: "1px",
+                                      }}
+                                    >
+                                      <Text>{taxVal.Tax_Name}</Text>
+                                    </View>
+                                    <View
+                                      style={{
+                                        width: "25%",
+                                        // ...style.fontBold,
+                                        ...style.footerRowPadding,
+                                        borderRight: "1px",
+                                      }}
+                                    >
+                                      <Text>{taxVal.TaxableAmount}</Text>
+                                    </View>
+                                    <View
+                                      style={{
+                                        width: "25%",
+                                        // ...style.fontBold,
+                                        ...style.footerRowPadding,
+                                        borderRight: "1px",
+                                      }}
+                                    >
+                                      <Text>
+                                        {parseFloat(taxVal.TaxPercent).toFixed(
+                                          2
+                                        )}{" "}
+                                        %
+                                      </Text>
+                                    </View>
+                                    <View
+                                      style={{
+                                        width: "25%",
+                                        // ...style.fontBold,
+                                        ...style.footerRowPadding,
+                                        // borderRight: "1px",
+                                      }}
+                                    >
+                                      <Text>
+                                        {parseFloat(taxVal.TaxAmt).toFixed(2)}
+                                      </Text>
+                                    </View>
+                                  </View>
+                                ))}
+                              </View>
+                              <View
+                                style={{
+                                  width: "39%",
+                                  // ...style.fontBold,
+                                  ...style.footerRowPadding,
+                                  // borderRight: "1px",
+                                }}
+                              >
+                                <Text>
+                                  {props.exciseArr?.map((exciseVal, key) => (
+                                    <>
+                                      {exciseVal}
+                                      {key + 1 != props.exciseArr.length
+                                        ? ", "
+                                        : " "}
+                                    </>
+                                  ))}
+                                </Text>
+                              </View>
+                            </View>
+                          </View>
+                          {/* goods removed on  */}
+                          <View style={{ borderBottom: "1px" }}>
+                            <View
+                              style={{ display: "flex", flexDirection: "row" }}
+                            >
+                              <View
+                                style={{
+                                  width: "21%",
+                                  ...style.fontBold,
+                                  ...style.footerRowPadding,
+                                  borderRight: "1px",
+                                }}
+                              >
+                                <Text>Goods removed on </Text>
+                              </View>
+                              <View
+                                style={{
+                                  width: "79%",
+                                  ...style.footerRowPadding,
+                                }}
+                              >
+                                <Text>data, with delivery person data</Text>
+                              </View>
+                            </View>
+                          </View>
+                          {/* delivery person */}
+                          {/* <View style={{ borderBottom: "1px" }}>
+                            <View
+                              style={{ display: "flex", flexDirection: "row" }}
+                            >
+                              <View
+                                style={{
+                                  width: "21%",
+                                  ...style.fontBold,
+                                  ...style.footerRowPadding,
+                                  borderRight: "1px",
+                                }}
+                              >
+                                <Text>Delivery Person</Text>
+                              </View>
+                              <View
+                                style={{
+                                  width: "79%",
+                                  ...style.footerRowPadding,
+                                }}
+                              >
+                                <Text>data...</Text>
+                              </View>
+                            </View>
+                          </View> */}
+                          {/* cleared under */}
+                          <View
+                            style={
+                              props.invTaxData?.length < 3
+                                ? { borderBottom: "1px" }
+                                : ""
+                            }
+                          >
+                            <View
+                              style={{
+                                ...style.footerRowPadding,
+                              }}
+                            >
+                              <Text>cleader under data</Text>
+                            </View>
+                          </View>
+                        </View>
                       </View>
 
+                      {/* right */}
                       <View style={{ width: "27%" }}>
                         <View
                           style={{ display: "flex", flexDirection: "column" }}
@@ -1039,6 +1302,78 @@ export default function PrintInvoiceAndAnnexure(props) {
                     </View>
                   </View>
 
+                  {/* rupees */}
+                  <View
+                    style={{
+                      borderTop: "1px",
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "flex-end",
+                      ...style.footerRowPadding,
+                    }}
+                  >
+                    <Text>
+                      {"Rupees" +
+                        wordify(parseInt(props.invRegisterData?.GrandTotal)) +
+                        "Only."}
+                    </Text>
+                  </View>
+                  {/* bank detials */}
+                  <View
+                    style={{
+                      borderTop: "1px",
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <View
+                      style={{
+                        width: "12%",
+                        borderRight: "1px",
+                        ...style.fontBold,
+                        ...style.footerRowPadding,
+                      }}
+                    >
+                      <Text>Bank Details</Text>
+                    </View>
+                    <View
+                      style={{
+                        width: "88%",
+                        // ...style.fontBold,
+                        ...style.footerRowPadding,
+                      }}
+                    >
+                      <Text>datatatatta</Text>
+                    </View>
+                  </View>
+                  {/* signature line... */}
+                  <View
+                    style={{
+                      borderTop: "1px",
+                      display: "flex",
+                      flexDirection: "row",
+                    }}
+                  >
+                    <View
+                      style={{
+                        width: "60%",
+                        borderRight: "1px",
+                        // ...style.fontBold,
+                        ...style.footerRowPadding,
+                      }}
+                    >
+                      <Text>left</Text>
+                    </View>
+                    <View
+                      style={{
+                        width: "40%",
+                        ...style.fontBold,
+                        ...style.footerRowPadding,
+                      }}
+                    >
+                      <Text>signature</Text>
+                    </View>
+                  </View>
                   {/* footer ends */}
                 </View>
                 {/* main content ends */}
