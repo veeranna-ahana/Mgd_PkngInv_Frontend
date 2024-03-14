@@ -10,12 +10,23 @@ import {
 import MLLogo from "../../../../../ML-LOGO.png";
 
 export default function PrintPackingNote(props) {
+  let headerFontSize = "13px";
+  let subheaderFontsize = "11px";
+  let fontSize = "9px";
+
   const style = {
-    pageStyling: { padding: "2%", fontSize: "10px", fontFamily: "Helvetica" },
+    pageStyling: {
+      padding: "2%",
+      // paddingTop: "3%",
+      fontSize: fontSize,
+      fontFamily: "Helvetica",
+    },
     globalPadding: { padding: "0.6%" },
+    footerRowPadding: { padding: "3px" },
+    rowPadding: { padding: "0.6%" },
     fontBold: {
       //   fontWeight: "bold",
-      fontSize: "10px",
+      fontSize: fontSize,
       fontFamily: "Helvetica-Bold",
     },
   };
@@ -158,14 +169,13 @@ export default function PrintPackingNote(props) {
                       alignItems: "center",
                     }}
                   >
-                    {/* <View> */}
-                    <Image
-                      // src={props.PDFData.Logo?.data}
-
-                      src={MLLogo}
-                      style={{ width: "8.3%" }}
-                    />
-                    {/* </View> */}
+                    <View style={{ width: "7%" }}>
+                      <Image
+                        // src={props.PDFData.Logo?.data}
+                        src={MLLogo}
+                        // style={{ width: "7%" }}
+                      />
+                    </View>
                     <View
                       style={{
                         display: "flex",
@@ -179,13 +189,18 @@ export default function PrintPackingNote(props) {
                           style={{
                             borderBottom: "1px",
                             ...style.fontBold,
-                            fontSize: "11px",
+                            fontSize: headerFontSize,
                           }}
                         >
                           Packing Note and Delivery Challan
                         </Text>
                       </View>
-                      <Text style={{ ...style.fontBold, fontSize: "11px" }}>
+                      <Text
+                        style={{
+                          ...style.fontBold,
+                          fontSize: subheaderFontsize,
+                        }}
+                      >
                         {props.PDFData.RegisteredName}
                       </Text>
                       <Text style={{ ...style.fontBold }}>
@@ -202,7 +217,7 @@ export default function PrintPackingNote(props) {
                     <Text style={{ width: "10%" }}>{copyVal.copyName}</Text>
                     {/* </View> */}
                   </View>
-                  <View style={{ ...style.globalPadding }}></View>
+                  <View style={{ padding: "0.3%" }}></View>
                   {/* main content starts */}
                   <View style={{ border: "1px" }}>
                     {/* address section */}
@@ -211,7 +226,7 @@ export default function PrintPackingNote(props) {
                         borderBottom: "1px",
                         display: "flex",
                         flexDirection: "row",
-                        minHeight: "90px",
+                        maxHeight: "90px",
                       }}
                     >
                       <View
@@ -844,7 +859,8 @@ export default function PrintPackingNote(props) {
                         </View>
                         <View style={{ width: "34%", ...style.globalPadding }}>
                           <Text>
-                            Total Weight in KGs = {totalWeight.toFixed(2)}
+                            Total Weight in KGs ={" "}
+                            {parseFloat(totalWeight).toFixed(3)}
                           </Text>
                           {/* <Text>Total Weight in KGs = needed</Text> */}
                         </View>
