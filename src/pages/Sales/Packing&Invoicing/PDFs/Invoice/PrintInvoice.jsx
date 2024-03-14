@@ -10,18 +10,20 @@ import {
 import MLLogo from "../../../../../ML-LOGO.png";
 
 export default function PrintInvoiceAndAnnexure(props) {
-  const fontSize = "8px";
-  const headerFontSize = "9px";
+  let headerFontSize = "13px";
+  let subheaderFontsize = "11px";
+  let fontSize = "9px";
+
   const style = {
     pageStyling: {
       padding: "2%",
-      paddingTop: "1.5%",
+      // paddingTop: "3%",
       fontSize: fontSize,
       fontFamily: "Helvetica",
     },
     globalPadding: { padding: "0.6%" },
     footerRowPadding: { padding: "3px" },
-    rowPadding: { padding: "0.6%" },
+    // globalPadding: { padding: "0.6%" },
     fontBold: {
       //   fontWeight: "bold",
       fontSize: fontSize,
@@ -238,12 +240,13 @@ export default function PrintInvoiceAndAnnexure(props) {
                     alignItems: "center",
                   }}
                 >
-                  {/* <View> */}
-                  <Image
-                    src={MLLogo}
-                    // src={props.PDFData.Logo?.data}
-                    style={{ width: "8.3%" }}
-                  />
+                  <View style={{ width: "7%" }}>
+                    <Image
+                      // src={props.PDFData.Logo?.data}
+                      src={MLLogo}
+                      // style={{ width: "7%" }}
+                    />
+                  </View>
                   {/* </View> */}
                   <View
                     style={{
@@ -258,36 +261,32 @@ export default function PrintInvoiceAndAnnexure(props) {
                         style={{
                           borderBottom: "1px",
                           ...style.fontBold,
-                          fontSize: "11px",
+                          fontSize: headerFontSize,
                         }}
                       >
                         TAX INVOICE
                       </Text>
                     </View>
-                    <Text style={{ ...style.fontBold, fontSize: "11px" }}>
+                    <Text
+                      style={{ ...style.fontBold, fontSize: subheaderFontsize }}
+                    >
                       {props.PDFData.RegisteredName}
                     </Text>
-                    <Text
-                      style={{ ...style.fontBold, fontSize: headerFontSize }}
-                    >
+                    <Text style={{ ...style.fontBold }}>
                       GST: {props.PDFData.GST_No} CIN: {props.PDFData.CIN_No}
                     </Text>
-                    <Text style={{ fontSize: headerFontSize }}>
-                      {props.PDFData.RegistredOfficeAddress}
-                    </Text>
-                    <Text style={{ fontSize: headerFontSize }}>
+                    <Text>{props.PDFData.RegistredOfficeAddress}</Text>
+                    <Text>
                       {props.PDFData.PhonePrimary},{" "}
                       {props.PDFData.PhoneSecondary}, {props.PDFData.Email},{" "}
                       {props.PDFData.URL}
                     </Text>
                   </View>
                   {/* <View> */}
-                  <Text style={{ width: "10%", fontSize: headerFontSize }}>
-                    {copyVal.copyName}
-                  </Text>
+                  <Text style={{ width: "10%" }}>{copyVal.copyName}</Text>
                   {/* </View> */}
                 </View>
-                <View style={{ ...style.globalPadding }}></View>
+                <View style={{ padding: "0.3%" }}></View>
                 {/* main content starts */}
                 <View style={{ border: "1px" }}>
                   {/* address section */}
@@ -296,7 +295,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                       borderBottom: "1px",
                       display: "flex",
                       flexDirection: "row",
-                      height: "72px",
+                      maxHeight: "90px",
                     }}
                   >
                     <View
@@ -653,16 +652,12 @@ export default function PrintInvoiceAndAnnexure(props) {
                         flexDirection: "row",
                       }}
                     >
-                      <Text
-                        style={{ ...style.fontBold, fontSize: headerFontSize }}
-                      >
+                      <Text style={{ ...style.fontBold }}>
                         Invoice Item Details
                       </Text>
                     </View>
 
-                    <View
-                    //  style={{ border: "1px" }}
-                    >
+                    <View>
                       {/* table header... */}
                       <View
                         style={{
@@ -737,7 +732,12 @@ export default function PrintInvoiceAndAnnexure(props) {
                         </View>
                       </View>
                       {/* table content */}
-                      <View style={{ height: "291px" }}>
+                      <View
+                        style={{
+                          minHeight: "250px",
+                          maxHeight: "291px",
+                        }}
+                      >
                         <View>
                           {props.invDetailsData?.map((val, key) => (
                             <View
@@ -762,7 +762,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                               {/* sl */}
                               <View
                                 style={{
-                                  ...style.rowPadding,
+                                  ...style.globalPadding,
                                   width: "7%",
                                   borderRight: "1px",
                                 }}
@@ -774,7 +774,7 @@ export default function PrintInvoiceAndAnnexure(props) {
 
                               <View
                                 style={{
-                                  ...style.rowPadding,
+                                  ...style.globalPadding,
                                   width: "47%",
                                   borderRight: "1px",
                                 }}
@@ -785,7 +785,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                               {/* Material */}
                               <View
                                 style={{
-                                  ...style.rowPadding,
+                                  ...style.globalPadding,
                                   width: "19%",
                                   borderRight: "1px",
                                 }}
@@ -797,7 +797,7 @@ export default function PrintInvoiceAndAnnexure(props) {
 
                               <View
                                 style={{
-                                  ...style.rowPadding,
+                                  ...style.globalPadding,
                                   width: "7%",
                                   borderRight: "1px",
                                 }}
@@ -809,7 +809,7 @@ export default function PrintInvoiceAndAnnexure(props) {
 
                               <View
                                 style={{
-                                  ...style.rowPadding,
+                                  ...style.globalPadding,
                                   width: "10%",
                                   borderRight: "1px",
                                 }}
@@ -821,7 +821,7 @@ export default function PrintInvoiceAndAnnexure(props) {
 
                               <View
                                 style={{
-                                  ...style.rowPadding,
+                                  ...style.globalPadding,
                                   width: "10%",
                                 }}
                               >
@@ -1041,7 +1041,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                             >
                               <View
                                 style={{
-                                  width: "21%",
+                                  width: "23%",
                                   ...style.fontBold,
                                   ...style.footerRowPadding,
                                   borderRight: "1px",
@@ -1051,7 +1051,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                               </View>
                               <View
                                 style={{
-                                  width: "79%",
+                                  width: "77%",
                                   ...style.footerRowPadding,
                                 }}
                               >
@@ -1438,445 +1438,3 @@ export default function PrintInvoiceAndAnnexure(props) {
     </>
   );
 }
-
-// <View style={{ padding: "3%" }}></View>
-// <View
-//   style={{
-//     border: "top",
-//     display: "flex",
-//     flexDirection: "column",
-//   }}
-// >
-//   <View
-//     style={{
-//       display: "flex",
-//       flexDirection: "row",
-//       borderBottom: "1px",
-//     }}
-//   >
-//     <View style={{ width: "75%", borderRight: "1px" }}>
-//       {/* left */}
-//       <View style={{ display: "flex", flexDirection: "column" }}>
-//         {/* remarks */}
-//         <View
-//           style={{
-//             display: "flex",
-//             flexDirection: "row",
-//             borderBottom: "1px",
-//           }}
-//         >
-//           <View style={{ width: "15%", borderRight: "1px" }}>
-//             <Text
-//               style={{
-//                 ...style.fontBold,
-//                 ...style.globalPadding,
-//               }}
-//             >
-//               Remarks
-//             </Text>
-//           </View>
-//           <View style={{ width: "88%" }}>
-//             <Text style={{ ...style.globalPadding }}>
-//               {props.invRegisterData.Remarks === "" ||
-//               props.invRegisterData.Remarks === null ||
-//               props.invRegisterData.Remarks === undefined
-//                 ? ""
-//                 : props.invRegisterData.Remarks}
-//             </Text>
-//           </View>
-//         </View>
-//         {/* Tax heading */}
-//         <View
-//           style={{
-//             display: "flex",
-//             flexDirection: "row",
-//             borderBottom: "1px",
-//           }}
-//         >
-//           <View style={{ width: "15%", borderRight: "1px" }}>
-//             <Text
-//               style={{
-//                 ...style.fontBold,
-//                 ...style.footerRowPadding,
-//               }}
-//             >
-//               Total Taxes
-//             </Text>
-//           </View>
-//           <View style={{ width: "15%", borderRight: "1px" }}>
-//             <Text
-//               style={{
-//                 ...style.fontBold,
-//                 ...style.footerRowPadding,
-//               }}
-//             >
-//               Total Taxes
-//             </Text>
-//           </View>
-//           <View style={{ width: "15%", borderRight: "1px" }}>
-//             <Text
-//               style={{
-//                 ...style.fontBold,
-//                 ...style.footerRowPadding,
-//               }}
-//             >
-//               Total Taxes
-//             </Text>
-//           </View>
-//           <View style={{ width: "15%", borderRight: "1px" }}>
-//             <Text
-//               style={{
-//                 ...style.fontBold,
-//                 ...style.footerRowPadding,
-//               }}
-//             >
-//               Total Taxes
-//             </Text>
-//           </View>
-//           <View style={{ width: "40%" }}>
-//             <Text
-//               style={{
-//                 ...style.fontBold,
-//                 ...style.footerRowPadding,
-//               }}
-//             >
-//               Total Taxes
-//             </Text>
-//           </View>
-//         </View>
-//         {/* tax data */}
-//         {props.invTaxData?.map((taxVal, taxKey) => (
-//           <>
-//             <View
-//               style={{
-//                 display: "flex",
-//                 flexDirection: "row",
-//               }}
-//             >
-//               <View
-//                 style={{
-//                   width: "15%",
-//                   borderRight: "1px",
-//                   borderBottom: "1px",
-//                 }}
-//               >
-//                 <Text
-//                   style={{
-//                     ...style.footerRowPadding,
-//                   }}
-//                 >
-//                   {taxVal.Tax_Name}
-//                 </Text>
-//               </View>
-//               <View
-//                 style={{
-//                   width: "15%",
-//                   borderRight: "1px",
-//                   borderBottom: "1px",
-//                 }}
-//               >
-//                 <Text
-//                   style={{
-//                     ...style.footerRowPadding,
-//                   }}
-//                 >
-//                   {taxVal.TaxableAmount}
-//                 </Text>
-//               </View>
-//               <View
-//                 style={{
-//                   width: "15%",
-//                   borderRight: "1px",
-//                   borderBottom: "1px",
-//                 }}
-//               >
-//                 <Text
-//                   style={{
-//                     ...style.footerRowPadding,
-//                   }}
-//                 >
-//                   {taxVal.TaxPercent}
-//                 </Text>
-//               </View>
-//               <View
-//                 style={{
-//                   width: "15%",
-//                   borderRight: "1px",
-//                   borderBottom: "1px",
-//                 }}
-//               >
-//                 <Text
-//                   style={{
-//                     ...style.footerRowPadding,
-//                   }}
-//                 >
-//                   {taxVal.TaxAmt}
-//                 </Text>
-//               </View>
-//               <View
-//                 style={
-//                   taxKey + 1 === props.invTaxData?.length
-//                     ? { width: "40%", borderBottom: "1px" }
-//                     : { width: "40%" }
-//                 }
-//               >
-//                 <Text
-//                   style={{
-//                     ...style.footerRowPadding,
-//                   }}
-//                 >
-//                   {/* Goods Under HSN Class */}
-//                 </Text>
-//               </View>
-//             </View>
-//           </>
-//         ))}
-//         {/* goods removed on */}
-//         <View
-//           style={{
-//             display: "flex",
-//             flexDirection: "row",
-//             // borderBottom: "1px",
-//           }}
-//         >
-//           <View style={{ width: "21%", borderRight: "1px" }}>
-//             <Text
-//               style={{
-//                 ...style.fontBold,
-//                 // ...style.footerRowPadding,
-//               }}
-//             >
-//               Goods Removed on
-//             </Text>
-//           </View>
-//           <View style={{ width: "88%" }}>
-//             <Text
-//               style={
-//                 {
-//                   // ...style.footerRowPadding
-//                 }
-//               }
-//             >
-//               {props.invRegisterData.Printable_DespatchDate}{" "}
-//               {props.invRegisterData.TptMode}{" "}
-//               {props.invRegisterData.VehNo}
-//             </Text>
-//           </View>
-//         </View>
-//         {/* delivery person details */}
-//         <View
-//           style={{
-//             display: "flex",
-//             flexDirection: "row",
-//             borderBottom: "1px",
-//           }}
-//         >
-//           <View style={{ width: "24%", borderRight: "1px" }}>
-//             <Text
-//               style={{
-//                 ...style.fontBold,
-//                 // ...style.footerRowPadding,
-//               }}
-//             >
-//               Delivery Person Details
-//             </Text>
-//           </View>
-//           <View style={{ width: "88%" }}>
-//             <Text
-//               style={
-//                 {
-//                   // ...style.footerRowPadding
-//                 }
-//               }
-//             >
-//               datataa
-//             </Text>
-//           </View>
-//         </View>
-//       </View>
-//     </View>
-//     {/* right side */}
-//     <View style={{ width: "25%" }}>
-//       <View style={{ display: "flex", flexDirection: "column" }}>
-//         <View
-//           style={{
-//             display: "flex",
-//             flexDirection: "row",
-//             borderBottom: "1px",
-//           }}
-//         >
-//           <View style={{ width: "50%", borderRight: "1px" }}>
-//             <Text
-//               style={{
-//                 ...style.fontBold,
-//                 ...style.footerRowPadding,
-//               }}
-//             >
-//               Net Total
-//             </Text>
-//           </View>
-//           <View style={{ width: "80%" }}>
-//             <Text style={{ ...style.footerRowPadding }}>
-//               {props.invRegisterData.Net_Total}
-//             </Text>
-//           </View>
-//         </View>
-//         <View
-//           style={{
-//             display: "flex",
-//             flexDirection: "row",
-//             borderBottom: "1px",
-//           }}
-//         >
-//           <View style={{ width: "50%", borderRight: "1px" }}>
-//             <Text
-//               style={{
-//                 ...style.fontBold,
-//                 ...style.footerRowPadding,
-//               }}
-//             >
-//               Del Charge
-//             </Text>
-//           </View>
-//           <View style={{ width: "80%" }}>
-//             <Text style={{ ...style.footerRowPadding }}>
-//               {props.invRegisterData.Del_Chg}
-//             </Text>
-//           </View>
-//         </View>{" "}
-//         <View
-//           style={{
-//             display: "flex",
-//             flexDirection: "row",
-//             borderBottom: "1px",
-//           }}
-//         >
-//           <View style={{ width: "50%", borderRight: "1px" }}>
-//             <Text
-//               style={{
-//                 ...style.fontBold,
-//                 ...style.footerRowPadding,
-//               }}
-//             >
-//               Discount
-//             </Text>
-//           </View>
-//           <View style={{ width: "80%" }}>
-//             <Text style={{ ...style.footerRowPadding }}>
-//               {props.invRegisterData.Discount}
-//             </Text>
-//           </View>
-//         </View>{" "}
-//         <View
-//           style={{
-//             display: "flex",
-//             flexDirection: "row",
-//             borderBottom: "1px",
-//           }}
-//         >
-//           <View style={{ width: "50%", borderRight: "1px" }}>
-//             <Text
-//               style={{
-//                 ...style.fontBold,
-//                 ...style.footerRowPadding,
-//               }}
-//             >
-//               Total Taxes
-//             </Text>
-//           </View>
-//           <View style={{ width: "80%" }}>
-//             <Text style={{ ...style.footerRowPadding }}>
-//               {props.invRegisterData.TaxAmount}
-//             </Text>
-//           </View>
-//         </View>{" "}
-//         <View
-//           style={{
-//             display: "flex",
-//             flexDirection: "row",
-//             borderBottom: "1px",
-//           }}
-//         >
-//           <View style={{ width: "50%", borderRight: "1px" }}>
-//             <Text
-//               style={{
-//                 ...style.fontBold,
-//                 ...style.footerRowPadding,
-//               }}
-//             >
-//               Invoice Total
-//             </Text>
-//           </View>
-//           <View style={{ width: "80%" }}>
-//             <Text style={{ ...style.footerRowPadding }}>
-//               {props.invRegisterData.InvTotal}
-//             </Text>
-//           </View>
-//         </View>{" "}
-//         <View
-//           style={{
-//             display: "flex",
-//             flexDirection: "row",
-//             borderBottom: "1px",
-//           }}
-//         >
-//           <View style={{ width: "50%", borderRight: "1px" }}>
-//             <Text
-//               style={{
-//                 ...style.fontBold,
-//                 ...style.footerRowPadding,
-//               }}
-//             >
-//               Round Off
-//             </Text>
-//           </View>
-//           <View style={{ width: "80%" }}>
-//             <Text style={{ ...style.footerRowPadding }}>
-//               {props.invRegisterData.Round_Off}
-//             </Text>
-//           </View>
-//         </View>{" "}
-//         <View
-//           style={{
-//             display: "flex",
-//             flexDirection: "row",
-//             borderBottom: "1px",
-//           }}
-//         >
-//           <View style={{ width: "50%", borderRight: "1px" }}>
-//             <Text
-//               style={{
-//                 ...style.fontBold,
-//                 ...style.footerRowPadding,
-//               }}
-//             >
-//               Grand Total
-//             </Text>
-//           </View>
-//           <View style={{ width: "80%" }}>
-//             <Text style={{ ...style.footerRowPadding }}>
-//               {props.invRegisterData.GrandTotal}
-//             </Text>
-//           </View>
-//         </View>
-//       </View>
-//     </View>
-//   </View>
-//   <View
-//     style={{
-//       display: "flex",
-//       flexDirection: "row",
-//       borderBottom: "1px",
-//     }}
-//   >
-//     <Text>
-//       {"Rupees" +
-//         wordify(parseInt(props.invRegisterData?.GrandTotal)) +
-//         "Only."}
-//     </Text>
-//   </View>
-// </View>
-
-// <View>
-//   <Text>space</Text>
-// </View>
