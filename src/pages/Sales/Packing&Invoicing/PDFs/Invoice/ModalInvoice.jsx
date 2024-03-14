@@ -15,7 +15,7 @@ import Axios from "axios";
 
 import { apipoints } from "../../../../api/PackInv_API/Invoice/Invoice";
 
-export default function ModalInvoiceAndAnnexure(props) {
+export default function ModalInvoice(props) {
   const [PDFData, setPDFData] = useState({});
 
   const handleClose = () => props.setPrintInvoiceModal(false);
