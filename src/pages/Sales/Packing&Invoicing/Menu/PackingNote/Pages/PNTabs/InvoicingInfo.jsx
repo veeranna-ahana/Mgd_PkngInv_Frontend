@@ -114,23 +114,42 @@ export default function InvoicingInfo(props) {
         toast.warning("Please enter Vehicle Number");
         e.preventDefault();
       } else if (
+        (props.invRegisterData.DC_InvType === "Services" ||
+          props.invRegisterData.DC_InvType === "Service") &&
         (props.invRegisterData.Del_ContactName === null ||
           props.invRegisterData.Del_ContactName === undefined ||
           props.invRegisterData.Del_ContactName === "" ||
           props.invRegisterData.Del_ContactName === "null" ||
           props.invRegisterData.Del_ContactName === "undefined" ||
-          props.invRegisterData.Del_ContactName.length === 0) &&
-        props.invRegisterData.DC_InvType === "Services"
+          props.invRegisterData.Del_ContactName.length === 0)
+
+        // ((props.invRegisterData.Del_ContactName === null ||
+        //   props.invRegisterData.Del_ContactName === undefined ||
+        //   props.invRegisterData.Del_ContactName === "" ||
+        //   props.invRegisterData.Del_ContactName === "null" ||
+        //   props.invRegisterData.Del_ContactName === "undefined" ||
+        //   props.invRegisterData.Del_ContactName.length === 0) &&
+        //   props.invRegisterData.DC_InvType === "Services") ||
+        // props.invRegisterData.DC_InvType === "Service"
       ) {
         toast.warning("Please enter delivery person name");
         e.preventDefault();
       } else if (
+        (props.invRegisterData.DC_InvType === "Services" ||
+          props.invRegisterData.DC_InvType === "Service") &&
         (props.invRegisterData.Del_ContactNo === null ||
           props.invRegisterData.Del_ContactNo === undefined ||
           props.invRegisterData.Del_ContactNo === "" ||
           props.invRegisterData.Del_ContactNo === "null" ||
-          props.invRegisterData.Del_ContactNo.length === 0) &&
-        props.invRegisterData.DC_InvType === "Services"
+          props.invRegisterData.Del_ContactNo === "undefined" ||
+          props.invRegisterData.Del_ContactNo.length === 0)
+        // ((props.invRegisterData.Del_ContactNo === null ||
+        //   props.invRegisterData.Del_ContactNo === undefined ||
+        //   props.invRegisterData.Del_ContactNo === "" ||
+        //   props.invRegisterData.Del_ContactNo === "null" ||
+        //   props.invRegisterData.Del_ContactNo.length === 0) &&
+        //   props.invRegisterData.DC_InvType === "Services") ||
+        // props.invRegisterData.DC_InvType === "Service"
       ) {
         toast.warning("Please enter delivery person contact number");
         e.preventDefault();

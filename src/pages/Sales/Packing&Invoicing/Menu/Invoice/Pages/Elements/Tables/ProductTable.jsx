@@ -241,13 +241,15 @@ export default function ProductTable(props) {
                         inputTableRow(e, key);
                       }}
                       disabled={
-                        props.invRegisterData?.DC_No ||
-                        props.invRegisterData.Iv_Id
+                        props.invRegisterData?.DC_No
+                        // ||
+                        // props.invRegisterData.Iv_Id
                       }
                       className={
-                        props.invRegisterData?.DC_No ||
-                        props.invRegisterData.Iv_Id
-                          ? "input-disabled tableRowInput"
+                        props.invRegisterData?.DC_No
+                          ? // ||
+                            // props.invRegisterData.Iv_Id
+                            "input-disabled tableRowInput"
                           : "tableRowInput"
                       }
                     />
