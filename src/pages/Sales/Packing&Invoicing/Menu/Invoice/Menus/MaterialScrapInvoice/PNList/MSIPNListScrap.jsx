@@ -6,7 +6,7 @@ export default function MSIPNListScrap() {
       <List
         PNList={"Scrap"}
         Status={"Packed"}
-        heading={"Material Scarp Packing Note List"}
+        heading={"Material Scarp Sales Packing Note List"}
       />
     </>
   );
