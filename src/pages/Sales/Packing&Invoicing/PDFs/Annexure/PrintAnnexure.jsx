@@ -511,8 +511,8 @@ export default function PrintAnnexure(props) {
                         </View>
                         <View
                           style={{
-                            width: "75%",
-                            // borderRight: "1px",
+                            width: "25%",
+                            borderRight: "1px",
                             ...style.globalPadding,
                           }}
                         >
@@ -524,7 +524,7 @@ export default function PrintAnnexure(props) {
                               : props.invRegisterData.EWayBillRef}
                           </Text>
                         </View>
-                        {/* <View
+                        <View
                           style={{
                             width: "25%",
                             borderRight: "1px",
@@ -537,7 +537,7 @@ export default function PrintAnnexure(props) {
                         </View>
                         <View style={{ width: "25%", ...style.globalPadding }}>
                           <Text>{payOnBefore}</Text>
-                        </View> */}
+                        </View>
                       </View>
 
                       {/* irn No */}
