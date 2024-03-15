@@ -31,12 +31,17 @@ export default function ImportFromIV(props) {
       Iv_Id: selectedIV.Iv_Id,
     }).then((res) => {
       if (res.data.flag === 1) {
-        toast.success(res.data.message);
-        props.setInvDetailsData(res.data.detailsData);
-        props.setInvRegisterData({
-          ...props.invRegisterData,
-          Iv_Id: res.data.Iv_Id,
-        });
+        if (res.data.detailsData.length > 0) {
+          toast.success(res.data.message);
+          props.setInvDetailsData(res.data.detailsData);
+          props.setInvRegisterData({
+            ...props.invRegisterData,
+            Iv_Id: res.data.Iv_Id,
+          });
+        } else {
+          toast.warning("No srl to found to import");
+        }
+
         handleClose(1);
       } else if (res.data.flag === 0) {
         toast.error(res.data.message);
@@ -87,7 +92,7 @@ export default function ImportFromIV(props) {
                           <td>{key + 1}</td>
                           <td>{val.IV_No}</td>
                           <td>{val.IV_Date}</td>
-                          <td>{val.TotalCalculatedWeight}</td>
+                          <td>{val.TotalWeight}</td>
                           <td>{val.Type}</td>
                         </tr>
                       </>
