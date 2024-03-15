@@ -160,11 +160,11 @@ export default function PrintAnnexure(props) {
     props.invRegisterData.PaymentTerms?.match(/\d+/g)
   ) {
     let newInvDate = new Date(
-      props.invRegisterData.Inv_Date?.split("/")[1] +
+      props.invRegisterData.Printable_Inv_Date?.split("/")[1] +
         "/" +
-        props.invRegisterData.Inv_Date?.split("/")[0] +
+        props.invRegisterData.Printable_Inv_Date?.split("/")[0] +
         "/" +
-        props.invRegisterData.Inv_Date?.split("/")[2]
+        props.invRegisterData.Printable_Inv_Date?.split("/")[2]
     );
 
     newInvDate.setDate(

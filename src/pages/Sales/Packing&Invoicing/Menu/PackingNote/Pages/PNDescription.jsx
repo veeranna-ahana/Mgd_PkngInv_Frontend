@@ -602,6 +602,7 @@ export default function Profile() {
             <ProductTable
               invDetailsData={invDetailsData}
               loadRateEvent={loadRateEvent}
+              invRegisterData={invRegisterData}
             />
           </div>
           {/* tax table */}
