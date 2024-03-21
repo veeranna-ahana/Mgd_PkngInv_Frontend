@@ -587,11 +587,12 @@ export default function PrintAnnexure(props) {
                           }}
                         >
                           <Text>
-                            {props.invRegisterData.PAN_No === "" ||
+                            {props.PDFData.PAN_No}
+                            {/* {props.invRegisterData.PAN_No === "" ||
                             props.invRegisterData.PAN_No === undefined ||
                             props.invRegisterData.PAN_No === null
                               ? ""
-                              : props.invRegisterData.PAN_No}
+                              : props.invRegisterData.PAN_No} */}
                           </Text>
                         </View>
                         <View
