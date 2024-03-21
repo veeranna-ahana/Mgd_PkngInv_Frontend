@@ -23,10 +23,12 @@ export default function Form(props) {
   let year = todayDate.getFullYear();
   let month = todayDate.getMonth() + 1;
   let datee = todayDate.getDate();
+  let hour = todayDate.getHours();
+  let mins = todayDate.getMinutes();
 
   let formatedTodayDate = `${year}-${month < 10 ? "0" + month : month}-${
     datee < 10 ? "0" + datee : datee
-  }`;
+  }T${hour < 10 ? "0" + hour : hour}:${mins < 10 ? "0" + mins : mins}`;
 
   const [TaxDropDownData, setTaxDropDownData] = useState([]);
 
@@ -144,6 +146,9 @@ export default function Form(props) {
       let newState = arr.join(" ");
 
       res.data.registerData[0].Cust_State = newState;
+
+      res.data.registerData[0].DespatchDate =
+        res.data.registerData[0].DespatchDate || formatedTodayDate;
 
       setInvRegisterData(res.data.registerData[0]);
       setInvDetailsData(res.data.detailsData);
