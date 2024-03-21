@@ -254,12 +254,13 @@ export default function InvoicingInfo(props) {
                   <div className="col-md-4">
                     <b>Dispatch Date</b>
                     <input
-                      type="date"
+                      type="datetime-local"
                       name="DespatchDate"
                       value={
-                        props.invRegisterData?.DespatchDate?.split("T")[0]
-                          ? props.invRegisterData.DespatchDate.split("T")[0]
-                          : null
+                        props.invRegisterData?.DespatchDate || ""
+                        // props.invRegisterData?.DespatchDate?.split("T")[0]
+                        //   ? props.invRegisterData.DespatchDate.split("T")[0]
+                        //   : null
                       }
                       min={props.formatedTodayDate}
                       onChange={props.inputHandler}

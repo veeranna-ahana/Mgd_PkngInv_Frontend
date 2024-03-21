@@ -18,15 +18,19 @@ import ModalInvoice from "../../../PDFs/Invoice/ModalInvoice";
 import { Link, useLocation } from "react-router-dom";
 
 export default function Form(props) {
+  let defaultDelivery = "Ex Factory";
+
   const todayDate = new Date();
 
   let year = todayDate.getFullYear();
   let month = todayDate.getMonth() + 1;
   let datee = todayDate.getDate();
+  let hour = todayDate.getHours();
+  let mins = todayDate.getMinutes();
 
   let formatedTodayDate = `${year}-${month < 10 ? "0" + month : month}-${
     datee < 10 ? "0" + datee : datee
-  }`;
+  }T${hour < 10 ? "0" + hour : hour}:${mins < 10 ? "0" + mins : mins}`;
 
   const [TaxDropDownData, setTaxDropDownData] = useState([]);
 
@@ -50,7 +54,7 @@ export default function Form(props) {
     Cust_State: "",
     Cust_StateId: "",
     PIN_Code: "",
-    Del_Address: "",
+    Del_Address: defaultDelivery,
     GSTNo: "",
     PO_No: "",
     PO_Date: "",
@@ -144,6 +148,9 @@ export default function Form(props) {
       let newState = arr.join(" ");
 
       res.data.registerData[0].Cust_State = newState;
+
+      res.data.registerData[0].DespatchDate =
+        res.data.registerData[0].DespatchDate || formatedTodayDate;
 
       setInvRegisterData(res.data.registerData[0]);
       setInvDetailsData(res.data.detailsData);

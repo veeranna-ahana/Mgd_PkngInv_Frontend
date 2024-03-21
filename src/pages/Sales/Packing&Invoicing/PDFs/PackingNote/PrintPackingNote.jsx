@@ -540,7 +540,10 @@ export default function PrintPackingNote(props) {
                             ...style.globalPadding,
                           }}
                         >
-                          <Text>{props.invRegisterData?.PAN_No}</Text>
+                          <Text>
+                            {props.PDFData.PAN_No}
+                            {/* {props.invRegisterData?.PAN_No} */}
+                          </Text>
                         </View>
                         <View
                           style={{
