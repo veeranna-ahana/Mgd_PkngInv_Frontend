@@ -18,6 +18,8 @@ import ModalInvoice from "../../../PDFs/Invoice/ModalInvoice";
 import { Link, useLocation } from "react-router-dom";
 
 export default function Form(props) {
+  let defaultDelivery = "Ex Factory";
+
   const todayDate = new Date();
 
   let year = todayDate.getFullYear();
@@ -52,7 +54,7 @@ export default function Form(props) {
     Cust_State: "",
     Cust_StateId: "",
     PIN_Code: "",
-    Del_Address: "",
+    Del_Address: defaultDelivery,
     GSTNo: "",
     PO_No: "",
     PO_Date: "",
