@@ -23,13 +23,15 @@ export default function Profile() {
   let year = todayDate.getFullYear();
   let month = todayDate.getMonth() + 1;
   let datee = todayDate.getDate();
+  let hour = todayDate.getHours();
+  let mins = todayDate.getMinutes();
 
   let formatedTodayDate = `${year}-${month < 10 ? "0" + month : month}-${
     datee < 10 ? "0" + datee : datee
-  }`;
+  }T${hour < 10 ? "0" + hour : hour}:${mins < 10 ? "0" + mins : mins}`;
 
   const [DCInvNo, setDCInvNo] = useState(location.state);
-  const [invRegisterData, setInvRegisterData] = useState([]);
+  const [invRegisterData, setInvRegisterData] = useState({});
   const [invDetailsData, setInvDetailsData] = useState([]);
   const [invTaxData, setInvTaxData] = useState([]);
   const [loadRateEvent, setLoadRateEvent] = useState(false);
@@ -57,14 +59,11 @@ export default function Profile() {
     }).then((res) => {
       res.data.registerData[0].TptMode =
         res.data.registerData[0].TptMode || "By Hand";
+
+      res.data.registerData[0].DespatchDate =
+        res.data.registerData[0].DespatchDate || formatedTodayDate;
       setInvRegisterData(res.data.registerData[0]);
 
-      if (!res.data.registerData[0].DespatchDate) {
-        setInvRegisterData({
-          ...res.data.registerData[0],
-          DespatchDate: formatedTodayDate,
-        });
-      }
       setInvDetailsData(res.data.detailsData);
       setInvTaxData(res.data.taxData);
       Axios.post(apipoints.getSetRateConsumerData, {
@@ -250,6 +249,7 @@ export default function Profile() {
               setInvDetailsData={setInvDetailsData}
               invTaxData={invTaxData}
               setInvTaxData={setInvTaxData}
+              formatedTodayDate={formatedTodayDate}
               inputHandler={inputHandler} //func
               deleteTaxFunc={deleteTaxFunc} //func
               handleChangeDiscountDelivery={handleChangeDiscountDelivery}
