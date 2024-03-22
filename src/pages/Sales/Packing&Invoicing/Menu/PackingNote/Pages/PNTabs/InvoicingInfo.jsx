@@ -254,16 +254,6 @@ export default function InvoicingInfo(props) {
     }
   };
 
-  const today = new Date();
-  const todayDateforDispatch =
-    today.getFullYear() +
-    "-" +
-    (today.getMonth() + 1 < 10 ? "0" : "") +
-    (today.getMonth() + 1) +
-    "-" +
-    (today.getDate() + 1 < 10 ? "0" : "") +
-    today.getDate();
-
   return (
     <>
       <div>
@@ -275,13 +265,14 @@ export default function InvoicingInfo(props) {
               <div className="col-md-4">
                 <b>Dispatch Date</b>
                 <input
-                  type="date"
+                  type="datetime-local"
                   value={
-                    props.invRegisterData?.DespatchDate?.split("T")[0]
-                      ? props.invRegisterData.DespatchDate.split("T")[0]
-                      : null
+                    props.invRegisterData?.DespatchDate || ""
+                    // props.invRegisterData?.DespatchDate?.split("T")[0]
+                    //   ? props.invRegisterData.DespatchDate.split("T")[0]
+                    //   : null
                   }
-                  min={todayDateforDispatch}
+                  min={props.formatedTodayDate}
                   name="DespatchDate"
                   onChange={props.inputHandler}
                   disabled={
