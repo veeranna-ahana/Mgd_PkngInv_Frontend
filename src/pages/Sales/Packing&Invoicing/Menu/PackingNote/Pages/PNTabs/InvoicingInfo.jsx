@@ -259,11 +259,13 @@ export default function InvoicingInfo(props) {
       <div>
         {/* first row */}
         <div className="row">
-          <div className="col-md-8">
-            <b>Dispatch Info</b>
+          <div className="col-md-7">
+            <label className="form-label">Dispatch Info</label>
             <div className={layoutForInvoicingInfo}>
-              <div className="col-md-4">
-                <b>Dispatch Date</b>
+              <div className="d-flex col-md-4 mt-1" style={{ gap: "10px" }}>
+                <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+                  Dispatch Date
+                </label>
                 <input
                   type="datetime-local"
                   value={
@@ -283,18 +285,17 @@ export default function InvoicingInfo(props) {
                     props.invRegisterData.Inv_No ||
                     props.invRegisterData.DCStatus === "Cancelled"
                       ? "input-disabled"
-                      : ""
+                      : "in-field"
                   }
                 />
               </div>
-              <div className="col-md-4">
-                <b>Dispatch Mode</b>
+              <div className="d-flex col-md-4 mt-1" style={{ gap: "10px" }}>
+                <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+                  Dispatch Mode
+                </label>
 
                 {props.invRegisterData?.TptMode ? (
                   <select
-                    style={{
-                      fontSize: "inherit",
-                    }}
                     name="TptMode"
                     onChange={props.inputHandler}
                     disabled={
@@ -345,8 +346,10 @@ export default function InvoicingInfo(props) {
                   </select>
                 )}
               </div>
-              <div className="col-md-4">
-                <b>Vehicle No.</b>
+              <div className="d-flex col-md-4 mt-1" style={{ gap: "10px" }}>
+                <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+                  Vehicle No.
+                </label>
                 <input
                   // type="text"
                   value={props.invRegisterData?.VehNo}
@@ -362,23 +365,28 @@ export default function InvoicingInfo(props) {
                     props.invRegisterData.Inv_No?.length > 0 ||
                     props.invRegisterData.DCStatus === "Cancelled"
                       ? "input-disabled"
-                      : ""
+                      : "in-field"
                   }
                 />
               </div>
             </div>
           </div>
           {/* delivery details */}
-          <div className="col-md-4">
+          <div className="col-md-5 mt-1">
             <div>
-              <b>Delivery Details</b>
+              <label className="form-label">Delivery Details</label>
               <div
                 className="p-1 pb-2"
                 style={{ border: "1px solid lightgray", borderRadius: "5px" }}
               >
                 <div className="row">
-                  <div className="col-md-6">
-                    <b>Person Name</b>
+                  <div className="d-flex col-md-6" style={{ gap: "10px" }}>
+                    <label
+                      className="form-label"
+                      style={{ whiteSpace: "nowrap" }}
+                    >
+                      Person Name
+                    </label>
                     <input
                       name="Del_ContactName"
                       value={props.invRegisterData.Del_ContactName}
@@ -391,12 +399,17 @@ export default function InvoicingInfo(props) {
                         props.invRegisterData.Inv_No ||
                         props.invRegisterData.DCStatus === "Cancelled"
                           ? "input-disabled"
-                          : ""
+                          : "in-field"
                       }
                     />
                   </div>
-                  <div className="col-md-6">
-                    <b>Person Contact No</b>
+                  <div className="d-flex col-md-6" style={{ gap: "10px" }}>
+                    <label
+                      className="form-label"
+                      style={{ whiteSpace: "nowrap" }}
+                    >
+                      Person Contact No
+                    </label>
                     <input
                       name="Del_ContactNo"
                       value={props.invRegisterData.Del_ContactNo}
@@ -409,7 +422,7 @@ export default function InvoicingInfo(props) {
                         props.invRegisterData.Inv_No ||
                         props.invRegisterData.DCStatus === "Cancelled"
                           ? "input-disabled"
-                          : ""
+                          : "in-field"
                       }
                     />
                   </div>
@@ -420,13 +433,18 @@ export default function InvoicingInfo(props) {
         </div>
         {/* second row */}
         <div className="row">
-          <div className="col-md-8">
+          <div className="col-md-7">
             <div>
-              <b>Invoice Summary</b>
+              <label className="form-label">Invoice Summary</label>
 
               <div className={layoutForInvoicingInfo}>
-                <div className="col-md-4">
-                  <b>Net Total</b>
+                <div className="d-flex col-md-4" style={{ gap: "25px" }}>
+                  <label
+                    className="form-label"
+                    style={{ whiteSpace: "nowrap" }}
+                  >
+                    Net Total
+                  </label>
                   <input
                     type="number"
                     min="0"
@@ -437,8 +455,8 @@ export default function InvoicingInfo(props) {
                     className="input-disabled"
                   />
                 </div>
-                <div className="col-md-4">
-                  <b>Discount</b>
+                <div className="d-flex col-md-4" style={{ gap: "33px" }}>
+                  <label className="form-label">Discount</label>
                   <input
                     type="number"
                     min="0"
@@ -453,12 +471,17 @@ export default function InvoicingInfo(props) {
                       props.invRegisterData.Inv_No ||
                       props.invRegisterData.DCStatus === "Cancelled"
                         ? "input-disabled"
-                        : ""
+                        : "in-field"
                     }
                   />
                 </div>
-                <div className="col-md-4">
-                  <b>Delivery Charges</b>
+                <div className="d-flex col-md-4" style={{ gap: "10px" }}>
+                  <label
+                    className="form-label"
+                    style={{ whiteSpace: "nowrap" }}
+                  >
+                    Delivery Charges
+                  </label>
                   <input
                     type="number"
                     min="0"
@@ -473,12 +496,17 @@ export default function InvoicingInfo(props) {
                       props.invRegisterData.Inv_No ||
                       props.invRegisterData.DCStatus === "Cancelled"
                         ? "input-disabled"
-                        : ""
+                        : "in-field"
                     }
                   />
                 </div>
-                <div className="col-md-4">
-                  <b>Tax Amount</b>
+                <div className="d-flex col-md-4" style={{ gap: "10px" }}>
+                  <label
+                    className="form-label"
+                    style={{ whiteSpace: "nowrap" }}
+                  >
+                    Tax Amount
+                  </label>
                   {/* if net amount and tax amount is calculated then this ither wise that */}
                   <input
                     type="number"
@@ -488,10 +516,16 @@ export default function InvoicingInfo(props) {
                       2
                     )}
                     disabled
+                    className="in-field mt-1"
                   />
                 </div>
-                <div className="col-md-4">
-                  <b>Invoice Total</b>
+                <div className="d-flex col-md-4" style={{ gap: "10px" }}>
+                  <label
+                    className="form-label"
+                    style={{ whiteSpace: "nowrap" }}
+                  >
+                    Invoice Total
+                  </label>
                   <input
                     type="number"
                     min="0"
@@ -500,21 +534,31 @@ export default function InvoicingInfo(props) {
                     )}
                     // value={parseFloat(NewInvoiceTotal).toFixed(2)}
                     disabled
-                    className="input-disabled"
+                    className="input-disabled mt-1"
                   />
                 </div>
-                <div className="col-md-4">
-                  <b>Round Off</b>
+                <div className="d-flex col-md-4" style={{ gap: "45px" }}>
+                  <label
+                    className="form-label"
+                    style={{ whiteSpace: "nowrap" }}
+                  >
+                    Round Off
+                  </label>
                   <input
                     type="number"
                     min="0"
                     value={props.invRegisterData?.Round_Off}
                     disabled
-                    className="input-disabled"
+                    className="input-disabled mt-1"
                   />
                 </div>
-                <div className="col-md-4">
-                  <b>Grand Total</b>
+                <div className="d-flex col-md-4" style={{ gap: "10px" }}>
+                  <label
+                    className="form-label"
+                    style={{ whiteSpace: "nowrap" }}
+                  >
+                    Grand Total
+                  </label>
                   <input
                     type="number"
                     min="0"
@@ -522,13 +566,13 @@ export default function InvoicingInfo(props) {
                       props.invRegisterData?.GrandTotal
                     ).toFixed(2)}
                     disabled
-                    className="input-disabled"
+                    className="input-disabled mt-1"
                   />
                 </div>
               </div>
             </div>
             <div>
-              <b>Remarks</b>
+              <label className="form-label">Remarks</label>
               <div>
                 <textarea
                   id=""
@@ -536,6 +580,7 @@ export default function InvoicingInfo(props) {
                     border: "1px solid lightgray",
                     borderRadius: "5px",
                     width: "100%",
+                    height: "50px",
                   }}
                   value={props.invRegisterData?.Remarks}
                   name="Remarks"
@@ -548,18 +593,23 @@ export default function InvoicingInfo(props) {
                     props.invRegisterData.Inv_No ||
                     props.invRegisterData.DCStatus === "Cancelled"
                       ? "input-disabled"
-                      : ""
+                      : "in-field"
                   }
                 ></textarea>
               </div>
             </div>
           </div>
-          <div className="col-md-4 ">
+          <div className="col-md-5">
             <div>
-              <b>Payment Details</b>
+              <label className="form-label">Payment Details</label>
               <div className={layoutForInvoicingInfo}>
-                <div className="col-md-6">
-                  <b>Bill Type</b>
+                <div className="d-flex col-md-6" style={{ gap: "27px" }}>
+                  <label
+                    className="form-label"
+                    style={{ whiteSpace: "nowrap" }}
+                  >
+                    Bill Type
+                  </label>
                   <input
                     type="text"
                     value={props.invRegisterData?.BillType}
@@ -567,8 +617,13 @@ export default function InvoicingInfo(props) {
                     className="input-disabled"
                   />
                 </div>
-                <div className="col-md-6">
-                  <b>Payment Terms</b>
+                <div className="d-flex col-md-6" style={{ gap: "20px" }}>
+                  <label
+                    className="form-label"
+                    style={{ whiteSpace: "nowrap" }}
+                  >
+                    Payment Terms
+                  </label>
                   <input
                     type="text"
                     value={props.invRegisterData?.PaymentTerms}
@@ -576,19 +631,29 @@ export default function InvoicingInfo(props) {
                     className="input-disabled"
                   />
                 </div>
-                <div className="col-md-6">
-                  <b>Grand Total</b>
+                <div className="d-flex col-md-6" style={{ gap: "10px" }}>
+                  <label
+                    className="form-label"
+                    style={{ whiteSpace: "nowrap" }}
+                  >
+                    Grand Total
+                  </label>
                   <input
                     type="text"
                     value={parseFloat(
                       props.invRegisterData?.GrandTotal
                     ).toFixed(2)}
                     disabled
-                    className="input-disabled"
+                    className="input-disabled mt-1"
                   />
                 </div>
-                <div className="col-md-6">
-                  <b>Amount Recieved</b>
+                <div className="d-flex col-md-6" style={{ gap: "10px" }}>
+                  <label
+                    className="form-label"
+                    style={{ whiteSpace: "nowrap" }}
+                  >
+                    Amount Recieved
+                  </label>
                   <input
                     type="number"
                     min={"0"}
@@ -604,8 +669,8 @@ export default function InvoicingInfo(props) {
                       props.invRegisterData?.BillType === "Credit" ||
                       props.invRegisterData.Inv_No?.length > 0 ||
                       props.invRegisterData.DCStatus === "Cancelled"
-                        ? "input-disabled"
-                        : ""
+                        ? "input-disabled mt-1"
+                        : "in-field mt-1"
                     }
                   />
                 </div>

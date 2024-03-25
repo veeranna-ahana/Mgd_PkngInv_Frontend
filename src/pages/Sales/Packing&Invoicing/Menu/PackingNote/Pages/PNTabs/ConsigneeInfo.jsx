@@ -6,11 +6,11 @@ export default function ConsigneeInfo(props) {
       <div>
         {/* first row */}
         <div className="row">
-          <div className="col-md-6">
-            <b>Address</b>
+          <div className="d-flex col-md-6" style={{ gap: "10px" }}>
+            <label className="form-label">Address</label>
             <textarea
               rows="5"
-              style={{ width: "100%" }}
+              style={{ width: "100%", height: "120px" }}
               value={
                 props.invRegisterData?.Cust_Address === null ||
                 props.invRegisterData?.Cust_Address === "null" ||
@@ -22,15 +22,15 @@ export default function ConsigneeInfo(props) {
               }
               name="Cust_Address"
               disabled
-              className="input-disabled"
+              className="in-field mt-1"
             ></textarea>
           </div>
-          <div className="col-md-6">
-            <b>Delivery</b>
+          <div className="d-flex col-md-6" style={{ gap: "10px" }}>
+            <label className="form-label">Delivery</label>
             <textarea
               rows="5"
               maxLength={"199"}
-              style={{ width: "100%" }}
+              style={{ width: "100%", height: "120px" }}
               value={
                 props.invRegisterData?.Del_Address === null ||
                 props.invRegisterData?.Del_Address === "null" ||
@@ -50,34 +50,36 @@ export default function ConsigneeInfo(props) {
                 props.invRegisterData.Inv_No ||
                 props.invRegisterData.DCStatus === "Cancelled"
                   ? "input-disabled"
-                  : ""
+                  : "in-field"
               }
             ></textarea>
           </div>
         </div>
         {/* second row */}
-        <div className="row">
+        <div className="row mt-1">
           <div className="col-md-6 p-0">
             <div className="row ">
-              <div className="col-md-4">
-                <b>District</b>
+              <div className="d-flex col-md-4" style={{ gap: "10px" }}>
+                <label className="form-label">District</label>
                 <input
                   value={props.invRegisterData?.Cust_Place}
                   name="Cust_Place"
                   disabled
-                  className="input-disabled"
+                  className="in-field mt-1"
                 />
               </div>
-              <div className="col-md-4">
-                <b>State</b>
+              <div className="d-flex col-md-4" style={{ gap: "10px" }}>
+                <label className="form-label">State</label>
                 <input
                   value={props.invRegisterData.Cust_State}
                   disabled
-                  className="input-disabled"
+                  className="in-field mt-1"
                 />
               </div>
-              <div className="col-md-4">
-                <b>Pin Code</b>
+              <div className="d-flex col-md-4" style={{ gap: "10px" }}>
+                <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+                  Pin Code
+                </label>
                 <input
                   type="number"
                   min="0"
@@ -92,15 +94,17 @@ export default function ConsigneeInfo(props) {
                   }
                   name="PIN_Code"
                   disabled
-                  className="input-disabled"
+                  className="in-field mt-1"
                 />
               </div>
             </div>
           </div>
           <div className="col-md-6">
             <div className="row">
-              <div className="col-md-6 p-0">
-                <b>GST No</b>
+              <div className="d-flex col-md-6" style={{ gap: "10px" }}>
+                <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+                  GST No
+                </label>
                 <input
                   value={
                     props.invRegisterData?.GSTNo === null ||
@@ -112,11 +116,13 @@ export default function ConsigneeInfo(props) {
                       : props.invRegisterData?.GSTNo
                   }
                   disabled
-                  className="input-disabled"
+                  className="in-field mt-1"
                 />
               </div>
-              <div className="col-md-6">
-                <b>GST State</b>
+              <div className="d-flex col-md-6" style={{ gap: "10px" }}>
+                <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+                  GST State
+                </label>
                 <input
                   value={
                     props.invRegisterData?.Cust_State === null ||
@@ -128,7 +134,7 @@ export default function ConsigneeInfo(props) {
                       : props.invRegisterData?.Cust_State
                   }
                   disabled
-                  className="input-disabled"
+                  className="in-field"
                 />
               </div>
             </div>
@@ -136,12 +142,12 @@ export default function ConsigneeInfo(props) {
         </div>
         {/* third row */}
         <div className="row">
-          <b>Schedule Intructions</b>
+          <label>Schedule Intructions</label>
           <div className="col-md-12">
             <textarea
               id=""
               maxLength={"49"}
-              style={{ width: "100%" }}
+              style={{ width: "100%", height: "50px" }}
               name="Special_Instructions"
               value={props.invRegisterData.Special_Instructions}
               onChange={props.inputHandler}
@@ -153,7 +159,7 @@ export default function ConsigneeInfo(props) {
                 props.invRegisterData.Inv_No ||
                 props.invRegisterData.DCStatus === "Cancelled"
                   ? "input-disabled"
-                  : ""
+                  : "in-field mt-1"
               }
             ></textarea>
           </div>

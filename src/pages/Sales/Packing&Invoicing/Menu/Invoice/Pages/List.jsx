@@ -61,17 +61,19 @@ export default function List(props) {
         {/* header.... */}
         <div className="row pt-2 pb-3">
           <div className="col-md-6 d-flex align-items-center">
-            <h5 className="m-0 p-0">
-              <b>PN List: </b>
-              {props.PNList || "..."} | <b>Status: </b>
-              {props.Status || "..."}
+            <h5 className="">
+              <label className="form-label">PN List: </label>
+              <label className="form-label">{props.PNList || "..."} | </label>
+              <label className="form-label">Status: </label>
+              <label className="form-label">{props.Status || "..."}</label>
             </h5>
           </div>
 
-          <div className="col-md-6 ">
-            <b>Customer</b>
+          <div className="d-flex col-md-6" style={{ gap: "10px" }}>
+            <label className="form-label">Customer</label>
 
             <Typeahead
+              className="ip-select"
               id="basic-example"
               placeholder="Select a customer..."
               options={AllCust}
@@ -125,7 +127,7 @@ export default function List(props) {
                     ))
                   ) : (
                     <div>
-                      <b>No Data Found...!</b>
+                      <label className="form-label">No Data Found...!</label>
                     </div>
                   )}
                 </tbody>
@@ -136,11 +138,7 @@ export default function List(props) {
             <div className="d-flex flex-row justify-content-between">
               <div style={{ width: "42%" }}>
                 {!selectedRow?.DC_Inv_No ? (
-                  <button
-                    style={{ width: "-webkit-fill-available" }}
-                    disabled
-                    className={"button-style button-disabled m-0"}
-                  >
+                  <button disabled className={"button-style button-disabled"}>
                     Open
                   </button>
                 ) : (props.PNList === "Profile" ||
@@ -151,35 +149,20 @@ export default function List(props) {
                     to={"/PackingAndInvoices/PackingNote/Description"}
                     state={selectedRow?.DC_Inv_No}
                   >
-                    <button
-                      style={{ width: "-webkit-fill-available" }}
-                      className={"button-style m-0"}
-                    >
-                      Open
-                    </button>
+                    <button className={"button-style"}>Open</button>
                   </Link>
                 ) : (
                   <Link
                     to={"/PackingAndInvoices/Invoice/InvoiceDetails"}
                     state={selectedRow?.DC_Inv_No}
                   >
-                    <button
-                      style={{ width: "-webkit-fill-available" }}
-                      className={"button-style m-0"}
-                    >
-                      Open
-                    </button>
+                    <button className={"button-style"}>Open</button>
                   </Link>
                 )}
               </div>
-              <div style={{ width: "42%" }}>
+              <div>
                 <Link to="/PackingAndInvoices">
-                  <button
-                    className="button-style m-0"
-                    style={{ width: "-webkit-fill-available" }}
-                  >
-                    Close
-                  </button>
+                  <button className="button-style">Close</button>
                 </Link>
               </div>
             </div>

@@ -76,21 +76,23 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
         <div className="col-md-4 col-sm-12 mt-2">
           <div
             className="ip-box form-bg"
-            style={{ height: "330px", padding: "10px" }}
+            style={{ height: "270px", padding: "10px" }}
           >
             <h5>
-              <b>Consignee</b>
+              <label className="form-label">Consignee</label>
             </h5>
 
-            <div className="row">
+            <div className="d-flex" style={{ gap: "10px" }}>
               <label className="form-label">Address</label>
               <textarea
+                className="in-field"
                 id="exampleFormControlTextarea1"
                 rows="3"
                 name="custAddress"
                 style={{
                   width: "100%",
                   padding: "5px",
+                  height: "80px",
                   backgroundColor: "white",
                 }}
                 value={formData.custAddress}
@@ -100,40 +102,40 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
             </div>
 
             <div className="row">
-              <div className="col-md-6">
+              <div className="d-flex col-md-6" style={{ gap: "20px" }}>
                 <label className="form-label">City</label>
                 <input
                   type="text"
-                  className="in-fields"
+                  className="in-field mt-1"
                   name="custCity"
                   value={formData.custCity}
                   onChange={handleInputChange}
-                  style={{ height: "30px", backgroundColor: "white" }}
+                  style={{ backgroundColor: "white" }}
                   disabled
                 />
               </div>
-              <div className="col-md-6">
+              <div className=" d-flex col-md-6" style={{ gap: "31px" }}>
                 <label className="form-label">PIN</label>
                 <input
                   type="text"
-                  className="in-fields"
+                  className="in-field mt-1"
                   name="custPin"
                   value={formData.custPin}
                   onChange={handleInputChange}
-                  style={{ height: "30px", backgroundColor: "white" }}
+                  style={{ backgroundColor: "white" }}
                   disabled
                 />
               </div>
 
-              <div className="col-md-6">
+              <div className="d-flex col-md-6" style={{ gap: "14px" }}>
                 <label className="form-label">State</label>
                 <select
                   id=""
-                  className="ip-select mt-2 in-fields"
+                  className="ip-select in-field mt-1"
                   name="custState"
                   value={formData.custState}
                   onChange={handleInputChange}
-                  style={{ height: "30px", backgroundColor: "white" }}
+                  style={{ backgroundColor: "white" }}
                   disabled
                 >
                   <option selected disabled hidden>
@@ -144,15 +146,17 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
                   ))}
                 </select>
               </div>
-              <div className="col-md-6">
-                <label className="form-label">GST No</label>
+              <div className="d-flex col-md-6" style={{ gap: "10px" }}>
+                <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+                  GST No
+                </label>
                 <input
                   type="text"
-                  className="in-fields"
+                  className="in-field mt-1"
                   name="gstNo"
                   value={formData.gstNo}
                   onChange={handleInputChange}
-                  style={{ height: "30px", backgroundColor: "white" }}
+                  style={{ backgroundColor: "white" }}
                   disabled
                 />
               </div>
@@ -197,20 +201,22 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
         <div className="col-md-4 col-sm-12 mt-2">
           <div
             className="ip-box form-bg"
-            style={{ height: "330px", padding: "10px" }}
+            style={{ height: "270px", padding: "10px" }}
           >
             <h5>
-              <b>Delivery Details</b>
+              <label className="form-label">Delivery Details</label>
             </h5>
 
-            <div className="row">
+            <div className="d-flex" style={{ gap: "10px" }}>
               <label className="form-label">Address</label>
               <textarea
                 id="exampleFormControlTextarea1"
+                className="in-field"
                 rows="3"
                 style={{
                   width: "100%",
                   padding: "5px",
+                  height: "80px",
                   backgroundColor: "white",
                 }}
                 name="deliveryAddress"
@@ -224,7 +230,7 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
               ></textarea>
             </div>
 
-            <div className="row">
+            <div className="d-flex" style={{ gap: "25px" }}>
               <label className="form-label">State</label>
 
               <select
@@ -233,7 +239,6 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
                 name="deliveryState"
                 onChange={handleInputChange}
                 value={formData.deliveryState}
-                style={{ height: "30px" }}
                 disabled={
                   formData.dcStatus === "Despatched" ||
                   formData.dcStatus === "Closed" ||
@@ -254,22 +259,26 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
         <div className="col-md-4 col-sm-12 mt-2">
           <div
             className="ip-box form-bg"
-            style={{ height: "330px", padding: "10px" }}
+            style={{ height: "270px", padding: "10px" }}
           >
             <h5>
-              <b>Tax Details</b>
+              <label className="form-label">Tax Details</label>
             </h5>
 
             <div className="row">
-              <div className="col-md-6 col-sm-12">
-                <label className="form-label">Select Taxes</label>
+              <div
+                className="d-flex col-md-7 col-sm-12"
+                style={{ gap: "10px" }}
+              >
+                <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+                  Select Taxes
+                </label>
                 <select
                   id=""
-                  className="ip-select mt-2 in-fields"
+                  className="ip-select mt-1 in-fields"
                   name="taxName"
                   // onChange={(e) => handleTaxSelection(e.target.value)}
                   onChange={handleTaxSelection}
-                  style={{ height: "30px" }}
                   disabled={
                     formData.dcStatus === "Despatched" ||
                     formData.dcStatus === "Closed" ||
@@ -291,8 +300,7 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
                   ))}
                 </select>
               </div>
-              <div className="col-md-6 col-sm-12">
-                <label className="form-label"></label>
+              <div className="col-md-5 col-sm-12">
                 <button
                   className={
                     formData.dcStatus === "Despatched" ||
@@ -316,11 +324,11 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
             </div>
 
             <div
-              className="row mt-3"
+              className="row mt-1"
               style={{
                 overflowY: "scroll",
                 overflowX: "scroll",
-                maxHeight: "250px",
+                maxHeight: "200px",
               }}
             >
               {/* <Table

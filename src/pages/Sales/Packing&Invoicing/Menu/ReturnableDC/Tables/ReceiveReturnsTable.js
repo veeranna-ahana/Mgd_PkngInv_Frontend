@@ -8,7 +8,7 @@ function ReceiveReturnsTable({ formData, handleRowSelectTable2 }) {
       style={{
         overflowX: "scroll",
         overflowY: "scroll",
-        height: "220px",
+        height: "235px",
       }}
     >
       <Table striped className="table-data border" style={{ border: "1px" }}>
