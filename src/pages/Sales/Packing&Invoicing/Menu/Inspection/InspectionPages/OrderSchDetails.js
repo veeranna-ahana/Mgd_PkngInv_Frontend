@@ -163,105 +163,101 @@ export default function OrderSchDetails() {
   return (
     <>
       <h4 className="title">Order Schedule Details</h4>
-      <div>
-        <div>
-          <FormHeader headerData={headerData} />
-        </div>
-        {/* selectall and reverse */}
-        <div className="">
-          <button
-            className="button-style"
-            onClick={handleSelectAll}
-            style={{ width: "100px", marginLeft: "4px" }}
-          >
-            Select all
-          </button>
-          <button
-            className="button-style"
-            onClick={handleReverseSelection}
-            style={{ width: "100px", marginLeft: "4px" }}
-          >
-            Reverse
-          </button>
+
+      <div className="row justify-content-last">
+        <div className="col-md-12 col-sm-12">
           <button
             className="button-style "
             id="btnclose"
-            style={{ width: "100px", marginLeft: "4px" }}
             type="submit"
             onClick={() =>
               nav("/PackingAndInvoices/Inspection/Profile/ScheduleList")
             }
+            style={{ float: "right" }}
           >
             Close
           </button>
         </div>
-        {/* tabssss */}
-        <div className="row">
-          <Tabs id="controlled-tab-example" className="mt-2 mb-2 tab_font">
-            <Tab eventKey="mat_rece" title="Schedule Details">
-              <ScheduleDetails
-                orderScheduleDetailsData={orderScheduleDetailsData}
-                setOrderScheduleDetailsData={setOrderScheduleDetailsData}
-                selectedScheduleDetailsRows={selectedScheduleDetailsRows}
-                setSelectedScheduleDetailsRows={setSelectedScheduleDetailsRows}
-                headerData={headerData}
-                getOrderScheduleData={getOrderScheduleData}
-                // schdetails={schdetails}
-                // setSchdetails={setSchdetails}
-                // selectedRows={selectedRows}
-                // setSelectedRows={setSelectedRows}
-                // updateSchdetails={updateSchdetails}
-                // handleCheckboxChange={handleCheckboxChange}
-                // selectedRowData={selectedRowData}
-                // setSelectedRowData={setSelectedRowData}
-                // tbldata={tbldata}
-              />
-            </Tab>
+      </div>
 
-            <Tab eventKey="mat_retu" title="Ready For Packing">
-              <ReadyForPacking
-                orderScheduleDetailsData={orderScheduleDetailsData}
-                selectedReadyForPackingRows={selectedReadyForPackingRows}
-                setSelectedReadyForPackingRows={setSelectedReadyForPackingRows}
-                headerData={headerData}
-                setHeaderData={setHeaderData}
-                invRegisterData={invRegisterData}
-                setInvDetailsData={setInvDetailsData}
-                invDetailsData={invDetailsData}
-                allInvDetailsData={allInvDetailsData}
-                insAndPack={insAndPack}
-                setInsAndPack={setInsAndPack}
-                // func
-                getOrderScheduleData={getOrderScheduleData}
-                // schdetails={schdetails}
-                // setSchdetails={setSchdetails}
-                // selectedRows={selectedRows}
-                // updateSchdetails={updateSchdetails}
-                // handleCheckboxChange={handleCheckboxChange}
-                // selectedRowData={selectedRowData}
-                // tbldata={tbldata}
-              />
-            </Tab>
+      <div className="mt-1">
+        <FormHeader headerData={headerData} />
+      </div>
+      {/* selectall and reverse */}
+      <div className="">
+        <button className="button-style" onClick={handleSelectAll}>
+          Select all
+        </button>
+        <button className="button-style" onClick={handleReverseSelection}>
+          Reverse
+        </button>
+      </div>
+      {/* tabssss */}
+      <div className="row">
+        <Tabs id="controlled-tab-example" className="mt-2 mb-2 tab_font">
+          <Tab eventKey="mat_rece" title="Schedule Details">
+            <ScheduleDetails
+              orderScheduleDetailsData={orderScheduleDetailsData}
+              setOrderScheduleDetailsData={setOrderScheduleDetailsData}
+              selectedScheduleDetailsRows={selectedScheduleDetailsRows}
+              setSelectedScheduleDetailsRows={setSelectedScheduleDetailsRows}
+              headerData={headerData}
+              getOrderScheduleData={getOrderScheduleData}
+              // schdetails={schdetails}
+              // setSchdetails={setSchdetails}
+              // selectedRows={selectedRows}
+              // setSelectedRows={setSelectedRows}
+              // updateSchdetails={updateSchdetails}
+              // handleCheckboxChange={handleCheckboxChange}
+              // selectedRowData={selectedRowData}
+              // setSelectedRowData={setSelectedRowData}
+              // tbldata={tbldata}
+            />
+          </Tab>
 
-            <Tab eventKey="mat_st_posi" title="Production Rejections">
-              <ProductionRejections
-                orderScheduleDetailsData={orderScheduleDetailsData}
-                selectedReadyForPackingRows={selectedReadyForPackingRows}
-                // selectedRows={selectedRows}
-                // updateSchdetails={updateSchdetails}
-                // handleCheckboxChange={handleCheckboxChange}
-                // selectedRowData={selectedRowData}
-                // rejectionData={rejectionData}
-                // setRejectionData={setRejectionData}
-                // selectRejRow={selectRejRow}
-                // setselectRejRow={setselectRejRow}
-              />
-            </Tab>
-          </Tabs>
-        </div>
+          <Tab eventKey="mat_retu" title="Ready For Packing">
+            <ReadyForPacking
+              orderScheduleDetailsData={orderScheduleDetailsData}
+              selectedReadyForPackingRows={selectedReadyForPackingRows}
+              setSelectedReadyForPackingRows={setSelectedReadyForPackingRows}
+              headerData={headerData}
+              setHeaderData={setHeaderData}
+              invRegisterData={invRegisterData}
+              setInvDetailsData={setInvDetailsData}
+              invDetailsData={invDetailsData}
+              allInvDetailsData={allInvDetailsData}
+              insAndPack={insAndPack}
+              setInsAndPack={setInsAndPack}
+              // func
+              getOrderScheduleData={getOrderScheduleData}
+              // schdetails={schdetails}
+              // setSchdetails={setSchdetails}
+              // selectedRows={selectedRows}
+              // updateSchdetails={updateSchdetails}
+              // handleCheckboxChange={handleCheckboxChange}
+              // selectedRowData={selectedRowData}
+              // tbldata={tbldata}
+            />
+          </Tab>
 
-        <div className="p-2"></div>
-      </div>{" "}
+          <Tab eventKey="mat_st_posi" title="Production Rejections">
+            <ProductionRejections
+              orderScheduleDetailsData={orderScheduleDetailsData}
+              selectedReadyForPackingRows={selectedReadyForPackingRows}
+              // selectedRows={selectedRows}
+              // updateSchdetails={updateSchdetails}
+              // handleCheckboxChange={handleCheckboxChange}
+              // selectedRowData={selectedRowData}
+              // rejectionData={rejectionData}
+              // setRejectionData={setRejectionData}
+              // selectRejRow={selectRejRow}
+              // setselectRejRow={setselectRejRow}
+            />
+          </Tab>
+        </Tabs>
+      </div>
+
+      <div className="p-2"></div>
     </>
   );
 }

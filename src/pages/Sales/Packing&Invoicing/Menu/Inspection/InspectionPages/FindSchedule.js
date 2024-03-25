@@ -77,10 +77,11 @@ function FindSchedule() {
         <h4 className="title">Find Schedule</h4>
 
         <div className="row">
-          <div className="col-md-3">
-            <Form.Group controlId="CustName">
-              <label className="form-label">Find Schedule</label>
-              {/* <Form.Label
+          <div className="col-md-3 col-sm-6 mt-1">
+            <div className="d-flex">
+              <div className="col-4">
+                <label className="form-label">Find Schedule</label>
+                {/* <Form.Label
                 style={{
                   color: "#f20707",
                   fontSize: "16px",
@@ -89,49 +90,56 @@ function FindSchedule() {
               >
                 *
               </Form.Label> */}
-              {custdata.length > 0 ? (
-                <Typeahead
-                  className="mt-1"
-                  id="basic-example"
-                  options={tableData.map((item) => ({
-                    label: item.OrdSchNo,
-                    value: item.ScheduleId,
-                  }))}
-                  placeholder="Select ..."
-                  onChange={(selected) => {
-                    // Handle the selected item
-                    console.log("Selected SchduleId", selected[0]?.value);
-                    setSchId(selected[0]?.value);
-                  }}
-                />
-              ) : (
-                ""
-              )}
-            </Form.Group>
+              </div>
+              <div className="col-8">
+                {custdata.length > 0 ? (
+                  <Typeahead
+                    className="ip-select mt-1"
+                    id="basic-example"
+                    options={tableData.map((item) => ({
+                      label: item.OrdSchNo,
+                      value: item.ScheduleId,
+                    }))}
+                    placeholder="Select ..."
+                    onChange={(selected) => {
+                      // Handle the selected item
+                      console.log("Selected SchduleId", selected[0]?.value);
+                      setSchId(selected[0]?.value);
+                    }}
+                  />
+                ) : (
+                  ""
+                )}
+              </div>
+            </div>
           </div>
           {console.log("schId", schId)}
 
-          <div className="col-md-3 mt-3">
-            <div className="d-flex flex-row justify-content-end">
-              <Link
-                to={`/PackingAndInvoices/Inspection/OrderScheduleDetails`}
-                state={schId}
+          <div className="col-md-3">
+            <Link
+              to={`/PackingAndInvoices/Inspection/OrderScheduleDetails`}
+              state={schId}
+            >
+              <button
+                className={
+                  schId ? "button-style" : "button-style button-disabled"
+                }
+                // className="button-style button-disabled"
+                disabled={!schId}
               >
-                <button
-                  className={
-                    schId ? "button-style" : "button-style button-disabled"
-                  }
-                  // className="button-style button-disabled"
-                  disabled={!schId}
-                  style={{ width: "120px" }}
-                >
-                  Open
-                </button>
-              </Link>
+                Open
+              </button>
+            </Link>
+          </div>
+
+          <div className="col-md-3"></div>
+
+          <div className="col-md-3">
+            <div className="">
               <button
                 className="button-style mt-2"
                 id="btnclose"
-                style={{ width: "120px", marginLeft: "4px" }}
+                style={{ float: "right" }}
                 type="submit"
                 onClick={() => nav("/PackingAndInvoices")}
               >

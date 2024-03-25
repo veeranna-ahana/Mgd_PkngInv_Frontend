@@ -221,7 +221,7 @@ export default function Profile() {
 
   return (
     <>
-      <div className="col-md-12">
+      <div className="">
         <h4 className="title">Packing Note Description Form</h4>
       </div>
       <div className="p-1"></div>
@@ -232,7 +232,7 @@ export default function Profile() {
           inputHandler={inputHandler}
         />
 
-        <Tabs className="mt-3 p-2">
+        <Tabs className="tab_font nav-tabs mt-3 p-2">
           <Tab eventKey="consigneeInfo" title="Consignee Info">
             <ConsigneeInfo
               invRegisterData={invRegisterData}
@@ -276,318 +276,300 @@ export default function Profile() {
         {/* button start here */}
 
         <div className="row">
-          <div className="col-md-6 ">
-            <div className="d-flex justify-content-space mt-3">
-              <button
-                onClick={() => {
-                  setLoadRateEvent(true);
-                }}
-                disabled={
-                  invRegisterData.Inv_No ||
-                  invRegisterData.DCStatus === "Cancelled"
-                }
-                className={
-                  invRegisterData.Inv_No ||
-                  invRegisterData.DCStatus === "Cancelled"
-                    ? "button-style button-disabled m-0"
-                    : "button-style m-0"
-                }
-              >
-                Load Rates
-              </button>
-              <div className="p-1"></div>
+          <div className="col-md-6" style={{ gap: "10px" }}>
+            <button
+              onClick={() => {
+                setLoadRateEvent(true);
+              }}
+              disabled={
+                invRegisterData.Inv_No ||
+                invRegisterData.DCStatus === "Cancelled"
+              }
+              className={
+                invRegisterData.Inv_No ||
+                invRegisterData.DCStatus === "Cancelled"
+                  ? "button-style button-disabled"
+                  : "button-style"
+              }
+            >
+              Load Rates
+            </button>
 
-              <button
-                onClick={() => setShowSetRateModal(true)}
-                disabled={
-                  invRegisterData.Inv_No ||
-                  invRegisterData.DCStatus === "Cancelled"
-                }
-                className={
-                  invRegisterData.Inv_No ||
-                  invRegisterData.DCStatus === "Cancelled"
-                    ? "button-style button-disabled m-0"
-                    : "button-style m-0"
-                }
-              >
-                Set Rates
-              </button>
-              <div className="p-1"></div>
-              <button
-                disabled={
-                  invRegisterData.Inv_No ||
-                  invRegisterData.DCStatus === "Cancelled"
-                }
-                className={
-                  invRegisterData.Inv_No ||
-                  invRegisterData.DCStatus === "Cancelled"
-                    ? "button-style button-disabled m-0"
-                    : "button-style m-0"
-                }
-                onClick={(e) => {
-                  setButtonClicked("Cancel PN");
-                  setConfirmModalOpen(true);
-                }}
-              >
-                Cancel PN
-              </button>
-              <div className="p-1"></div>
+            <button
+              onClick={() => setShowSetRateModal(true)}
+              disabled={
+                invRegisterData.Inv_No ||
+                invRegisterData.DCStatus === "Cancelled"
+              }
+              className={
+                invRegisterData.Inv_No ||
+                invRegisterData.DCStatus === "Cancelled"
+                  ? "button-style button-disabled"
+                  : "button-style"
+              }
+            >
+              Set Rates
+            </button>
 
-              <Link to="/PackingAndInvoices">
-                <button className="button-style m-0">Close</button>
-              </Link>
-            </div>
+            <button
+              disabled={
+                invRegisterData.Inv_No ||
+                invRegisterData.DCStatus === "Cancelled"
+              }
+              className={
+                invRegisterData.Inv_No ||
+                invRegisterData.DCStatus === "Cancelled"
+                  ? "button-style button-disabled"
+                  : "button-style"
+              }
+              onClick={(e) => {
+                setButtonClicked("Cancel PN");
+                setConfirmModalOpen(true);
+              }}
+            >
+              Cancel PN
+            </button>
+
+            <Link to="/PackingAndInvoices">
+              <button className="button-style">Close</button>
+            </Link>
           </div>
-          <div className="col-md-6">
-            <div className="d-flex justify-content-end">
-              <div className="d-flex justify-content-space">
-                <div>
-                  <b>Assessable Value</b>
-                  <input
-                    type="number"
-                    min="0"
-                    value={(
+          <div className="d-flex col-md-6" style={{ gap: "10px" }}>
+            <div className="d-flex mt-2" style={{ gap: "10px" }}>
+              <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+                Assessable Value
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={(
+                  parseFloat(invRegisterData?.Net_Total) -
+                  parseFloat(invRegisterData?.Discount) +
+                  parseFloat(invRegisterData?.Del_Chg)
+                ).toFixed(2)}
+                disabled
+                className="in-field"
+              />
+            </div>
+
+            <div className="d-flex mt-1" style={{ gap: "10px" }}>
+              <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+                Select Tax
+              </label>
+              <select
+                id="taxDropdown"
+                onChange={(e) => {
+                  const newTaxOn = TaxDropDownData[
+                    e.target.value
+                  ].TaxOn.replace("(", "")
+                    .replace(")", "")
+                    .split("+");
+                  let applicableTaxes = [];
+                  let arr = [];
+                  if (
+                    TaxDropDownData[e.target.value].UnderGroup.toUpperCase() ===
+                      "INCOMETAX" ||
+                    TaxDropDownData[e.target.value].UnderGroup.toUpperCase() ===
+                      "INCOME TAX"
+                  ) {
+                    for (let i = 1; i < newTaxOn.length; i++) {
+                      const element = newTaxOn[i];
+                      TaxDropDownData.filter(
+                        (obj) => obj.TaxID === parseInt(element)
+                      ).map((value, key) => applicableTaxes.push(value));
+                    }
+                    applicableTaxes.push(TaxDropDownData[e.target.value]);
+                    let TaxableAmount = (
                       parseFloat(invRegisterData?.Net_Total) -
                       parseFloat(invRegisterData?.Discount) +
                       parseFloat(invRegisterData?.Del_Chg)
-                    ).toFixed(2)}
-                    disabled
-                    className="input-disabled"
-                  />
-                </div>
+                    ).toFixed(2);
+                    let TotalTaxAmount = 0;
 
-                <div className="p-1"></div>
-                <div>
-                  <b>Select Tax</b>
-                  <select
-                    id="taxDropdown"
-                    style={{
-                      fontSize: "inherit",
-                    }}
-                    onChange={(e) => {
-                      const newTaxOn = TaxDropDownData[
-                        e.target.value
-                      ].TaxOn.replace("(", "")
-                        .replace(")", "")
-                        .split("+");
-                      let applicableTaxes = [];
-                      let arr = [];
+                    for (let i = 0; i < applicableTaxes.length; i++) {
+                      const element = applicableTaxes[i];
                       if (
-                        TaxDropDownData[
-                          e.target.value
-                        ].UnderGroup.toUpperCase() === "INCOMETAX" ||
-                        TaxDropDownData[
-                          e.target.value
-                        ].UnderGroup.toUpperCase() === "INCOME TAX"
+                        element.UnderGroup.toUpperCase() === "INCOMETAX" ||
+                        element.UnderGroup.toUpperCase() === "INCOME TAX"
                       ) {
-                        for (let i = 1; i < newTaxOn.length; i++) {
-                          const element = newTaxOn[i];
-                          TaxDropDownData.filter(
-                            (obj) => obj.TaxID === parseInt(element)
-                          ).map((value, key) => applicableTaxes.push(value));
-                        }
-                        applicableTaxes.push(TaxDropDownData[e.target.value]);
-                        let TaxableAmount = (
-                          parseFloat(invRegisterData?.Net_Total) -
-                          parseFloat(invRegisterData?.Discount) +
-                          parseFloat(invRegisterData?.Del_Chg)
-                        ).toFixed(2);
-                        let TotalTaxAmount = 0;
-
-                        for (let i = 0; i < applicableTaxes.length; i++) {
-                          const element = applicableTaxes[i];
-                          if (
-                            element.UnderGroup.toUpperCase() === "INCOMETAX" ||
-                            element.UnderGroup.toUpperCase() === "INCOME TAX"
-                          ) {
-                            let TaxableAmntForTCS =
-                              parseFloat(TaxableAmount) +
-                              parseFloat(TotalTaxAmount);
-                            let TaxAmtForRow = (
-                              (TaxableAmntForTCS *
-                                parseFloat(element.Tax_Percent)) /
-                              100
-                            ).toFixed(2);
-                            TotalTaxAmount =
-                              parseFloat(TotalTaxAmount) +
-                              parseFloat(TaxAmtForRow);
-
-                            arr = [
-                              ...arr,
-                              {
-                                TaxID: element.TaxID,
-                                TaxOn: element.TaxOn,
-                                TaxPercent: element.Tax_Percent,
-                                Tax_Name: element.TaxName,
-                                TaxableAmount: TaxableAmntForTCS,
-                                TaxAmt: TaxAmtForRow,
-                              },
-                            ];
-                          } else {
-                            let TaxAmtForRow = (
-                              (TaxableAmount *
-                                parseFloat(element.Tax_Percent)) /
-                              100
-                            ).toFixed(2);
-                            TotalTaxAmount =
-                              parseFloat(TotalTaxAmount) +
-                              parseFloat(TaxAmtForRow);
-
-                            if (arr.length > 0) {
-                              arr = [
-                                ...arr,
-                                {
-                                  TaxID: element.TaxID,
-                                  TaxOn: element.TaxOn,
-                                  TaxPercent: element.Tax_Percent,
-                                  Tax_Name: element.TaxName,
-                                  TaxableAmount: TaxableAmount,
-                                  TaxAmt: TaxAmtForRow,
-                                },
-                              ];
-                            } else {
-                              arr = [
-                                {
-                                  TaxID: element.TaxID,
-                                  TaxOn: element.TaxOn,
-                                  TaxPercent: element.Tax_Percent,
-                                  Tax_Name: element.TaxName,
-                                  TaxableAmount: TaxableAmount,
-                                  TaxAmt: TaxAmtForRow,
-                                },
-                              ];
-                            }
-                          }
-                        }
-
-                        setInvTaxData(arr);
-
-                        let newInvTotal =
+                        let TaxableAmntForTCS =
                           parseFloat(TaxableAmount) +
                           parseFloat(TotalTaxAmount);
+                        let TaxAmtForRow = (
+                          (TaxableAmntForTCS *
+                            parseFloat(element.Tax_Percent)) /
+                          100
+                        ).toFixed(2);
+                        TotalTaxAmount =
+                          parseFloat(TotalTaxAmount) + parseFloat(TaxAmtForRow);
 
-                        let newGrandTotal = Math.round(newInvTotal);
-                        let newRoundOff = newGrandTotal - newInvTotal;
-
-                        setInvRegisterData({
-                          ...invRegisterData,
-                          TaxAmount: parseFloat(TotalTaxAmount).toFixed(2),
-                          InvTotal: newInvTotal.toFixed(2),
-                          GrandTotal: newGrandTotal.toFixed(2),
-                          Round_Off: newRoundOff.toFixed(2),
-                        });
+                        arr = [
+                          ...arr,
+                          {
+                            TaxID: element.TaxID,
+                            TaxOn: element.TaxOn,
+                            TaxPercent: element.Tax_Percent,
+                            Tax_Name: element.TaxName,
+                            TaxableAmount: TaxableAmntForTCS,
+                            TaxAmt: TaxAmtForRow,
+                          },
+                        ];
                       } else {
-                        // console.log("normal");
-
-                        for (let i = 0; i < newTaxOn.length; i++) {
-                          const element = newTaxOn[i];
-                          if (parseInt(element) === 1) {
-                            applicableTaxes.push(
-                              TaxDropDownData[e.target.value]
-                            );
-                          } else {
-                            // filter gets the data in array, there may be more then 1 rows, so mappppp....
-                            TaxDropDownData.filter(
-                              (obj) => obj.TaxID === parseInt(element)
-                            ).map((value, key) => applicableTaxes.push(value));
-                          }
-                        }
-
-                        let TaxableAmount = (
-                          parseFloat(invRegisterData?.Net_Total) -
-                          parseFloat(invRegisterData?.Discount) +
-                          parseFloat(invRegisterData?.Del_Chg)
+                        let TaxAmtForRow = (
+                          (TaxableAmount * parseFloat(element.Tax_Percent)) /
+                          100
                         ).toFixed(2);
-                        let TotalTaxAmount = 0;
-                        for (let i = 0; i < applicableTaxes.length; i++) {
-                          const element = applicableTaxes[i];
+                        TotalTaxAmount =
+                          parseFloat(TotalTaxAmount) + parseFloat(TaxAmtForRow);
 
-                          let TaxAmtForRow = (
-                            (TaxableAmount * parseFloat(element.Tax_Percent)) /
-                            100
-                          ).toFixed(2);
-                          TotalTaxAmount =
-                            parseFloat(TotalTaxAmount) +
-                            parseFloat(TaxAmtForRow);
-                          if (arr.length > 0) {
-                            arr = [
-                              ...arr,
-                              {
-                                TaxID: element.TaxID,
-                                TaxOn: element.TaxOn,
-                                TaxPercent: element.Tax_Percent,
-                                Tax_Name: element.TaxName,
-                                TaxableAmount: TaxableAmount,
-                                TaxAmt: TaxAmtForRow,
-                              },
-                            ];
-                          } else {
-                            arr = [
-                              {
-                                TaxID: element.TaxID,
-                                TaxOn: element.TaxOn,
-                                TaxPercent: element.Tax_Percent,
-                                Tax_Name: element.TaxName,
-                                TaxableAmount: TaxableAmount,
-                                TaxAmt: TaxAmtForRow,
-                              },
-                            ];
-                          }
+                        if (arr.length > 0) {
+                          arr = [
+                            ...arr,
+                            {
+                              TaxID: element.TaxID,
+                              TaxOn: element.TaxOn,
+                              TaxPercent: element.Tax_Percent,
+                              Tax_Name: element.TaxName,
+                              TaxableAmount: TaxableAmount,
+                              TaxAmt: TaxAmtForRow,
+                            },
+                          ];
+                        } else {
+                          arr = [
+                            {
+                              TaxID: element.TaxID,
+                              TaxOn: element.TaxOn,
+                              TaxPercent: element.Tax_Percent,
+                              Tax_Name: element.TaxName,
+                              TaxableAmount: TaxableAmount,
+                              TaxAmt: TaxAmtForRow,
+                            },
+                          ];
                         }
-                        setInvTaxData(arr);
-                        let newInvTotal =
-                          parseFloat(TaxableAmount) +
-                          parseFloat(TotalTaxAmount);
-
-                        let newGrandTotal = Math.round(newInvTotal);
-                        let newRoundOff = newGrandTotal - newInvTotal;
-
-                        setInvRegisterData({
-                          ...invRegisterData,
-                          TaxAmount: parseFloat(TotalTaxAmount).toFixed(2),
-                          InvTotal: newInvTotal.toFixed(2),
-                          GrandTotal: newGrandTotal.toFixed(2),
-                          Round_Off: newRoundOff.toFixed(2),
-                        });
                       }
-                    }}
-                    disabled={
-                      invRegisterData.Inv_No ||
-                      invRegisterData.DCStatus === "Cancelled"
                     }
-                    className={
-                      invRegisterData.Inv_No ||
-                      invRegisterData.DCStatus === "Cancelled"
-                        ? "ip-select mt-1 input-disabled"
-                        : "ip-select mt-1"
+
+                    setInvTaxData(arr);
+
+                    let newInvTotal =
+                      parseFloat(TaxableAmount) + parseFloat(TotalTaxAmount);
+
+                    let newGrandTotal = Math.round(newInvTotal);
+                    let newRoundOff = newGrandTotal - newInvTotal;
+
+                    setInvRegisterData({
+                      ...invRegisterData,
+                      TaxAmount: parseFloat(TotalTaxAmount).toFixed(2),
+                      InvTotal: newInvTotal.toFixed(2),
+                      GrandTotal: newGrandTotal.toFixed(2),
+                      Round_Off: newRoundOff.toFixed(2),
+                    });
+                  } else {
+                    // console.log("normal");
+
+                    for (let i = 0; i < newTaxOn.length; i++) {
+                      const element = newTaxOn[i];
+                      if (parseInt(element) === 1) {
+                        applicableTaxes.push(TaxDropDownData[e.target.value]);
+                      } else {
+                        // filter gets the data in array, there may be more then 1 rows, so mappppp....
+                        TaxDropDownData.filter(
+                          (obj) => obj.TaxID === parseInt(element)
+                        ).map((value, key) => applicableTaxes.push(value));
+                      }
                     }
-                  >
-                    <option value="none" selected disabled hidden>
-                      Select an Option
-                    </option>
-                    {TaxDropDownData?.map((taxVal, key) => (
-                      <option value={key}>{taxVal.TaxName}</option>
-                    ))}
-                  </select>
-                </div>
-                <div className="p-1"></div>
-                <button
-                  onClick={deleteTaxFunc}
-                  disabled={
-                    invRegisterData.Inv_No ||
-                    invRegisterData.DCStatus === "Cancelled"
+
+                    let TaxableAmount = (
+                      parseFloat(invRegisterData?.Net_Total) -
+                      parseFloat(invRegisterData?.Discount) +
+                      parseFloat(invRegisterData?.Del_Chg)
+                    ).toFixed(2);
+                    let TotalTaxAmount = 0;
+                    for (let i = 0; i < applicableTaxes.length; i++) {
+                      const element = applicableTaxes[i];
+
+                      let TaxAmtForRow = (
+                        (TaxableAmount * parseFloat(element.Tax_Percent)) /
+                        100
+                      ).toFixed(2);
+                      TotalTaxAmount =
+                        parseFloat(TotalTaxAmount) + parseFloat(TaxAmtForRow);
+                      if (arr.length > 0) {
+                        arr = [
+                          ...arr,
+                          {
+                            TaxID: element.TaxID,
+                            TaxOn: element.TaxOn,
+                            TaxPercent: element.Tax_Percent,
+                            Tax_Name: element.TaxName,
+                            TaxableAmount: TaxableAmount,
+                            TaxAmt: TaxAmtForRow,
+                          },
+                        ];
+                      } else {
+                        arr = [
+                          {
+                            TaxID: element.TaxID,
+                            TaxOn: element.TaxOn,
+                            TaxPercent: element.Tax_Percent,
+                            Tax_Name: element.TaxName,
+                            TaxableAmount: TaxableAmount,
+                            TaxAmt: TaxAmtForRow,
+                          },
+                        ];
+                      }
+                    }
+                    setInvTaxData(arr);
+                    let newInvTotal =
+                      parseFloat(TaxableAmount) + parseFloat(TotalTaxAmount);
+
+                    let newGrandTotal = Math.round(newInvTotal);
+                    let newRoundOff = newGrandTotal - newInvTotal;
+
+                    setInvRegisterData({
+                      ...invRegisterData,
+                      TaxAmount: parseFloat(TotalTaxAmount).toFixed(2),
+                      InvTotal: newInvTotal.toFixed(2),
+                      GrandTotal: newGrandTotal.toFixed(2),
+                      Round_Off: newRoundOff.toFixed(2),
+                    });
                   }
-                  className={
-                    invRegisterData.Inv_No ||
-                    invRegisterData.DCStatus === "Cancelled"
-                      ? "button-style button-disabled m-0"
-                      : "button-style m-0"
-                  }
-                >
-                  Delete Taxes
-                </button>
-              </div>
+                }}
+                disabled={
+                  invRegisterData.Inv_No ||
+                  invRegisterData.DCStatus === "Cancelled"
+                }
+                className={
+                  invRegisterData.Inv_No ||
+                  invRegisterData.DCStatus === "Cancelled"
+                    ? "ip-select input-disabled"
+                    : "ip-select in-field mt-1"
+                }
+              >
+                <option value="none" selected disabled hidden>
+                  Select an Option
+                </option>
+                {TaxDropDownData?.map((taxVal, key) => (
+                  <option value={key}>{taxVal.TaxName}</option>
+                ))}
+              </select>
             </div>
+
+            <button
+              onClick={deleteTaxFunc}
+              disabled={
+                invRegisterData.Inv_No ||
+                invRegisterData.DCStatus === "Cancelled"
+              }
+              className={
+                invRegisterData.Inv_No ||
+                invRegisterData.DCStatus === "Cancelled"
+                  ? "button-style button-disabled"
+                  : "button-style"
+              }
+            >
+              Delete Taxes
+            </button>
           </div>
         </div>
 

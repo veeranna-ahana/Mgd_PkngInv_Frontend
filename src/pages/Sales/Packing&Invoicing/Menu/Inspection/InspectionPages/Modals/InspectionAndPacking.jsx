@@ -49,7 +49,9 @@ export default function InspectionAndPacking(props) {
         style={{ background: "#4d4d4d57" }}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Inspection and Packing Form</Modal.Title>
+          <Modal.Title style={{ fontSize: "14px" }}>
+            Inspection and Packing Form
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form action="">
@@ -57,6 +59,7 @@ export default function InspectionAndPacking(props) {
               <label className="form-label col-md-4 m-0">Inspected by</label>
               <div className="col-md-7">
                 <input
+                  className="in-field"
                   value={props.insAndPack?.inspectedBy || ""}
                   name="inspectedBy"
                   onChange={changeInputs}
@@ -68,6 +71,7 @@ export default function InspectionAndPacking(props) {
               <label className="form-label col-md-4 m-0">Packed by</label>
               <div className="col-md-7">
                 <input
+                  className="in-field"
                   value={props.insAndPack?.packedBy || ""}
                   name="packedBy"
                   onChange={changeInputs}

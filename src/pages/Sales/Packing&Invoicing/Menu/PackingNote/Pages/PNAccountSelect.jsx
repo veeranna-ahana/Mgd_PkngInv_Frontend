@@ -28,105 +28,86 @@ export default function ProfileOpenForm(props) {
 
   return (
     <>
-      <div>
-        <div className="col-md-12">
-          <h4 className="title">Packing Note List</h4>
-        </div>
-        <h5 className="mt-3">
-          <b>
-            PN List : {PNType} Status {Status}
-          </b>
-        </h5>
-        <div className="row">
-          <div
-            className="col-md-8"
+      <div className="">
+        <h4 className="title">Packing Note List</h4>
+      </div>
+      <h5 className="mt-1" style={{ fontSize: "14px" }}>
+        <b>
+          PN List : {PNType} Status {Status}
+        </b>
+      </h5>
+      <div className="row">
+        <div
+          className="col-md-8"
+          style={{
+            maxHeight: "450px",
+            overflow: "auto",
+          }}
+        >
+          <Table
+            striped
+            className="table-data border"
             style={{
-              maxHeight: "450px",
-              overflow: "auto",
+              border: "1px",
             }}
           >
-            <Table
-              striped
-              className="table-data border"
-              style={{
-                border: "1px",
-              }}
-            >
-              <thead className="tableHeaderBGColor">
-                <tr>
-                  <th>Inv Type</th>
-                  <th>PN No</th>
-                  <th>PN Date</th>
-                  <th>Customer Name</th>
+            <thead className="tableHeaderBGColor">
+              <tr>
+                <th>Inv Type</th>
+                <th>PN No</th>
+                <th>PN Date</th>
+                <th>Customer Name</th>
+              </tr>
+            </thead>
+            <tbody className="tablebody">
+              {tableData.map((val) => (
+                <tr
+                  onClick={() => selectedRowFun(val.DC_Inv_No)}
+                  className={
+                    val.DC_Inv_No === selectRow ? "selectedRowClr" : ""
+                  }
+                >
+                  <td>{val.DC_InvType}</td>
+                  <td>{val.DC_No}</td>
+                  <td>{val.DC_Date}</td>
+                  <td>{val.Cust_Name}</td>
                 </tr>
-              </thead>
-              <tbody className="tablebody">
-                {tableData.map((val) => (
-                  <tr
-                    onClick={() => selectedRowFun(val.DC_Inv_No)}
-                    className={
-                      val.DC_Inv_No === selectRow ? "selectedRowClr" : ""
-                    }
-                  >
-                    <td>{val.DC_InvType}</td>
-                    <td>{val.DC_No}</td>
-                    <td>{val.DC_Date}</td>
-                    <td>{val.Cust_Name}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </div>
+              ))}
+            </tbody>
+          </Table>
+        </div>
 
-          <div className="col-md-4">
-            <div className="d-flex flex-row justify-content-between">
-              <div style={{ width: "42%" }}>
-                {selectRow ? (
-                  PNType === "Misc" ? (
-                    <Link
-                      to={`/PackingAndInvoices/Invoice/InvoiceDetails`}
-                      state={selectRow}
-                    >
-                      <button
-                        className="button-style m-0"
-                        style={{ width: "150px" }}
-                      >
-                        Open
-                      </button>
-                    </Link>
-                  ) : (
-                    <Link
-                      to={`/PackingAndInvoices/PackingNote/Description`}
-                      state={selectRow}
-                    >
-                      <button
-                        className="button-style m-0"
-                        style={{ width: "150px" }}
-                      >
-                        Open
-                      </button>
-                    </Link>
-                  )
+        <div className="col-md-4">
+          <div className="d-flex flex-row justify-content-between">
+            <div>
+              {selectRow ? (
+                PNType === "Misc" ? (
+                  <Link
+                    to={`/PackingAndInvoices/Invoice/InvoiceDetails`}
+                    state={selectRow}
+                  >
+                    <button className="button-style group-button">Open</button>
+                  </Link>
                 ) : (
-                  <button
-                    className="button-style button-disabled m-0"
-                    disabled
-                    style={{ width: "150px" }}
+                  <Link
+                    to={`/PackingAndInvoices/PackingNote/Description`}
+                    state={selectRow}
                   >
-                    Open
-                  </button>
-                )}
-              </div>
-              <div style={{ width: "42%" }}>
-                <Link to="/PackingAndInvoices">
-                  <button
-                    className="button-style m-0"
-                    style={{ width: "-webkit-fill-available" }}
-                  >
-                    Close
-                  </button>
-                </Link>
-              </div>
+                    <button className="button-style group-button">Open</button>
+                  </Link>
+                )
+              ) : (
+                <button className="button-style button-disabled" disabled>
+                  Open
+                </button>
+              )}
+            </div>
+            <div style={{ width: "42%" }}>
+              <Link to="/PackingAndInvoices">
+                <button className="button-style" style={{ float: "right" }}>
+                  Close
+                </button>
+              </Link>
             </div>
           </div>
         </div>

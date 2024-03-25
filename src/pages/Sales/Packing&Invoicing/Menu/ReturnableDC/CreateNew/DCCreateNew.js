@@ -1165,27 +1165,56 @@ function DCCreateNew() {
       </div>
 
       <div className="row">
-        <div className="col-md-2 col-sm-12">
-          <label className="form-label">DC No</label>
-          <input type="text" disabled value={formData.dcNo} />
-        </div>
-        <div className="col-md-2 col-sm-12">
-          <label className="form-label">DC Type</label>
-          <input type="text" disabled value={formData.dcType} />
-        </div>
-        <div className="col-md-2 col-sm-12">
-          <label className="form-label">Vendor Code</label>
-          <input type="number" value={formData.custCode} disabled />
-        </div>
-
-        <div className="col-md-2 col-sm-12">
-          <label className="form-label">Status</label>
-          <input type="text" disabled value={formData.dcStatus} />
-        </div>
-
-        <div className="col-md-3 col-sm-12">
-          <label className="form-label">Reference</label>
+        <div className="d-flex col-md-2 col-sm-12" style={{ gap: "10px" }}>
+          <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+            DC No
+          </label>
           <input
+            className="in-field"
+            type="text"
+            disabled
+            value={formData.dcNo}
+          />
+        </div>
+        <div className="d-flex col-md-2 col-sm-12" style={{ gap: "10px" }}>
+          <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+            DC Type
+          </label>
+          <input
+            className="in-field"
+            type="text"
+            disabled
+            value={formData.dcType}
+          />
+        </div>
+        <div className="d-flex col-md-2 col-sm-12" style={{ gap: "10px" }}>
+          <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+            Vendor Code
+          </label>
+          <input
+            className="in-field"
+            type="number"
+            value={formData.custCode}
+            disabled
+          />
+        </div>
+
+        <div className=" d-flex col-md-2 col-sm-12" style={{ gap: "10px" }}>
+          <label className="form-label">Status</label>
+          <input
+            className="in-field"
+            type="text"
+            disabled
+            value={formData.dcStatus}
+          />
+        </div>
+
+        <div className="d-flex col-md-3" style={{ gap: "10px" }}>
+          <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+            Reference
+          </label>
+          <input
+            className="in-field"
             type="text"
             name="reference"
             value={formData.reference}
@@ -1197,40 +1226,59 @@ function DCCreateNew() {
             }
           />
         </div>
+
+        <div className="col-md-1">
+          <Link to="/PackingAndInvoices">
+            <button className="button-style" style={{ float: "right" }}>
+              Close
+            </button>
+          </Link>
+        </div>
       </div>
 
       <div className="row">
-        <div className="col-md-4">
-          <label className="form-label">Name</label>
-
-          {formData.custData?.length > 0 && (
-            <div>
-              <Typeahead
-                id="basic-example"
-                placeholder="Select a customer..."
-                options={formData.customerNames}
-                onChange={handleCustomerChange}
-                disabled={
-                  formData.dcStatus === "Despatched" ||
-                  formData.dcStatus === "Closed" ||
-                  formData.dcStatus === "Cancelled"
-                }
-                defaultSelected={
-                  dcSelectedRow && dcSelectedRow.custName !== undefined
-                    ? [dcSelectedRow.custName]
-                    : []
-                }
-              />
+        <div className="col-md-4 col-sm-6">
+          <div className="d-flex" style={{ gap: "10px" }}>
+            <div className="col-1">
+              <label className="form-label">Name</label>
             </div>
-          )}
+            <div className="col-10 mt-2">
+              {formData.custData?.length > 0 && (
+                <Typeahead
+                  // className="ip-select"
+                  id="basic-example"
+                  placeholder="Select a customer..."
+                  options={formData.customerNames}
+                  onChange={handleCustomerChange}
+                  disabled={
+                    formData.dcStatus === "Despatched" ||
+                    formData.dcStatus === "Closed" ||
+                    formData.dcStatus === "Cancelled"
+                  }
+                  defaultSelected={
+                    dcSelectedRow && dcSelectedRow.custName !== undefined
+                      ? [dcSelectedRow.custName]
+                      : []
+                  }
+                />
+              )}
+            </div>
+          </div>
         </div>
-        <div className="col-md-2">
+        <div className="d-flex col-md-2" style={{ gap: "10px" }}>
           <label className="form-label">Date</label>
-          <input type="text" value={formData.dcDate} name="dcDate" disabled />
+          <input
+            className="in-field mt-1"
+            type="text"
+            value={formData.dcDate}
+            name="dcDate"
+            disabled
+          />
         </div>
-        <div className="col-md-4">
+        <div className="d-flex col-md-5" style={{ gap: "10px" }}>
           <label className="form-label">Reason</label>
           <input
+            className="in-field"
             type="text"
             name="dcCancel"
             value={formData.dcCancel}
@@ -1244,8 +1292,9 @@ function DCCreateNew() {
           />
         </div>
 
-        <div className="col-md-2 mt-3">
+        <div className="col-md-1">
           <button
+            style={{ float: "right" }}
             className={
               formData.dcStatus === "Cancelled" ||
               !formData.dcInvNo ||
@@ -1268,7 +1317,7 @@ function DCCreateNew() {
       </div>
 
       <div className="row mt-2">
-        <div className="col-md-2 col-sm-12">
+        <div className="col-md-6 col-sm-12">
           <button
             className={
               formData.dcStatus === "Despatched" ||
@@ -1292,9 +1341,7 @@ function DCCreateNew() {
           >
             Add New
           </button>
-        </div>
 
-        <div className="col-md-2  col-sm-12">
           <button
             className={
               formData.dcStatus === "Despatched" ||
@@ -1316,9 +1363,7 @@ function DCCreateNew() {
           >
             Create DC
           </button>
-        </div>
 
-        <div className="col-md-2 col-sm-12">
           <button
             className={
               formData.dcStatus === "Despatched" ||
@@ -1336,9 +1381,7 @@ function DCCreateNew() {
           >
             Save
           </button>
-        </div>
 
-        <div className="col-md-2 col-sm-12">
           <button
             className={
               formData.dcStatus === "Despatched" ||
@@ -1356,9 +1399,7 @@ function DCCreateNew() {
           >
             Delete
           </button>
-        </div>
 
-        <div className="col-md-2 col-sm-12">
           <button
             className={
               formData.dcStatus === "Draft" || formData.dcStatus === "Cancelled"
@@ -1373,15 +1414,9 @@ function DCCreateNew() {
             Print
           </button>
         </div>
-
-        <div className="col-md-2 col-sm-12">
-          <Link to="/PackingAndInvoices">
-            <button className="button-style">Close</button>
-          </Link>
-        </div>
       </div>
 
-      <Tabs className="mt-3">
+      <Tabs className="tab_font nav-tabs mt-3">
         <Tab eventKey="consigneeInfo" title="Consignee Address">
           <ConsigneeInfo
             handleInputChange={handleInputChange}

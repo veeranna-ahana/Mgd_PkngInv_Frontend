@@ -100,14 +100,15 @@ function DCListAll() {
       <div className="col-md-12">
         <h4 className="title">Returnable DC List</h4>
       </div>
-      <h5 className="mt-3">
-        <b>PN List : Returnable DC Status All</b>
+      <h5 className="mt-1">
+        <label className="form-label">PN List : Returnable DC Status All</label>
       </h5>
 
       <div className="row">
-        <div className="col-md-5">
+        <div className="d-flex col-md-5" style={{ gap: "10px" }}>
           <label className="form-label">Customer</label>
           <Typeahead
+            className="ip-select mt-1"
             id="customerFilterTypeahead"
             labelKey="label"
             options={allCustomers}
@@ -116,21 +117,15 @@ function DCListAll() {
           />
         </div>
 
-        <button
-          className="button-style"
-          style={{ width: "120px", marginTop: "2%", marginLeft: "1%" }}
-          onClick={handleOpenClick}
-        >
-          Open
-        </button>
+        <div className="col-md-7">
+          <button className="button-style" onClick={handleOpenClick}>
+            Open
+          </button>
 
-        <button
-          className="button-style"
-          style={{ width: "120px", marginTop: "2%", marginLeft: "2%" }}
-          onClick={handleCloseClick}
-        >
-          Close
-        </button>
+          <button className="button-style" onClick={handleCloseClick}>
+            Close
+          </button>
+        </div>
       </div>
 
       <div className="mt-4 row">
