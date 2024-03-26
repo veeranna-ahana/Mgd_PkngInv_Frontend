@@ -565,6 +565,13 @@ label {
   font-size: 12px;
 }
 
+.button-disabled {
+  color: white !important;
+  background-color: rgb(173, 173, 173) !important;
+
+  cursor: no-drop;
+}
+
 th {
   font-size: 12px !important;
   padding: 3px !important;
@@ -602,8 +609,7 @@ td {
   border-bottom: 1px solid #3932be;
 }
 
-.selectedRowClr,
-.selcted-row-clr {
+.selectedRowClr {
   background-color: #98a8f8 !important;
 }
 

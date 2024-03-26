@@ -526,6 +526,7 @@ function CreateNewJobWork({
   const handleAccept = async () => {
     const srlType = "ReturnedGoodsVr";
     const prefix = `${formData.unitName.charAt(0).toUpperCase()}`;
+    const VoucherNoLength = 4;
     try {
       const response = await Axios.post(apipoints.accept, {
         rvId: formData.rvId,
@@ -535,6 +536,7 @@ function CreateNewJobWork({
         unit: formData.unitName,
         srlType: srlType,
         prefix: prefix,
+        VoucherNoLength: VoucherNoLength,
       });
 
       const date = new Date(response.data.updatedRvDate);

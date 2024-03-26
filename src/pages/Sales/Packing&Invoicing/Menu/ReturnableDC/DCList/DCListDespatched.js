@@ -202,7 +202,7 @@ function DCListDespatched() {
                         dcSelectedRow.custStateId === data.Cust_StateId &&
                         dcSelectedRow.delStateId === data.Del_StateId &&
                         dcSelectedRow.custName === data.Cust_Name
-                          ? "selected-row"
+                          ? "selectedRowClr"
                           : ""
                       } `}
                       style={{ cursor: "pointer" }}

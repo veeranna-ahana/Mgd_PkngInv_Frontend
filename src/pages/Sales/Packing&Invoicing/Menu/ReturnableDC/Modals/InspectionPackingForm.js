@@ -62,6 +62,7 @@ function InspectionPackingForm({
   const handlePrintYes = () => {
     const srlType = "ReturnableGoodDC";
     const prefix = `${formData.unitName.charAt(0).toUpperCase()}G`;
+    const VoucherNoLength = 4;
     if (inspectedBy.trim() === "" || packedBy.trim() === "") {
       toast.error("Enter the name of Inspected By and Packed By to continue");
       setShowPrintModal(false);
@@ -71,6 +72,7 @@ function InspectionPackingForm({
         unit: formData.unitName,
         srlType: srlType,
         prefix: prefix,
+        VoucherNoLength: VoucherNoLength,
       })
         .then((response) => {
           if (response.status === 200) {

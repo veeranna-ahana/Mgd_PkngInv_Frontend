@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     width: "350px",
     border: 1,
     marginLeft: "10px",
-    height: "140px",
+    height: "150px",
     marginTop: "10px",
   },
   boldGstNo: {
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     borderRight: 1,
     borderTop: 1,
     borderBottom: 1,
-    height: "140px",
+    height: "150px",
     marginTop: "10px",
   },
   subsectiondata: {
@@ -370,6 +370,24 @@ const DeliveryChallan = ({ formData }) => {
                   >
                     {formData.custState}
                   </Text>
+
+                  <Text
+                    style={{
+                      ...styles.globalfontwithbold,
+                      marginLeft: "10px",
+                      padding: 3,
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Delivery Address
+                  </Text>
+
+                  <View style={styles.subsectiondata}>
+                    {/* <Text style={styles.globalfontwithbold}>Branch: </Text> */}
+                    <Text style={styles.globalfontwithoutbold}>
+                      {formData.deliveryAddress}
+                    </Text>
+                  </View>
                 </View>
               </View>
             </View>
