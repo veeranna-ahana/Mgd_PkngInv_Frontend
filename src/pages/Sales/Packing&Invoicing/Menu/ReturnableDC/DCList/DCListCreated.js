@@ -103,14 +103,17 @@ function DCListCreated() {
 
       <div className="row">
         <h5>
-          <b>PN List : Returnable DC Status Draft</b>
+          <label className="form-label">
+            PN List : Returnable DC Status Draft
+          </label>
         </h5>
       </div>
 
       <div className="row">
-        <div className="col-md-5">
+        <div className="d-flex col-md-5" style={{ gap: "10px" }}>
           <label className="form-label">Customer</label>
           <Typeahead
+            className="ip-select mt-1"
             id="customerFilterTypeahead"
             labelKey="label"
             options={allCustomers}
@@ -119,21 +122,14 @@ function DCListCreated() {
           />
         </div>
 
-        <button
-          className="button-style"
-          style={{ width: "120px", marginTop: "2%", marginLeft: "1%" }}
-          onClick={handleOpenClick}
-        >
-          Open
-        </button>
-
-        <button
-          className="button-style"
-          style={{ width: "120px", marginTop: "2%", marginLeft: "2%" }}
-          onClick={handleCloseClick}
-        >
-          Close
-        </button>
+        <div className="col-md-7">
+          <button className="button-style" onClick={handleOpenClick}>
+            Open
+          </button>
+          <button className="button-style" onClick={handleCloseClick}>
+            Close
+          </button>
+        </div>
       </div>
 
       <div className="mt-4 row">

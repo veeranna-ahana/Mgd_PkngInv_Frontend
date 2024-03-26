@@ -25,7 +25,7 @@ export default function ConfirmationModal(props) {
         style={{ background: "#4d4d4d57" }}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Confirmation Message</Modal.Title>
+          <Modal.Title style={{fontSize:'14px'}}>Confirmation Message</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <span>{props.message}</span>

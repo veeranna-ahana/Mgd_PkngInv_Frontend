@@ -154,10 +154,10 @@ function ScheduleList(props) {
         <h4 className="title">{props.Type} Schedule List</h4>
 
         <div className="row">
-          <div className="col-md-4">
-            <Form.Group controlId="CustName">
-              <label className="form-label">Select Customer</label>
-              <Form.Label
+          <div className="d-flex col-md-4" style={{ gap: "10px" }}>
+            <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+              Select Customer
+              <span
                 style={{
                   color: "#f20707",
                   fontSize: "16px",
@@ -165,55 +165,53 @@ function ScheduleList(props) {
                 }}
               >
                 *
-              </Form.Label>
-              {custdata.length > 0 ? (
-                // <Typeahead
-                //   className="mt-1"
-                //   id="basic-example "
-                //   options={custdata}
-                //   placeholder="Select Customer"
-                //   onChange={(label) => selectCust(label)}
-                // />
-                <Typeahead
-                  className="mt-1"
-                  id="basic-example "
-                  options={custdata}
-                  placeholder="Select Customer"
-                  onChange={(selectedCustomer) => selectCust(selectedCustomer)}
-                />
-              ) : (
-                ""
-              )}
-            </Form.Group>
+              </span>
+            </label>
+            {/* <label
+                style={{
+                  color: "#f20707",
+                  fontSize: "16px",
+                  fontWeight: "bold",
+                }}
+              >
+                *
+              </label> */}
+            {custdata.length > 0 ? (
+              // <Typeahead
+              //   className="mt-1"
+              //   id="basic-example "
+              //   options={custdata}
+              //   placeholder="Select Customer"
+              //   onChange={(label) => selectCust(label)}
+              // />
+              <Typeahead
+                className="ip-select mt-2"
+                id="basic-example "
+                options={custdata}
+                placeholder="Select Customer"
+                onChange={(selectedCustomer) => selectCust(selectedCustomer)}
+              />
+            ) : (
+              ""
+            )}
           </div>
 
           <div className="col-md-4">
-            <div className="d-flex flex-row justify-content-center mt-3">
-              <Link
-                to={`/PackingAndInvoices/Inspection/OrderScheduleDetails`}
-                state={scheduleID}
-              >
-                <button
-                  className={
-                    scheduleID ? "button-style" : "button-style button-disabled"
-                  }
-                  // className="button-style button-disabled"
-                  disabled={!scheduleID}
-                  style={{ width: "120px" }}
-                >
-                  Open
-                </button>
-              </Link>
+            <Link
+              to={`/PackingAndInvoices/Inspection/OrderScheduleDetails`}
+              state={scheduleID}
+            >
               <button
-                className="button-style"
-                id="btnclose"
-                style={{ width: "120px", marginLeft: "4px" }}
-                type="submit"
-                onClick={() => nav("/PackingAndInvoices")}
+                className={
+                  scheduleID ? "button-style" : "button-style button-disabled"
+                }
+                // className="button-style button-disabled"
+                disabled={!scheduleID}
               >
-                Close
+                Open
               </button>
-              {/* {schId ? (
+            </Link>
+            {/* {schId ? (
                 <Link
                   to={`/PackingAndInvoices/Inspection/OrderScheduleDetails`}
                   state={schId}
@@ -231,7 +229,18 @@ function ScheduleList(props) {
                   Open
                 </button>
               )} */}
-            </div>
+          </div>
+
+          <div className="col-md-4">
+            <button
+              className="button-style"
+              id="btnclose"
+              style={{ float: "right" }}
+              type="submit"
+              onClick={() => nav("/PackingAndInvoices")}
+            >
+              Close
+            </button>
           </div>
           {/* <div className="col-md-2">
             <div className="d-flex flex-row justify-content-end">
@@ -269,6 +278,7 @@ function ScheduleList(props) {
             </div>
           </div> */}
         </div>
+
         {/* table */}
         <div className="row">
           <div

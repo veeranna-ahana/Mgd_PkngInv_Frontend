@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { Form, Tab, Table, Tabs } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 import Axios from "axios";
@@ -11,14 +10,6 @@ export default function AddGoods(props) {
 
   const [productDetails, setProductDetails] = useState({});
 
-  const [desc, setDesc] = useState("");
-  const [material, setMaterial] = useState("");
-  const [quantity, setQuantity] = useState(0);
-  const [excise, setExcise] = useState("");
-  const [unitWeight, setUnitWeight] = useState(0);
-  const [totalWeight, setTotalWeight] = useState(0);
-  const [unitRate, setUnitRate] = useState(0);
-  const [totalAmount, setTotalAmount] = useState(0);
   //get allMaterials
   useEffect(() => {
     Axios.get(apipoints.allMaterials, {}).then((res) => {
@@ -28,7 +19,6 @@ export default function AddGoods(props) {
 
   const handleCancel = () => {
     props.setAddGoodsModal(false);
-
     setProductDetails({});
   };
 

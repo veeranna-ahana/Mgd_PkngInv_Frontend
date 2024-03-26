@@ -181,7 +181,9 @@ function AddNew({
     <div>
       <Modal show={showAddModal} onHide={closeAddModal}>
         <Modal.Header closeButton>
-          <Modal.Title>DC Return Details</Modal.Title>
+          <Modal.Title style={{ fontSize: "14px" }}>
+            DC Return Details
+          </Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
@@ -192,6 +194,7 @@ function AddNew({
 
             <div className="col-md-6 col-sm-12">
               <input
+                className="in-field"
                 type="text"
                 id="partName"
                 name="partName"
@@ -210,10 +213,11 @@ function AddNew({
 
             <div className="col-md-6 col-sm-12">
               <textarea
+                className="in-field"
                 id="itemDescription"
                 rows="2"
                 name="itemDescription"
-                style={{ width: "210px" }}
+                style={{ width: "210px", height: "50px" }}
                 value={formData.itemDescription}
                 onChange={handleInputChange}
               ></textarea>
@@ -227,7 +231,6 @@ function AddNew({
 
             <div className="col-md-6 col-sm-12 mt-2">
               <select
-                id=""
                 className="ip-select"
                 name="material"
                 value={formData.material}
@@ -251,6 +254,7 @@ function AddNew({
 
             <div className="col-md-6 col-sm-12">
               <input
+                className="in-field"
                 type="number"
                 name="quantity"
                 value={formData.quantity}
@@ -268,9 +272,8 @@ function AddNew({
               <label className="form-label">UOM</label>
             </div>
 
-            <div className="col-md-6 col-sm-12 mt-2">
+            <div className="col-md-6 col-sm-12">
               <select
-                id=""
                 className="ip-select"
                 name="uom"
                 value={formData.uom}
@@ -293,6 +296,7 @@ function AddNew({
 
             <div className="col-md-6 col-sm-12">
               <input
+                className="in-field"
                 type="number"
                 id="unitRate"
                 name="unitRate"
@@ -313,6 +317,7 @@ function AddNew({
 
             <div className="col-md-6 col-sm-12">
               <input
+                className="in-field"
                 type="number"
                 id="totalValue"
                 name="totalValue"
@@ -333,6 +338,7 @@ function AddNew({
 
             <div className="col-md-6 col-sm-12">
               <input
+                className="in-field"
                 type="text"
                 id="hsnCode"
                 name="hsnCode"
@@ -350,6 +356,7 @@ function AddNew({
 
             <div className="col-md-6 col-sm-12">
               <input
+                className="in-field"
                 type="number"
                 id="weight"
                 name="weight"
@@ -365,7 +372,7 @@ function AddNew({
           <div className=" row justify-content-center mt-3">
             <button
               className="button-style "
-              style={{ width: "100px" }}
+              style={{ width: "50px" }}
               onClick={handleSubmit}
             >
               Save

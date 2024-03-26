@@ -6,14 +6,6 @@ body {
   font-size: 11px;
 }
 
-.title {
-  text-align: center;
-  height: 34px;
-  color: white;
-  background-color: #2b3a55;
-  border-radius: 10px 10px 0px 0px;
-}
-
 a {
   text-decoration: none !important;
 }
@@ -119,7 +111,6 @@ a {
   background-color: #ffffff;
   color: #000000;
   display: flex;
-  height: 10vh;
   justify-content: space-between;
   align-items: center;
   box-shadow: 2px 5px 5px -2px #111;
@@ -136,7 +127,7 @@ a {
   color: #000000;
   font-size: 14px;
 }
-.button-style {
+/* .button-style {
   width: 155px;
   height: 38px;
   border: none;
@@ -144,23 +135,11 @@ a {
   background-color: #2b3a55;
   color: #ffffff;
   border-radius: 5px;
-  /* padding: 3px; */
+  padding: 3px;
   margin-top: 10px;
   font-size: 18px;
-}
-.button-disabled {
-  color: white !important;
-  background-color: rgb(173, 173, 173) !important;
+} */
 
-  cursor: no-drop;
-}
-
-.input-disabled {
-  /* color: white !important; */
-  /* background-color: rgb(224, 224, 224) !important; */
-
-  cursor: no-drop;
-}
 /* width for buttons  */
 
 .contact-details-tbl {
@@ -272,7 +251,7 @@ input:focus {
   padding: 0px !important;
 }
 
-.ip-select {
+/* .ip-select {
   font-size: 14px;
   padding: -3px 10px 10px 5px;
   display: block;
@@ -280,11 +259,11 @@ input:focus {
   border: none;
   border-radius: 0px;
   border-bottom: 1px solid #757575;
-}
-.ip-select:focus {
+} */
+/* .ip-select:focus {
   outline: none;
   border-bottom: 1px solid #3932be;
-}
+} */
 
 label {
   color: #2b3a55;
@@ -304,9 +283,9 @@ label {
   border-top: 5px solid black;
 }
 
-.row {
+/* .row {
   margin-bottom: 9px !important;
-}
+} */
 
 .ip-box {
   width: 100%;
@@ -357,23 +336,14 @@ label {
 }
 
 .css-4pdmu4-MuiBreadcrumbs-ol {
-  margin-top: 18px !important;
-  font-size: 16px !important;
+  margin-top: 5px !important;
+  font-size: 14px !important;
 }
 
 .form-title {
   font-size: 1.2rem;
   background-color: #ffffff;
   opacity: 1;
-  /* padding-bottom: -10px; */
-}
-
-.table-header {
-  font-size: 14px;
-}
-/* table items font size */
-td {
-  font-size: 14px;
 }
 
 .title_name {
@@ -381,29 +351,15 @@ td {
   font-size: 1rem;
 }
 
-/* .table-data {
-  margin-top: 5px;
-} */
-
-.tab_font {
-  font-weight: 600;
-}
-
 .tableHeaderBGColor {
-  /* background-color: rgb(43, 43, 43); */
   font-size: 17px;
   background-color: gray;
   color: white;
   position: sticky;
   top: -1px;
   text-transform: capitalize;
-  /* z-index: 100; */
 }
 
-td {
-  font-size: 14px !important;
-}
-/* checkbox style */
 .checkBoxStyle {
   top: 0px;
 }
@@ -419,19 +375,6 @@ td {
   }
 }
 
-.nav-tabs .nav-link {
-  background-color: rgb(107, 162, 207) !important;
-  color: white !important;
-}
-.nav-tabs .nav-link.active {
-  background-color: whitesmoke !important;
-  color: black !important;
-}
-
-li.nav-item {
-  margin-left: 5px !important;
-}
-
 .table-striped tbody tr:nth-of-type(even) {
   background-color: #e2e0e0;
 }
@@ -441,16 +384,13 @@ li.nav-item {
 }
 
 /* rbt-input-main form-control rbt-input */
-
-.tbody {
+/* .tbody {
   font-size: 14px !important;
-}
+} */
 
-.selectedRowClr {
-  background-color: #98a8f8 !important;
-}
 .ip-box {
   width: 100%;
+
   background-color: white;
 }
 
@@ -459,73 +399,262 @@ li.nav-item {
   padding: 6px 1px 2px 15px;
   /* border-radius: 10px; */
 }
-/* remove arrow from number type input */
-/* Chrome, Safari, Edge, Opera */
+
+.disabled-button {
+  background-color: #ccc;
+  color: #999;
+  width: auto;
+  height: 25px;
+  border: none;
+  margin-right: 10px;
+  border-radius: 5px;
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.custom-checkbox {
+  width: 12px; /* Adjust the width as needed */
+  height: 12px; /* Adjust the height as needed */
+}
+
+.defdrop {
+  border-radius: 0px !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0px !important;
+  margin: 0px !important;
+  margin-top: 0px !important;
+  border-bottom: 1px solid black !important;
+  font-size: 12px !important;
+}
+
+/* CSS */
+.custom-typeahead {
+  position: relative; /* Ensure the position is relative for proper arrow placement */
+}
+
+.custom-typeahead::after {
+  content: ""; /* Unicode character for a down arrow (▼) */
+  position: absolute;
+  top: 50%;
+  right: 10px; /* Adjust the right value to control the arrow's position */
+  transform: translateY(-50%);
+  pointer-events: none; /* Prevent the arrow from intercepting mouse events */
+}
+
+/* Custom toast notification style */
+
+/* .pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.pagination li {
+  margin: 0 5px;
+  display: inline;
+}
+
+.pagination li .active {
+  margin: 0 5px;
+  display: inline;
+  background-color:#2b3a55 ;
+}
+
+.pagination a {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.pagination a:hover {
+  background-color: #2b3a55;
+  color: #fff!important;
+}
+
+.selectedRow {
+  background-color: #3498db; 
+  color: white;
+} */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.pagination li {
+  margin: 0 5px;
+  display: inline;
+  font-size: 12px;
+}
+
+.pagination li a {
+  padding: 3px 7px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #333;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.pagination li a:hover {
+  background-color: #2b3a55;
+  color: #fff !important;
+}
+
+.pagination li.active a {
+  background-color: #2b3a55;
+  color: #fff;
+}
+
+.selectedRow {
+  background-color: #3498db;
+  color: white;
+}
+
+.spinner-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.button-style.loading {
+  cursor: wait;
+}
+
+.spinner-container.loading {
+  cursor: wait;
+}
+
+/*------------------------------------------NEW CSS 11-03-2024------------------------------------ */
+
+.input-field {
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.form-label {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.button-style {
+  width: auto;
+  height: 25px;
+  border: none;
+  margin-right: 10px;
+  background-color: #2b3a55;
+  color: #ffffff;
+  border-radius: 5px;
+  /* padding: 1px; */
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.button-disabled {
+  color: white !important;
+  background-color: rgb(173, 173, 173) !important;
+
+  cursor: no-drop;
+}
+
+th {
+  font-size: 12px !important;
+  padding: 3px !important;
+}
+
+td {
+  font-size: 12px !important;
+  padding: 3px !important;
+}
+
+.in-field {
+  font-size: 12px;
+  height: 22px;
+  /* border-radius: 6px; */
+}
+
+.input-disabled {
+  font-size: 12px;
+  height: 22px;
+}
+
+.ip-select {
+  font-size: 12px;
+  padding: -3px 10px 10px 5px;
+  display: block;
+  width: 100%;
+  height: 22px;
+  border: none;
+  /* border-radius: 6px; */
+  border-bottom: 1px solid #757575;
+}
+
+.ip-select:focus {
+  outline: none;
+  border-bottom: 1px solid #3932be;
+}
+
+.selectedRowClr {
+  background-color: #98a8f8 !important;
+}
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Firefox */
-/* input[type=number] {
-  -moz-appearance: textfield;
-} */
-
-.rowColor {
-  background-color: lightcoral !important;
-}
-
-.rowColorGreen {
-  background-color: lightgreen !important;
-}
-
-.withoutBorder {
-  --bs-border-opacity: 0 !important;
-}
-
-.withoutContent {
-  opacity: 0 !important;
-}
-
-.withBorder {
-  --bs-border-opacity: 1;
-}
-
-.with1Content {
-  opacity: 1;
-}
-
-.selected-row {
-  background-color: #98a8f8 !important;
-}
-
-.tooltip-container {
-  position: relative;
-  display: inline-block;
-}
-
-/* .button-style {
-  padding: 10px;
+.erp_title {
   font-size: 16px;
-} */
-
-.tooltip {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #333;
-  color: #fff;
-  padding: 5px;
-  border-radius: 5px;
-  display: inline-block;
-  opacity: 0.9;
-  white-space: nowrap;
+  font-weight: 600;
 }
-.tableRowInput {
-  width: 100%;
-  height: 100%;
-  background-color: transparent;
-  border: none;
+
+.title {
+  text-align: center;
+  height: 22px;
+  color: white;
+  background-color: #2b3a55;
+  border-radius: 10px 10px 0px 0px;
+  font-size: 14px;
+  padding: 2px;
+}
+
+.nav-link {
+  padding: 3px;
+}
+
+.tab_font {
+  /* font-weight: 600; */
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.nav-tabs .nav-link {
+  background-color: rgb(107, 162, 207) !important;
+  color: white !important;
+  padding: 3px;
+}
+.nav-tabs .nav-link.active {
+  background-color: whitesmoke !important;
+  color: black !important;
+  padding: 3px;
+}
+
+li.nav-item {
+  margin-left: 5px !important;
 }

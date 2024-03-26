@@ -115,7 +115,7 @@ function InternalRejectionForm() {
                 <tr
                 // onClick={() => selectedRowFn(item, key)}
                 // className={
-                //   key === selectedRow?.index ? "selcted-row-clr" : ""
+                //   key === selectedRow?.index ? "selectedRowClr" : ""
                 // }
                 >
                   <td>0</td>
