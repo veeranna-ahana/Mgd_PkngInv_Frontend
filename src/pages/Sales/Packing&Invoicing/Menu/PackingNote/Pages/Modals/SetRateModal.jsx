@@ -65,14 +65,17 @@ export default function SetRateModal(props) {
         aria-labelledby="example-custom-modal-styling-title"
       >
         <Modal.Header closeButton>
-          <Modal.Title id="example-custom-modal-styling-title">
+          <Modal.Title
+            id="example-custom-modal-styling-title"
+            style={{ fontSize: "14px" }}
+          >
             Set Rates
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="row">
-            <div className="col-md-4">
-              <b>Customer</b>
+            <div className="d-flex col-md-4" style={{ gap: "30px" }}>
+              <label className="form-label">Customer</label>
               <input
                 type="text"
                 defaultValue={props.setRateConsumerData[0]?.Cust_Name}
@@ -80,8 +83,10 @@ export default function SetRateModal(props) {
                 className="input-disabled"
               />
             </div>
-            <div className="col-md-4">
-              <b>Sales Contact</b>
+            <div className="d-flex col-md-4" style={{ gap: "15px" }}>
+              <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+                Sales Contact
+              </label>
               <input
                 type="text"
                 defaultValue={props.setRateConsumerData[0]?.SalesContact}
@@ -89,8 +94,10 @@ export default function SetRateModal(props) {
                 className="input-disabled"
               />
             </div>
-            <div className="col-md-4">
-              <b>PO No.</b>
+            <div className="d-flex col-md-4" style={{ gap: "60px" }}>
+              <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+                PO No.
+              </label>
               <input
                 type="text"
                 defaultValue={props.setRateConsumerData[0]?.PO_No}
@@ -98,8 +105,10 @@ export default function SetRateModal(props) {
                 className="input-disabled"
               />
             </div>
-            <div className="col-md-4">
-              <b>Schedule No.</b>
+            <div className="d-flex col-md-4" style={{ gap: "10px" }}>
+              <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+                Schedule No.
+              </label>
               <input
                 type="text"
                 defaultValue={props.setRateConsumerData[0]?.ScheduleId}
@@ -107,8 +116,10 @@ export default function SetRateModal(props) {
                 className="input-disabled"
               />
             </div>
-            <div className="col-md-4">
-              <b>Schedule Type</b>
+            <div className="d-flex col-md-4" style={{ gap: "10px" }}>
+              <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+                Schedule Type
+              </label>
               <input
                 type="text"
                 defaultValue={props.setRateConsumerData[0]?.ScheduleType}
@@ -116,8 +127,10 @@ export default function SetRateModal(props) {
                 className="input-disabled"
               />
             </div>
-            <div className="col-md-4">
-              <b>Schedule Status</b>
+            <div className="d-flex col-md-4" style={{ gap: "10px" }}>
+              <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+                Schedule Status
+              </label>
               <input
                 type="text"
                 defaultValue={props.setRateConsumerData[0]?.Schedule_Status}
@@ -191,81 +204,30 @@ export default function SetRateModal(props) {
                           }}
                         />
                       </td>
-                      {/* {props.INVData[0]?.DC_InvType === "Job Work" ? (
-                        <>
-                          <td>
-                            <input
-                              type="number"
-                              min="0"
-                              defaultValue={val.JW_Rate}
-                              className="border-0"
-                              onChange={(e) => {
-                                updatedRates[i].JW_Rate = e.target.value;
-                                updatedRates[i].Unit_Rate = e.target.value;
-                              }}
-                            />
-                          </td>
-                          <td>{val.Mtrl_rate}</td>
-                        </>
-                      ) : (
-                        <>
-                          <td>
-                            <input
-                              type="number"
-                              min="0"
-                              defaultValue={val.JW_Rate}
-                              className="border-0"
-                              onChange={(e) => {
-                                updatedRates[i].JW_Rate = e.target.value;
-                                updatedRates[i].Unit_Rate = (
-                                  parseFloat(e.target.value) +
-                                  parseFloat(updatedRates[i].Mtrl_rate)
-                                ).toFixed(2);
-                              }}
-                            />
-                          </td>
-                          <td>
-                            <input
-                              type="number"
-                              min="0"
-                              defaultValue={val.Mtrl_rate}
-                              className="border-0"
-                              onChange={(e) => {
-                                updatedRates[i].Mtrl_rate = e.target.value;
-                                updatedRates[i].Unit_Rate = (
-                                  parseFloat(e.target.value) +
-                                  parseFloat(updatedRates[i].JW_Rate)
-                                ).toFixed(2);
-                              }}
-                            />
-                          </td>
-                        </>
-                      )} */}
                     </tr>
                   </>
                 ))}
               </tbody>
             </Table>
           </div>
-          <div className="row">
-            <div className="d-flex justify-content-between p-0">
-              <button
-                className="button-style m-0 "
-                onClick={() => {
-                  props.setShowSetRateModal(false);
-                }}
-              >
-                Close
-              </button>
-              <button
-                className="button-style m-0 "
-                onClick={() => {
-                  updatingTheRateFunction(updatedRates);
-                }}
-              >
-                Save
-              </button>
-            </div>
+          <div className="" style={{ float: "right" }}>
+            <button
+              className="button-style"
+              onClick={() => {
+                updatingTheRateFunction(updatedRates);
+              }}
+            >
+              Save
+            </button>
+
+            <button
+              className="button-style"
+              onClick={() => {
+                props.setShowSetRateModal(false);
+              }}
+            >
+              Close
+            </button>
           </div>
         </Modal.Body>
       </Modal>

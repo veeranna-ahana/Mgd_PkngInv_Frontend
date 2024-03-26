@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-bootstrap/Modal";
-import { Form, ModalFooter, Tab, Table, Tabs } from "react-bootstrap";
-import { toast } from "react-toastify";
-import Button from "react-bootstrap/Button";
 
-import Axios from "axios";
 export default function ConfirmationModal(props) {
   const closeModal = () => {
     props.setConfirmModalOpen(false);

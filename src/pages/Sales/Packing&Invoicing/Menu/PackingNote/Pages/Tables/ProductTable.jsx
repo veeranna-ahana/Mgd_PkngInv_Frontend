@@ -20,7 +20,12 @@ export default function ProductTable(props) {
               <td>{val.Dwg_No}</td>
               <td>{val.Mtrl}</td>
               <td>{val.Qty}</td>
-              {props.loadRateEvent ? (
+              {props.loadRateEvent || props.invRegisterData.Inv_No ? (
+                // props.loadRateEvent ||
+                // props.invRegisterData.Inv_No != "" ||
+                // props.invRegisterData.Inv_No != undefined ||
+                // props.invRegisterData.Inv_No != null
+
                 <>
                   <td>
                     {(

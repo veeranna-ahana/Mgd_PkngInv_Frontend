@@ -23,10 +23,12 @@ export default function ConfirmationModal(props) {
         style={{ background: "#4d4d4d57" }}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Confirmation Message</Modal.Title>
+          <Modal.Title style={{ fontSize: "14px" }}>
+            Confirmation Message
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <span>{props.message}</span>
+          <span style={{ fontSize: "12px" }}>{props.message}</span>
         </Modal.Body>
         <Modal.Footer className="d-flex flex-row justify-content-end">
           <button

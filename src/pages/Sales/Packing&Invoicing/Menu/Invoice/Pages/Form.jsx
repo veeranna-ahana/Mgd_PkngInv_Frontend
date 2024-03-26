@@ -18,17 +18,20 @@ import ModalInvoice from "../../../PDFs/Invoice/ModalInvoice";
 import { Link, useLocation } from "react-router-dom";
 
 export default function Form(props) {
+  let defaultDelivery = "Ex Factory";
+
   const todayDate = new Date();
 
   let year = todayDate.getFullYear();
   let month = todayDate.getMonth() + 1;
   let datee = todayDate.getDate();
+  let hour = todayDate.getHours();
+  let mins = todayDate.getMinutes();
 
-  let formatedTodayDate = `${year}-${
-    month < 10 ? "0" + month : month
-  }-${datee}`;
+  let formatedTodayDate = `${year}-${month < 10 ? "0" + month : month}-${
+    datee < 10 ? "0" + datee : datee
+  }T${hour < 10 ? "0" + hour : hour}:${mins < 10 ? "0" + mins : mins}`;
 
-  // console.log("formatedTodayDate", formatedTodayDate);
   const [TaxDropDownData, setTaxDropDownData] = useState([]);
 
   const [invRegisterData, setInvRegisterData] = useState({
@@ -51,7 +54,7 @@ export default function Form(props) {
     Cust_State: "",
     Cust_StateId: "",
     PIN_Code: "",
-    Del_Address: "",
+    Del_Address: defaultDelivery,
     GSTNo: "",
     PO_No: "",
     PO_Date: "",
@@ -115,8 +118,8 @@ export default function Form(props) {
   const [formData, setFormData] = useState({
     unitName: "Jigani",
   });
-  // console.log("inv", invRegisterData);
-  // const [detailsDataToPost, setDetailsDataToPost] = useState([])
+
+  const rowLimit = 20;
 
   useEffect(() => {
     // // get all cust
@@ -136,12 +139,6 @@ export default function Form(props) {
     Axios.post(apipoints.invoiceDetails, {
       DCInvNo: props?.DCInvNo,
     }).then((res) => {
-      // setInvRegisterData(res.data.registerData[0]);
-
-      // console.log(
-      //   "res.data.registerData[0].Cust_State",
-      //   res.data.registerData[0].Cust_State
-      // );
       const arr = res.data.registerData[0].Cust_State?.toLowerCase().split(" ");
 
       for (var i = 0; i < arr.length; i++) {
@@ -150,20 +147,12 @@ export default function Form(props) {
 
       let newState = arr.join(" ");
 
-      // console.log("newState", newState);
-      // console.log("all", allStates);
-      // console.log(
-      //   "filter",
-      //   allStates.filter((obj) => obj.State === newState)
-      // );
-
       res.data.registerData[0].Cust_State = newState;
-      // allStates.filter((obj) => obj.State === newState)?.length > 0
-      //   ? newState
-      //   : "Others";
-      // console.log("ressss", res.data.registerData[0]);
-      setInvRegisterData(res.data.registerData[0]);
 
+      res.data.registerData[0].DespatchDate =
+        res.data.registerData[0].DespatchDate || formatedTodayDate;
+
+      setInvRegisterData(res.data.registerData[0]);
       setInvDetailsData(res.data.detailsData);
       setInvTaxData(res.data.taxData);
     });
@@ -173,8 +162,6 @@ export default function Form(props) {
       setTaxDropDownData(res.data);
     });
   }, []);
-
-  const rowLimit = 20;
 
   const deleteTaxes = () => {
     setInvTaxData([]);
@@ -205,19 +192,10 @@ export default function Form(props) {
   };
 
   const inputHandler = (e) => {
-    // if (e.target.name === "BillType") {
-    //   setInvRegisterData({
-    //     ...invRegisterData,
-    //     BillType: e.target.value,
-    //     PaymentTerms:
-    //       e.target.value === "Cash" ? "Cash on Delivery" : "7 Days Credit",
-    //   });
-    // } else {
     setInvRegisterData({
       ...invRegisterData,
       [e.target.name]: e.target.value,
     });
-    // }
   };
 
   const handleChangeDiscountDelivery = (e) => {
@@ -231,9 +209,7 @@ export default function Form(props) {
         parseFloat(invRegisterData?.Net_Total) -
         parseFloat(e.target.value.length > 0 ? e.target.value : 0) +
         parseFloat(invRegisterData?.Del_Chg);
-
       newGrandTotal = Math.round(newInvTotal);
-
       newRoundOff = newGrandTotal - newInvTotal;
 
       setInvRegisterData({
@@ -241,7 +217,6 @@ export default function Form(props) {
         Discount: e.target.value.length > 0 ? e.target.value : 0,
         TaxAmount: 0.0,
         InvTotal: newInvTotal.toFixed(2),
-
         GrandTotal: newGrandTotal.toFixed(2),
         Round_Off: newRoundOff.toFixed(2),
         AssessableValue:
@@ -254,9 +229,7 @@ export default function Form(props) {
         parseFloat(invRegisterData?.Net_Total) -
         parseFloat(invRegisterData?.Discount) +
         parseFloat(e.target.value.length > 0 ? e.target.value : 0);
-
       newGrandTotal = Math.round(newInvTotal);
-
       newRoundOff = newGrandTotal - newInvTotal;
 
       setInvRegisterData({
@@ -275,7 +248,6 @@ export default function Form(props) {
   };
 
   const printPackingNoteCopy = () => {
-    // toast.success("PN Created");
     setPrintCopyModal(true);
   };
 
@@ -323,7 +295,6 @@ export default function Form(props) {
 
   const createInvoice = () => {
     savePN();
-
     Axios.post(apipoints.createInvoice, {
       invRegisterData: invRegisterData,
     }).then((res) => {
@@ -347,38 +318,6 @@ export default function Form(props) {
     setSelectIV(true);
   };
 
-  // useEffect(() => {
-  //   // console.log("changeee");
-  //   let newNetTotal = 0;
-  //   let newTotalWeight = 0;
-  //   for (let i = 0; i < invDetailsData.length; i++) {
-  //     const element = invDetailsData[i];
-  //     newTotalWeight =
-  //       parseFloat(newTotalWeight) + parseFloat(element.DC_Srl_Wt);
-  //     newNetTotal = parseFloat(newNetTotal) + parseFloat(element.DC_Srl_Amt);
-  //   }
-
-  // setInvRegisterData({
-  //   ...invRegisterData,
-  //   Total_Wt: parseFloat(newTotalWeight).toFixed(2),
-  //   Net_Total: parseFloat(newNetTotal).toFixed(2),
-  //   Discount: 0.0,
-  //   Del_Chg: 0.0,
-  //   TaxAmount: "0.00",
-  //   InvTotal: parseFloat(newNetTotal).toFixed(2),
-  //   GrandTotal: Math.round(parseFloat(newNetTotal)).toFixed(2),
-  //   Round_Off: (
-  //     Math.round(parseFloat(newNetTotal)) - parseFloat(newNetTotal)
-  //   ).toFixed(2),
-  //   AssessableValue: parseFloat(newNetTotal).toFixed(2),
-  // });
-  //   setInvTaxData([]);
-  //   document.getElementById("taxDropdown").value = "none";
-
-  //   // console.log("newnettotal", newNetTotal);
-  // }, [invDetailsData]);
-
-  // console.log("invreguster", invRegisterData);
   const createPNValidationFunc = () => {
     if (
       (invRegisterData.Iv_Id && invDetailsData.length === 0) ||
@@ -425,28 +364,6 @@ export default function Form(props) {
           )
       );
 
-      // const detailsDataToRemove = invDetailsData.filter(
-      //   (obj) =>
-      //     (
-      //       obj.Dwg_No === "" ||
-      //       obj.Dwg_No === null ||
-      //       obj.Dwg_No === "null" ||
-      //       obj.Dwg_No === "NaN" ||
-      //       obj.Dwg_No === undefined ||
-      //       obj.Material === "" ||
-      //       obj.Material === null ||
-      //       obj.Material === "null" ||
-      //       obj.Material === "NaN" ||
-      //       obj.Material === undefined ||
-      //       parseInt(obj.Qty) === 0 ||
-      //       obj.Qty === "" ||
-      //       obj.Qty === null ||
-      //       obj.Qty === "null" ||
-      //       obj.Qty === "NaN" ||
-      //       obj.Qty === undefined
-      //     )
-      // );
-
       setInvDetailsData(detailsDataToPost);
       if (
         (invRegisterData.Iv_Id && detailsDataToPost.length === 0) ||
@@ -479,21 +396,11 @@ export default function Form(props) {
           document.getElementById("materialDropdown").value = "";
           return { result: false, data: [{}] };
         } else {
-          // post
           return { result: true, data: detailsDataToPost };
-          // setTimeout(() => {
-          //   createPNFunc();
-          // }, 600);
         }
       } else {
-        // post
         return { result: true, data: detailsDataToPost };
-        // createPNFunc();
       }
-
-      // console.log("detailsDataToPost", detailsDataToPost);
-      // setButtonClicked("Create PN");
-      // setConfirmModalOpen(true);
     }
   };
 
@@ -502,7 +409,6 @@ export default function Form(props) {
     const ResetPeriod = "FinanceYear";
     const ResetValue = 0;
     const VoucherNoLength = 5;
-    // const prefix = `${formData.unitName.charAt(0).toUpperCase()}G`;
     const prefix = "";
     try {
       const response = await Axios.post(apipoints.insertRunNoRow, {
@@ -519,8 +425,8 @@ export default function Form(props) {
       console.error("Error:", error);
     }
   };
+
   const createPNFunc = () => {
-    // console.log('details data', invDetailsData)
     getDCNo();
     setButtonClicked("Create PN");
     setConfirmModalOpen(true);
@@ -529,11 +435,8 @@ export default function Form(props) {
     const srlType = "PkngNoteNo";
     const prefix = "";
     const VoucherNoLength = 5;
-
     const resp = createPNValidationFunc();
-    // setTimeout(() => {
 
-    // console.log("resqqq", resp);
     if (resp.result) {
       Axios.post(apipoints.createPN, {
         invRegisterData: invRegisterData,
@@ -557,9 +460,7 @@ export default function Form(props) {
     } else {
       // toast.warning("unexpected error found");
     }
-    // }, 300);
   };
-  // console.log("invDetailsData", invDetailsData);
 
   return (
     <>
@@ -567,7 +468,7 @@ export default function Form(props) {
         <h4 className="title">{props?.heading || "Create New"}</h4>
         <FormHeader invRegisterData={invRegisterData} />
 
-        <Tabs className="mt-3 p-2">
+        <Tabs className="tab_font nav-tabs mt-1 p-2">
           <Tab eventKey="consigneeInfo" title="Consignee Info">
             <ConsigneeInfo
               invRegisterData={invRegisterData}
@@ -584,16 +485,12 @@ export default function Form(props) {
               invRegisterData={invRegisterData}
               setInvRegisterData={setInvRegisterData}
               inputHandler={inputHandler} //func
-              // func
-              handleChangeDiscountDelivery={handleChangeDiscountDelivery}
-              createInvoice={createInvoice}
-              // print
-              // inv
-              // and
-              // annexure
-              rowLimit={rowLimit}
+              handleChangeDiscountDelivery={handleChangeDiscountDelivery} // func
+              createInvoice={createInvoice} // func
               printAnnexure={printAnnexure} //func
               printInvoice={printInvoice} //func
+              rowLimit={rowLimit}
+              formatedTodayDate={formatedTodayDate}
               invDetailsData={invDetailsData}
               invTaxData={invTaxData}
               printAnneureModal={printAnneureModal}
@@ -609,85 +506,81 @@ export default function Form(props) {
         <div className="m-3 border-top"></div>
         <div className="row">
           <div className="col-md-6">
-            <div className="d-flex justify-content-space">
-              <button
-                disabled={
-                  invRegisterData.DC_No.length > 0 ||
-                  invRegisterData.Cust_Code?.length === 0 ||
-                  invRegisterData.Cust_Name?.length === 0 ||
-                  (invRegisterData.Iv_Id
-                    ? invDetailsData.length === 0
-                    : invDetailsData.length <= 1)
+            <button
+              disabled={
+                invRegisterData.DC_No.length > 0 ||
+                invRegisterData.Cust_Code?.length === 0 ||
+                invRegisterData.Cust_Name?.length === 0 ||
+                (invRegisterData.Iv_Id
+                  ? invDetailsData.length === 0
+                  : invDetailsData.length <= 1)
+              }
+              className={
+                invRegisterData.DC_No.length > 0 ||
+                invRegisterData.Cust_Code?.length === 0 ||
+                invRegisterData.Cust_Name?.length === 0 ||
+                (invRegisterData.Iv_Id
+                  ? invDetailsData.length === 0
+                  : invDetailsData.length <= 1)
+                  ? "button-style button-disabled"
+                  : "button-style"
+              }
+              onClick={(e) => {
+                if (invRegisterData.PO_No.length === 0) {
+                  toast.warning("Enter the PO No");
+                } else {
+                  createPNFunc();
                 }
-                className={
-                  invRegisterData.DC_No.length > 0 ||
-                  invRegisterData.Cust_Code?.length === 0 ||
-                  invRegisterData.Cust_Name?.length === 0 ||
-                  (invRegisterData.Iv_Id
-                    ? invDetailsData.length === 0
-                    : invDetailsData.length <= 1)
-                    ? "button-style button-disabled m-0"
-                    : "button-style m-0"
-                }
-                onClick={
-                  // createPNValidationFunc
-                  (e) => {
-                    if (invRegisterData.PO_No.length === 0) {
-                      toast.warning("Enter the PO No");
-                    } else {
-                      createPNFunc();
-                    }
-                  }
-                }
-              >
-                Create PN
-              </button>
-              <div className="p-1"></div>
+              }}
+            >
+              Create PN
+            </button>
 
-              <button
-                disabled={!invRegisterData.DC_No.length > 0}
-                className={
-                  !invRegisterData.DC_No.length > 0
-                    ? "button-style button-disabled m-0"
-                    : "button-style m-0"
-                }
-                onClick={printPackingNoteCopy}
-              >
-                Print PN
-              </button>
-              <div className="p-1"></div>
-              <button
-                disabled={
-                  !(invRegisterData.DC_No.length > 0) ||
-                  invRegisterData.Inv_No?.length > 0 ||
-                  invRegisterData.DCStatus === "Cancelled"
-                }
-                className={
-                  !(invRegisterData.DC_No.length > 0) ||
-                  invRegisterData.Inv_No?.length > 0 ||
-                  invRegisterData.DCStatus === "Cancelled"
-                    ? "button-style button-disabled m-0"
-                    : "button-style m-0"
-                }
-                onClick={savePN}
-              >
-                Save
-              </button>
-              <div className="p-1"></div>
+            <button
+              disabled={!invRegisterData.DC_No.length > 0}
+              className={
+                !invRegisterData.DC_No.length > 0
+                  ? "button-style button-disabled"
+                  : "button-style"
+              }
+              onClick={printPackingNoteCopy}
+            >
+              Print PN
+            </button>
 
-              <Link to="/PackingAndInvoices">
-                <button
-                  className="button-style m-0"
-                  // style={{ width: "-webkit-fill-available" }}
-                >
-                  Close
-                </button>
-              </Link>
-            </div>
+            <button
+              disabled={
+                !(invRegisterData.DC_No.length > 0) ||
+                invRegisterData.Inv_No?.length > 0 ||
+                invRegisterData.DCStatus === "Cancelled"
+              }
+              className={
+                !(invRegisterData.DC_No.length > 0) ||
+                invRegisterData.Inv_No?.length > 0 ||
+                invRegisterData.DCStatus === "Cancelled"
+                  ? "button-style button-disabled"
+                  : "button-style"
+              }
+              onClick={savePN}
+            >
+              Save
+            </button>
+
+            <Link to="/PackingAndInvoices">
+              <button
+                className="button-style"
+                // style={{ width: "-webkit-fill-available" }}
+              >
+                Close
+              </button>
+            </Link>
           </div>
           <div className="col-md-6">
             <div className="d-flex justify-content-end">
-              <div className="d-flex justify-content-space">
+              <div
+                className="d-flex justify-content-space"
+                style={{ gap: "10px" }}
+              >
                 <button
                   disabled={
                     !(invRegisterData.DC_No.length > 0) ||
@@ -709,7 +602,6 @@ export default function Form(props) {
                   Cancel PN
                 </button>
 
-                <div className="p-1"></div>
                 {props.InvoiceFor === "Misc" ? (
                   <></>
                 ) : (
@@ -731,26 +623,8 @@ export default function Form(props) {
                     >
                       Import from IV
                     </button>
-                    <div className="p-1"></div>
                   </>
                 )}
-                {/* <button
-                  onClick={() => {
-                    setAddGoodsModal(true);
-                  }}
-                  disabled={
-                    invRegisterData.Iv_Id > 0 ||
-                    invRegisterData.DC_No.length > 0
-                  }
-                  className={
-                    invRegisterData.Iv_Id > 0 ||
-                    invRegisterData.DC_No.length > 0
-                      ? "button-style button-disabled m-0"
-                      : "button-style m-0"
-                  }
-                >
-                  Add Goods
-                </button> */}
               </div>
             </div>
           </div>
@@ -774,189 +648,94 @@ export default function Form(props) {
             </div>
           </div>
         </div>
-        <div className="m-3 mt-2 border-top"></div>
+        <div className=" border-top"></div>
 
         <div className="row">
           <div className="col-md-6"></div>
-          <div className="col-md-6">
-            <div className="d-flex flex-row justify-content-end">
-              <div className="col-md-3 p-0 ">
-                <b>Assessable Value</b>
-                <input
-                  disabled
-                  className="input-disabled"
-                  value={parseFloat(invRegisterData?.AssessableValue).toFixed(
-                    2
-                  )}
-                />
-              </div>
-              <span className="p-1"></span>
-              <div className="col-md-3 p-0 ">
-                <b>Tax</b>
-                <select
-                  id="taxDropdown"
-                  style={{
-                    fontSize: "inherit",
-                  }}
-                  onChange={(e) => {
-                    // console.log("eee", TaxDropDownData[e.target.value]);
+          <div className="row col-md-6">
+            <div className="d-flex col-md-6 mt-1" style={{ gap: "10px" }}>
+              <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+                Assessable Value
+              </label>
+              <input
+                disabled
+                className="input-disabled"
+                value={parseFloat(invRegisterData?.AssessableValue).toFixed(2)}
+              />
+            </div>
 
-                    const newTaxOn = TaxDropDownData[
-                      e.target.value
-                    ].TaxOn.replace("(", "")
-                      .replace(")", "")
-                      .split("+");
+            <div className="d-flex col-md-3 mt-1" style={{ gap: "10px" }}>
+              <label className="form-label">Tax</label>
+              <select
+                id="taxDropdown"
+                onChange={(e) => {
+                  const newTaxOn = TaxDropDownData[
+                    e.target.value
+                  ].TaxOn.replace("(", "")
+                    .replace(")", "")
+                    .split("+");
 
-                    // console.log("newTaxOn", newTaxOn);
-                    let applicableTaxes = [];
-                    let arr = [];
-                    if (
-                      TaxDropDownData[
-                        e.target.value
-                      ].UnderGroup.toUpperCase() === "INCOMETAX" ||
-                      TaxDropDownData[
-                        e.target.value
-                      ].UnderGroup.toUpperCase() === "INCOME TAX"
-                    ) {
-                      // console.log("tcs");
+                  let applicableTaxes = [];
+                  let arr = [];
+                  if (
+                    TaxDropDownData[e.target.value].UnderGroup.toUpperCase() ===
+                      "INCOMETAX" ||
+                    TaxDropDownData[e.target.value].UnderGroup.toUpperCase() ===
+                      "INCOME TAX"
+                  ) {
+                    // console.log("tcs");
 
-                      for (let i = 1; i < newTaxOn.length; i++) {
-                        const element = newTaxOn[i];
-                        TaxDropDownData.filter(
-                          (obj) => obj.TaxID === parseInt(element)
-                        ).map((value, key) => applicableTaxes.push(value));
-                      }
-                      applicableTaxes.push(TaxDropDownData[e.target.value]);
+                    for (let i = 1; i < newTaxOn.length; i++) {
+                      const element = newTaxOn[i];
+                      TaxDropDownData.filter(
+                        (obj) => obj.TaxID === parseInt(element)
+                      ).map((value, key) => applicableTaxes.push(value));
+                    }
+                    applicableTaxes.push(TaxDropDownData[e.target.value]);
 
-                      // console.log("applicableTaxes", applicableTaxes);
+                    let TaxableAmount = parseFloat(
+                      invRegisterData?.AssessableValue
+                    ).toFixed(2);
 
-                      let TaxableAmount = parseFloat(
-                        invRegisterData?.AssessableValue
-                      ).toFixed(2);
+                    let TotalTaxAmount = 0;
 
-                      let TotalTaxAmount = 0;
+                    for (let i = 0; i < applicableTaxes.length; i++) {
+                      const element = applicableTaxes[i];
+                      if (
+                        element.UnderGroup.toUpperCase() === "INCOMETAX" ||
+                        element.UnderGroup.toUpperCase() === "INCOME TAX"
+                      ) {
+                        // console.log("tcs");
+                        let TaxableAmntForTCS =
+                          parseFloat(TaxableAmount) +
+                          parseFloat(TotalTaxAmount);
+                        let TaxAmtForRow = (
+                          (TaxableAmntForTCS *
+                            parseFloat(element.Tax_Percent)) /
+                          100
+                        ).toFixed(2);
+                        TotalTaxAmount =
+                          parseFloat(TotalTaxAmount) + parseFloat(TaxAmtForRow);
 
-                      for (let i = 0; i < applicableTaxes.length; i++) {
-                        const element = applicableTaxes[i];
-                        if (
-                          element.UnderGroup.toUpperCase() === "INCOMETAX" ||
-                          element.UnderGroup.toUpperCase() === "INCOME TAX"
-                        ) {
-                          // console.log("tcs");
-                          let TaxableAmntForTCS =
-                            parseFloat(TaxableAmount) +
-                            parseFloat(TotalTaxAmount);
-                          let TaxAmtForRow = (
-                            (TaxableAmntForTCS *
-                              parseFloat(element.Tax_Percent)) /
-                            100
-                          ).toFixed(2);
-                          TotalTaxAmount =
-                            parseFloat(TotalTaxAmount) +
-                            parseFloat(TaxAmtForRow);
-
-                          arr = [
-                            ...arr,
-                            {
-                              TaxID: element.TaxID,
-                              TaxOn: element.TaxOn,
-                              TaxPercent: element.Tax_Percent,
-                              Tax_Name: element.TaxName,
-                              TaxableAmount: TaxableAmntForTCS,
-                              TaxAmt: TaxAmtForRow,
-                            },
-                          ];
-                        } else {
-                          let TaxAmtForRow = (
-                            (TaxableAmount * parseFloat(element.Tax_Percent)) /
-                            100
-                          ).toFixed(2);
-                          TotalTaxAmount =
-                            parseFloat(TotalTaxAmount) +
-                            parseFloat(TaxAmtForRow);
-
-                          if (arr.length > 0) {
-                            arr = [
-                              ...arr,
-                              {
-                                TaxID: element.TaxID,
-                                TaxOn: element.TaxOn,
-                                TaxPercent: element.Tax_Percent,
-                                Tax_Name: element.TaxName,
-                                TaxableAmount: TaxableAmount,
-                                TaxAmt: TaxAmtForRow,
-                              },
-                            ];
-                          } else {
-                            arr = [
-                              {
-                                TaxID: element.TaxID,
-                                TaxOn: element.TaxOn,
-                                TaxPercent: element.Tax_Percent,
-                                Tax_Name: element.TaxName,
-                                TaxableAmount: TaxableAmount,
-                                TaxAmt: TaxAmtForRow,
-                              },
-                            ];
-                          }
-                        }
-                      }
-
-                      setInvTaxData(arr);
-
-                      let newInvTotal =
-                        parseFloat(TaxableAmount) + parseFloat(TotalTaxAmount);
-
-                      let newGrandTotal = Math.round(newInvTotal);
-                      let newRoundOff = newGrandTotal - newInvTotal;
-
-                      setInvRegisterData({
-                        ...invRegisterData,
-                        TaxAmount: parseFloat(TotalTaxAmount).toFixed(2),
-                        InvTotal: newInvTotal.toFixed(2),
-                        GrandTotal: newGrandTotal.toFixed(2),
-                        Round_Off: newRoundOff.toFixed(2),
-                      });
-                    } else {
-                      // console.log("normal");
-
-                      for (let i = 0; i < newTaxOn.length; i++) {
-                        const element = newTaxOn[i];
-                        if (parseInt(element) === 1) {
-                          // console.log("self", TaxDropDownData[e.target.value]);
-                          applicableTaxes.push(TaxDropDownData[e.target.value]);
-                        } else {
-                          // console.log(
-                          //   "row no",
-
-                          //   TaxDropDownData.filter(
-                          //     (obj) => obj.TaxID === parseInt(element)
-                          //   )
-
-                          // );
-                          // filter gets the data in array, there may be more then 1 rows, so mappppp....
-                          TaxDropDownData.filter(
-                            (obj) => obj.TaxID === parseInt(element)
-                          ).map((value, key) => applicableTaxes.push(value));
-                        }
-                      }
-
-                      // console.log("applicableTaxes", applicableTaxes);
-
-                      // let taxAmountVal = 0;
-                      let TaxableAmount = parseFloat(
-                        invRegisterData?.AssessableValue
-                      ).toFixed(2);
-                      let TotalTaxAmount = 0;
-                      for (let i = 0; i < applicableTaxes.length; i++) {
-                        const element = applicableTaxes[i];
-
+                        arr = [
+                          ...arr,
+                          {
+                            TaxID: element.TaxID,
+                            TaxOn: element.TaxOn,
+                            TaxPercent: element.Tax_Percent,
+                            Tax_Name: element.TaxName,
+                            TaxableAmount: TaxableAmntForTCS,
+                            TaxAmt: TaxAmtForRow,
+                          },
+                        ];
+                      } else {
                         let TaxAmtForRow = (
                           (TaxableAmount * parseFloat(element.Tax_Percent)) /
                           100
                         ).toFixed(2);
                         TotalTaxAmount =
                           parseFloat(TotalTaxAmount) + parseFloat(TaxAmtForRow);
+
                         if (arr.length > 0) {
                           arr = [
                             ...arr,
@@ -982,124 +761,129 @@ export default function Form(props) {
                           ];
                         }
                       }
-
-                      // console.log("arr", arr);
-                      setInvTaxData(arr);
-                      let newInvTotal =
-                        parseFloat(TaxableAmount) + parseFloat(TotalTaxAmount);
-
-                      let newGrandTotal = Math.round(newInvTotal);
-                      let newRoundOff = newGrandTotal - newInvTotal;
-
-                      setInvRegisterData({
-                        ...invRegisterData,
-                        TaxAmount: parseFloat(TotalTaxAmount).toFixed(2),
-                        InvTotal: newInvTotal.toFixed(2),
-                        GrandTotal: newGrandTotal.toFixed(2),
-                        Round_Off: newRoundOff.toFixed(2),
-                      });
                     }
 
-                    // const newTaxArray = TaxDropDownData.filter(
-                    //   (obj) =>
-                    //     parseFloat(obj.Tax_Percent).toFixed(2) ===
-                    //     parseFloat(e.target.value).toFixed(2)
-                    // );
-                    // // let arr = [];
+                    setInvTaxData(arr);
+
+                    let newInvTotal =
+                      parseFloat(TaxableAmount) + parseFloat(TotalTaxAmount);
+
+                    let newGrandTotal = Math.round(newInvTotal);
+                    let newRoundOff = newGrandTotal - newInvTotal;
+
+                    setInvRegisterData({
+                      ...invRegisterData,
+                      TaxAmount: parseFloat(TotalTaxAmount).toFixed(2),
+                      InvTotal: newInvTotal.toFixed(2),
+                      GrandTotal: newGrandTotal.toFixed(2),
+                      Round_Off: newRoundOff.toFixed(2),
+                    });
+                  } else {
+                    // console.log("normal");
+
+                    for (let i = 0; i < newTaxOn.length; i++) {
+                      const element = newTaxOn[i];
+                      if (parseInt(element) === 1) {
+                        applicableTaxes.push(TaxDropDownData[e.target.value]);
+                      } else {
+                        // filter gets the data in array, there may be more then 1 rows, so mappppp....
+                        TaxDropDownData.filter(
+                          (obj) => obj.TaxID === parseInt(element)
+                        ).map((value, key) => applicableTaxes.push(value));
+                      }
+                    }
                     // let taxAmountVal = 0;
-                    // let TaxableAmount = parseFloat(
-                    //   invRegisterData?.AssessableValue
-                    // ).toFixed(2);
-                    // for (let i = 0; i < newTaxArray.length; i++) {
-                    //   const element = newTaxArray[i];
+                    let TaxableAmount = parseFloat(
+                      invRegisterData?.AssessableValue
+                    ).toFixed(2);
+                    let TotalTaxAmount = 0;
+                    for (let i = 0; i < applicableTaxes.length; i++) {
+                      const element = applicableTaxes[i];
 
-                    //   let TaxAmt = (
-                    //     (TaxableAmount * parseFloat(element.Tax_Percent)) /
-                    //     100
-                    //   ).toFixed(2);
-                    //   if (arr.length > 0) {
-                    //     arr = [
-                    //       ...arr,
-                    //       {
-                    //         TaxID: element.TaxID,
-                    //         TaxOn: element.TaxOn,
-                    //         TaxPercent: element.Tax_Percent,
-                    //         Tax_Name: element.TaxName,
-                    //         TaxableAmount: TaxableAmount,
-                    //         TaxAmt: TaxAmt,
-                    //       },
-                    //     ];
-                    //     taxAmountVal =
-                    //       parseFloat(taxAmountVal) + parseFloat(TaxAmt);
-                    //   } else {
-                    //     arr = [
-                    //       {
-                    //         TaxID: element.TaxID,
-                    //         TaxOn: element.TaxOn,
-                    //         TaxPercent: element.Tax_Percent,
-                    //         Tax_Name: element.TaxName,
-                    //         TaxableAmount: TaxableAmount,
-                    //         TaxAmt: TaxAmt,
-                    //       },
-                    //     ];
-                    //     taxAmountVal =
-                    //       parseFloat(taxAmountVal) + parseFloat(TaxAmt);
-                    //   }
-                    // }
+                      let TaxAmtForRow = (
+                        (TaxableAmount * parseFloat(element.Tax_Percent)) /
+                        100
+                      ).toFixed(2);
+                      TotalTaxAmount =
+                        parseFloat(TotalTaxAmount) + parseFloat(TaxAmtForRow);
+                      if (arr.length > 0) {
+                        arr = [
+                          ...arr,
+                          {
+                            TaxID: element.TaxID,
+                            TaxOn: element.TaxOn,
+                            TaxPercent: element.Tax_Percent,
+                            Tax_Name: element.TaxName,
+                            TaxableAmount: TaxableAmount,
+                            TaxAmt: TaxAmtForRow,
+                          },
+                        ];
+                      } else {
+                        arr = [
+                          {
+                            TaxID: element.TaxID,
+                            TaxOn: element.TaxOn,
+                            TaxPercent: element.Tax_Percent,
+                            Tax_Name: element.TaxName,
+                            TaxableAmount: TaxableAmount,
+                            TaxAmt: TaxAmtForRow,
+                          },
+                        ];
+                      }
+                    }
 
-                    // setInvTaxData(arr);
+                    setInvTaxData(arr);
+                    let newInvTotal =
+                      parseFloat(TaxableAmount) + parseFloat(TotalTaxAmount);
 
-                    // let newInvTotal =
-                    //   parseFloat(TaxableAmount) + parseFloat(taxAmountVal);
+                    let newGrandTotal = Math.round(newInvTotal);
+                    let newRoundOff = newGrandTotal - newInvTotal;
 
-                    // let newGrandTotal = Math.round(newInvTotal);
-                    // let newRoundOff = newGrandTotal - newInvTotal;
-
-                    // setInvRegisterData({
-                    //   ...invRegisterData,
-                    //   TaxAmount: parseFloat(taxAmountVal).toFixed(2),
-                    //   InvTotal: newInvTotal.toFixed(2),
-                    //   GrandTotal: newGrandTotal.toFixed(2),
-                    //   Round_Off: newRoundOff.toFixed(2),
-                    // });
-                  }}
-                  disabled={
-                    invRegisterData.Inv_No?.length > 0 ||
-                    invRegisterData.DCStatus === "Cancelled"
+                    setInvRegisterData({
+                      ...invRegisterData,
+                      TaxAmount: parseFloat(TotalTaxAmount).toFixed(2),
+                      InvTotal: newInvTotal.toFixed(2),
+                      GrandTotal: newGrandTotal.toFixed(2),
+                      Round_Off: newRoundOff.toFixed(2),
+                    });
                   }
-                  className={
-                    invRegisterData.Inv_No?.length > 0 ||
-                    invRegisterData.DCStatus === "Cancelled"
-                      ? "ip-select input-disabled"
-                      : "ip-select"
-                  }
-                >
-                  <option value="none" selected disabled hidden>
-                    Select Tax
-                  </option>
-                  {TaxDropDownData?.map((taxVal, key) => (
-                    <option value={key}>{taxVal.TaxName}</option>
-                  ))}
-                </select>
-              </div>
-              <span className="p-1"></span>
-              <div className="col-md-3 p-0 d-flex justify-content-end">
-                <button
-                  onClick={deleteTaxes}
-                  disabled={
-                    invRegisterData.Inv_No?.length > 0 ||
-                    invRegisterData.DCStatus === "Cancelled"
-                  }
-                  className={
-                    invRegisterData.Inv_No?.length > 0 ||
-                    invRegisterData.DCStatus === "Cancelled"
-                      ? "button-style button-disabled"
-                      : "button-style"
-                  }
-                >
-                  Delete Taxes
-                </button>
-              </div>
+                }}
+                disabled={
+                  invRegisterData.Inv_No?.length > 0 ||
+                  invRegisterData.DCStatus === "Cancelled"
+                }
+                className={
+                  invRegisterData.Inv_No?.length > 0 ||
+                  invRegisterData.DCStatus === "Cancelled"
+                    ? "ip-select input-disabled"
+                    : "ip-select"
+                }
+              >
+                <option value="none" selected disabled hidden>
+                  Select Tax
+                </option>
+                {TaxDropDownData?.map((taxVal, key) => (
+                  <option value={key}>{taxVal.TaxName}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="col-md-3">
+              <button
+                onClick={deleteTaxes}
+                disabled={
+                  invRegisterData.Inv_No?.length > 0 ||
+                  invRegisterData.DCStatus === "Cancelled"
+                }
+                className={
+                  invRegisterData.Inv_No?.length > 0 ||
+                  invRegisterData.DCStatus === "Cancelled"
+                    ? "button-style button-disabled"
+                    : "button-style"
+                }
+              >
+                Delete Taxes
+              </button>
             </div>
           </div>
         </div>

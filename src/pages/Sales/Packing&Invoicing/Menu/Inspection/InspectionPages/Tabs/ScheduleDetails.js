@@ -169,142 +169,141 @@ export default function ScheduleDetails(props) {
 
   return (
     <>
-      <div className="row justify-content-center m-2">
-        <button
-          className={
-            props.selectedScheduleDetailsRows.length === 0 ||
-            props.selectedScheduleDetailsRows.some(
-              (row) =>
-                row.QtyDelivered > 0 ||
-                row.QtyPacked > 0 ||
-                row.QtyRejected >= row.QtyProduced ||
-                row.QtyCleared === row.QtyProduced ||
-                row.QtyCleared + row.QtyRejected === row.QtyProduced
-            )
-              ? "button-style button-disabled"
-              : "button-style"
-          }
-          onClick={clearAndSave}
-          style={{ width: "150px", marginLeft: "4px" }}
-          disabled={
-            props.selectedScheduleDetailsRows.length === 0 ||
-            props.selectedScheduleDetailsRows.some(
-              (row) =>
-                row.QtyDelivered > 0 ||
-                row.QtyPacked > 0 ||
-                row.QtyRejected >= row.QtyProduced ||
-                row.QtyCleared === row.QtyProduced ||
-                row.QtyCleared + row.QtyRejected === row.QtyProduced
-            )
-          }
-        >
-          Clear All Parts
-        </button>
-        <button
-          className={
-            props.selectedScheduleDetailsRows.length === 0 ||
-            props.selectedScheduleDetailsRows.some(
-              (row) =>
-                row.QtyDelivered > 0 ||
-                row.QtyPacked > 0 ||
-                row.QtyRejected === row.QtyProduced ||
-                row.QtyCleared === 0
-            )
-              ? "button-style button-disabled"
-              : "button-style"
-          }
-          style={{ width: "140px", marginLeft: "4px" }}
-          onClick={resetAndSave}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          disabled={
-            props.selectedScheduleDetailsRows.length === 0 ||
-            props.selectedScheduleDetailsRows.some(
-              (row) =>
-                row.QtyDelivered > 0 ||
-                row.QtyPacked > 0 ||
-                row.QtyRejected === row.QtyProduced ||
-                row.QtyCleared === 0
-            )
-          }
-        >
-          Reset All Parts
-        </button>
-        <button
-          className={
-            props.selectedScheduleDetailsRows.length === 0 ||
-            props.selectedScheduleDetailsRows.some(
-              (row) =>
-                row.QtyDelivered > 0 ||
-                row.QtyPacked > 0 ||
-                row.QtyRejected >= row.QtyProduced ||
-                row.QtyCleared === row.QtyProduced ||
-                row.QtyCleared + row.QtyRejected === row.QtyProduced
-            )
-              ? "button-style button-disabled"
-              : "button-style"
-          }
-          onClick={rejectAndSave}
-          style={{ width: "120px", marginLeft: "4px" }}
-          disabled={
-            props.selectedScheduleDetailsRows.length === 0 ||
-            props.selectedScheduleDetailsRows.some(
-              (row) =>
-                row.QtyDelivered > 0 ||
-                row.QtyPacked > 0 ||
-                row.QtyRejected >= row.QtyProduced ||
-                row.QtyCleared === row.QtyProduced ||
-                row.QtyCleared + row.QtyRejected === row.QtyProduced
-            )
-          }
-        >
-          Reject Parts
-        </button>
-        <YesNoModal
-          show={smShow}
-          setSmShow={setSmShow}
-          onHide={() => setSmShow(false)}
-          actionType={actionType}
-          setActionType={setActionType}
-          onOkButtonClick={handleOkButtonClick}
-          orderScheduleDetailsData={orderScheduleDetailsData}
-          setOrderScheduleDetailsData={setOrderScheduleDetailsData}
-          selectedScheduleDetailsRows={selectedScheduleDetailsRows}
-          setSelectedScheduleDetailsRows={setSelectedScheduleDetailsRows}
-        />
-        <InternalRejectionModal
-          VeryNewRejData={VeryNewRejData}
-          setVeryNewRejData={setVeryNewRejData}
-          show={lgShow}
-          setLgShow={setLgShow}
-          selectedScheduleDetailsRows={selectedScheduleDetailsRows}
-          setSelectedScheduleDetailsRows={setSelectedScheduleDetailsRows}
-          rejFormData={rejFormData}
-          newRejId={newRejId}
-          setNewRejId={setNewRejId}
-          setRejFormData={setRejFormData}
-          reportNo={reportNo}
-          setReportNo={setReportNo}
-          rejectedValue={rejectedValue}
-          setRejectedValue={setRejectedValue}
-          acceptedValue={acceptedValue}
-          setAcceptedValue={setAcceptedValue}
-          orderScheduleDetailsData={orderScheduleDetailsData}
-          setOrderScheduleDetailsData={setOrderScheduleDetailsData}
-          headerData={headerData}
-          getOrderScheduleData={getOrderScheduleData}
-          qtyRejectt={qtyRejectt}
-          actionType={actionType}
-          setActionType={setActionType}
-          smShow={smShow}
-          setSmShow={setSmShow}
-          handleOkButtonClick={handleOkButtonClick}
-          // qtyReject={qtyReject}
-          // setQtyReject={setQtyReject}
-          // rejectReason={rejectReason}
-          // setRejectReason={setRejectReason}
-          onHide={() => handleModalClose()}
-        />
+      <div className="row m-2">
+        <div className="col-md-12 col-sm-12">
+          <button
+            className={
+              props.selectedScheduleDetailsRows.length === 0 ||
+              props.selectedScheduleDetailsRows.some(
+                (row) =>
+                  row.QtyDelivered > 0 ||
+                  row.QtyPacked > 0 ||
+                  row.QtyRejected >= row.QtyProduced ||
+                  row.QtyCleared === row.QtyProduced ||
+                  row.QtyCleared + row.QtyRejected === row.QtyProduced
+              )
+                ? "button-style button-disabled"
+                : "button-style"
+            }
+            onClick={clearAndSave}
+            disabled={
+              props.selectedScheduleDetailsRows.length === 0 ||
+              props.selectedScheduleDetailsRows.some(
+                (row) =>
+                  row.QtyDelivered > 0 ||
+                  row.QtyPacked > 0 ||
+                  row.QtyRejected >= row.QtyProduced ||
+                  row.QtyCleared === row.QtyProduced ||
+                  row.QtyCleared + row.QtyRejected === row.QtyProduced
+              )
+            }
+          >
+            Clear All Parts
+          </button>
+          <button
+            className={
+              props.selectedScheduleDetailsRows.length === 0 ||
+              props.selectedScheduleDetailsRows.some(
+                (row) =>
+                  row.QtyDelivered > 0 ||
+                  row.QtyPacked > 0 ||
+                  row.QtyRejected === row.QtyProduced ||
+                  row.QtyCleared === 0
+              )
+                ? "button-style button-disabled"
+                : "button-style"
+            }
+            onClick={resetAndSave}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            disabled={
+              props.selectedScheduleDetailsRows.length === 0 ||
+              props.selectedScheduleDetailsRows.some(
+                (row) =>
+                  row.QtyDelivered > 0 ||
+                  row.QtyPacked > 0 ||
+                  row.QtyRejected === row.QtyProduced ||
+                  row.QtyCleared === 0
+              )
+            }
+          >
+            Reset All Parts
+          </button>
+          <button
+            className={
+              props.selectedScheduleDetailsRows.length === 0 ||
+              props.selectedScheduleDetailsRows.some(
+                (row) =>
+                  row.QtyDelivered > 0 ||
+                  row.QtyPacked > 0 ||
+                  row.QtyRejected >= row.QtyProduced ||
+                  row.QtyCleared === row.QtyProduced ||
+                  row.QtyCleared + row.QtyRejected === row.QtyProduced
+              )
+                ? "button-style button-disabled"
+                : "button-style"
+            }
+            onClick={rejectAndSave}
+            disabled={
+              props.selectedScheduleDetailsRows.length === 0 ||
+              props.selectedScheduleDetailsRows.some(
+                (row) =>
+                  row.QtyDelivered > 0 ||
+                  row.QtyPacked > 0 ||
+                  row.QtyRejected >= row.QtyProduced ||
+                  row.QtyCleared === row.QtyProduced ||
+                  row.QtyCleared + row.QtyRejected === row.QtyProduced
+              )
+            }
+          >
+            Reject Parts
+          </button>
+          <YesNoModal
+            show={smShow}
+            setSmShow={setSmShow}
+            onHide={() => setSmShow(false)}
+            actionType={actionType}
+            setActionType={setActionType}
+            onOkButtonClick={handleOkButtonClick}
+            orderScheduleDetailsData={orderScheduleDetailsData}
+            setOrderScheduleDetailsData={setOrderScheduleDetailsData}
+            selectedScheduleDetailsRows={selectedScheduleDetailsRows}
+            setSelectedScheduleDetailsRows={setSelectedScheduleDetailsRows}
+          />
+          <InternalRejectionModal
+            VeryNewRejData={VeryNewRejData}
+            setVeryNewRejData={setVeryNewRejData}
+            show={lgShow}
+            setLgShow={setLgShow}
+            selectedScheduleDetailsRows={selectedScheduleDetailsRows}
+            setSelectedScheduleDetailsRows={setSelectedScheduleDetailsRows}
+            rejFormData={rejFormData}
+            newRejId={newRejId}
+            setNewRejId={setNewRejId}
+            setRejFormData={setRejFormData}
+            reportNo={reportNo}
+            setReportNo={setReportNo}
+            rejectedValue={rejectedValue}
+            setRejectedValue={setRejectedValue}
+            acceptedValue={acceptedValue}
+            setAcceptedValue={setAcceptedValue}
+            orderScheduleDetailsData={orderScheduleDetailsData}
+            setOrderScheduleDetailsData={setOrderScheduleDetailsData}
+            headerData={headerData}
+            getOrderScheduleData={getOrderScheduleData}
+            qtyRejectt={qtyRejectt}
+            actionType={actionType}
+            setActionType={setActionType}
+            smShow={smShow}
+            setSmShow={setSmShow}
+            handleOkButtonClick={handleOkButtonClick}
+            // qtyReject={qtyReject}
+            // setQtyReject={setQtyReject}
+            // rejectReason={rejectReason}
+            // setRejectReason={setRejectReason}
+            onHide={() => handleModalClose()}
+          />
+        </div>
       </div>
       <div style={{ maxHeight: "400px", overflow: "auto" }}>
         <Table striped className="table-data border">

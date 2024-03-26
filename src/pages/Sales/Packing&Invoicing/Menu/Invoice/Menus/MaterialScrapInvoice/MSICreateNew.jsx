@@ -5,9 +5,9 @@ export default function MSICreateNew() {
   return (
     <>
       <Form
-        DC_InvType={"Material Scrap"}
+        DC_InvType={"Material Scrap Sales"}
         InvoiceFor={"Scrap"}
-        heading={"Material Scrap Create New"}
+        heading={"Material Scrap Sales Create New"}
       />
     </>
   );
