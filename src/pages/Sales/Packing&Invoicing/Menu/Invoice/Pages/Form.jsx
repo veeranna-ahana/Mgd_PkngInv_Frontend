@@ -121,7 +121,7 @@ export default function Form(props) {
 
   const rowLimit = 20;
 
-  useEffect(() => {
+  const fetchData = () => {
     // // get all cust
     Axios.post(apipoints.getAllCust, {}).then((res) => {
       for (let i = 0; i < res.data.length; i++) {
@@ -161,6 +161,10 @@ export default function Form(props) {
     Axios.post(apipoints.getTaxDataInvoice, {}).then((res) => {
       setTaxDropDownData(res.data);
     });
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   const deleteTaxes = () => {
@@ -293,6 +297,7 @@ export default function Form(props) {
     }).then((res) => {
       if (res.data.flag === 1) {
         toast.success(res.data.message);
+        fetchData();
       } else if (res.data.flag === 0) {
         toast.error(res.data.message);
       } else {
