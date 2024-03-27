@@ -192,10 +192,18 @@ export default function Form(props) {
   };
 
   const inputHandler = (e) => {
-    setInvRegisterData({
-      ...invRegisterData,
-      [e.target.name]: e.target.value,
-    });
+    if (e.target.name === "TptMode") {
+      setInvRegisterData({
+        ...invRegisterData,
+        [e.target.name]: e.target.value,
+        VehNo: "",
+      });
+    } else {
+      setInvRegisterData({
+        ...invRegisterData,
+        [e.target.name]: e.target.value,
+      });
+    }
   };
 
   const handleChangeDiscountDelivery = (e) => {
@@ -431,6 +439,7 @@ export default function Form(props) {
     setButtonClicked("Create PN");
     setConfirmModalOpen(true);
   };
+
   const createPN = () => {
     const srlType = "PkngNoteNo";
     const prefix = "";
