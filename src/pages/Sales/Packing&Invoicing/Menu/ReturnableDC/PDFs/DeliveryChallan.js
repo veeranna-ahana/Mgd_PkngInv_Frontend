@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     width: "350px",
     border: 1,
     marginLeft: "10px",
-    height: "150px",
+    height: "180px",
     marginTop: "10px",
   },
   boldGstNo: {
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     borderRight: 1,
     borderTop: 1,
     borderBottom: 1,
-    height: "150px",
+    height: "180px",
     marginTop: "10px",
   },
   subsectiondata: {
@@ -485,6 +485,26 @@ const DeliveryChallan = ({ formData }) => {
                     }}
                   >
                     {formData.vehicleDetails}
+                  </Text>
+
+                  <Text
+                    style={{
+                      ...styles.globalfontwithoutbold,
+                      marginTop: "5px",
+                      paddingLeft: 5,
+                    }}
+                  >
+                    Contact Name : {formData.deliveryContactName}
+                  </Text>
+
+                  <Text
+                    style={{
+                      ...styles.globalfontwithoutbold,
+                      marginTop: "5px",
+                      paddingLeft: 5,
+                    }}
+                  >
+                    Contact No :{formData.deliveryContactNo}
                   </Text>
                 </View>
               </View>
