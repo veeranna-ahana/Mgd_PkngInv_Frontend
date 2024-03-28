@@ -658,3 +658,34 @@ input::-webkit-inner-spin-button {
 li.nav-item {
   margin-left: 5px !important;
 }
+
+.rowColor {
+  background-color: lightcoral !important;
+}
+
+.rowColorGreen {
+  background-color: lightgreen !important;
+}
+
+.withoutBorder {
+  --bs-border-opacity: 0 !important;
+}
+
+.withoutContent {
+  opacity: 0 !important;
+}
+
+.withBorder {
+  --bs-border-opacity: 1;
+}
+
+.with1Content {
+  opacity: 1;
+}
+
+.tableRowInput {
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  border: none;
+}
