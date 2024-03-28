@@ -85,7 +85,7 @@ export default function ImportFromIV(props) {
                           }}
                           className={
                             selectedIV?.Iv_Id === val.Iv_Id
-                              ? "selected-row"
+                              ? "selectedRowClr"
                               : ""
                           }
                         >

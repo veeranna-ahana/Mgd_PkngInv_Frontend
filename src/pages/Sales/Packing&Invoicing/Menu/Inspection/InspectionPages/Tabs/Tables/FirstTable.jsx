@@ -22,7 +22,7 @@ export default function FirstTable(props) {
             <tr
               className={
                 props.selectedReadyForPackingRows.includes(val)
-                  ? "selected-row"
+                  ? "selectedRowClr"
                   : ""
               }
               onClick={(e) => {
@@ -75,7 +75,7 @@ export default function FirstTable(props) {
               }}
               className={
                 props.selectedRows.includes(val.SchDetailsID)
-                  ? "selected-row"
+                  ? "selectedRowClr"
                   : ""
               }
             >

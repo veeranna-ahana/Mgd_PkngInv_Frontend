@@ -337,7 +337,7 @@ export default function ScheduleDetails(props) {
               <tr
                 className={
                   props.selectedScheduleDetailsRows.includes(val)
-                    ? "selected-row"
+                    ? "selectedRowClr"
                     : ""
                 }
                 onClick={(e) => {
