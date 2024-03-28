@@ -47,7 +47,7 @@ export default function SecondTable(props) {
                   ? // props.invDetailsData.filter(
                     //   (obj) => obj.DC_Inv_No === val.DC_Inv_No
                     // )?.length > 0
-                    "selected-row"
+                    "selectedRowClr"
                   : ""
               }
               // props.selectedReadyForPackingRows.includes(val)
