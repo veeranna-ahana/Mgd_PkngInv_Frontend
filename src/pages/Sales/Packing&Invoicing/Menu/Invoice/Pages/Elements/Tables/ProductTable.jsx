@@ -43,7 +43,7 @@ export default function ProductTable(props) {
 
     props.setInvRegisterData({
       ...props.invRegisterData,
-      Total_Wt: parseFloat(newTotalWeight).toFixed(2),
+      Total_Wt: parseFloat(newTotalWeight).toFixed(3),
     });
   };
 
@@ -80,8 +80,8 @@ export default function ProductTable(props) {
         Material: "",
         Excise_CL_no: "",
         Qty: "0",
-        Unit_Wt: "0.00",
-        DC_Srl_Wt: "0.00",
+        Unit_Wt: "0.000",
+        DC_Srl_Wt: "0.000",
         Unit_Rate: "0.00",
         DC_Srl_Amt: "0.00",
         PkngLevel: "Pkng1",
@@ -105,27 +105,23 @@ export default function ProductTable(props) {
         } else if (e.target.name === "Qty") {
           element[e.target.name] = e.target.value;
           element.DC_Srl_Wt = (
-            parseFloat(e.target.value || 0) *
-            parseFloat(element.Unit_Wt || 0).toFixed(2)
-          ).toFixed(2);
+            parseFloat(e.target.value || 0) * parseFloat(element.Unit_Wt || 0)
+          ).toFixed(3);
           element.DC_Srl_Amt = (
-            parseFloat(e.target.value || 0) *
-            parseFloat(element.Unit_Rate || 0).toFixed(2)
+            parseFloat(e.target.value || 0) * parseFloat(element.Unit_Rate || 0)
           ).toFixed(2);
           updateQTY();
         } else if (e.target.name === "Unit_Wt") {
           element[e.target.name] = e.target.value;
           element.DC_Srl_Wt = (
-            parseFloat(element.Qty || 0) *
-            parseFloat(e.target.value || 0).toFixed(2)
-          ).toFixed(2);
+            parseFloat(element.Qty || 0) * parseFloat(e.target.value || 0)
+          ).toFixed(3);
 
           updateWeight();
         } else if (e.target.name === "Unit_Rate") {
           element[e.target.name] = e.target.value;
           element.DC_Srl_Amt = (
-            parseFloat(element.Qty || 0) *
-            parseFloat(e.target.value || 0).toFixed(2)
+            parseFloat(element.Qty || 0) * parseFloat(e.target.value || 0)
           ).toFixed(2);
           updateRate();
         } else {
