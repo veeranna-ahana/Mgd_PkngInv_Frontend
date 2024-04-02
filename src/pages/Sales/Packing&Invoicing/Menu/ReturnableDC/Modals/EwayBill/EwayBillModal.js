@@ -11,7 +11,7 @@ function EwayBillModal({
   return (
     <Modal show={ewayBill} onHide={closeEwayBill} size="xl">
       <Modal.Header closeButton>
-        <Modal.Title>E Way Bill</Modal.Title>
+        <Modal.Title style={{ fontSize: "14px" }}>E Way Bill</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="row">
@@ -24,6 +24,7 @@ function EwayBillModal({
                   width: "auto",
                   whiteSpace: "nowrap",
                   padding: "1.5px",
+                  fontSize: "14px",
                 }}
               >
                 {formData.gstNo}
@@ -36,6 +37,7 @@ function EwayBillModal({
                   whiteSpace: "nowrap",
                   padding: "1.5px",
                   marginLeft: "2%",
+                  fontSize: "14px",
                 }}
               >
                 {formData.custName}
@@ -44,24 +46,31 @@ function EwayBillModal({
           </b>
         </div>
 
-        <div className="row mt-2">
-          <div className="col-md-4">
-            <label className="form-label">Inv/DC No</label>
-            <input type="text" disabled value={formData.dcType} />
+        <div className="row">
+          <div className="d-flex col-md-4" style={{ gap: "10px" }}>
+            <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+              Inv/DC No
+            </label>
+            <input
+              className="in-field"
+              type="text"
+              disabled
+              value={formData.dcType}
+            />
           </div>
 
-          <div className="col-md-4 mt-2">
+          <div className="col-md-4">
             <input
-              className="mt-4"
+              className="in-field"
               type="text"
               disabled
               value={formData.dcNo}
             />
           </div>
 
-          <div className="col-md-4 mt-2">
+          <div className="col-md-4">
             <input
-              className="mt-4"
+              className="in-field"
               type="text"
               disabled
               value={formData.dcDate}
@@ -69,55 +78,82 @@ function EwayBillModal({
           </div>
         </div>
 
-        <div className="row">
-          <div className="col-md-4">
+        <div className="row mt-1">
+          <div className="d-flex col-md-4" style={{ gap: "40px" }}>
             <label className="form-label">Place</label>
-            <input type="text" disabled value={formData.custCity} />
+            <input
+              className="in-field"
+              type="text"
+              disabled
+              value={formData.custCity}
+            />
           </div>
 
-          <div className="col-md-4 mt-2">
+          <div className="col-md-4">
             <input
-              className="mt-4"
+              className="in-field"
               type="text"
               disabled
               value={formData.custState}
             />
           </div>
 
-          <div className="col-md-4">
+          <div className="d-flex col-md-4" style={{ gap: "10px" }}>
             <label className="form-label">Transport</label>
-            <input type="text" disabled value={formData.vehicleDetails} />
-          </div>
-        </div>
-        <div className="row mt-2">
-          <label className="form-label">Delivery</label>
-          <textarea
-            rows="3"
-            name="deliveryAddress"
-            style={{
-              width: "100%",
-              padding: "5px",
-              backgroundColor: "white",
-            }}
-            value={formData.deliveryAddress}
-            disabled
-          ></textarea>
-        </div>
-
-        <div className="row">
-          <div className="col-md-4">
-            <label className="form-label">Value</label>
-            <input type="text" disabled value={formData.taxableAmount} />
-          </div>
-
-          <div className="col-md-4">
-            <label className="form-label">Tax</label>
-            <input type="text" disabled value={formData.taxAmt} />
-          </div>
-
-          <div className="col-md-4">
-            <label className="form-label">E Way Bill No</label>
             <input
+              className="in-field"
+              type="text"
+              disabled
+              value={formData.vehicleDetails}
+            />
+          </div>
+        </div>
+        <div className="row mt-1">
+          <div className="d-flex" style={{ gap: "20px" }}>
+            <label className="form-label">Delivery</label>
+            <textarea
+              className="in-field"
+              rows="3"
+              name="deliveryAddress"
+              style={{
+                width: "100%",
+                padding: "5px",
+                backgroundColor: "white",
+                height: "80px",
+              }}
+              value={formData.deliveryAddress}
+              disabled
+            ></textarea>
+          </div>
+        </div>
+
+        <div className="row mt-1">
+          <div className="d-flex col-md-4" style={{ gap: "35px" }}>
+            <label className="form-label">Value</label>
+            <input
+              className="in-field"
+              type="text"
+              disabled
+              value={formData.taxableAmount}
+            />
+          </div>
+
+          <div className="d-flex col-md-4" style={{ gap: "10px" }}>
+            <label className="form-label">Tax</label>
+            <input
+              className="in-field"
+              type="text"
+              disabled
+              value={formData.taxAmt}
+            />
+          </div>
+
+          <div className="d-flex col-md-4" style={{ gap: "10px" }}>
+            <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+              E Way Bill No
+            </label>
+            <input
+              className="in-field"
               type="text"
               name="ewayBillNo"
               value={formData.ewayBillNo}

@@ -10,9 +10,13 @@ function EwayBillPrintModal({
   return (
     <Modal show={ewayBillPrint} onHide={closeEwayBillPrint} size="md">
       <Modal.Header closeButton>
-        <Modal.Title>Magod ReturnableDC</Modal.Title>
+        <Modal.Title style={{ fontSize: "14px" }}>
+          Magod ReturnableDC
+        </Modal.Title>
       </Modal.Header>
-      <Modal.Body>Do you wish to print DC?</Modal.Body>
+      <Modal.Body style={{ fontSize: "12px" }}>
+        Do you wish to print DC?
+      </Modal.Body>
 
       <Modal.Footer>
         <button

@@ -10,14 +10,15 @@ function CustomerCreateModal({
   return (
     <Modal show={showCreateNewModal} onHide={handleCloseModal} size="md">
       <Modal.Header closeButton>
-        <Modal.Title>Confirmation</Modal.Title>
+        <Modal.Title style={{fontSize:'14px'}}>Confirmation</Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body style={{fontSize:'12px'}}>
         Customer count exceeds the limit. Do you want to continue please enter
         the password?
-        <div>
-          <label>Password:</label>
+        <div className="d-flex" style={{gap:'10px'}}>
+          <label className="form-label">Password:</label>
           <input
+            className="in-field"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
