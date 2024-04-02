@@ -123,7 +123,9 @@ function InspectionPackingForm({
         size="md"
       >
         <Modal.Header closeButton>
-          <Modal.Title>Inspection and Packing Form</Modal.Title>
+          <Modal.Title style={{ fontSize: "14px" }}>
+            Inspection and Packing Form
+          </Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
@@ -134,6 +136,7 @@ function InspectionPackingForm({
 
             <div className="col-md-6 col-sm-12">
               <input
+                className="input-field"
                 type="text"
                 name="inspectedBy"
                 onChange={handleInputChange}
@@ -147,7 +150,12 @@ function InspectionPackingForm({
             </div>
 
             <div className="col-md-6 col-sm-12">
-              <input type="text" name="packedBy" onChange={handleInputChange} />
+              <input
+                className="input-field"
+                type="text"
+                name="packedBy"
+                onChange={handleInputChange}
+              />
             </div>
           </div>
         </Modal.Body>
@@ -156,10 +164,12 @@ function InspectionPackingForm({
       {showPrintModal && (
         <Modal show={showPrintModal} onHide={handlePrintModalClose} size="md">
           <Modal.Header closeButton>
-            <Modal.Title>Print</Modal.Title>
+            <Modal.Title style={{ fontSize: "14px" }}>Print</Modal.Title>
           </Modal.Header>
 
-          <Modal.Body>Print ReturnableDC?</Modal.Body>
+          <Modal.Body style={{ fontSize: "12px" }}>
+            Print ReturnableDC?
+          </Modal.Body>
           <Modal.Footer>
             <button
               className="button-style"

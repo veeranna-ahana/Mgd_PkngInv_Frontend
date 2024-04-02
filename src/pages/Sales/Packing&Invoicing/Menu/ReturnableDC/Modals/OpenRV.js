@@ -637,9 +637,13 @@ function OpenRV({
       {print && (
         <Modal show={print} onHide={printModalClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Magod ReturnableDC</Modal.Title>
+            <Modal.Title style={{ fontSize: "14px" }}>
+              Magod ReturnableDC
+            </Modal.Title>
           </Modal.Header>
-          <Modal.Body>Print Returned Goods Receipt Voucher?</Modal.Body>
+          <Modal.Body style={{ fontSize: "12px" }}>
+            Print Returned Goods Receipt Voucher?
+          </Modal.Body>
           <Modal.Footer>
             <button
               className="button-style"
@@ -676,9 +680,13 @@ function OpenRV({
       {cancel && (
         <Modal show={cancel} onHide={cancelModalClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Magod ReturnableDC</Modal.Title>
+            <Modal.Title style={{ fontSize: "14px" }}>
+              Magod ReturnableDC
+            </Modal.Title>
           </Modal.Header>
-          <Modal.Body>Do you wish to cancel this Receipt Voucher?</Modal.Body>
+          <Modal.Body style={{ fontSize: "12px" }}>
+            Do you wish to cancel this Receipt Voucher?
+          </Modal.Body>
           <Modal.Footer>
             <button
               className="button-style"

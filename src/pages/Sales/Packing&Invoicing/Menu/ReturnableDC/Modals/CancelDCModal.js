@@ -5,9 +5,9 @@ function CancelDCModal({ cancelDC, closeCancelDC, handleDCCancel }) {
   return (
     <Modal show={cancelDC} onHide={closeCancelDC} size="md">
       <Modal.Header closeButton>
-        <Modal.Title>Magod ReturnableDC</Modal.Title>
+        <Modal.Title style={{fontSize:'14px'}}>Magod ReturnableDC</Modal.Title>
       </Modal.Header>
-      <Modal.Body>Do you wish to cancel the Returnable DC?</Modal.Body>
+      <Modal.Body style={{fontSize:'12px'}}>Do you wish to cancel the Returnable DC?</Modal.Body>
       <Modal.Footer>
         <button
           className="button-style"

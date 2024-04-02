@@ -9,9 +9,11 @@ function EwayBillSaveModal({
   return (
     <Modal show={ewayBillSave} onHide={closeEwayBillSave} size="md">
       <Modal.Header closeButton>
-        <Modal.Title>Magod ReturnableDC</Modal.Title>
+        <Modal.Title style={{ fontSize: "14px" }}>
+          Magod ReturnableDC
+        </Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body style={{ fontSize: "12px" }}>
         Do you wish to Save the E way Bill No for this DC/Inv?
       </Modal.Body>
 

@@ -641,37 +641,43 @@ function CreateNewJobWork({
 
   return (
     <Modal show={showJobWorkModal} onHide={closeJobWorkModal} fullscreen>
-      <Modal.Header closeButton></Modal.Header>
-      <Modal.Title className="title">
-        Job Work Goods Receipt Voucher
-      </Modal.Title>
+      <Modal.Header closeButton>
+        <Modal.Title style={{ fontSize: "14px" }}>
+          Job Work Goods Receipt Voucher
+        </Modal.Title>
+      </Modal.Header>
+
       <Modal.Body>
         <div className="row">
-          <div className="col-md-3 col-sm-12">
-            <label className="form-label">Voucher No</label>
-            <input type="text" disabled value={formData.rvNo} />
+          <div className="d-flex col-md-3 col-sm-12" style={{ gap: "23px" }}>
+            <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+              Voucher No
+            </label>
+            <input
+              className="in-field"
+              type="text"
+              disabled
+              value={formData.rvNo}
+            />
           </div>
-          <div className="col-md-2 col-sm-12">
-            <label className="form-label "></label>
+          <div className="d-flex col-md-4 col-sm-12" style={{ gap: "10px" }}>
             <input
               type="text"
-              className="mt-2"
+              className="in-field"
               disabled
               value={formData.rvDate}
             />
-          </div>
-          <div className="col-md-2 col-sm-12">
-            <label className="form-label mt-2"></label>
             <input
               type="text"
               disabled
-              className="mt-2"
+              className="in-field"
               value={formData.RVStatus}
             />
           </div>
-          <div className="col-md-3 col-sm-12">
+          <div className="d-flex col-md-3 col-sm-12" style={{ gap: "10px" }}>
             <label className="form-label">Weight</label>
             <input
+              className="in-field"
               type="text"
               disabled
               value={parseInt(formData.rvTotalWeight)}
@@ -679,21 +685,30 @@ function CreateNewJobWork({
           </div>
         </div>
 
-        <div className="row mt-2">
-          <div className="col-md-4 col-sm-12">
-            <label className="form-label">Receive From</label>
-            <input type="text" disabled value={formData.rvCustomer} />
+        <div className="row">
+          <div
+            className="d-flex col-md-4 col-sm-12 mt-1"
+            style={{ gap: "15px" }}
+          >
+            <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+              Receive From
+            </label>
+            <input
+              className="in-field"
+              type="text"
+              disabled
+              value={formData.rvCustomer}
+            />
           </div>
-          <div className="col-md-3 col-sm-12">
-            <label className="form-label"></label>
+          <div className="col-md-3 col-sm-12 mt-1">
             <input
               type="text"
               disabled
-              className="mt-2"
+              className="in-field"
               value={formData.rvCustCode}
             />
           </div>
-          <div className="col-md-2 col-sm-12 mt-3">
+          <div className="col-md-3 col-sm-12">
             <button
               className={
                 formData.RVStatus === "Updated" ||
@@ -709,38 +724,7 @@ function CreateNewJobWork({
             >
               Save
             </button>
-          </div>
-          <div className="col-md-3 col-sm-12 mt-3">
-            <button
-              className={
-                formData.RVStatus === "Received" ||
-                formData.RVStatus === "Cancelled"
-                  ? // maxAllowedQty === 0
-                    "button-style button-disabled"
-                  : "button-style"
-              }
-              onClick={cancelModal}
-              disabled={
-                formData.RVStatus === "Received" ||
-                // maxAllowedQty === 0 ||
-                formData.RVStatus === "Cancelled"
-              }
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
 
-        <div className="row mt-2">
-          <div className="col-md-4 col-sm-12">
-            <label className="form-label">DC Reference</label>
-            <input type="text" disabled value={formData.Ref_VrNo} />
-          </div>
-          <div className="col-md-3 col-sm-12">
-            <label className="form-label">GST No</label>
-            <input type="text" disabled value={formData.CustGSTNo} />
-          </div>
-          <div className="col-md-2 col-sm-12 mt-3">
             <button
               className={
                 formData.RVStatus === "Updated" ||
@@ -760,37 +744,130 @@ function CreateNewJobWork({
             >
               Accept
             </button>
-          </div>
-          <div className="col-md-3 col-sm-12 mt-3">
+
             <button className="button-style" onClick={printModal}>
               Print
             </button>
+
+            <button
+              className={
+                formData.RVStatus === "Received" ||
+                formData.RVStatus === "Cancelled"
+                  ? // maxAllowedQty === 0
+                    "button-style button-disabled"
+                  : "button-style"
+              }
+              onClick={cancelModal}
+              disabled={
+                formData.RVStatus === "Received" ||
+                // maxAllowedQty === 0 ||
+                formData.RVStatus === "Cancelled"
+              }
+            >
+              Cancel
+            </button>
+          </div>
+          {/* <div className="col-md-3 col-sm-12">
+            <button
+              className={
+                formData.RVStatus === "Received" ||
+                formData.RVStatus === "Cancelled"
+                  ? // maxAllowedQty === 0
+                    "button-style button-disabled"
+                  : "button-style"
+              }
+              onClick={cancelModal}
+              disabled={
+                formData.RVStatus === "Received" ||
+                // maxAllowedQty === 0 ||
+                formData.RVStatus === "Cancelled"
+              }
+            >
+              Cancel
+            </button>
+          </div> */}
+        </div>
+
+        <div className="row">
+          <div className="d-flex col-md-4 col-sm-12" style={{ gap: "14px" }}>
+            <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+              DC Reference
+            </label>
+            <input
+              className="in-field"
+              type="text"
+              disabled
+              value={formData.Ref_VrNo}
+            />
+          </div>
+          <div className="d-flex col-md-3 col-sm-12" style={{ gap: "10px" }}>
+            <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+              GST No
+            </label>
+            <input
+              className="in-field"
+              type="text"
+              disabled
+              value={formData.CustGSTNo}
+            />
+          </div>
+          <div className="col-md-2 col-sm-12">
+            {/* <button
+              className={
+                formData.RVStatus === "Updated" ||
+                formData.RVStatus === "Cancelled"
+                  ? "button-style button-disabled"
+                  : "button-style"
+              }
+              disabled={
+                formData.RVStatus === "Updated" ||
+                formData.RVStatus === "Cancelled"
+              }
+              // onClick={acceptModal}
+              onClick={() => {
+                getRVNo();
+                acceptModal();
+              }}
+            >
+              Accept
+            </button> */}
+          </div>
+          <div className="col-md-3 col-sm-12">
+            {/* <button className="button-style" onClick={printModal}>
+              Print
+            </button> */}
           </div>
         </div>
 
-        <div className="row mt-2">
-          <div className="col-md-4 col-sm-12">
-            <label className="form-label">Cust Docu Ref</label>
+        <div className="row mt-1">
+          <div className="d-flex col-md-4 col-sm-12" style={{ gap: "10px" }}>
+            <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+              Cust Docu Ref
+            </label>
             <input
+              className="in-field"
               type="text"
               name="CustDocuNo"
               value={formData.CustDocuNo}
               onChange={handleInputChange}
             />
           </div>
-          <div className="col-md-3 col-sm-12">
-            <label className="form-label">E Way Bill No</label>
+          <div className="d-flex col-md-3 col-sm-12" style={{ gap: "10px" }}>
+            <label className="form-label" style={{ whiteSpace: "nowrap" }}>
+              E Way Bill No
+            </label>
             <input
+              className="in-field"
               type="text"
               name="ewayBillNo"
               value={formData.ewayBillNo}
               onChange={handleInputChange}
             />
           </div>
-          <div className="col-md-4 col-sm-12">
+          <div className="d-flex col-md-4 col-sm-12" style={{ gap: "10px" }}>
             <label className="form-label">Reason</label>
-
             <input
+              className="in-field"
               type="text"
               name="CancelReason"
               value={formData.CancelReason}
@@ -803,7 +880,7 @@ function CreateNewJobWork({
           </div>
         </div>
 
-        <div className="row mt-2">
+        <div className="row mt-1">
           <div className="col-md-7 col-sm-12">
             <div>
               <button
@@ -887,6 +964,7 @@ function CreateNewJobWork({
                             height: "100%",
                             backgroundColor: "transparent",
                             border: "none",
+                            textAlign: "center",
                           }}
                           onChange={(e) =>
                             handleEditChange(e, "Qty_Received", index)
@@ -909,6 +987,7 @@ function CreateNewJobWork({
                             height: "100%",
                             backgroundColor: "transparent",
                             border: "none",
+                            textAlign: "center",
                           }}
                           onChange={(e) =>
                             handleEditChange(e, "Qty_Inspected", index)
@@ -931,6 +1010,7 @@ function CreateNewJobWork({
                             height: "100%",
                             backgroundColor: "transparent",
                             border: "none",
+                            textAlign: "center",
                           }}
                           onChange={(e) =>
                             handleEditChange(e, "Qty_Accepted", index)
@@ -1019,9 +1099,11 @@ function CreateNewJobWork({
       {accept && (
         <Modal show={accept} onHide={acceptModalClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Magod ReturnableDC</Modal.Title>
+            <Modal.Title style={{ fontSize: "14px" }}>
+              Magod ReturnableDC
+            </Modal.Title>
           </Modal.Header>
-          <Modal.Body>
+          <Modal.Body style={{ fontSize: "12px" }}>
             Are you accepting the good returned and accepted/rejected?
           </Modal.Body>
           <Modal.Footer>
@@ -1047,9 +1129,9 @@ function CreateNewJobWork({
       {cancel && (
         <Modal show={cancel} onHide={cancelModalClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Magod ReturnableDC</Modal.Title>
+            <Modal.Title style={{fontSize:'14px'}}>Magod ReturnableDC</Modal.Title>
           </Modal.Header>
-          <Modal.Body>Do you wish to cancel this Receipt Voucher?</Modal.Body>
+          <Modal.Body style={{fontSize:'12px'}}>Do you wish to cancel this Receipt Voucher?</Modal.Body>
           <Modal.Footer>
             <button
               className="button-style"
@@ -1073,9 +1155,13 @@ function CreateNewJobWork({
       {print && (
         <Modal show={print} onHide={printModalClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Magod ReturnableDC</Modal.Title>
+            <Modal.Title style={{ fontSize: "14px" }}>
+              Magod ReturnableDC
+            </Modal.Title>
           </Modal.Header>
-          <Modal.Body>Print Returned Goods Receipt Voucher?</Modal.Body>
+          <Modal.Body style={{ fontSize: "12px" }}>
+            Print Returned Goods Receipt Voucher?
+          </Modal.Body>
           <Modal.Footer>
             <button
               className="button-style"
