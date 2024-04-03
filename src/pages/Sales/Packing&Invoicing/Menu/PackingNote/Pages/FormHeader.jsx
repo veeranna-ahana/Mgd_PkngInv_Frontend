@@ -62,7 +62,7 @@ export default function FormHeader(props) {
               PO No.
             </label>
             <input
-              maxLength={"49"}
+              maxLength={"99"}
               value={
                 props.invRegisterData?.PO_No === null ||
                 props.invRegisterData?.PO_No === "null" ||

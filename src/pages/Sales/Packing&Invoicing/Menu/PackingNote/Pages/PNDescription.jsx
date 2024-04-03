@@ -229,7 +229,7 @@ export default function Profile() {
   return (
     <>
       <div className="">
-        <h4 className="title">Packing Note Description Form</h4>
+        <h4 className="title">Packing Note Invoice Form</h4>
       </div>
       <div className="p-1"></div>
       <div className="border rounded">
