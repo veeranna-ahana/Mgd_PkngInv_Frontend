@@ -160,7 +160,9 @@ export default function ProductTable(props) {
                     {key + 1}
                     {!props.invRegisterData.DC_No &&
                     key + 1 === props.invDetailsData?.length
-                      ? "***"
+                      ? props.invRegisterData.Iv_Id
+                        ? ""
+                        : "***"
                       : ""}
                   </td>
                   <td>
