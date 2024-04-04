@@ -682,7 +682,7 @@ export default function InvoicingInfo(props) {
                   </div>
                   {props.invRegisterData?.BillType === "Cash" ? (
                     <div className="col-md-12">
-                      <b>Description</b>
+                      <label className="form-label">Description</label>
                       <textarea
                         rows="4"
                         style={{ width: "100%" }}

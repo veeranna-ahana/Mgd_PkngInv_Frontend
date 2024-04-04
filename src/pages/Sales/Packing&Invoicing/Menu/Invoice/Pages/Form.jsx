@@ -32,6 +32,7 @@ export default function Form(props) {
     datee < 10 ? "0" + datee : datee
   }T${hour < 10 ? "0" + hour : hour}:${mins < 10 ? "0" + mins : mins}`;
 
+  const [runningNoData, setRunningNoData] = useState({});
   const [TaxDropDownData, setTaxDropDownData] = useState([]);
 
   const [invRegisterData, setInvRegisterData] = useState({
@@ -418,25 +419,44 @@ export default function Form(props) {
   };
 
   const getDCNo = async () => {
+    // console.log("todayDate", todayDate);
+
+    let finYear = `${
+      (todayDate.getMonth() + 1 < 4
+        ? todayDate.getFullYear() - 1
+        : todayDate.getFullYear()
+      )
+        .toString()
+        .slice(-2) +
+      "/" +
+      (todayDate.getMonth() + 1 < 4
+        ? todayDate.getFullYear()
+        : todayDate.getFullYear() + 1
+      )
+        .toString()
+        .slice(-2)
+    }`;
+
+    // console.log("finYear", finYear);
+
     const srlType = "PkngNoteNo";
     const ResetPeriod = "FinanceYear";
     const ResetValue = 0;
-    const VoucherNoLength = 5;
-    const prefix = "";
-    try {
-      const response = await Axios.post(apipoints.insertRunNoRow, {
-        unit: formData.unitName,
-        srlType: srlType,
-        ResetPeriod: ResetPeriod,
-        ResetValue: ResetValue,
-        VoucherNoLength: VoucherNoLength,
-        prefix: prefix,
-      });
+    const Length = 5;
+    // const prefix = "";
 
-      console.log("getDCNo Response", response.data);
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    Axios.post(apipoints.insertAndGetRunningNo, {
+      finYear: finYear,
+      unitName: formData.unitName,
+      srlType: srlType,
+      ResetPeriod: ResetPeriod,
+      ResetValue: ResetValue,
+      Length: Length,
+      // prefix: prefix,
+    }).then((res) => {
+      setRunningNoData(res.data.runningNoData);
+      console.log("getDCNo Response", res.data);
+    });
   };
 
   const createPNFunc = () => {
@@ -446,9 +466,9 @@ export default function Form(props) {
   };
 
   const createPN = () => {
-    const srlType = "PkngNoteNo";
-    const prefix = "";
-    const VoucherNoLength = 5;
+    // const srlType = "PkngNoteNo";
+    // const prefix = "";
+    // const VoucherNoLength = 5;
     const resp = createPNValidationFunc();
 
     if (resp.result) {
@@ -456,10 +476,11 @@ export default function Form(props) {
         invRegisterData: invRegisterData,
         invDetailsData: resp.data,
         invTaxData: invTaxData,
-        srlType: srlType,
-        prefix: prefix,
-        unit: formData.unitName,
-        VoucherNoLength: VoucherNoLength,
+        runningNoData: runningNoData,
+        // srlType: srlType,
+        // prefix: prefix,
+        // unit: formData.unitName,
+        // VoucherNoLength: VoucherNoLength,
       }).then((res) => {
         if (res.data.flag === 1) {
           toast.success(res.data.message);
