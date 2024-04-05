@@ -672,7 +672,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                         <View
                           style={{
                             ...style.globalPadding,
-                            width: "7%",
+                            width: "6.5%",
                             borderRight: "1px",
                           }}
                         >
@@ -684,7 +684,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                         <View
                           style={{
                             ...style.globalPadding,
-                            width: "47%",
+                            width: "46%",
                             borderRight: "1px",
                           }}
                         >
@@ -695,7 +695,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                         <View
                           style={{
                             ...style.globalPadding,
-                            width: "19%",
+                            width: "18.5%",
                             borderRight: "1px",
                           }}
                         >
@@ -707,11 +707,11 @@ export default function PrintInvoiceAndAnnexure(props) {
                         <View
                           style={{
                             ...style.globalPadding,
-                            width: "7%",
+                            width: "9%",
                             borderRight: "1px",
                           }}
                         >
-                          <Text>Qty</Text>
+                          <Text>Qty(Kg)</Text>
                         </View>
 
                         {/* Unit Price */}
@@ -764,7 +764,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                               <View
                                 style={{
                                   ...style.globalPadding,
-                                  width: "7%",
+                                  width: "6.5%",
                                   borderRight: "1px",
                                 }}
                               >
@@ -776,7 +776,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                               <View
                                 style={{
                                   ...style.globalPadding,
-                                  width: "47%",
+                                  width: "46%",
                                   borderRight: "1px",
                                 }}
                               >
@@ -787,7 +787,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                               <View
                                 style={{
                                   ...style.globalPadding,
-                                  width: "19%",
+                                  width: "18.5%",
                                   borderRight: "1px",
                                 }}
                               >
@@ -799,7 +799,7 @@ export default function PrintInvoiceAndAnnexure(props) {
                               <View
                                 style={{
                                   ...style.globalPadding,
-                                  width: "7%",
+                                  width: "9%",
                                   borderRight: "1px",
                                 }}
                               >
