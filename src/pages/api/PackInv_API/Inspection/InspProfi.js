@@ -30,4 +30,6 @@ export const apipoints = {
   preparePN: `${url}/inspection/preparePN`,
   getOrderScheduleData: `${url}/inspection/getOrderScheduleData`,
   insertRunNoRow: `${url}/inspection/insertRunNoRow`,
+  // ready for packing
+  insertAndGetRunningNo: `${url}/runningNo/insertAndGetRunningNo`,
 };
