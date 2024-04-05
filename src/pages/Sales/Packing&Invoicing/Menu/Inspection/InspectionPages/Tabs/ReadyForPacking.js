@@ -19,6 +19,14 @@ import InspectionAndPacking from "../Modals/InspectionAndPacking";
 import ModalDraftPackingNote from "../../../../PDFs/DraftPackingNote/ModalDraftPackingNote";
 
 export default function ReadyForPacking(props) {
+  const todayDate = new Date();
+
+  const [runningNoData, setRunningNoData] = useState({});
+
+  const [formData, setFormData] = useState({
+    unitName: "Jigani",
+  });
+
   const [printPNModal, setPrintPNModal] = useState(false);
   const [printDraftPNModal, setPrintDraftPNModal] = useState(false);
 
@@ -28,6 +36,53 @@ export default function ReadyForPacking(props) {
 
   const [InspectionAndPackingModal, setInspectionAndPackingModal] =
     useState(false);
+
+  const getDCNo = async () => {
+    // console.log("todayDate", todayDate);
+
+    let finYear = `${
+      (todayDate.getMonth() + 1 < 4
+        ? todayDate.getFullYear() - 1
+        : todayDate.getFullYear()
+      )
+        .toString()
+        .slice(-2) +
+      "/" +
+      (todayDate.getMonth() + 1 < 4
+        ? todayDate.getFullYear()
+        : todayDate.getFullYear() + 1
+      )
+        .toString()
+        .slice(-2)
+    }`;
+
+    // console.log("finYear", finYear);
+
+    let srlType = "PkngNoteNo";
+    if (
+      selectedRegisterRow.Dc_InvType === "Internal" ||
+      selectedRegisterRow.Cust_Code === "0000"
+    ) {
+      srlType = "InternalDC";
+    }
+    const ResetPeriod = "FinanceYear";
+    const ResetValue = 0;
+    const Length = 5;
+    // const prefix = "";
+
+    Axios.post(apipoints.insertAndGetRunningNo, {
+      finYear: finYear,
+      unitName: formData.unitName,
+      srlType: srlType,
+      ResetPeriod: ResetPeriod,
+      ResetValue: ResetValue,
+      Length: Length,
+      // prefix: prefix,
+    }).then((res) => {
+      setRunningNoData(res.data.runningNoData);
+      console.log("getDCNo Response", res.data);
+    });
+  };
 
   // const [insAndPack, setInsAndPack] = useState({
   //   inspectedBy: props.headerData?.Dealing_Engineer,
@@ -149,6 +204,7 @@ export default function ReadyForPacking(props) {
       DC_Inv_No: selectedRegisterRow.DC_Inv_No,
       insAndPack: props.insAndPack,
       invDetailsData: props.invDetailsData,
+      runningNoData: runningNoData,
     }).then((res) => {
       if (res.data.flag === 0) {
         toast.error(res.data.message);
@@ -256,6 +312,7 @@ export default function ReadyForPacking(props) {
                 if (props.invDetailsData.length === 0) {
                   toast.warning("Please select the draft PN");
                 } else {
+                  getDCNo();
                   setConfirmationModalFor("Prepare PN");
                   setInspectionAndPackingModal(true);
                 }

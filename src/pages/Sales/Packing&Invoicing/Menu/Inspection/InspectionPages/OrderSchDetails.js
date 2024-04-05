@@ -171,7 +171,16 @@ export default function OrderSchDetails() {
             id="btnclose"
             type="submit"
             onClick={() =>
-              nav("/PackingAndInvoices/Inspection/Profile/ScheduleList")
+              nav(
+                headerData.Type === "Profile"
+                  ? "/PackingAndInvoices/Inspection/Profile/ScheduleList"
+                  : headerData.Type === "Service"
+                  ? "/PackingAndInvoices/Inspection/Services/ScheduleList"
+                  : headerData.Type === "Fabrication"
+                  ? "/PackingAndInvoices/Inspection/Fabrication/ScheduleList"
+                  : "/PackingAndInvoices"
+                // "/PackingAndInvoices/Inspection/Profile/ScheduleList"
+              )
             }
             style={{ float: "right" }}
           >

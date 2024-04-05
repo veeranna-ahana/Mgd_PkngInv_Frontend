@@ -1,10 +1,12 @@
 import React, { useState, useRef } from "react";
 
 import { toast } from "react-toastify";
+import Axios from "axios";
 
 import ModalPackingNote from "../../../../PDFs/PackingNote/ModalPackingNote";
 import ModalAnnexure from "../../../../PDFs/Annexure/ModalAnnexure";
 import ModalInvoice from "../../../../PDFs/Invoice/ModalInvoice";
+import { apipoints } from "../../../../../../api/PackInv_API/Invoice/Invoice";
 
 export default function InvoicingInfo(props) {
   const layoutForInvoicingInfo = "border row rounded p-1 pb-3";
@@ -18,7 +20,62 @@ export default function InvoicingInfo(props) {
     "QR Code and RTGS",
   ];
 
+  const getDCNo = async () => {
+    // console.log("todayDate", todayDate);
+
+    let finYear = `${
+      (props.todayDate.getMonth() + 1 < 4
+        ? props.todayDate.getFullYear() - 1
+        : props.todayDate.getFullYear()
+      )
+        .toString()
+        .slice(-2) +
+      "/" +
+      (props.todayDate.getMonth() + 1 < 4
+        ? props.todayDate.getFullYear()
+        : props.todayDate.getFullYear() + 1
+      )
+        .toString()
+        .slice(-2)
+    }`;
+
+    // console.log("finYear", finYear);
+
+    let srlType = "";
+
+    if (props.invRegisterData.InvoiceFor === "Profile") {
+      srlType = "GST_Goods";
+    } else if (props.invRegisterData.InvoiceFor === "Service") {
+      srlType = "GST_Services";
+    } else if (props.invRegisterData.InvoiceFor === "Misc") {
+      srlType = "GST_GoodsAndSerivce";
+    } else if (props.invRegisterData.InvoiceFor === "Fabrication") {
+      srlType = "GST_Goods";
+    } else {
+      srlType = "GST_GoodsAndSerivce";
+    }
+
+    const ResetPeriod = "FinanceYear";
+    const ResetValue = 0;
+    const Length = 4;
+    // const prefix = "";
+
+    Axios.post(apipoints.insertAndGetRunningNo, {
+      finYear: finYear,
+      unitName: props?.formData.unitName,
+      srlType: srlType,
+      ResetPeriod: ResetPeriod,
+      ResetValue: ResetValue,
+      Length: Length,
+      // prefix: prefix,
+    }).then((res) => {
+      props.setRunningNoData(res.data.runningNoData);
+      console.log("getDCNo Response", res.data);
+    });
+  };
+
   const createInvoiceWorkFunc = () => {
+    getDCNo();
     props.setButtonClicked("Create Invoice");
     props.setConfirmModalOpen(true);
   };

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 
 import Axios from "axios";
 import { toast } from "react-toastify";
+import { apipoints } from "../../../../../../../api/PackInv_API/Invoice/Invoice";
 
 export default function InvoicingInfo(props) {
   const trnsMode = ["By Road", "By Hand", "By Air", "By Courier"];
@@ -23,10 +24,53 @@ export default function InvoicingInfo(props) {
     "QR Code and RTGS",
   ];
 
+  const getDCNo = async () => {
+    // console.log("todayDate", todayDate);
+
+    let finYear = `${
+      (props.todayDate.getMonth() + 1 < 4
+        ? props.todayDate.getFullYear() - 1
+        : props.todayDate.getFullYear()
+      )
+        .toString()
+        .slice(-2) +
+      "/" +
+      (props.todayDate.getMonth() + 1 < 4
+        ? props.todayDate.getFullYear()
+        : props.todayDate.getFullYear() + 1
+      )
+        .toString()
+        .slice(-2)
+    }`;
+
+    // console.log("finYear", finYear);
+
+    const srlType = "GST_GoodsAndSerivce";
+    const ResetPeriod = "FinanceYear";
+    const ResetValue = 0;
+    const Length = 4;
+    // const prefix = "";
+
+    Axios.post(apipoints.insertAndGetRunningNo, {
+      finYear: finYear,
+      unitName: props.formData.unitName,
+      srlType: srlType,
+      ResetPeriod: ResetPeriod,
+      ResetValue: ResetValue,
+      Length: Length,
+      // prefix: prefix,
+    }).then((res) => {
+      props.setRunningNoData(res.data.runningNoData);
+      console.log("getDCNo Response", res.data);
+    });
+  };
+
   const createInvoiceWorkFunc = () => {
+    getDCNo();
     props.setButtonClicked("Create Invoice");
     props.setConfirmModalOpen(true);
   };
+
   const createInvoiceValidationFunc = (e) => {
     const checkForZero = props.invDetailsData.filter(
       (obj) =>
