@@ -51,6 +51,11 @@ export default function Profile() {
   const [printAnneureModal, setPrintAnneureModal] = useState(false);
   const [printInvoiceModal, setPrintInvoiceModal] = useState(false);
 
+  const [runningNoData, setRunningNoData] = useState({});
+  const [formData, setFormData] = useState({
+    unitName: "Jigani",
+  });
+
   const rowLimit = 20;
 
   const fetchData = () => {
@@ -209,6 +214,7 @@ export default function Profile() {
     onSave();
     Axios.post(apipoints.createInvoice, {
       invRegisterData: invRegisterData,
+      runningNoData: runningNoData,
     }).then((res) => {
       setInvRegisterData(res.data.registerData[0]);
       if (res.data.flag === 1) {
@@ -277,6 +283,10 @@ export default function Profile() {
               printCopyModal={printCopyModal}
               rowLimit={rowLimit}
               TaxDropDownData={TaxDropDownData}
+              setRunningNoData={setRunningNoData}
+              runningNoData={runningNoData}
+              todayDate={todayDate}
+              formData={formData}
             />
           </Tab>
         </Tabs>
