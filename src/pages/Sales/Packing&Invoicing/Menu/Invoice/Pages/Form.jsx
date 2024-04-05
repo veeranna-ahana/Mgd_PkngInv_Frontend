@@ -311,6 +311,7 @@ export default function Form(props) {
     savePN();
     Axios.post(apipoints.createInvoice, {
       invRegisterData: invRegisterData,
+      runningNoData: runningNoData,
     }).then((res) => {
       setInvRegisterData(res.data.registerData[0]);
       if (res.data.flag === 1) {
@@ -526,6 +527,7 @@ export default function Form(props) {
               printInvoice={printInvoice} //func
               rowLimit={rowLimit}
               formatedTodayDate={formatedTodayDate}
+              todayDate={todayDate}
               invDetailsData={invDetailsData}
               invTaxData={invTaxData}
               printAnneureModal={printAnneureModal}
@@ -534,6 +536,9 @@ export default function Form(props) {
               setButtonClicked={setButtonClicked}
               setConfirmModalOpen={setConfirmModalOpen}
               TaxDropDownData={TaxDropDownData}
+              setRunningNoData={setRunningNoData}
+              runningNoData={runningNoData}
+              formData={formData}
             />
           </Tab>
         </Tabs>
