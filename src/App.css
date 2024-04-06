@@ -689,3 +689,20 @@ li.nav-item {
   background-color: transparent;
   border: none;
 }
+
+thead th {
+  cursor: pointer;
+  border: 1px solid white;
+  transition: 0.2s ease-in-out;
+}
+tbody td {
+  border: 1px solid white;
+}
+
+.rotateClass {
+  transform: rotate(180deg) !important;
+}
+
+.displayNoneClass {
+  opacity: 0;
+}
