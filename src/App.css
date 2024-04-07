@@ -691,9 +691,15 @@ li.nav-item {
 }
 
 thead th {
-  cursor: pointer;
   border: 1px solid white;
   transition: 0.2s ease-in-out;
+}
+/* thead th.cursor {
+} */
+thead th.cursor:hover {
+  border-color: gray;
+  color: rgb(216, 216, 216);
+  cursor: pointer;
 }
 tbody td {
   border: 1px solid white;

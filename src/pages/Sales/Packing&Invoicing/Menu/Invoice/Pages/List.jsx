@@ -124,7 +124,10 @@ export default function List(props) {
                 <thead className="tableHeaderBGColor">
                   <tr>
                     <th>SL No</th>
-                    <th onClick={() => requestSort("DC_InvType")}>
+                    <th
+                      onClick={() => requestSort("DC_InvType")}
+                      className="cursor"
+                    >
                       Inv Type
                       <FaArrowUp
                         className={
@@ -136,7 +139,7 @@ export default function List(props) {
                         }
                       />
                     </th>
-                    <th onClick={() => requestSort("DC_No")}>
+                    <th onClick={() => requestSort("DC_No")} className="cursor">
                       PN No
                       <FaArrowUp
                         className={
@@ -148,7 +151,10 @@ export default function List(props) {
                         }
                       />
                     </th>
-                    <th onClick={() => requestSort("DC_Date")}>
+                    <th
+                      onClick={() => requestSort("DC_Date")}
+                      className="cursor"
+                    >
                       PN Date
                       <FaArrowUp
                         className={
@@ -160,7 +166,10 @@ export default function List(props) {
                         }
                       />
                     </th>
-                    <th onClick={() => requestSort("Cust_Name")}>
+                    <th
+                      onClick={() => requestSort("Cust_Name")}
+                      className="cursor"
+                    >
                       Customer Name
                       <FaArrowUp
                         className={

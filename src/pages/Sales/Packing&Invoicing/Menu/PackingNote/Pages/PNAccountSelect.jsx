@@ -82,7 +82,11 @@ export default function ProfileOpenForm(props) {
           >
             <thead className="tableHeaderBGColor">
               <tr>
-                <th onClick={() => requestSort("DC_InvType")}>
+                <th>SL No</th>
+                <th
+                  onClick={() => requestSort("DC_InvType")}
+                  className="cursor"
+                >
                   Inv Type
                   <FaArrowUp
                     className={
@@ -94,7 +98,7 @@ export default function ProfileOpenForm(props) {
                     }
                   />
                 </th>
-                <th onClick={() => requestSort("DC_No")}>
+                <th onClick={() => requestSort("DC_No")} className="cursor">
                   PN No
                   <FaArrowUp
                     className={
@@ -106,7 +110,7 @@ export default function ProfileOpenForm(props) {
                     }
                   />
                 </th>
-                <th onClick={() => requestSort("DC_Date")}>
+                <th onClick={() => requestSort("DC_Date")} className="cursor">
                   PN Date
                   <FaArrowUp
                     className={
@@ -118,7 +122,7 @@ export default function ProfileOpenForm(props) {
                     }
                   />
                 </th>
-                <th onClick={() => requestSort("Cust_Name")}>
+                <th onClick={() => requestSort("Cust_Name")} className="cursor">
                   Customer Name
                   <FaArrowUp
                     className={
@@ -142,6 +146,7 @@ export default function ProfileOpenForm(props) {
                   }
                   style={{ cursor: "pointer" }}
                 >
+                  <td>{index + 1}</td>
                   <td>{data.DC_InvType}</td>
                   <td>{data.DC_No}</td>
                   <td>{data.Printable_DC_Date}</td>
