@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 
+import { FaArrowUp } from "react-icons/fa";
+
 export default function ThirdTable(props) {
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
   const modifyInvDetailsData = (e, key) => {
     const newArray = [];
 
@@ -18,19 +22,89 @@ export default function ThirdTable(props) {
     props.setInvDetailsData(newArray);
   };
 
+  const sortedData = () => {
+    let dataCopy = [...props.invDetailsData];
+
+    if (sortConfig.key) {
+      dataCopy.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === "asc" ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === "asc" ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+
+    return dataCopy;
+  };
+
+  const requestSort = (key) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
+  };
+
   return (
     <>
       <Table striped className="table-data border" style={{ border: "1px" }}>
         <thead className="tableHeaderBGColor">
           <tr>
-            <th>Dwg No</th>
-            <th>Material</th>
-            <th>Qty</th>
-            <th>Unit Wt</th>
+            <th onClick={() => requestSort("Dwg_No")} className="cursor">
+              Dwg No
+              <FaArrowUp
+                className={
+                  sortConfig.key === "Dwg_No"
+                    ? sortConfig.direction === "desc"
+                      ? "rotateClass"
+                      : ""
+                    : "displayNoneClass"
+                }
+              />
+            </th>
+            <th onClick={() => requestSort("Mtrl")} className="cursor">
+              Material
+              <FaArrowUp
+                className={
+                  sortConfig.key === "Mtrl"
+                    ? sortConfig.direction === "desc"
+                      ? "rotateClass"
+                      : ""
+                    : "displayNoneClass"
+                }
+              />
+            </th>
+            <th onClick={() => requestSort("Qty")} className="cursor">
+              Qty
+              <FaArrowUp
+                className={
+                  sortConfig.key === "Qty"
+                    ? sortConfig.direction === "desc"
+                      ? "rotateClass"
+                      : ""
+                    : "displayNoneClass"
+                }
+              />
+            </th>
+            <th onClick={() => requestSort("Unit_Wt")} className="cursor">
+              Unit Wt
+              <FaArrowUp
+                className={
+                  sortConfig.key === "Unit_Wt"
+                    ? sortConfig.direction === "desc"
+                      ? "rotateClass"
+                      : ""
+                    : "displayNoneClass"
+                }
+              />
+            </th>
           </tr>
         </thead>
         <tbody className="tablebody">
-          {props.invDetailsData?.map((val, key) => (
+          {sortedData().map((val, key) => (
             <tr>
               <td>{val.Dwg_No}</td>
               <td>{val.Mtrl}</td>
