@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { Form, Tab, Table, Tabs } from "react-bootstrap";
 import { apipoints } from "../../../../../../../api/PackInv_API/Invoice/Invoice";
+import { FaArrowUp } from "react-icons/fa";
 
 export default function ProductTable(props) {
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
+
   const [materialData, setMaterialData] = useState([]);
   //get allMaterials
   useEffect(() => {
@@ -67,6 +70,7 @@ export default function ProductTable(props) {
       AssessableValue: parseFloat(newNetTotal).toFixed(2),
     });
   };
+
   const inputTableRow = (e, key) => {
     props.deleteTaxes();
     if (
@@ -134,7 +138,43 @@ export default function ProductTable(props) {
     }
     props.setInvDetailsData(newArray);
   };
+  const sortedData = () => {
+    let dataCopy = [...props.invDetailsData];
 
+    if (sortConfig.key) {
+      dataCopy.sort((a, b) => {
+        if (!parseFloat(a[sortConfig.key]) || !parseFloat(b[sortConfig.key])) {
+          // console.log("string");
+          if (a[sortConfig.key] < b[sortConfig.key]) {
+            return sortConfig.direction === "asc" ? -1 : 1;
+          }
+          if (a[sortConfig.key] > b[sortConfig.key]) {
+            return sortConfig.direction === "asc" ? 1 : -1;
+          }
+          return 0;
+        } else {
+          // console.log("number");
+          if (parseFloat(a[sortConfig.key]) < parseFloat(b[sortConfig.key])) {
+            return sortConfig.direction === "asc" ? -1 : 1;
+          }
+          if (parseFloat(a[sortConfig.key]) > parseFloat(b[sortConfig.key])) {
+            return sortConfig.direction === "asc" ? 1 : -1;
+          }
+          return 0;
+        }
+      });
+    }
+
+    return dataCopy;
+  };
+
+  const requestSort = (key) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
+  };
   return (
     <>
       <div className="px-1">
@@ -142,187 +182,531 @@ export default function ProductTable(props) {
           <thead className="tableHeaderBGColor">
             <tr>
               <th>SL No</th>
-              <th>Description of Goods</th>
-              <th>Material</th>
-              <th>Excise Classification</th>
-              <th>Quantity</th>
-              <th>Unit Weight</th>
-              <th>Total Weight</th>
-              <th>Unit Rate</th>
-              <th>Total Amount</th>
+              <th
+                onClick={(e) => {
+                  if (props.invRegisterData?.DC_No) {
+                    requestSort("Dwg_No");
+                  } else {
+                    e.preventDefault();
+                  }
+                }}
+                className={props.invRegisterData?.DC_No ? "cursor" : ""}
+              >
+                Description of Goods
+                <FaArrowUp
+                  className={
+                    sortConfig.key === "Dwg_No"
+                      ? sortConfig.direction === "desc"
+                        ? "rotateClass"
+                        : ""
+                      : "displayNoneClass"
+                  }
+                />
+              </th>
+              <th
+                onClick={(e) => {
+                  if (props.invRegisterData?.DC_No) {
+                    requestSort("Material");
+                  } else {
+                    e.preventDefault();
+                  }
+                }}
+                className={props.invRegisterData?.DC_No ? "cursor" : ""}
+              >
+                Material
+                <FaArrowUp
+                  className={
+                    sortConfig.key === "Material"
+                      ? sortConfig.direction === "desc"
+                        ? "rotateClass"
+                        : ""
+                      : "displayNoneClass"
+                  }
+                />
+              </th>
+              <th
+                onClick={(e) => {
+                  if (props.invRegisterData?.DC_No) {
+                    requestSort("Excise_CL_no");
+                  } else {
+                    e.preventDefault();
+                  }
+                }}
+                className={props.invRegisterData?.DC_No ? "cursor" : ""}
+              >
+                Excise Classification
+                <FaArrowUp
+                  className={
+                    sortConfig.key === "Excise_CL_no"
+                      ? sortConfig.direction === "desc"
+                        ? "rotateClass"
+                        : ""
+                      : "displayNoneClass"
+                  }
+                />
+              </th>
+              <th
+                onClick={(e) => {
+                  if (props.invRegisterData?.DC_No) {
+                    requestSort("Qty");
+                  } else {
+                    e.preventDefault();
+                  }
+                }}
+                className={props.invRegisterData?.DC_No ? "cursor" : ""}
+              >
+                Quantity
+                <FaArrowUp
+                  className={
+                    sortConfig.key === "Qty"
+                      ? sortConfig.direction === "desc"
+                        ? "rotateClass"
+                        : ""
+                      : "displayNoneClass"
+                  }
+                />
+              </th>
+              <th
+                onClick={(e) => {
+                  if (props.invRegisterData?.DC_No) {
+                    requestSort("Unit_Wt");
+                  } else {
+                    e.preventDefault();
+                  }
+                }}
+                className={props.invRegisterData?.DC_No ? "cursor" : ""}
+              >
+                Unit Weight
+                <FaArrowUp
+                  className={
+                    sortConfig.key === "Unit_Wt"
+                      ? sortConfig.direction === "desc"
+                        ? "rotateClass"
+                        : ""
+                      : "displayNoneClass"
+                  }
+                />
+              </th>
+              <th
+                onClick={(e) => {
+                  if (props.invRegisterData?.DC_No) {
+                    requestSort("DC_Srl_Wt");
+                  } else {
+                    e.preventDefault();
+                  }
+                }}
+                className={props.invRegisterData?.DC_No ? "cursor" : ""}
+              >
+                Total Weight
+                <FaArrowUp
+                  className={
+                    sortConfig.key === "DC_Srl_Wt"
+                      ? sortConfig.direction === "desc"
+                        ? "rotateClass"
+                        : ""
+                      : "displayNoneClass"
+                  }
+                />
+              </th>
+              <th
+                onClick={(e) => {
+                  if (props.invRegisterData?.DC_No) {
+                    requestSort("Unit_Rate");
+                  } else {
+                    e.preventDefault();
+                  }
+                }}
+                className={props.invRegisterData?.DC_No ? "cursor" : ""}
+              >
+                Unit Rate
+                <FaArrowUp
+                  className={
+                    sortConfig.key === "Unit_Rate"
+                      ? sortConfig.direction === "desc"
+                        ? "rotateClass"
+                        : ""
+                      : "displayNoneClass"
+                  }
+                />
+              </th>
+              <th
+                onClick={(e) => {
+                  if (props.invRegisterData?.DC_No) {
+                    requestSort("DC_Srl_Amt");
+                  } else {
+                    e.preventDefault();
+                  }
+                }}
+                className={props.invRegisterData?.DC_No ? "cursor" : ""}
+              >
+                Total Amount
+                <FaArrowUp
+                  className={
+                    sortConfig.key === "DC_Srl_Amt"
+                      ? sortConfig.direction === "desc"
+                        ? "rotateClass"
+                        : ""
+                      : "displayNoneClass"
+                  }
+                />
+              </th>
             </tr>
           </thead>
           <tbody className="tablebody">
-            {props.invDetailsData?.map((tableData, key) => (
-              <>
-                <tr>
-                  <td>
-                    {key + 1}
-                    {!props.invRegisterData.DC_No &&
-                    key + 1 === props.invDetailsData?.length
-                      ? props.invRegisterData.Iv_Id
-                        ? ""
-                        : "***"
-                      : ""}
-                  </td>
-                  <td>
-                    <input
-                      value={tableData.Dwg_No}
-                      name="Dwg_No"
-                      onChange={(e) => {
-                        inputTableRow(e, key);
-                      }}
-                      disabled={props.invRegisterData?.DC_No}
-                      className={
-                        props.invRegisterData?.DC_No
-                          ? "input-disabled tableRowInput"
-                          : "tableRowInput"
-                      }
-                    />
-                  </td>
-                  <td>
-                    <select
-                      value={tableData?.Material}
-                      name="Material"
-                      id="materialDropdown"
-                      style={{
-                        fontSize: "inherit",
-                      }}
-                      onChange={(e) => {
-                        inputTableRow(e, key);
-                      }}
-                      disabled={props.invRegisterData?.DC_No}
-                      className={
-                        props.invRegisterData?.DC_No
-                          ? "input-disabled tableRowInput"
-                          : "tableRowInput"
-                      }
-                    >
-                      <option value="" selected disabled hidden>
-                        Select material
-                      </option>
-
-                      {materialData?.map((material, key) => (
-                        <option value={material.Material}>
-                          {material.Material}
+            {props.invRegisterData?.DC_No
+              ? sortedData().map((tableData, index) => (
+                  <tr
+                    key={index}
+                    // onClick={(e) => {
+                    //   if (selectedRow?.DC_Inv_No === data.DC_Inv_No) {
+                    //     setSelectedRow({});
+                    //   } else {
+                    //     setSelectedRow(data);
+                    //   }
+                    // }}
+                    // className={
+                    //   selectedRow?.DC_Inv_No === data.DC_Inv_No
+                    //     ? "selectedRowClr"
+                    //     : ""
+                    // }
+                    // style={{ cursor: "pointer" }}
+                  >
+                    <td>
+                      {index + 1}
+                      {!props.invRegisterData.DC_No &&
+                      index + 1 === props.invDetailsData?.length
+                        ? props.invRegisterData.Iv_Id
+                          ? ""
+                          : "***"
+                        : ""}
+                    </td>
+                    <td>
+                      <input
+                        value={tableData.Dwg_No}
+                        name="Dwg_No"
+                        onChange={(e) => {
+                          inputTableRow(e, index);
+                        }}
+                        disabled={props.invRegisterData?.DC_No}
+                        className={
+                          props.invRegisterData?.DC_No
+                            ? "input-disabled tableRowInput"
+                            : "tableRowInput"
+                        }
+                      />
+                    </td>
+                    <td>
+                      <select
+                        value={tableData?.Material}
+                        name="Material"
+                        id="materialDropdown"
+                        style={{
+                          fontSize: "inherit",
+                        }}
+                        onChange={(e) => {
+                          inputTableRow(e, index);
+                        }}
+                        disabled={props.invRegisterData?.DC_No}
+                        className={
+                          props.invRegisterData?.DC_No
+                            ? "input-disabled tableRowInput"
+                            : "tableRowInput"
+                        }
+                      >
+                        <option value="" selected disabled hidden>
+                          Select material
                         </option>
-                      ))}
-                    </select>
-                  </td>
-                  <td>
-                    <input
-                      value={tableData.Excise_CL_no}
-                      disabled={
-                        props.invRegisterData.Inv_No?.length > 0 ||
-                        props.invRegisterData.DCStatus === "Cancelled"
-                      }
-                      className={
-                        props.invRegisterData.Inv_No?.length > 0 ||
-                        props.invRegisterData.DCStatus === "Cancelled"
-                          ? "input-disabled  tableRowInput"
-                          : "tableRowInput"
-                      }
-                      name="Excise_CL_no"
-                      onChange={(e) => {
-                        inputTableRow(e, key);
-                      }}
-                      maxLength={"15"}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      min="0"
-                      value={tableData.Qty}
-                      name="Qty"
-                      onChange={(e) => {
-                        inputTableRow(e, key);
-                      }}
-                      disabled={
-                        props.invRegisterData?.DC_No
-                        // ||
-                        // props.invRegisterData.Iv_Id
-                      }
-                      className={
-                        props.invRegisterData?.DC_No
-                          ? // ||
+
+                        {materialData?.map((material, index) => (
+                          <option value={material.Material}>
+                            {material.Material}
+                          </option>
+                        ))}
+                      </select>
+                    </td>
+                    <td>
+                      <input
+                        value={tableData.Excise_CL_no}
+                        disabled={
+                          props.invRegisterData.Inv_No?.length > 0 ||
+                          props.invRegisterData.DCStatus === "Cancelled"
+                        }
+                        className={
+                          props.invRegisterData.Inv_No?.length > 0 ||
+                          props.invRegisterData.DCStatus === "Cancelled"
+                            ? "input-disabled  tableRowInput"
+                            : "tableRowInput"
+                        }
+                        name="Excise_CL_no"
+                        onChange={(e) => {
+                          inputTableRow(e, index);
+                        }}
+                        maxLength={"15"}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        min="0"
+                        value={tableData.Qty}
+                        name="Qty"
+                        onChange={(e) => {
+                          inputTableRow(e, index);
+                        }}
+                        disabled={
+                          props.invRegisterData?.DC_No
+                          // ||
+                          // props.invRegisterData.Iv_Id
+                        }
+                        className={
+                          props.invRegisterData?.DC_No
+                            ? // ||
+                              // props.invRegisterData.Iv_Id
+                              "input-disabled tableRowInput"
+                            : "tableRowInput"
+                        }
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        min="0"
+                        value={tableData.Unit_Wt}
+                        disabled={
+                          props.invRegisterData.Inv_No?.length > 0 ||
+                          props.invRegisterData.DCStatus === "Cancelled"
+                        }
+                        className={
+                          props.invRegisterData.Inv_No?.length > 0 ||
+                          props.invRegisterData.DCStatus === "Cancelled"
+                            ? "input-disabled  tableRowInput"
+                            : "tableRowInput"
+                        }
+                        name="Unit_Wt"
+                        onChange={(e) => {
+                          inputTableRow(e, index);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        min="0"
+                        value={tableData.DC_Srl_Wt}
+                        disabled
+                        className="tableRowInput input-disabled"
+                        name="DC_Srl_Wt"
+                        onChange={(e) => {
+                          inputTableRow(e, index);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        min="0"
+                        value={tableData.Unit_Rate}
+                        disabled={
+                          props.invRegisterData.Inv_No?.length > 0 ||
+                          props.invRegisterData.DCStatus === "Cancelled"
+                        }
+                        className={
+                          props.invRegisterData.Inv_No?.length > 0 ||
+                          props.invRegisterData.DCStatus === "Cancelled"
+                            ? "input-disabled  tableRowInput"
+                            : "tableRowInput"
+                        }
+                        name="Unit_Rate"
+                        onChange={(e) => {
+                          inputTableRow(e, index);
+                        }}
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="number"
+                        min="0"
+                        value={tableData.DC_Srl_Amt}
+                        disabled
+                        className="tableRowInput input-disabled"
+                        name="DC_Srl_Amt"
+                        onChange={(e) => {
+                          inputTableRow(e, index);
+                        }}
+                      />
+                    </td>
+                  </tr>
+                ))
+              : props.invDetailsData?.map((tableData, key) => (
+                  <>
+                    <tr>
+                      <td>
+                        {key + 1}
+                        {!props.invRegisterData.DC_No &&
+                        key + 1 === props.invDetailsData?.length
+                          ? props.invRegisterData.Iv_Id
+                            ? ""
+                            : "***"
+                          : ""}
+                      </td>
+                      <td>
+                        <input
+                          value={tableData.Dwg_No}
+                          name="Dwg_No"
+                          onChange={(e) => {
+                            inputTableRow(e, key);
+                          }}
+                          disabled={props.invRegisterData?.DC_No}
+                          className={
+                            props.invRegisterData?.DC_No
+                              ? "input-disabled tableRowInput"
+                              : "tableRowInput"
+                          }
+                        />
+                      </td>
+                      <td>
+                        <select
+                          value={tableData?.Material}
+                          name="Material"
+                          id="materialDropdown"
+                          style={{
+                            fontSize: "inherit",
+                          }}
+                          onChange={(e) => {
+                            inputTableRow(e, key);
+                          }}
+                          disabled={props.invRegisterData?.DC_No}
+                          className={
+                            props.invRegisterData?.DC_No
+                              ? "input-disabled tableRowInput"
+                              : "tableRowInput"
+                          }
+                        >
+                          <option value="" selected disabled hidden>
+                            Select material
+                          </option>
+
+                          {materialData?.map((material, key) => (
+                            <option value={material.Material}>
+                              {material.Material}
+                            </option>
+                          ))}
+                        </select>
+                      </td>
+                      <td>
+                        <input
+                          value={tableData.Excise_CL_no}
+                          disabled={
+                            props.invRegisterData.Inv_No?.length > 0 ||
+                            props.invRegisterData.DCStatus === "Cancelled"
+                          }
+                          className={
+                            props.invRegisterData.Inv_No?.length > 0 ||
+                            props.invRegisterData.DCStatus === "Cancelled"
+                              ? "input-disabled  tableRowInput"
+                              : "tableRowInput"
+                          }
+                          name="Excise_CL_no"
+                          onChange={(e) => {
+                            inputTableRow(e, key);
+                          }}
+                          maxLength={"15"}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          min="0"
+                          value={tableData.Qty}
+                          name="Qty"
+                          onChange={(e) => {
+                            inputTableRow(e, key);
+                          }}
+                          disabled={
+                            props.invRegisterData?.DC_No
+                            // ||
                             // props.invRegisterData.Iv_Id
-                            "input-disabled tableRowInput"
-                          : "tableRowInput"
-                      }
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      min="0"
-                      value={tableData.Unit_Wt}
-                      disabled={
-                        props.invRegisterData.Inv_No?.length > 0 ||
-                        props.invRegisterData.DCStatus === "Cancelled"
-                      }
-                      className={
-                        props.invRegisterData.Inv_No?.length > 0 ||
-                        props.invRegisterData.DCStatus === "Cancelled"
-                          ? "input-disabled  tableRowInput"
-                          : "tableRowInput"
-                      }
-                      name="Unit_Wt"
-                      onChange={(e) => {
-                        inputTableRow(e, key);
-                      }}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      min="0"
-                      value={tableData.DC_Srl_Wt}
-                      disabled
-                      className="tableRowInput input-disabled"
-                      name="DC_Srl_Wt"
-                      onChange={(e) => {
-                        inputTableRow(e, key);
-                      }}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      min="0"
-                      value={tableData.Unit_Rate}
-                      disabled={
-                        props.invRegisterData.Inv_No?.length > 0 ||
-                        props.invRegisterData.DCStatus === "Cancelled"
-                      }
-                      className={
-                        props.invRegisterData.Inv_No?.length > 0 ||
-                        props.invRegisterData.DCStatus === "Cancelled"
-                          ? "input-disabled  tableRowInput"
-                          : "tableRowInput"
-                      }
-                      name="Unit_Rate"
-                      onChange={(e) => {
-                        inputTableRow(e, key);
-                      }}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="number"
-                      min="0"
-                      value={tableData.DC_Srl_Amt}
-                      disabled
-                      className="tableRowInput input-disabled"
-                      name="DC_Srl_Amt"
-                      onChange={(e) => {
-                        inputTableRow(e, key);
-                      }}
-                    />
-                  </td>
-                </tr>
-              </>
-            ))}
+                          }
+                          className={
+                            props.invRegisterData?.DC_No
+                              ? // ||
+                                // props.invRegisterData.Iv_Id
+                                "input-disabled tableRowInput"
+                              : "tableRowInput"
+                          }
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          min="0"
+                          value={tableData.Unit_Wt}
+                          disabled={
+                            props.invRegisterData.Inv_No?.length > 0 ||
+                            props.invRegisterData.DCStatus === "Cancelled"
+                          }
+                          className={
+                            props.invRegisterData.Inv_No?.length > 0 ||
+                            props.invRegisterData.DCStatus === "Cancelled"
+                              ? "input-disabled  tableRowInput"
+                              : "tableRowInput"
+                          }
+                          name="Unit_Wt"
+                          onChange={(e) => {
+                            inputTableRow(e, key);
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          min="0"
+                          value={tableData.DC_Srl_Wt}
+                          disabled
+                          className="tableRowInput input-disabled"
+                          name="DC_Srl_Wt"
+                          onChange={(e) => {
+                            inputTableRow(e, key);
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          min="0"
+                          value={tableData.Unit_Rate}
+                          disabled={
+                            props.invRegisterData.Inv_No?.length > 0 ||
+                            props.invRegisterData.DCStatus === "Cancelled"
+                          }
+                          className={
+                            props.invRegisterData.Inv_No?.length > 0 ||
+                            props.invRegisterData.DCStatus === "Cancelled"
+                              ? "input-disabled  tableRowInput"
+                              : "tableRowInput"
+                          }
+                          name="Unit_Rate"
+                          onChange={(e) => {
+                            inputTableRow(e, key);
+                          }}
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          min="0"
+                          value={tableData.DC_Srl_Amt}
+                          disabled
+                          className="tableRowInput input-disabled"
+                          name="DC_Srl_Amt"
+                          onChange={(e) => {
+                            inputTableRow(e, key);
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  </>
+                ))}
           </tbody>
         </Table>
       </div>

@@ -3,6 +3,7 @@ import { Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Axios from "axios";
 import { apipoints } from "../../../../../api/PackInv_API/PackingNote/PackingNote";
+import { FaArrowUp } from "react-icons/fa";
 
 export default function ProfileOpenForm(props) {
   const [PNType, setPNType] = useState(props.PNType);
@@ -11,6 +12,8 @@ export default function ProfileOpenForm(props) {
   const [selectRow, setSelectRow] = useState();
 
   const [tableData, setTableData] = useState([]);
+
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   useEffect(() => {
     Axios.post(apipoints.pnprofileinvoices, {
@@ -24,6 +27,32 @@ export default function ProfileOpenForm(props) {
 
   const selectedRowFun = (val) => {
     setSelectRow(val);
+  };
+
+  const sortedData = () => {
+    let dataCopy = [...tableData];
+
+    if (sortConfig.key) {
+      dataCopy.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === "asc" ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === "asc" ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+
+    return dataCopy;
+  };
+
+  const requestSort = (key) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
   };
 
   return (
@@ -53,14 +82,79 @@ export default function ProfileOpenForm(props) {
           >
             <thead className="tableHeaderBGColor">
               <tr>
-                <th>Inv Type</th>
-                <th>PN No</th>
-                <th>PN Date</th>
-                <th>Customer Name</th>
+                <th>SL No</th>
+                <th
+                  onClick={() => requestSort("DC_InvType")}
+                  className="cursor"
+                >
+                  Inv Type
+                  <FaArrowUp
+                    className={
+                      sortConfig.key === "DC_InvType"
+                        ? sortConfig.direction === "desc"
+                          ? "rotateClass"
+                          : ""
+                        : "displayNoneClass"
+                    }
+                  />
+                </th>
+                <th onClick={() => requestSort("DC_No")} className="cursor">
+                  PN No
+                  <FaArrowUp
+                    className={
+                      sortConfig.key === "DC_No"
+                        ? sortConfig.direction === "desc"
+                          ? "rotateClass"
+                          : ""
+                        : "displayNoneClass"
+                    }
+                  />
+                </th>
+                <th onClick={() => requestSort("DC_Date")} className="cursor">
+                  PN Date
+                  <FaArrowUp
+                    className={
+                      sortConfig.key === "DC_Date"
+                        ? sortConfig.direction === "desc"
+                          ? "rotateClass"
+                          : ""
+                        : "displayNoneClass"
+                    }
+                  />
+                </th>
+                <th onClick={() => requestSort("Cust_Name")} className="cursor">
+                  Customer Name
+                  <FaArrowUp
+                    className={
+                      sortConfig.key === "Cust_Name"
+                        ? sortConfig.direction === "desc"
+                          ? "rotateClass"
+                          : ""
+                        : "displayNoneClass"
+                    }
+                  />
+                </th>
               </tr>
             </thead>
             <tbody className="tablebody">
-              {tableData.map((val) => (
+              {sortedData().map((data, index) => (
+                <tr
+                  key={index}
+                  onClick={() => selectedRowFun(data.DC_Inv_No)}
+                  className={
+                    data.DC_Inv_No === selectRow ? "selectedRowClr" : ""
+                  }
+                  style={{ cursor: "pointer" }}
+                >
+                  <td>{index + 1}</td>
+                  <td>{data.DC_InvType}</td>
+                  <td>{data.DC_No}</td>
+                  <td>{data.Printable_DC_Date}</td>
+                  <td>{data.Cust_Name}</td>
+                </tr>
+              ))}
+
+              {/* {tableData.map((val) => (
                 <tr
                   onClick={() => selectedRowFun(val.DC_Inv_No)}
                   className={
@@ -72,7 +166,7 @@ export default function ProfileOpenForm(props) {
                   <td>{val.DC_Date}</td>
                   <td>{val.Cust_Name}</td>
                 </tr>
-              ))}
+              ))} */}
             </tbody>
           </Table>
         </div>

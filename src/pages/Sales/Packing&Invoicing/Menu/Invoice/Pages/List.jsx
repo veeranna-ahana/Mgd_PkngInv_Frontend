@@ -5,6 +5,8 @@ import { apipoints } from "../../../../../api/PackInv_API/Invoice/Invoice";
 import { Typeahead } from "react-bootstrap-typeahead";
 import { Link } from "react-router-dom";
 
+import { FaArrowUp } from "react-icons/fa";
+
 export default function List(props) {
   const [AllCust, setAllCust] = useState([]);
 
@@ -12,6 +14,8 @@ export default function List(props) {
   const [selectedRow, setSelectedRow] = useState({});
 
   const [AllTableData, setAllTableData] = useState([]);
+
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   useEffect(() => {
     Axios.post(apipoints.getListData, {
@@ -37,6 +41,8 @@ export default function List(props) {
 
   const handleCustomerChange = (e) => {
     setSelectedRow({});
+    setSortConfig({ key: null, direction: null });
+
     if (
       e[0]?.Cust_Code === undefined ||
       e[0]?.Cust_Code === null ||
@@ -51,6 +57,32 @@ export default function List(props) {
       );
       setTableData(newArray);
     }
+  };
+
+  const sortedData = () => {
+    let dataCopy = [...tableData];
+
+    if (sortConfig.key) {
+      dataCopy.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === "asc" ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === "asc" ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+
+    return dataCopy;
+  };
+
+  const requestSort = (key) => {
+    let direction = "asc";
+    if (sortConfig.key === key && sortConfig.direction === "asc") {
+      direction = "desc";
+    }
+    setSortConfig({ key, direction });
   };
 
   return (
@@ -92,16 +124,101 @@ export default function List(props) {
                 <thead className="tableHeaderBGColor">
                   <tr>
                     <th>SL No</th>
-
-                    <th>Inv Type</th>
-                    <th>PN No</th>
-                    <th>PN Date</th>
-                    <th>Customer Name</th>
+                    <th
+                      onClick={() => requestSort("DC_InvType")}
+                      className="cursor"
+                    >
+                      Inv Type
+                      <FaArrowUp
+                        className={
+                          sortConfig.key === "DC_InvType"
+                            ? sortConfig.direction === "desc"
+                              ? "rotateClass"
+                              : ""
+                            : "displayNoneClass"
+                        }
+                      />
+                    </th>
+                    <th onClick={() => requestSort("DC_No")} className="cursor">
+                      PN No
+                      <FaArrowUp
+                        className={
+                          sortConfig.key === "DC_No"
+                            ? sortConfig.direction === "desc"
+                              ? "rotateClass"
+                              : ""
+                            : "displayNoneClass"
+                        }
+                      />
+                    </th>
+                    <th
+                      onClick={() => requestSort("DC_Date")}
+                      className="cursor"
+                    >
+                      PN Date
+                      <FaArrowUp
+                        className={
+                          sortConfig.key === "DC_Date"
+                            ? sortConfig.direction === "desc"
+                              ? "rotateClass"
+                              : ""
+                            : "displayNoneClass"
+                        }
+                      />
+                    </th>
+                    <th
+                      onClick={() => requestSort("Cust_Name")}
+                      className="cursor"
+                    >
+                      Customer Name
+                      <FaArrowUp
+                        className={
+                          sortConfig.key === "Cust_Name"
+                            ? sortConfig.direction === "desc"
+                              ? "rotateClass"
+                              : ""
+                            : "displayNoneClass"
+                        }
+                      />
+                    </th>
                   </tr>
                 </thead>
 
                 <tbody>
-                  {tableData.length > 0 ? (
+                  {sortedData().length === 0 ? (
+                    <tr>
+                      <td colSpan="2"></td>
+                      <td>No data found</td>
+                      <td colSpan="2"></td>
+                    </tr>
+                  ) : (
+                    sortedData().map((data, index) => (
+                      <tr
+                        key={index}
+                        onClick={(e) => {
+                          if (selectedRow?.DC_Inv_No === data.DC_Inv_No) {
+                            setSelectedRow({});
+                          } else {
+                            setSelectedRow(data);
+                          }
+                        }}
+                        className={
+                          selectedRow?.DC_Inv_No === data.DC_Inv_No
+                            ? "selectedRowClr"
+                            : ""
+                        }
+                        style={{ cursor: "pointer" }}
+                      >
+                        <td>{index + 1}</td>
+                        <td>{data.DC_InvType}</td>
+                        <td>{data.DC_No}</td>
+                        <td>{data.Printable_DC_Date}</td>
+                        <td>{data.Cust_Name}</td>
+                      </tr>
+                    ))
+                  )}
+
+                  {/* {tableData.length > 0 ? (
                     tableData?.map((val, key) => (
                       <tr
                         key={key}
@@ -129,7 +246,7 @@ export default function List(props) {
                     <div>
                       <label className="form-label">No Data Found...!</label>
                     </div>
-                  )}
+                  )} */}
                 </tbody>
               </Table>
             </div>
