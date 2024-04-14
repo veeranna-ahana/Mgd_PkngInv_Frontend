@@ -3,6 +3,7 @@ import Axios from "axios";
 import { Form, Tab, Table, Tabs } from "react-bootstrap";
 import { apipoints } from "../../../../../../../api/PackInv_API/Invoice/Invoice";
 import { FaArrowUp } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function ProductTable(props) {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
@@ -138,6 +139,23 @@ export default function ProductTable(props) {
     }
     props.setInvDetailsData(newArray);
   };
+
+  const inputFocus = () => {
+    // console.log("props.invRegisterData", props.invRegisterData);
+    if (
+      props.invRegisterData.Cust_Code === "" ||
+      props.invRegisterData.Cust_Code === null ||
+      props.invRegisterData.Cust_Code === undefined ||
+      props.invRegisterData.Cust_Code === "null" ||
+      props.invRegisterData.Cust_Name === "" ||
+      props.invRegisterData.Cust_Name === null ||
+      props.invRegisterData.Cust_Name === undefined ||
+      props.invRegisterData.Cust_Name === "null"
+    ) {
+      toast.warning("Please select customer");
+    }
+  };
+
   const sortedData = () => {
     let dataCopy = [...props.invDetailsData];
 
@@ -384,6 +402,9 @@ export default function ProductTable(props) {
                       <input
                         value={tableData.Dwg_No}
                         name="Dwg_No"
+                        onFocus={(e) => {
+                          inputFocus();
+                        }}
                         onChange={(e) => {
                           inputTableRow(e, index);
                         }}
@@ -402,6 +423,9 @@ export default function ProductTable(props) {
                         id="materialDropdown"
                         style={{
                           fontSize: "inherit",
+                        }}
+                        onFocus={(e) => {
+                          inputFocus();
                         }}
                         onChange={(e) => {
                           inputTableRow(e, index);
@@ -438,6 +462,9 @@ export default function ProductTable(props) {
                             : "tableRowInput"
                         }
                         name="Excise_CL_no"
+                        onFocus={(e) => {
+                          inputFocus();
+                        }}
                         onChange={(e) => {
                           inputTableRow(e, index);
                         }}
@@ -450,6 +477,9 @@ export default function ProductTable(props) {
                         min="0"
                         value={tableData.Qty}
                         name="Qty"
+                        onFocus={(e) => {
+                          inputFocus();
+                        }}
                         onChange={(e) => {
                           inputTableRow(e, index);
                         }}
@@ -483,6 +513,9 @@ export default function ProductTable(props) {
                             : "tableRowInput"
                         }
                         name="Unit_Wt"
+                        onFocus={(e) => {
+                          inputFocus();
+                        }}
                         onChange={(e) => {
                           inputTableRow(e, index);
                         }}
@@ -496,6 +529,9 @@ export default function ProductTable(props) {
                         disabled
                         className="tableRowInput input-disabled"
                         name="DC_Srl_Wt"
+                        onFocus={(e) => {
+                          inputFocus();
+                        }}
                         onChange={(e) => {
                           inputTableRow(e, index);
                         }}
@@ -517,6 +553,9 @@ export default function ProductTable(props) {
                             : "tableRowInput"
                         }
                         name="Unit_Rate"
+                        onFocus={(e) => {
+                          inputFocus();
+                        }}
                         onChange={(e) => {
                           inputTableRow(e, index);
                         }}
@@ -530,6 +569,9 @@ export default function ProductTable(props) {
                         disabled
                         className="tableRowInput input-disabled"
                         name="DC_Srl_Amt"
+                        onFocus={(e) => {
+                          inputFocus();
+                        }}
                         onChange={(e) => {
                           inputTableRow(e, index);
                         }}
@@ -553,6 +595,9 @@ export default function ProductTable(props) {
                         <input
                           value={tableData.Dwg_No}
                           name="Dwg_No"
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
                           onChange={(e) => {
                             inputTableRow(e, key);
                           }}
@@ -571,6 +616,9 @@ export default function ProductTable(props) {
                           id="materialDropdown"
                           style={{
                             fontSize: "inherit",
+                          }}
+                          onFocus={(e) => {
+                            inputFocus();
                           }}
                           onChange={(e) => {
                             inputTableRow(e, key);
@@ -607,6 +655,9 @@ export default function ProductTable(props) {
                               : "tableRowInput"
                           }
                           name="Excise_CL_no"
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
                           onChange={(e) => {
                             inputTableRow(e, key);
                           }}
@@ -619,6 +670,9 @@ export default function ProductTable(props) {
                           min="0"
                           value={tableData.Qty}
                           name="Qty"
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
                           onChange={(e) => {
                             inputTableRow(e, key);
                           }}
@@ -652,6 +706,9 @@ export default function ProductTable(props) {
                               : "tableRowInput"
                           }
                           name="Unit_Wt"
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
                           onChange={(e) => {
                             inputTableRow(e, key);
                           }}
@@ -665,6 +722,9 @@ export default function ProductTable(props) {
                           disabled
                           className="tableRowInput input-disabled"
                           name="DC_Srl_Wt"
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
                           onChange={(e) => {
                             inputTableRow(e, key);
                           }}
@@ -686,6 +746,9 @@ export default function ProductTable(props) {
                               : "tableRowInput"
                           }
                           name="Unit_Rate"
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
                           onChange={(e) => {
                             inputTableRow(e, key);
                           }}
@@ -699,6 +762,9 @@ export default function ProductTable(props) {
                           disabled
                           className="tableRowInput input-disabled"
                           name="DC_Srl_Amt"
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
                           onChange={(e) => {
                             inputTableRow(e, key);
                           }}
