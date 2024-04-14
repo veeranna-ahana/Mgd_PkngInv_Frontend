@@ -193,6 +193,7 @@ export default function ProductTable(props) {
     }
     setSortConfig({ key, direction });
   };
+
   return (
     <>
       <div className="px-1">
@@ -417,36 +418,56 @@ export default function ProductTable(props) {
                       />
                     </td>
                     <td>
-                      <select
-                        value={tableData?.Material}
-                        name="Material"
-                        id="materialDropdown"
-                        style={{
-                          fontSize: "inherit",
-                        }}
-                        onFocus={(e) => {
-                          inputFocus();
-                        }}
-                        onChange={(e) => {
-                          inputTableRow(e, index);
-                        }}
-                        disabled={props.invRegisterData?.DC_No}
-                        className={
-                          props.invRegisterData?.DC_No
-                            ? "input-disabled tableRowInput"
-                            : "tableRowInput"
-                        }
-                      >
-                        <option value="" selected disabled hidden>
-                          Select material
-                        </option>
-
-                        {materialData?.map((material, index) => (
-                          <option value={material.Material}>
-                            {material.Material}
+                      {props.invRegisterData?.DC_InvType === "Misc Sales" ? (
+                        <input
+                          name="Material"
+                          value={tableData.Material}
+                          disabled={props.invRegisterData?.DC_No}
+                          className={
+                            props.invRegisterData?.DC_No
+                              ? "input-disabled tableRowInput"
+                              : "tableRowInput"
+                          }
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
+                          onChange={(e) => {
+                            inputTableRow(e, index);
+                          }}
+                          maxLength={"100"}
+                        />
+                      ) : (
+                        <select
+                          value={tableData?.Material}
+                          name="Material"
+                          id="materialDropdown"
+                          style={{
+                            fontSize: "inherit",
+                          }}
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
+                          onChange={(e) => {
+                            inputTableRow(e, index);
+                          }}
+                          disabled={props.invRegisterData?.DC_No}
+                          className={
+                            props.invRegisterData?.DC_No
+                              ? "input-disabled tableRowInput"
+                              : "tableRowInput"
+                          }
+                        >
+                          <option value="" selected disabled hidden>
+                            Select material
                           </option>
-                        ))}
-                      </select>
+
+                          {materialData?.map((material, index) => (
+                            <option value={material.Material}>
+                              {material.Material}
+                            </option>
+                          ))}
+                        </select>
+                      )}
                     </td>
                     <td>
                       <input
@@ -610,36 +631,56 @@ export default function ProductTable(props) {
                         />
                       </td>
                       <td>
-                        <select
-                          value={tableData?.Material}
-                          name="Material"
-                          id="materialDropdown"
-                          style={{
-                            fontSize: "inherit",
-                          }}
-                          onFocus={(e) => {
-                            inputFocus();
-                          }}
-                          onChange={(e) => {
-                            inputTableRow(e, key);
-                          }}
-                          disabled={props.invRegisterData?.DC_No}
-                          className={
-                            props.invRegisterData?.DC_No
-                              ? "input-disabled tableRowInput"
-                              : "tableRowInput"
-                          }
-                        >
-                          <option value="" selected disabled hidden>
-                            Select material
-                          </option>
-
-                          {materialData?.map((material, key) => (
-                            <option value={material.Material}>
-                              {material.Material}
+                        {props.invRegisterData?.DC_InvType === "Misc Sales" ? (
+                          <input
+                            name="Material"
+                            value={tableData.Material}
+                            disabled={props.invRegisterData?.DC_No}
+                            className={
+                              props.invRegisterData?.DC_No
+                                ? "input-disabled tableRowInput"
+                                : "tableRowInput"
+                            }
+                            onFocus={(e) => {
+                              inputFocus();
+                            }}
+                            onChange={(e) => {
+                              inputTableRow(e, key);
+                            }}
+                            maxLength={"100"}
+                          />
+                        ) : (
+                          <select
+                            value={tableData?.Material}
+                            name="Material"
+                            id="materialDropdown"
+                            style={{
+                              fontSize: "inherit",
+                            }}
+                            onFocus={(e) => {
+                              inputFocus();
+                            }}
+                            onChange={(e) => {
+                              inputTableRow(e, key);
+                            }}
+                            disabled={props.invRegisterData?.DC_No}
+                            className={
+                              props.invRegisterData?.DC_No
+                                ? "input-disabled tableRowInput"
+                                : "tableRowInput"
+                            }
+                          >
+                            <option value="" selected disabled hidden>
+                              Select material
                             </option>
-                          ))}
-                        </select>
+
+                            {materialData?.map((material, key) => (
+                              <option value={material.Material}>
+                                {material.Material}
+                              </option>
+                            ))}
+                          </select>
+                        )}
                       </td>
                       <td>
                         <input
