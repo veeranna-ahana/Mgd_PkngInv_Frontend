@@ -3,6 +3,7 @@ import Axios from "axios";
 import { Form, Tab, Table, Tabs } from "react-bootstrap";
 import { apipoints } from "../../../../../../../api/PackInv_API/Invoice/Invoice";
 import { FaArrowUp } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function ProductTable(props) {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
@@ -138,6 +139,23 @@ export default function ProductTable(props) {
     }
     props.setInvDetailsData(newArray);
   };
+
+  const inputFocus = () => {
+    // console.log("props.invRegisterData", props.invRegisterData);
+    if (
+      props.invRegisterData.Cust_Code === "" ||
+      props.invRegisterData.Cust_Code === null ||
+      props.invRegisterData.Cust_Code === undefined ||
+      props.invRegisterData.Cust_Code === "null" ||
+      props.invRegisterData.Cust_Name === "" ||
+      props.invRegisterData.Cust_Name === null ||
+      props.invRegisterData.Cust_Name === undefined ||
+      props.invRegisterData.Cust_Name === "null"
+    ) {
+      toast.warning("Please select customer");
+    }
+  };
+
   const sortedData = () => {
     let dataCopy = [...props.invDetailsData];
 
@@ -175,6 +193,7 @@ export default function ProductTable(props) {
     }
     setSortConfig({ key, direction });
   };
+
   return (
     <>
       <div className="px-1">
@@ -384,6 +403,9 @@ export default function ProductTable(props) {
                       <input
                         value={tableData.Dwg_No}
                         name="Dwg_No"
+                        onFocus={(e) => {
+                          inputFocus();
+                        }}
                         onChange={(e) => {
                           inputTableRow(e, index);
                         }}
@@ -396,33 +418,56 @@ export default function ProductTable(props) {
                       />
                     </td>
                     <td>
-                      <select
-                        value={tableData?.Material}
-                        name="Material"
-                        id="materialDropdown"
-                        style={{
-                          fontSize: "inherit",
-                        }}
-                        onChange={(e) => {
-                          inputTableRow(e, index);
-                        }}
-                        disabled={props.invRegisterData?.DC_No}
-                        className={
-                          props.invRegisterData?.DC_No
-                            ? "input-disabled tableRowInput"
-                            : "tableRowInput"
-                        }
-                      >
-                        <option value="" selected disabled hidden>
-                          Select material
-                        </option>
-
-                        {materialData?.map((material, index) => (
-                          <option value={material.Material}>
-                            {material.Material}
+                      {props.invRegisterData?.DC_InvType === "Misc Sales" ? (
+                        <input
+                          name="Material"
+                          value={tableData.Material}
+                          disabled={props.invRegisterData?.DC_No}
+                          className={
+                            props.invRegisterData?.DC_No
+                              ? "input-disabled tableRowInput"
+                              : "tableRowInput"
+                          }
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
+                          onChange={(e) => {
+                            inputTableRow(e, index);
+                          }}
+                          maxLength={"100"}
+                        />
+                      ) : (
+                        <select
+                          value={tableData?.Material}
+                          name="Material"
+                          id="materialDropdown"
+                          style={{
+                            fontSize: "inherit",
+                          }}
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
+                          onChange={(e) => {
+                            inputTableRow(e, index);
+                          }}
+                          disabled={props.invRegisterData?.DC_No}
+                          className={
+                            props.invRegisterData?.DC_No
+                              ? "input-disabled tableRowInput"
+                              : "tableRowInput"
+                          }
+                        >
+                          <option value="" selected disabled hidden>
+                            Select material
                           </option>
-                        ))}
-                      </select>
+
+                          {materialData?.map((material, index) => (
+                            <option value={material.Material}>
+                              {material.Material}
+                            </option>
+                          ))}
+                        </select>
+                      )}
                     </td>
                     <td>
                       <input
@@ -438,6 +483,9 @@ export default function ProductTable(props) {
                             : "tableRowInput"
                         }
                         name="Excise_CL_no"
+                        onFocus={(e) => {
+                          inputFocus();
+                        }}
                         onChange={(e) => {
                           inputTableRow(e, index);
                         }}
@@ -450,6 +498,9 @@ export default function ProductTable(props) {
                         min="0"
                         value={tableData.Qty}
                         name="Qty"
+                        onFocus={(e) => {
+                          inputFocus();
+                        }}
                         onChange={(e) => {
                           inputTableRow(e, index);
                         }}
@@ -483,6 +534,9 @@ export default function ProductTable(props) {
                             : "tableRowInput"
                         }
                         name="Unit_Wt"
+                        onFocus={(e) => {
+                          inputFocus();
+                        }}
                         onChange={(e) => {
                           inputTableRow(e, index);
                         }}
@@ -496,6 +550,9 @@ export default function ProductTable(props) {
                         disabled
                         className="tableRowInput input-disabled"
                         name="DC_Srl_Wt"
+                        onFocus={(e) => {
+                          inputFocus();
+                        }}
                         onChange={(e) => {
                           inputTableRow(e, index);
                         }}
@@ -517,6 +574,9 @@ export default function ProductTable(props) {
                             : "tableRowInput"
                         }
                         name="Unit_Rate"
+                        onFocus={(e) => {
+                          inputFocus();
+                        }}
                         onChange={(e) => {
                           inputTableRow(e, index);
                         }}
@@ -530,6 +590,9 @@ export default function ProductTable(props) {
                         disabled
                         className="tableRowInput input-disabled"
                         name="DC_Srl_Amt"
+                        onFocus={(e) => {
+                          inputFocus();
+                        }}
                         onChange={(e) => {
                           inputTableRow(e, index);
                         }}
@@ -553,6 +616,9 @@ export default function ProductTable(props) {
                         <input
                           value={tableData.Dwg_No}
                           name="Dwg_No"
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
                           onChange={(e) => {
                             inputTableRow(e, key);
                           }}
@@ -565,33 +631,56 @@ export default function ProductTable(props) {
                         />
                       </td>
                       <td>
-                        <select
-                          value={tableData?.Material}
-                          name="Material"
-                          id="materialDropdown"
-                          style={{
-                            fontSize: "inherit",
-                          }}
-                          onChange={(e) => {
-                            inputTableRow(e, key);
-                          }}
-                          disabled={props.invRegisterData?.DC_No}
-                          className={
-                            props.invRegisterData?.DC_No
-                              ? "input-disabled tableRowInput"
-                              : "tableRowInput"
-                          }
-                        >
-                          <option value="" selected disabled hidden>
-                            Select material
-                          </option>
-
-                          {materialData?.map((material, key) => (
-                            <option value={material.Material}>
-                              {material.Material}
+                        {props.invRegisterData?.DC_InvType === "Misc Sales" ? (
+                          <input
+                            name="Material"
+                            value={tableData.Material}
+                            disabled={props.invRegisterData?.DC_No}
+                            className={
+                              props.invRegisterData?.DC_No
+                                ? "input-disabled tableRowInput"
+                                : "tableRowInput"
+                            }
+                            onFocus={(e) => {
+                              inputFocus();
+                            }}
+                            onChange={(e) => {
+                              inputTableRow(e, key);
+                            }}
+                            maxLength={"100"}
+                          />
+                        ) : (
+                          <select
+                            value={tableData?.Material}
+                            name="Material"
+                            id="materialDropdown"
+                            style={{
+                              fontSize: "inherit",
+                            }}
+                            onFocus={(e) => {
+                              inputFocus();
+                            }}
+                            onChange={(e) => {
+                              inputTableRow(e, key);
+                            }}
+                            disabled={props.invRegisterData?.DC_No}
+                            className={
+                              props.invRegisterData?.DC_No
+                                ? "input-disabled tableRowInput"
+                                : "tableRowInput"
+                            }
+                          >
+                            <option value="" selected disabled hidden>
+                              Select material
                             </option>
-                          ))}
-                        </select>
+
+                            {materialData?.map((material, key) => (
+                              <option value={material.Material}>
+                                {material.Material}
+                              </option>
+                            ))}
+                          </select>
+                        )}
                       </td>
                       <td>
                         <input
@@ -607,6 +696,9 @@ export default function ProductTable(props) {
                               : "tableRowInput"
                           }
                           name="Excise_CL_no"
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
                           onChange={(e) => {
                             inputTableRow(e, key);
                           }}
@@ -619,6 +711,9 @@ export default function ProductTable(props) {
                           min="0"
                           value={tableData.Qty}
                           name="Qty"
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
                           onChange={(e) => {
                             inputTableRow(e, key);
                           }}
@@ -652,6 +747,9 @@ export default function ProductTable(props) {
                               : "tableRowInput"
                           }
                           name="Unit_Wt"
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
                           onChange={(e) => {
                             inputTableRow(e, key);
                           }}
@@ -665,6 +763,9 @@ export default function ProductTable(props) {
                           disabled
                           className="tableRowInput input-disabled"
                           name="DC_Srl_Wt"
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
                           onChange={(e) => {
                             inputTableRow(e, key);
                           }}
@@ -686,6 +787,9 @@ export default function ProductTable(props) {
                               : "tableRowInput"
                           }
                           name="Unit_Rate"
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
                           onChange={(e) => {
                             inputTableRow(e, key);
                           }}
@@ -699,6 +803,9 @@ export default function ProductTable(props) {
                           disabled
                           className="tableRowInput input-disabled"
                           name="DC_Srl_Amt"
+                          onFocus={(e) => {
+                            inputFocus();
+                          }}
                           onChange={(e) => {
                             inputTableRow(e, key);
                           }}
