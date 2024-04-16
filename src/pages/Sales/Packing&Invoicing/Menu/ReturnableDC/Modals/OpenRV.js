@@ -18,6 +18,18 @@ function OpenRV({
   const [pdfModal, setPdfModal] = useState(false);
   const [cancel, setCancel] = useState(false);
 
+  const [PDFData, setPDFData] = useState({});
+
+  function fetchPDFData() {
+    Axios.post(apipoints.getPDFData, {}).then((res) => {
+      setPDFData(res.data[0]);
+    });
+  }
+
+  useEffect(() => {
+    fetchPDFData();
+  }, []);
+
   const printModal = (e) => {
     e.preventDefault();
     setPrint(true);
@@ -671,7 +683,7 @@ function OpenRV({
           </Modal.Header>
           <Fragment>
             <PDFViewer width="1200" height="600" filename="somename.pdf">
-              <ReceiptVoucher formData={formData} />
+              <ReceiptVoucher formData={formData} PDFData={PDFData} />
             </PDFViewer>
           </Fragment>
         </Modal>

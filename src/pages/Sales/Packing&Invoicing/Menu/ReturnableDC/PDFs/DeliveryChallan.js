@@ -13,24 +13,20 @@ import MLLogo from "../../../../../../ML-LOGO.png";
 
 const styles = StyleSheet.create({
   page: {
-    fontSize: 11,
+    fontSize: "9px",
     flexDirection: "column",
+    padding: "10px",
+    fontFamily: "Helvetica",
   },
   tableContainer: {
     flexDirection: "column",
     flexWrap: "wrap",
     marginTop: "12px",
-    marginLeft: "20px",
+    // marginLeft: "20px",
     height: "80px",
     width: "100%",
   },
-  tableContainer2: {
-    flexDirection: "column",
-    flexWrap: "wrap",
-    marginTop: "30px",
-    height: "80px",
-    width: "270px",
-  },
+
   description: {
     width: "60%",
   },
@@ -50,7 +46,7 @@ const styles = StyleSheet.create({
 
   tableTitle: {
     marginTop: "10px",
-    fontSize: 12,
+    fontSize: "9px",
     fontFamily: "Helvetica-Bold",
     marginBottom: "10px",
   },
@@ -66,11 +62,11 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   globalfontwithbold: {
-    fontSize: "10px",
+    fontSize: "9px",
     fontFamily: "Helvetica-Bold",
   },
   globalfontwithoutbold: {
-    fontSize: "10px",
+    fontSize: "9px",
   },
   logo: {
     width: "60px",
@@ -92,35 +88,46 @@ const styles = StyleSheet.create({
     paddingBottom: "8px",
   },
 
-  subdetails: {
-    width: "350px",
+  consigneeBlock: {
+    width: "340px",
     border: 1,
     marginLeft: "10px",
-    height: "180px",
-    marginTop: "10px",
+    height: "160px",
   },
-  boldGstNo: {
+
+  subsectiondata: {
+    marginLeft: "6px",
+    width: "100%",
+    textAlign: "left",
+    flexDirection: "row",
+    marginTop: "3px",
+    // padding: "3px",
+  },
+
+  gstBlock: {
     width: "220px",
     borderRight: 1,
     borderTop: 1,
     borderBottom: 1,
-    height: "180px",
-    marginTop: "10px",
-  },
-  subsectiondata: {
-    marginLeft: "10px",
-    width: "100%",
-    textAlign: "left",
-    flexDirection: "row",
-    padding: "3px",
+    height: "160px",
   },
 
-  heading: {
-    width: "50px",
-    textalign: "right",
+  gstBlockRow: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: "5px",
-    marginLeft: "20px",
+    marginLeft: "10px",
   },
+
+  // heading: {
+  //   width: "50px",
+  //   textalign: "right",
+  //   marginTop: "5px",
+  //   marginLeft: "10px",
+  // },
+
+  heading: {},
   values: {
     width: "100px",
     marginTop: "5px",
@@ -170,7 +177,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 10,
+    fontSize: "9px",
   },
 
   container: {
@@ -184,7 +191,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const DeliveryChallan = ({ formData }) => {
+const DeliveryChallan = ({ formData, PDFData }) => {
   const dateParts = formData.dcDate.split("/");
   const formattedDate = new Date(
     `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`
@@ -200,124 +207,51 @@ const DeliveryChallan = ({ formData }) => {
     <Document>
       <Page size="A4" style={styles.page}>
         <View>
-          {/* <View style={styles.row}>
-            <View style={styles.column}>
-              <View style={styles.tableContainer}>
-                <View>
-                  <Image src={MLLogo} style={styles.logo} />
-                </View>
-                <View>
-                  <Text style={styles.tableTitle}>
-                    Magod Laser Machining Pvt Ltd
-                  </Text>
-                </View>
-                <View style={styles.row}>
-                  <Text style={styles.globalfontwithoutbold}>
-                    Plot No 72, Phase II KIADB Industruial Area Jigani, Anekal
-                    Taluk
-                  </Text>
-                </View>
-                <View style={styles.row}>
-                  <Text style={styles.globalfontwithoutbold}>
-                    Banglore - 560106 Karnataka
-                  </Text>
-                </View>
-
-                <View style={styles.row}>
-                  <View style={styles.pdfName}>
-                    <View style={styles.column}>
-                      <Text
-                        style={{
-                          ...styles.globalfontwithoutbold,
-                          textAlign: "center",
-                          marginBottom: "5px",
-                          textDecoration: "underline",
-                        }}
-                      >
-                        Returnable Delivery Challan
-                      </Text>
-                      <View style={styles.row}>
-                        <View style={styles.upperleftLabels}>
-                          <Text style={styles.globalfontwithbold}>GST NO </Text>
-                        </View>
-                        <View style={styles.upperleftLabelsValues}>
-                          <Text style={styles.globalfontwithbold}>
-                            29AABCM1970H1ZE
-                          </Text>
-                        </View>
-                      </View>
-                    </View>
-
-                    <View style={styles.row}>
-                      <View style={styles.upperleftLabels}>
-                        <Text style={styles.globalfontwithoutbold}>DC No </Text>
-                      </View>
-                      <View style={styles.upperleftLabelsValues}>
-                        <Text style={styles.globalfontwithbold}>
-                          : {formData.dcNo}
-                        </Text>
-                      </View>
-                    </View>
-
-                    <View style={styles.row}>
-                      <View style={styles.upperleftLabels}>
-                        <Text style={styles.globalfontwithoutbold}>Date </Text>
-                      </View>
-                      <View style={styles.upperleftLabelsValues}>
-                        <Text style={styles.globalfontwithoutbold}>
-                          : {formattedDate}
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-                </View>
-              </View>
-            </View>
-          </View> */}
           <View style={styles.row}>
             <View style={styles.tableContainer}>
-              <View>
-                <Image src={MLLogo} style={styles.logo} />
+              <View style={{ width: "7%", marginLeft: "15px" }}>
+                <Image src={MLLogo} />
               </View>
-              <View style={styles.column}>
+              <View style={[styles.column, { alignItems: "center" }]}>
                 <View style={[styles.Heading, { justifyContent: "center" }]}>
                   <Text
                     style={[
                       styles.globalfontwithbold,
-                      { textDecoration: "underline" },
+                      { textDecoration: "underline", fontSize: "13px" },
                     ]}
                   >
                     Returnable Delivery Challan
                   </Text>
                 </View>
-                <View
-                  style={[
-                    styles.Heading,
-                    { fontSize: "8px", justifyContent: "center" },
-                  ]}
-                >
-                  <Text style={styles.globalfontwithbold}>
-                    Magod Laser Machining Pvt Ltd.
+                <View style={[styles.Heading, { justifyContent: "center" }]}>
+                  <Text
+                    style={[styles.globalfontwithbold, { fontSize: "11px" }]}
+                  >
+                    {PDFData.RegisteredName}
                   </Text>
                 </View>
 
                 <View style={[styles.Heading, { justifyContent: "center" }]}>
                   <Text style={styles.globalfontwithbold}>
-                    GSTIN: 29AABCM1970H1ZE, CIN: U28900KA1995PTC018437
+                    GSTIN: {PDFData.GST_No}, CIN: {PDFData.CIN_No}
                   </Text>
                 </View>
 
                 <View style={[styles.Heading, { justifyContent: "center" }]}>
                   <Text style={styles.globalfontwithoutbold}>
-                    Plot No 72, 2nd Phase, KIADB Indl Area Jigani, Anekal Taluk
-                    Bengaluru - 560105
+                    {/* Plot No 72, 2nd Phase, KIADB Indl Area Jigani, Anekal Taluk
+                    Bengaluru - 560105 */}
+                    {PDFData.RegistredOfficeAddress}
                   </Text>
                 </View>
 
                 <View style={[styles.Heading, { justifyContent: "center" }]}>
                   <Text style={styles.globalfontwithoutbold}>
-                    Ph : 08110 414313, 9513393352, sales@magodlaser.in,
-                    www.magodlaser.in
+                    {/* Ph : 08110 414313, 9513393352, sales@magodlaser.in,
+                    www.magodlaser.in */}
+                    {PDFData.PhonePrimary} {PDFData.PhoneSecondary}
+                    {PDFData.Email}
+                    {PDFData.URL}
                   </Text>
                 </View>
               </View>
@@ -326,13 +260,13 @@ const DeliveryChallan = ({ formData }) => {
 
           <View style={styles.row}>
             <View style={styles.column}>
-              <View style={styles.subdetails}>
+              <View style={styles.consigneeBlock}>
                 <View style={styles.column}>
                   <Text
                     style={{
                       ...styles.globalfontwithbold,
-                      marginLeft: "10px",
-                      padding: 3,
+                      padding: 2,
+                      marginLeft: "5px",
                       textDecoration: "underline",
                     }}
                   >
@@ -345,8 +279,13 @@ const DeliveryChallan = ({ formData }) => {
                     </Text>
                   </View>
                   <View style={styles.subsectiondata}>
-                    {/* <Text style={styles.globalfontwithbold}>Branch: </Text> */}
-                    <Text style={styles.globalfontwithoutbold}>
+                    <Text
+                      style={styles.globalfontwithoutbold}
+                      // style={{
+                      //   ...styles.globalfontwithoutbold,
+                      //   overflow: "auto",
+                      // }}
+                    >
                       {formData.custAddress}
                     </Text>
                   </View>
@@ -354,8 +293,8 @@ const DeliveryChallan = ({ formData }) => {
                   <Text
                     style={{
                       ...styles.globalfontwithbold,
-                      marginLeft: "10px",
-                      padding: 3,
+                      marginLeft: "4px",
+                      padding: 2,
                     }}
                   >
                     {formData.custCity} PIN - {formData.custPin}
@@ -364,8 +303,8 @@ const DeliveryChallan = ({ formData }) => {
                   <Text
                     style={{
                       ...styles.globalfontwithbold,
-                      marginLeft: "10px",
-                      padding: 3,
+                      marginLeft: "4px",
+                      padding: 2,
                     }}
                   >
                     {formData.custState}
@@ -374,8 +313,8 @@ const DeliveryChallan = ({ formData }) => {
                   <Text
                     style={{
                       ...styles.globalfontwithbold,
-                      marginLeft: "10px",
-                      padding: 3,
+                      marginLeft: "4px",
+                      padding: 2,
                       textDecoration: "underline",
                     }}
                   >
@@ -393,120 +332,160 @@ const DeliveryChallan = ({ formData }) => {
             </View>
 
             <View style={styles.column}>
-              <View style={styles.boldGstNo}>
-                <View style={styles.column}>
-                  <View style={styles.row}>
-                    <Text
-                      style={{
-                        ...styles.globalfontwithoutbold,
-                        marginLeft: "10px",
-                        padding: 3,
-                      }}
-                    >
-                      GST NO :
-                    </Text>
-
-                    <Text
-                      style={{
-                        ...styles.globalfontwithbold,
-                        marginLeft: "5px",
-                        paddingTop: "3px",
-                      }}
-                    >
+              <View style={styles.gstBlock}>
+                <View style={styles.gstBlockRow}>
+                  <View
+                    style={{
+                      width: "50%",
+                    }}
+                  >
+                    <Text style={styles.globalfontwithoutbold}>GST No: </Text>
+                  </View>
+                  <View
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    <Text style={styles.globalfontwithbold}>
                       {formData.gstNo}
                     </Text>
                   </View>
-
-                  <View style={styles.row}>
-                    <View style={styles.column}>
-                      <View style={styles.heading}>
-                        <Text style={styles.globalfontwithoutbold}>DC No:</Text>
-                      </View>
-                      <View style={styles.heading}>
-                        <Text style={styles.globalfontwithoutbold}>Date:</Text>
-                      </View>
-                      <View style={styles.heading}>
-                        <Text style={styles.globalfontwithoutbold}>Value:</Text>
-                      </View>
-                      <View style={styles.heading}>
-                        <Text style={styles.globalfontwithoutbold}>Tax:</Text>
-                      </View>
-                      <View style={styles.heading}>
-                        <Text style={styles.globalfontwithoutbold}>
-                          E Way No:
-                        </Text>
-                      </View>
-                    </View>
-
-                    <View style={styles.column}>
-                      <View style={styles.values}>
-                        <Text style={styles.globalfontwithbold}>
-                          {formData.dcNo}
-                        </Text>
-                      </View>
-                      <View style={styles.values}>
-                        <Text style={styles.globalfontwithbold}>
-                          {formattedDate}
-                        </Text>
-                      </View>
-                      <View style={styles.values}>
-                        <Text style={styles.globalfontwithbold}>
-                          {formData.taxableAmount}
-                        </Text>
-                      </View>
-                      <View style={styles.values}>
-                        <Text style={styles.globalfontwithbold}>
-                          {formData.taxAmt}
-                        </Text>
-                      </View>
-                      <View style={styles.values}>
-                        <Text style={styles.globalfontwithbold}>
-                          {formData.ewayBillNo}
-                        </Text>
-                      </View>
-                    </View>
-                  </View>
-
-                  <Text
-                    style={{
-                      ...styles.globalfontwithoutbold,
-                      marginTop: "10px",
-                      paddingLeft: 5,
-                    }}
-                  >
-                    Goods removed at : {formData.dcDate} {formData.selectedMode}
-                  </Text>
-
-                  <Text
-                    style={{
-                      ...styles.globalfontwithoutbold,
-                      marginTop: "5px",
-                      paddingLeft: 5,
-                    }}
-                  >
-                    {formData.vehicleDetails}
-                  </Text>
-
-                  <Text
-                    style={{
-                      ...styles.globalfontwithoutbold,
-                      marginTop: "5px",
-                      paddingLeft: 5,
-                    }}
-                  >
-                    Contact Name : {formData.deliveryContactName}
-                  </Text>
-
-                  <Text
-                    style={{
-                      ...styles.globalfontwithoutbold,
-                      marginTop: "5px",
-                      paddingLeft: 5,
-                    }}
-                  >
-                    Contact No :{formData.deliveryContactNo}
-                  </Text>
                 </View>
+
+                <View style={styles.gstBlockRow}>
+                  <View
+                    style={{
+                      width: "50%",
+                    }}
+                  >
+                    <Text style={styles.globalfontwithoutbold}>DC No: </Text>
+                  </View>
+                  <View
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    <Text style={styles.globalfontwithbold}>
+                      {formData.dcNo}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={styles.gstBlockRow}>
+                  <View
+                    style={{
+                      width: "50%",
+                    }}
+                  >
+                    <Text style={styles.globalfontwithoutbold}>Date: </Text>
+                  </View>
+                  <View
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    <Text style={styles.globalfontwithbold}>
+                      {formattedDate}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={styles.gstBlockRow}>
+                  <View
+                    style={{
+                      width: "50%",
+                    }}
+                  >
+                    <Text style={styles.globalfontwithoutbold}>Value: </Text>
+                  </View>
+                  <View
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    <Text style={styles.globalfontwithbold}>
+                      {formData.taxableAmount}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={styles.gstBlockRow}>
+                  <View
+                    style={{
+                      width: "50%",
+                    }}
+                  >
+                    <Text style={styles.globalfontwithoutbold}>Tax: </Text>
+                  </View>
+                  <View
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    <Text style={styles.globalfontwithbold}>
+                      {formData.taxAmt}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={styles.gstBlockRow}>
+                  <View
+                    style={{
+                      width: "50%",
+                    }}
+                  >
+                    <Text style={styles.globalfontwithoutbold}>E Way No: </Text>
+                  </View>
+                  <View
+                    style={{
+                      width: "100%",
+                    }}
+                  >
+                    <Text style={styles.globalfontwithbold}>
+                      {formData.ewayBillNo}
+                    </Text>
+                  </View>
+                </View>
+
+                <Text
+                  style={{
+                    ...styles.globalfontwithoutbold,
+                    marginTop: "8px",
+                    marginLeft: "10px",
+                  }}
+                >
+                  Goods removed at : {formData.dcDate} {formData.selectedMode}
+                </Text>
+
+                <Text
+                  style={{
+                    ...styles.globalfontwithoutbold,
+                    marginTop: "3px",
+                    marginLeft: "10px",
+                  }}
+                >
+                  {formData.vehicleDetails}
+                </Text>
+
+                <Text
+                  style={{
+                    ...styles.globalfontwithoutbold,
+                    marginTop: "3px",
+                    marginLeft: "10px",
+                  }}
+                >
+                  Contact Name : {formData.deliveryContactName}
+                </Text>
+
+                <Text
+                  style={{
+                    ...styles.globalfontwithoutbold,
+                    marginTop: "3px",
+                    marginLeft: "10px",
+                  }}
+                >
+                  Contact No :{formData.deliveryContactNo}
+                </Text>
               </View>
             </View>
           </View>

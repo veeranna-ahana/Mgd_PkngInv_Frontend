@@ -12,21 +12,23 @@ import MLLogo from "../../../../../../ML-LOGO.png";
 
 const styles = StyleSheet.create({
   page: {
-    fontSize: 11,
+    fontSize: "9px",
     flexDirection: "column",
+    padding: "10px",
+    fontFamily: "Helvetica",
   },
   tableContainer: {
     flexDirection: "column",
     flexWrap: "wrap",
-    marginTop: "10px",
-    marginLeft: "20px",
+    marginTop: "12px",
+    // marginLeft: "20px",
     height: "80px",
     width: "100%",
   },
 
   tableTitle: {
     marginTop: "10px",
-    fontSize: 12,
+    fontSize: "9px",
     fontFamily: "Helvetica-Bold",
     marginBottom: "10px",
   },
@@ -42,16 +44,16 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   globalfontwithbold: {
-    fontSize: "10px",
+    fontSize: "9px",
     fontFamily: "Helvetica-Bold",
   },
   globalfontwithoutbold: {
-    fontSize: "10px",
+    fontSize: "9px",
   },
-  logo: {
-    width: "60px",
-    height: "80px",
-  },
+  // logo: {
+  //   width: "60px",
+  //   height: "80px",
+  // },
 
   HeadingText: {
     textAlign: "center",
@@ -67,20 +69,22 @@ const styles = StyleSheet.create({
   },
 
   cusdetailsection: {
-    marginLeft: "12px",
-    width: "400px",
+    marginLeft: "8px",
+    // width: "400px",
+    width: "340px",
     border: 1,
-    padding: "5px",
-    marginTop: "8px",
+    padding: "1px",
+    marginTop: "5px",
   },
 
   contactsection: {
-    width: "170px",
+    // width: "170px",
+    width: "220px",
     borderRight: 1,
     borderTop: 1,
     borderBottom: 1,
-    padding: "5px",
-    marginTop: "8px",
+    padding: "1px",
+    marginTop: "5px",
   },
 
   cusnameview: {
@@ -180,7 +184,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 10,
+    fontSize: "9px",
   },
   quantityView: {
     width: "90%",
@@ -191,7 +195,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ReceiptVoucher = ({ formData }) => {
+const ReceiptVoucher = ({ formData, PDFData }) => {
   console.log("Voucher No", formData.rvNo);
   console.log("Selected Voucher No", formData.selectedRowData.RV_No);
 
@@ -199,94 +203,47 @@ const ReceiptVoucher = ({ formData }) => {
     <Document>
       <Page size="A4" style={styles.page}>
         <View>
-          {/* <View style={styles.row}>
-            <View style={styles.column}>
-              <View style={styles.tableContainer}>
-                <View>
-                  <Image src={MLLogo} style={styles.logo} />
-                </View>
-                <View>
-                  <Text
-                    style={[
-                      styles.tableTitle,
-                      {
-                        fontSize: "15px",
-                        marginLeft: "80px",
-                        textDecoration: "underline",
-                      },
-                    ]}
-                  >
-                    Magod Laser Machining Pvt Ltd
-                  </Text>
-                  <View style={{ ...styles.row, marginLeft: "10px" }}>
-                    <Text style={styles.globalfontwithoutbold}>
-                      Plot No 72, Phase II KIADB Industruial Area Jigani, Anekal
-                      Taluk Banglore - 560106 Karnataka
-                    </Text>
-                  </View>
-                </View>
-                <View style={styles.row}>
-                  <Text
-                    style={[
-                      styles.globalfontwithoutbold,
-                      {
-                        marginLeft: "110px",
-                        textDecoration: "underline",
-                        marginTop: "5px",
-                      },
-                    ]}
-                  >
-                    Returnable Material Receipt Voucher
-                  </Text>
-                </View>
-              </View>
-            </View>
-          </View> */}
-
           <View style={styles.row}>
             <View style={styles.tableContainer}>
-              <View>
-                <Image src={MLLogo} style={styles.logo} />
+              <View style={{ width: "7%", marginLeft: "15px" }}>
+                <Image src={MLLogo} />
               </View>
               <View style={styles.column}>
                 <View style={[styles.Heading, { justifyContent: "center" }]}>
                   <Text
                     style={[
                       styles.globalfontwithbold,
-                      { textDecoration: "underline" },
+                      { textDecoration: "underline", fontSize: "13px" },
                     ]}
                   >
                     Returnable Material Receipt Voucher
                   </Text>
                 </View>
-                <View
-                  style={[
-                    styles.Heading,
-                    { fontSize: "8px", justifyContent: "center" },
-                  ]}
-                >
-                  <Text style={styles.globalfontwithbold}>
-                    Magod Laser Machining Pvt Ltd.
+                <View style={[styles.Heading, { justifyContent: "center" }]}>
+                  <Text
+                    style={[styles.globalfontwithbold, { fontSize: "11px" }]}
+                  >
+                    {PDFData.RegisteredName}
                   </Text>
                 </View>
 
                 <View style={[styles.Heading, { justifyContent: "center" }]}>
                   <Text style={styles.globalfontwithbold}>
-                    GSTIN: 29AABCM1970H1ZE, CIN: U28900KA1995PTC018437
+                    GSTIN: {PDFData.GST_No}, CIN: {PDFData.CIN_No}
                   </Text>
                 </View>
 
                 <View style={[styles.Heading, { justifyContent: "center" }]}>
                   <Text style={styles.globalfontwithoutbold}>
-                    Plot No 72, 2nd Phase, KIADB Indl Area Jigani, Anekal Taluk
-                    Bengaluru - 560105
+                    {PDFData.RegistredOfficeAddress}
                   </Text>
                 </View>
 
                 <View style={[styles.Heading, { justifyContent: "center" }]}>
                   <Text style={styles.globalfontwithoutbold}>
-                    Ph : 08110 414313, 9513393352, sales@magodlaser.in,
-                    www.magodlaser.in
+                    {PDFData.PhonePrimary} {PDFData.PhoneSecondary}
+                    {PDFData.Email}
+                    {PDFData.URL}
                   </Text>
                 </View>
               </View>
@@ -461,7 +418,7 @@ const ReceiptVoucher = ({ formData }) => {
 
           <View
             style={{
-              marginLeft: "30px",
+              marginLeft: "10px",
               textDecoration: "underline",
               marginTop: "20px",
             }}
@@ -471,7 +428,7 @@ const ReceiptVoucher = ({ formData }) => {
 
           <View
             style={{
-              marginLeft: "20px",
+              marginLeft: "10px",
               marginTop: "50px",
               textDecoration: "underline",
             }}
