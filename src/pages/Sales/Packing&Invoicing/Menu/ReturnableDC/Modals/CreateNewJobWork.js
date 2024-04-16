@@ -25,6 +25,18 @@ function CreateNewJobWork({
 
   const [maxAllowedQty, setMaxAllowedQty] = useState(0);
 
+  const [PDFData, setPDFData] = useState({});
+
+  function fetchPDFData() {
+    Axios.post(apipoints.getPDFData, {}).then((res) => {
+      setPDFData(res.data[0]);
+    });
+  }
+
+  useEffect(() => {
+    fetchPDFData();
+  }, []);
+
   const acceptModalClose = () => {
     setAccept(false);
   };
@@ -1103,7 +1115,7 @@ function CreateNewJobWork({
           </Modal.Header>
           <Fragment>
             <PDFViewer width="1200" height="600" filename="somename.pdf">
-              <ReceiptVoucher formData={formData} />
+              <ReceiptVoucher formData={formData} PDFData={PDFData} />
             </PDFViewer>
           </Fragment>
         </Modal>
