@@ -36,5 +36,5 @@ export const apipoints = {
   insertRunNoRow: `${url}/pnrdc/insertRunNoRow`,
   customerCount: `${url}/pnrdc/customerCount`,
   updateCount: `${url}/pnrdc/updateCount`,
-  getPDFData: `${url}/pdf/getPDFData`,
+  getPDFData: `${url}/pnrdc/getPDFData`,
 };

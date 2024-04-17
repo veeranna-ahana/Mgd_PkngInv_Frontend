@@ -13,7 +13,7 @@ function EwayBillPdfModal({
   const [PDFData, setPDFData] = useState({});
 
   function fetchPDFData() {
-    Axios.post(apipoints.getPDFData, {}).then((res) => {
+    Axios.get(apipoints.getPDFData).then((res) => {
       setPDFData(res.data[0]);
     });
   }

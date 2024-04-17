@@ -1170,7 +1170,7 @@ function DCCreateNew() {
             DC No
           </label>
           <input
-            className="in-field"
+            className="in-field mt-1"
             type="text"
             disabled
             value={formData.dcNo}
@@ -1181,7 +1181,7 @@ function DCCreateNew() {
             DC Type
           </label>
           <input
-            className="in-field"
+            className="in-field mt-1"
             type="text"
             disabled
             value={formData.dcType}
@@ -1192,7 +1192,7 @@ function DCCreateNew() {
             Vendor Code
           </label>
           <input
-            className="in-field"
+            className="in-field mt-1"
             type="number"
             value={formData.custCode}
             disabled
@@ -1202,7 +1202,7 @@ function DCCreateNew() {
         <div className=" d-flex col-md-2 col-sm-12" style={{ gap: "10px" }}>
           <label className="form-label">Status</label>
           <input
-            className="in-field"
+            className="in-field mt-1"
             type="text"
             disabled
             value={formData.dcStatus}
@@ -1214,7 +1214,7 @@ function DCCreateNew() {
             Reference
           </label>
           <input
-            className="in-field"
+            className="in-field  mt-1"
             type="text"
             name="reference"
             value={formData.reference}
@@ -1278,7 +1278,7 @@ function DCCreateNew() {
         <div className="d-flex col-md-5" style={{ gap: "10px" }}>
           <label className="form-label">Reason</label>
           <input
-            className="in-field"
+            className="in-field  mt-1"
             type="text"
             name="dcCancel"
             value={formData.dcCancel}

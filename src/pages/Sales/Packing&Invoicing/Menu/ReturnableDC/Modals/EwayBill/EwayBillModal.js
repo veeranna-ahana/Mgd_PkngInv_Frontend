@@ -9,7 +9,7 @@ function EwayBillModal({
   openEwayBillSave,
 }) {
   return (
-    <Modal show={ewayBill} onHide={closeEwayBill} size="xl">
+    <Modal show={ewayBill} onHide={closeEwayBill} size="lg">
       <Modal.Header closeButton>
         <Modal.Title style={{ fontSize: "14px" }}>E Way Bill</Modal.Title>
       </Modal.Header>
@@ -52,7 +52,7 @@ function EwayBillModal({
               Inv/DC No
             </label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={formData.dcType}
@@ -61,7 +61,7 @@ function EwayBillModal({
 
           <div className="col-md-4">
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={formData.dcNo}
@@ -70,7 +70,7 @@ function EwayBillModal({
 
           <div className="col-md-4">
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={formData.dcDate}
@@ -82,7 +82,7 @@ function EwayBillModal({
           <div className="d-flex col-md-4" style={{ gap: "40px" }}>
             <label className="form-label">Place</label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={formData.custCity}
@@ -91,7 +91,7 @@ function EwayBillModal({
 
           <div className="col-md-4">
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={formData.custState}
@@ -101,7 +101,7 @@ function EwayBillModal({
           <div className="d-flex col-md-4" style={{ gap: "10px" }}>
             <label className="form-label">Transport</label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={formData.vehicleDetails}
@@ -112,7 +112,7 @@ function EwayBillModal({
           <div className="d-flex" style={{ gap: "20px" }}>
             <label className="form-label">Delivery</label>
             <textarea
-              className="in-field"
+              className="in-field mt-2"
               rows="3"
               name="deliveryAddress"
               style={{
@@ -131,7 +131,7 @@ function EwayBillModal({
           <div className="d-flex col-md-4" style={{ gap: "35px" }}>
             <label className="form-label">Value</label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={formData.taxableAmount}
@@ -141,7 +141,7 @@ function EwayBillModal({
           <div className="d-flex col-md-4" style={{ gap: "10px" }}>
             <label className="form-label">Tax</label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={formData.taxAmt}
@@ -153,7 +153,7 @@ function EwayBillModal({
               E Way Bill No
             </label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               name="ewayBillNo"
               value={formData.ewayBillNo}
@@ -165,7 +165,7 @@ function EwayBillModal({
       <Modal.Footer className="row justify-content-center mt-3">
         <button
           className="button-style "
-          style={{ width: "100px" }}
+          style={{ width: "80px" }}
           onClick={openEwayBillSave}
         >
           Save

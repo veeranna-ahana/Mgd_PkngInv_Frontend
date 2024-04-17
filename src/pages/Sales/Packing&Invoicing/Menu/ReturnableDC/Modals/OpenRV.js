@@ -21,7 +21,7 @@ function OpenRV({
   const [PDFData, setPDFData] = useState({});
 
   function fetchPDFData() {
-    Axios.post(apipoints.getPDFData, {}).then((res) => {
+    Axios.get(apipoints.getPDFData).then((res) => {
       setPDFData(res.data[0]);
     });
   }
@@ -165,7 +165,7 @@ function OpenRV({
   return (
     <Modal size="sm" show={showRVModal} onHide={closeJobWorkModalRV} fullscreen>
       <Modal.Header closeButton>
-        <Modal.Title style={{ fontSize: "14px" }}>
+        <Modal.Title style={{ fontSize: "14px", fontWeight: "bold" }}>
           Job Work Goods Receipt Voucher
         </Modal.Title>
       </Modal.Header>
@@ -176,7 +176,7 @@ function OpenRV({
               Voucher No
             </label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={formData.selectedRowData.RV_No}
@@ -185,7 +185,7 @@ function OpenRV({
           <div className="col-md-2 col-sm-12">
             <input
               type="text"
-              className="in-field"
+              className="in-field mt-1"
               disabled
               value={
                 formData.selectedRowData.RV_Date
@@ -200,14 +200,14 @@ function OpenRV({
             <input
               type="text"
               disabled
-              className="in-field"
+              className="in-field mt-1"
               value={formData.selectedRowData.RVStatus}
             />
           </div>
           <div className="d-flex col-md-3 col-sm-12" style={{ gap: "10px" }}>
             <label className="form-label">Weight</label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={parseInt(formData.selectedRowData.TotalWeight)}
@@ -221,7 +221,7 @@ function OpenRV({
               Receive Form
             </label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={formData.selectedRowData.Customer}
@@ -231,7 +231,7 @@ function OpenRV({
             <input
               type="text"
               disabled
-              className="in-field"
+              className="in-field mt-1"
               value={formData.selectedRowData.Cust_Code}
             />
           </div>
@@ -317,7 +317,7 @@ function OpenRV({
               DC Reference
             </label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={formData.selectedRowData.Ref_VrNo}
@@ -328,7 +328,7 @@ function OpenRV({
               GST No
             </label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={formData.selectedRowData.CustGSTNo}
@@ -370,7 +370,7 @@ function OpenRV({
               Cust Docu Ref
             </label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               name="CustDocuNo"
               value={formData.selectedRowData.CustDocuNo}
@@ -388,7 +388,7 @@ function OpenRV({
               E Way Bill No
             </label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               name="ewayBillNo"
               value={formData.selectedRowData.EWayBillRef}
@@ -404,7 +404,7 @@ function OpenRV({
           <div className="d-flex col-md-4 col-sm-12" style={{ gap: "10px" }}>
             <label className="form-label">Reason</label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               name="CancelReason"
               value={
@@ -505,6 +505,7 @@ function OpenRV({
                             height: "100%",
                             backgroundColor: "transparent",
                             border: "none",
+                            textAlign: "center",
                           }}
                           // onChange={(e) =>
                           //   handleEditChange(e, "Qty_Received", index)
@@ -525,6 +526,7 @@ function OpenRV({
                             height: "100%",
                             backgroundColor: "transparent",
                             border: "none",
+                            textAlign: "center",
                           }}
                         />
                       </td>
@@ -542,6 +544,7 @@ function OpenRV({
                             height: "100%",
                             backgroundColor: "transparent",
                             border: "none",
+                            textAlign: "center",
                           }}
                         />
                       </td>
@@ -559,6 +562,7 @@ function OpenRV({
                             height: "100%",
                             backgroundColor: "transparent",
                             border: "none",
+                            textAlign: "center",
                           }}
                         />
                       </td>

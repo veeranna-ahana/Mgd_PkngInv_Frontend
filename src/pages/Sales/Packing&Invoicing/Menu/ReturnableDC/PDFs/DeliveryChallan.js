@@ -192,6 +192,7 @@ const styles = StyleSheet.create({
 });
 
 const DeliveryChallan = ({ formData, PDFData }) => {
+  console.log("PDFData PDF", PDFData);
   const dateParts = formData.dcDate.split("/");
   const formattedDate = new Date(
     `${dateParts[2]}-${dateParts[1]}-${dateParts[0]}`

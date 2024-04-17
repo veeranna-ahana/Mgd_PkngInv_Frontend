@@ -13,7 +13,7 @@ function DraftDetailsTable({
       style={{
         overflowX: "scroll",
         overflowY: "scroll",
-        height: "260px",
+        height: "240px",
       }}
     >
       <Table striped className="table-data border" style={{ border: "1px" }}>

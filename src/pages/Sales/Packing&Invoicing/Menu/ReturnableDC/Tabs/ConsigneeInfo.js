@@ -76,7 +76,7 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
         <div className="col-md-4 col-sm-12 mt-2">
           <div
             className="ip-box form-bg"
-            style={{ height: "270px", padding: "10px" }}
+            style={{ height: "240px", padding: "10px" }}
           >
             <h5>
               <label className="form-label">Consignee</label>
@@ -201,7 +201,7 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
         <div className="col-md-4 col-sm-12 mt-2">
           <div
             className="ip-box form-bg"
-            style={{ height: "270px", padding: "10px" }}
+            style={{ height: "240px", padding: "10px" }}
           >
             <h5>
               <label className="form-label">Delivery Details</label>
@@ -232,10 +232,9 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
 
             <div className="d-flex" style={{ gap: "25px" }}>
               <label className="form-label">State</label>
-
               <select
                 id=""
-                className="ip-select in-fields mt-2"
+                className="ip-select in-field mt-2"
                 name="deliveryState"
                 onChange={handleInputChange}
                 value={formData.deliveryState}
@@ -259,7 +258,7 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
         <div className="col-md-4 col-sm-12 mt-2">
           <div
             className="ip-box form-bg"
-            style={{ height: "270px", padding: "10px" }}
+            style={{ height: "240px", padding: "10px" }}
           >
             <h5>
               <label className="form-label">Tax Details</label>
@@ -267,7 +266,7 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
 
             <div className="row">
               <div
-                className="d-flex col-md-7 col-sm-12"
+                className="d-flex col-md-7 col-sm-12 mt-1"
                 style={{ gap: "10px" }}
               >
                 <label className="form-label" style={{ whiteSpace: "nowrap" }}>
@@ -367,10 +366,10 @@ function ConsigneeInfo({ handleInputChange, formData, updateFormData }) {
                 </tbody>
               </Table> */}
 
-              <div style={{ height: "150px" }}>
+              <div style={{ height: "120px" }}>
                 <Table
                   striped
-                  className="table-data border"
+                  className="table-data border mt-1"
                   style={{ border: "1px" }}
                 >
                   <thead className="tableHeaderBGColor">
