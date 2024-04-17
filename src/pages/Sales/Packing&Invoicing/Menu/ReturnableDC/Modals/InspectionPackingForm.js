@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { PDFViewer } from "@react-pdf/renderer";
 import { Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -20,6 +20,18 @@ function InspectionPackingForm({
   const [showPrintModal, setShowPrintModal] = useState(false);
   const [showpdfModal, setShowPdfModal] = useState(false);
   const [showgstModal, setShowGstModal] = useState(false);
+
+  const [PDFData, setPDFData] = useState({});
+
+  function fetchPDFData() {
+    Axios.get(apipoints.getPDFData).then((res) => {
+      setPDFData(res.data[0]);
+    });
+  }
+
+  useEffect(() => {
+    fetchPDFData();
+  }, []);
 
   const handleInputChange = (e) => {
     if (e.target.name === "inspectedBy") {
@@ -198,7 +210,7 @@ function InspectionPackingForm({
           <Modal.Body>
             <Fragment>
               <PDFViewer width="1200" height="600" filename="somename.pdf">
-                <DeliveryChallan formData={formData} />
+                <DeliveryChallan formData={formData} PDFData={PDFData} />
               </PDFViewer>
             </Fragment>
           </Modal.Body>

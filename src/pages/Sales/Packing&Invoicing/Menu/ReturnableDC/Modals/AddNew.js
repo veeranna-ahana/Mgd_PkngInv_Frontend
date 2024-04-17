@@ -194,7 +194,7 @@ function AddNew({
 
             <div className="col-md-6 col-sm-12">
               <input
-                className="in-field"
+                className="in-field mt-2"
                 type="text"
                 id="partName"
                 name="partName"
@@ -213,7 +213,7 @@ function AddNew({
 
             <div className="col-md-6 col-sm-12">
               <textarea
-                className="in-field"
+                className="in-field mt-2"
                 id="itemDescription"
                 rows="2"
                 name="itemDescription"
@@ -254,7 +254,7 @@ function AddNew({
 
             <div className="col-md-6 col-sm-12">
               <input
-                className="in-field"
+                className="in-field mt-2"
                 type="number"
                 name="quantity"
                 value={formData.quantity}
@@ -274,7 +274,7 @@ function AddNew({
 
             <div className="col-md-6 col-sm-12">
               <select
-                className="ip-select"
+                className="ip-select mt-2"
                 name="uom"
                 value={formData.uom}
                 onChange={handleInputChange}
@@ -296,7 +296,7 @@ function AddNew({
 
             <div className="col-md-6 col-sm-12">
               <input
-                className="in-field"
+                className="in-field mt-2"
                 type="number"
                 id="unitRate"
                 name="unitRate"
@@ -317,7 +317,7 @@ function AddNew({
 
             <div className="col-md-6 col-sm-12">
               <input
-                className="in-field"
+                className="in-field mt-2"
                 type="number"
                 id="totalValue"
                 name="totalValue"
@@ -338,7 +338,7 @@ function AddNew({
 
             <div className="col-md-6 col-sm-12">
               <input
-                className="in-field"
+                className="in-field mt-2"
                 type="text"
                 id="hsnCode"
                 name="hsnCode"
@@ -356,7 +356,7 @@ function AddNew({
 
             <div className="col-md-6 col-sm-12">
               <input
-                className="in-field"
+                className="in-field mt-2"
                 type="number"
                 id="weight"
                 name="weight"

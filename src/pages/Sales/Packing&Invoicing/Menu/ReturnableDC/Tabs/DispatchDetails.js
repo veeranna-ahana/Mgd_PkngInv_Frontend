@@ -10,13 +10,13 @@ function DispatchDetails({ handleInputChange, formData, updateFormData }) {
     <div>
       <label className="form-label">Dispatch Details</label>
 
-      <div className="row">
+      <div className="row mb-2">
         <div className="d-flex col-md-3 col-sm-12" style={{ gap: "10px" }}>
           <label className="form-label" style={{ whiteSpace: "nowrap" }}>
             Inspected By
           </label>
           <input
-            className="in-field"
+            className="in-field mt-1"
             type="text"
             value={formData.inspectedBy}
             name="inspectedBy"
@@ -28,7 +28,7 @@ function DispatchDetails({ handleInputChange, formData, updateFormData }) {
             Packed By
           </label>
           <input
-            className="in-field"
+            className="in-field mt-1"
             type="text"
             value={formData.packedBy}
             name="packedBy"
@@ -40,7 +40,7 @@ function DispatchDetails({ handleInputChange, formData, updateFormData }) {
             Total Weight
           </label>
           <input
-            className="in-field"
+            className="in-field mt-1"
             type="text"
             value={formData.totalWeight}
             name="totalWeight"
@@ -52,7 +52,7 @@ function DispatchDetails({ handleInputChange, formData, updateFormData }) {
             Scrap Weight
           </label>
           <input
-            className="in-field"
+            className="in-field mt-1"
             type="text"
             name="scrapWeight"
             value={formData.scrapWeight}
@@ -62,13 +62,13 @@ function DispatchDetails({ handleInputChange, formData, updateFormData }) {
         </div>
       </div>
 
-      <div className="row">
+      <div className="row mb-2">
         <div className="d-flex col-md-3 col-sm-12" style={{ gap: "49px" }}>
           <label className="form-label">Mode</label>
 
           <select
             id=""
-            className="ip-select"
+            className="ip-select mt-1"
             value={formData.selectedMode}
             name="selectedMode"
             onChange={handleInputChange}
@@ -93,7 +93,7 @@ function DispatchDetails({ handleInputChange, formData, updateFormData }) {
             Veh/Docu Details
           </label>
           <input
-            className="in-field"
+            className="in-field mt-1"
             type="text"
             name="vehicleDetails"
             value={formData.vehicleDetails}
@@ -110,7 +110,7 @@ function DispatchDetails({ handleInputChange, formData, updateFormData }) {
             Delivery Contact Name
           </label>
           <input
-            className="in-field"
+            className="in-field mt-1"
             type="text"
             name="deliveryContactName"
             value={formData.deliveryContactName}
@@ -127,7 +127,7 @@ function DispatchDetails({ handleInputChange, formData, updateFormData }) {
             Contact No
           </label>
           <input
-            className="in-field"
+            className="in-field mt-1"
             type="text"
             name="deliveryContactNo"
             value={formData.deliveryContactNo}
@@ -141,13 +141,13 @@ function DispatchDetails({ handleInputChange, formData, updateFormData }) {
         </div>
       </div>
 
-      <div className="row">
+      <div className="row mb-2">
         <div className="d-flex col-md-3 col-sm-12" style={{ gap: "25px" }}>
           <label className="form-label" style={{ whiteSpace: "nowrap" }}>
             Date Time
           </label>
           <input
-            className="in-field"
+            className="in-field mt-1"
             type="text"
             name="dcDate"
             value={formData.dcDate}
@@ -159,7 +159,7 @@ function DispatchDetails({ handleInputChange, formData, updateFormData }) {
             Net Value
           </label>
           <input
-            className="in-field"
+            className="in-field mt-1"
             type="number"
             value={formData.taxableAmount}
             name="totalValue"
@@ -171,7 +171,7 @@ function DispatchDetails({ handleInputChange, formData, updateFormData }) {
             Tax Amount
           </label>
           <input
-            className="in-field"
+            className="in-field mt-1"
             type="text"
             value={totalTaxAmount.toFixed(2)}
             name="totalTaxAmount"
@@ -183,7 +183,7 @@ function DispatchDetails({ handleInputChange, formData, updateFormData }) {
             E Way Ref
           </label>
           <input
-            className="in-field"
+            className="in-field mt-1"
             type="text"
             name="eWayRef"
             value={formData.eWayRef}

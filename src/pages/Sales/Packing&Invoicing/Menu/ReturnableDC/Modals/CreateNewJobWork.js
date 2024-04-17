@@ -3,7 +3,9 @@ import { PDFViewer } from "@react-pdf/renderer";
 import { Table } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { Modal } from "react-bootstrap";
+// import { apipoints } from "../../../../../api/PackInv_API/ReturnableDC/ReturnableDC";
 import { apipoints } from "../../../../../api/PackInv_API/ReturnableDC/ReturnableDC";
+
 import Axios from "axios";
 import ReceiptVoucher from "../PDFs/ReceiptVoucher";
 
@@ -28,7 +30,7 @@ function CreateNewJobWork({
   const [PDFData, setPDFData] = useState({});
 
   function fetchPDFData() {
-    Axios.post(apipoints.getPDFData, {}).then((res) => {
+    Axios.get(apipoints.getPDFData).then((res) => {
       setPDFData(res.data[0]);
     });
   }
@@ -654,7 +656,7 @@ function CreateNewJobWork({
   return (
     <Modal show={showJobWorkModal} onHide={closeJobWorkModal} fullscreen>
       <Modal.Header closeButton>
-        <Modal.Title style={{ fontSize: "14px" }}>
+        <Modal.Title style={{ fontSize: "14px", fontWeight: "bold" }}>
           Job Work Goods Receipt Voucher
         </Modal.Title>
       </Modal.Header>
@@ -666,7 +668,7 @@ function CreateNewJobWork({
               Voucher No
             </label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={formData.rvNo}
@@ -675,21 +677,21 @@ function CreateNewJobWork({
           <div className="d-flex col-md-4 col-sm-12" style={{ gap: "10px" }}>
             <input
               type="text"
-              className="in-field"
+              className="in-field mt-1"
               disabled
               value={formData.rvDate}
             />
             <input
               type="text"
               disabled
-              className="in-field"
+              className="in-field mt-1"
               value={formData.RVStatus}
             />
           </div>
           <div className="d-flex col-md-3 col-sm-12" style={{ gap: "10px" }}>
             <label className="form-label">Weight</label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={parseInt(formData.rvTotalWeight)}
@@ -706,7 +708,7 @@ function CreateNewJobWork({
               Receive From
             </label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={formData.rvCustomer}
@@ -716,7 +718,7 @@ function CreateNewJobWork({
             <input
               type="text"
               disabled
-              className="in-field"
+              className="in-field mt-1"
               value={formData.rvCustCode}
             />
           </div>
@@ -806,7 +808,7 @@ function CreateNewJobWork({
               DC Reference
             </label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={formData.Ref_VrNo}
@@ -817,7 +819,7 @@ function CreateNewJobWork({
               GST No
             </label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               disabled
               value={formData.CustGSTNo}
@@ -857,7 +859,7 @@ function CreateNewJobWork({
               Cust Docu Ref
             </label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               name="CustDocuNo"
               value={formData.CustDocuNo}
@@ -869,7 +871,7 @@ function CreateNewJobWork({
               E Way Bill No
             </label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               name="ewayBillNo"
               value={formData.ewayBillNo}
@@ -879,7 +881,7 @@ function CreateNewJobWork({
           <div className="d-flex col-md-4 col-sm-12" style={{ gap: "10px" }}>
             <label className="form-label">Reason</label>
             <input
-              className="in-field"
+              className="in-field mt-1"
               type="text"
               name="CancelReason"
               value={formData.CancelReason}
@@ -1141,9 +1143,13 @@ function CreateNewJobWork({
       {cancel && (
         <Modal show={cancel} onHide={cancelModalClose}>
           <Modal.Header closeButton>
-            <Modal.Title style={{fontSize:'14px'}}>Magod ReturnableDC</Modal.Title>
+            <Modal.Title style={{ fontSize: "14px" }}>
+              Magod ReturnableDC
+            </Modal.Title>
           </Modal.Header>
-          <Modal.Body style={{fontSize:'12px'}}>Do you wish to cancel this Receipt Voucher?</Modal.Body>
+          <Modal.Body style={{ fontSize: "12px" }}>
+            Do you wish to cancel this Receipt Voucher?
+          </Modal.Body>
           <Modal.Footer>
             <button
               className="button-style"
