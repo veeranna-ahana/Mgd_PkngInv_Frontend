@@ -182,8 +182,9 @@ export default function Profile() {
       invRegisterData: invRegisterData,
     }).then((res) => {
       if (res.data.flag === 1) {
+        fetchData();
         toast.success(res.data.message);
-        setInvRegisterData({ ...invRegisterData, DCStatus: "Cancelled" });
+        // setInvRegisterData({ ...invRegisterData, DCStatus: "Cancelled" });
       } else if (res.data.flag === 0) {
         toast.error(res.data.message);
       } else {

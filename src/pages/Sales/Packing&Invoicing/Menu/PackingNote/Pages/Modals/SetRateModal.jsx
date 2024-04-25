@@ -188,10 +188,14 @@ export default function SetRateModal(props) {
                           min="0"
                           defaultValue={val.Mtrl_rate}
                           disabled={
-                            props.invRegisterData?.DC_InvType === "Job Work"
+                            props.invRegisterData?.DC_InvType === "Job Work" ||
+                            props.setRateConsumerData[0]?.ScheduleType ===
+                              "Service"
                           }
                           className={
-                            props.invRegisterData?.DC_InvType === "Job Work"
+                            props.invRegisterData?.DC_InvType === "Job Work" ||
+                            props.setRateConsumerData[0]?.ScheduleType ===
+                              "Service"
                               ? "border-0 input-disabled"
                               : "border-0"
                           }
