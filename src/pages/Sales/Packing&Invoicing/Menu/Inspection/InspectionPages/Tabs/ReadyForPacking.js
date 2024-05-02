@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 import { apipoints } from "../../../../../../api/PackInv_API/Inspection/InspProfi";
 // FirstTable
 
-import FirstTable from "./Tables/FirstTable";
-import SecondTable from "./Tables/SecondTable";
-import ThirdTable from "./Tables/ThirdTable";
+import FirstTable from "./ReadyForPackingTables/FirstTable";
+import SecondTable from "./ReadyForPackingTables/SecondTable";
+import ThirdTable from "./ReadyForPackingTables/ThirdTable";
 import { toast } from "react-toastify";
 import Axios from "axios";
 
