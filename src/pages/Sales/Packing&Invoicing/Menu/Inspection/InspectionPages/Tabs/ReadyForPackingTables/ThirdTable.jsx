@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 
 import { FaArrowUp } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function ThirdTable(props) {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
@@ -112,12 +113,26 @@ export default function ThirdTable(props) {
                 <input
                   type="number"
                   name="Qty"
+                  min={"0"}
                   disabled={val.DespStatus != "Draft"}
                   className={val.DespStatus != "Draft" ? "input-disabled" : ""}
                   style={{ background: "none", border: "none" }}
                   value={parseFloat(val.Qty)}
+                  onKeyDown={(e) => {
+                    if (e.which === 38 || e.which === 40) {
+                      e.preventDefault();
+                    }
+                  }}
                   onChange={(e) => {
-                    modifyInvDetailsData(e, key);
+                    if (parseInt(e.target.value) < 0) {
+                      e.target.value = parseInt(e.target.value) * -1;
+                      toast.warning("Qty can't be negative");
+                      modifyInvDetailsData(e, key);
+                    } else if (parseInt(e.target.value) === 0) {
+                      toast.warning("Qty can't be zero");
+                    } else {
+                      modifyInvDetailsData(e, key);
+                    }
                   }}
                 />
               </td>
@@ -125,12 +140,26 @@ export default function ThirdTable(props) {
                 <input
                   type="number"
                   name="Unit_Wt"
+                  min={"0"}
                   disabled={val.DespStatus != "Draft"}
                   className={val.DespStatus != "Draft" ? "input-disabled" : ""}
                   style={{ background: "none", border: "none" }}
                   value={parseFloat(val.Unit_Wt)}
+                  onKeyDown={(e) => {
+                    if (e.which === 38 || e.which === 40) {
+                      e.preventDefault();
+                    }
+                  }}
                   onChange={(e) => {
-                    modifyInvDetailsData(e, key);
+                    if (parseFloat(e.target.value).toFixed(1) < 0.0) {
+                      e.target.value = parseFloat(e.target.value) * -1;
+                      toast.warning("Weight can't be negative");
+                      modifyInvDetailsData(e, key);
+                    } else if (parseFloat(e.target.value).toFixed(1) === 0.0) {
+                      toast.warning("Weight can't be zero");
+                    } else {
+                      modifyInvDetailsData(e, key);
+                    }
                   }}
                 />
               </td>
