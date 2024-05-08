@@ -33,12 +33,12 @@ export default function InternalRejectionModal(props) {
     handleOkButtonClick,
   } = props;
 
-  console.log("qtyRejectttttttttttttttttt", qtyRejectt);
-  let qtyRej = selectedScheduleDetailsRows.map(
-    (val) => val.QtyProduced - val.QtyCleared
-  );
+  // console.log("qtyRejectttttttttttttttttt", qtyRejectt);
+  // let qtyRej = selectedScheduleDetailsRows.map(
+  //   (val) => val.QtyProduced - val.QtyCleared
+  // );
 
-  console.log("...1", selectedScheduleDetailsRows);
+  //  console.log("...1", selectedScheduleDetailsRows);
   const [serialId, setSerialId] = useState(1);
   const [irstatus, setIrtatus] = useState("Created");
   const [raisedBy, setRaisedBy] = useState("Sales");
@@ -86,7 +86,7 @@ export default function InternalRejectionModal(props) {
     const srlType = "Internal_Rejection";
     const prefix = "IR / ";
     getRejRepNo();
-    console.log("entering into the HandleRejectionReportClick...1");
+    // console.log("entering into the HandleRejectionReportClick...1");
     const currentYear = new Date().getFullYear();
     // const nextYear = currentYear + 1;
     const pastYear = currentYear - 1;
@@ -115,7 +115,7 @@ export default function InternalRejectionModal(props) {
         Rej_Id: nextRej_Id,
       },
     ]);
-    console.log("entering into the HandleRejectionReportClick...2");
+    // console.log("entering into the HandleRejectionReportClick...2");
 
     try {
       Axios.post(apipoints.submitRejectionReport, {
@@ -136,9 +136,9 @@ export default function InternalRejectionModal(props) {
         srlType: srlType,
         prefix: prefix,
       }).then((res) => {
-        console.log("res from submitRejectionReport..", res.data);
+        // console.log("res from submitRejectionReport..", res.data);
         props.getOrderScheduleData();
-        console.log("getOrderScheduleData is exicuted");
+        // console.log("getOrderScheduleData is exicuted");
         setLgShow(false);
         toast.success(
           `Dwg Rejected Successfully, with Rej Report No ${newRejReportNo}`

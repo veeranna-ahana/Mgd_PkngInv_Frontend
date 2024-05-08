@@ -5,7 +5,7 @@ import { FaArrowUp } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 export default function ThirdTable(props) {
-  console.log("third table props...", props);
+  // console.log("third table props...", props);
 
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
