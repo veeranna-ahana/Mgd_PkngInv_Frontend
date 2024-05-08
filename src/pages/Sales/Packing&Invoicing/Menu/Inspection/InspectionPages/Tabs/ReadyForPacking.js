@@ -212,10 +212,10 @@ export default function ReadyForPacking(props) {
           break;
         }
         // validation for weight
-        else if (parseInt(element.Unit_Wt) < 0) {
+        else if (parseFloat(element.Unit_Wt) < 0.0) {
           toast.warning("Weight can't be negative");
           break;
-        } else if (parseInt(element.Unit_Wt) === 0) {
+        } else if (parseFloat(element.Unit_Wt) === 0.0) {
           toast.warning("Weight can't be zero");
           break;
         } else {
