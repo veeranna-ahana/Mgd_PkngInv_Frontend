@@ -450,6 +450,8 @@ export default function ReadyForPacking(props) {
             </div>
             <div style={{ height: "190px", overflow: "auto" }}>
               <ThirdTable
+                orderScheduleDetailsData={props.orderScheduleDetailsData}
+                allInvDetailsData={props.allInvDetailsData}
                 setInvDetailsData={props.setInvDetailsData}
                 invDetailsData={props.invDetailsData}
               />

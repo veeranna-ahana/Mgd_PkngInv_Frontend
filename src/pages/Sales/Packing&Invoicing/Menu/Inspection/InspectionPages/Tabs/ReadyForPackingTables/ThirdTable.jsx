@@ -5,9 +5,53 @@ import { FaArrowUp } from "react-icons/fa";
 import { toast } from "react-toastify";
 
 export default function ThirdTable(props) {
+  console.log("third table props...", props);
+
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const modifyInvDetailsData = (e, key) => {
+    let totalQtyForDwg = 0;
+    let OrderSchDetailsID = "";
+    // let DwgName = "";
+    if (e.target.name === "Qty") {
+      for (let i = 0; i < props.allInvDetailsData.length; i++) {
+        const element = props.allInvDetailsData[i];
+        if (
+          element.OrderSchDetailsID ===
+            props.invDetailsData[key].OrderSchDetailsID &&
+          element.DespStatus != "Cancelled"
+        ) {
+          OrderSchDetailsID = element.OrderSchDetailsID;
+          totalQtyForDwg =
+            parseInt(totalQtyForDwg) + parseInt(e.target.value || 0);
+          // console.log("element", element);
+        }
+      }
+      // console.log("totalQtyForDwg", totalQtyForDwg);
+      // console.log("OrderSchDetailsID", OrderSchDetailsID);
+
+      for (let i = 0; i < props.orderScheduleDetailsData.length; i++) {
+        const element = props.orderScheduleDetailsData[i];
+        // console.log(
+        //   "orassasasaassasasass",
+        //   element.DwgName,
+        //   ".....",
+        //   element.SchDetailsID
+        // );
+        // DwgName = element.DwgName;
+        if (
+          element.SchDetailsID === OrderSchDetailsID &&
+          parseInt(element.QtyCleared) < parseInt(totalQtyForDwg)
+        ) {
+          toast.warning(
+            `${element.DwgName + " : Pack quantity greater then cleared qty"}`
+          );
+          // console.log("orassasasaassasasass", element.DwgName);
+          // DwgName = element.DwgName;
+        }
+      }
+    }
+
     const newArray = [];
 
     for (let i = 0; i < props.invDetailsData.length; i++) {
