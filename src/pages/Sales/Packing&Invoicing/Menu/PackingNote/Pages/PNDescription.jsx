@@ -145,14 +145,14 @@ export default function Profile() {
     if (e.target.name === "Discount") {
       newInvTotal =
         parseFloat(invRegisterData?.Net_Total) -
-        parseFloat(e.target.value.length > 0 ? e.target.value : 0) +
+        parseFloat(e.target.value || 0) +
         parseFloat(invRegisterData?.Del_Chg);
       newGrandTotal = Math.round(newInvTotal);
       newRoundOff = newGrandTotal - newInvTotal;
 
       setInvRegisterData({
         ...invRegisterData,
-        Discount: e.target.value.length > 0 ? e.target.value : 0,
+        Discount: e.target.value || 0,
         TaxAmount: 0.0,
         InvTotal: newInvTotal.toFixed(2),
         GrandTotal: newGrandTotal.toFixed(2),
@@ -162,13 +162,13 @@ export default function Profile() {
       newInvTotal =
         parseFloat(invRegisterData?.Net_Total) -
         parseFloat(invRegisterData?.Discount) +
-        parseFloat(e.target.value.length > 0 ? e.target.value : 0);
+        parseFloat(e.target.value || 0);
       newGrandTotal = Math.round(newInvTotal);
       newRoundOff = newGrandTotal - newInvTotal;
 
       setInvRegisterData({
         ...invRegisterData,
-        Del_Chg: e.target.value.length > 0 ? e.target.value : 0,
+        Del_Chg: e.target.value || 0,
         TaxAmount: 0.0,
         InvTotal: newInvTotal.toFixed(2),
         GrandTotal: newGrandTotal.toFixed(2),

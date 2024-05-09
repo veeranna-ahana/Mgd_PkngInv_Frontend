@@ -333,6 +333,11 @@ export default function InvoicingInfo(props) {
                   }
                   min={props.formatedTodayDate}
                   name="DespatchDate"
+                  onKeyDown={(e) => {
+                    if (e.which === 38 || e.which === 40) {
+                      e.preventDefault();
+                    }
+                  }}
                   onChange={props.inputHandler}
                   disabled={
                     props.invRegisterData.Inv_No ||
@@ -519,7 +524,20 @@ export default function InvoicingInfo(props) {
                     min="0"
                     value={props.invRegisterData?.Discount}
                     name="Discount"
-                    onChange={props.handleChangeDiscountDelivery}
+                    onKeyDown={(e) => {
+                      if (e.which === 38 || e.which === 40) {
+                        e.preventDefault();
+                      }
+                    }}
+                    onChange={(e) => {
+                      if (parseInt(e.target.value) < 0) {
+                        e.target.value = parseInt(e.target.value) * -1;
+                        toast.warning("Discount can't be negative");
+                        props.handleChangeDiscountDelivery(e);
+                      } else {
+                        props.handleChangeDiscountDelivery(e);
+                      }
+                    }}
                     disabled={
                       props.invRegisterData.Inv_No ||
                       props.invRegisterData.DCStatus === "Cancelled"
@@ -544,7 +562,20 @@ export default function InvoicingInfo(props) {
                     min="0"
                     value={props.invRegisterData?.Del_Chg}
                     name="Del_Chg"
-                    onChange={props.handleChangeDiscountDelivery}
+                    onKeyDown={(e) => {
+                      if (e.which === 38 || e.which === 40) {
+                        e.preventDefault();
+                      }
+                    }}
+                    onChange={(e) => {
+                      if (parseInt(e.target.value) < 0) {
+                        e.target.value = parseInt(e.target.value) * -1;
+                        toast.warning("Delivery Charge can't be negative");
+                        props.handleChangeDiscountDelivery(e);
+                      } else {
+                        props.handleChangeDiscountDelivery(e);
+                      }
+                    }}
                     disabled={
                       props.invRegisterData.Inv_No ||
                       props.invRegisterData.DCStatus === "Cancelled"
@@ -716,7 +747,22 @@ export default function InvoicingInfo(props) {
                     min={"0"}
                     name="PymtAmtRecd"
                     value={props.invRegisterData?.PymtAmtRecd}
-                    onChange={props.inputHandler}
+                    onKeyDown={(e) => {
+                      if (e.which === 38 || e.which === 40) {
+                        e.preventDefault();
+                      }
+                    }}
+                    onChange={(e) => {
+                      e.target.value = e.target.value || 0;
+
+                      if (parseInt(e.target.value) < 0) {
+                        e.target.value = parseInt(e.target.value) * -1;
+                        toast.warning("Amount Recieved can't be negative");
+                        props.inputHandler(e);
+                      } else {
+                        props.inputHandler(e);
+                      }
+                    }}
                     disabled={
                       props.invRegisterData?.BillType === "Credit" ||
                       props.invRegisterData.Inv_No?.length > 0 ||
@@ -734,7 +780,12 @@ export default function InvoicingInfo(props) {
 
                 {props.invRegisterData?.BillType === "Cash" ? (
                   <div className="col-md-12">
-                    <b>Description</b>
+                    <label
+                      className="form-label"
+                      style={{ whiteSpace: "nowrap" }}
+                    >
+                      Description
+                    </label>
                     <textarea
                       rows="4"
                       style={{ width: "100%" }}
