@@ -93,6 +93,16 @@ export default function ThirdTable(props) {
     setSortConfig({ key, direction });
   };
 
+  const numbValidations = (e) => {
+    if (
+      e.which === 38 ||
+      e.which === 40 ||
+      ["e", "E", "+", "-"].includes(e.key)
+    ) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <>
       <Table striped className="table-data border" style={{ border: "1px" }}>
@@ -161,12 +171,8 @@ export default function ThirdTable(props) {
                   disabled={val.DespStatus != "Draft"}
                   className={val.DespStatus != "Draft" ? "input-disabled" : ""}
                   style={{ background: "none", border: "none" }}
-                  value={parseFloat(val.Qty)}
-                  onKeyDown={(e) => {
-                    if (e.which === 38 || e.which === 40) {
-                      e.preventDefault();
-                    }
-                  }}
+                  value={val.Qty}
+                  onKeyDown={numbValidations}
                   onChange={(e) => {
                     if (parseInt(e.target.value) < 0) {
                       e.target.value = parseInt(e.target.value) * -1;
@@ -188,12 +194,8 @@ export default function ThirdTable(props) {
                   disabled={val.DespStatus != "Draft"}
                   className={val.DespStatus != "Draft" ? "input-disabled" : ""}
                   style={{ background: "none", border: "none" }}
-                  value={parseFloat(val.Unit_Wt)}
-                  onKeyDown={(e) => {
-                    if (e.which === 38 || e.which === 40) {
-                      e.preventDefault();
-                    }
-                  }}
+                  value={val.Unit_Wt}
+                  onKeyDown={numbValidations}
                   onChange={(e) => {
                     if (parseFloat(e.target.value).toFixed(1) < 0.0) {
                       e.target.value = parseFloat(e.target.value) * -1;
