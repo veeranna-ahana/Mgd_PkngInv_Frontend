@@ -1,5 +1,6 @@
 import React from "react";
 
+import { toast } from "react-toastify";
 export default function ConsigneeInfo(props) {
   return (
     <>
@@ -11,15 +12,7 @@ export default function ConsigneeInfo(props) {
             <textarea
               rows="5"
               style={{ width: "100%", height: "120px" }}
-              value={
-                props.invRegisterData?.Cust_Address === null ||
-                props.invRegisterData?.Cust_Address === "null" ||
-                props.invRegisterData?.Cust_Address === undefined ||
-                props.invRegisterData?.Cust_Address === "undefined" ||
-                props.invRegisterData?.Cust_Address === ""
-                  ? ""
-                  : props.invRegisterData?.Cust_Address
-              }
+              value={props.invRegisterData?.Cust_Address || ""}
               name="Cust_Address"
               disabled
               className="in-field mt-1"
@@ -31,17 +24,17 @@ export default function ConsigneeInfo(props) {
               rows="5"
               maxLength={"199"}
               style={{ width: "100%", height: "120px" }}
-              value={
-                props.invRegisterData?.Del_Address === null ||
-                props.invRegisterData?.Del_Address === "null" ||
-                props.invRegisterData?.Del_Address === undefined ||
-                props.invRegisterData?.Del_Address === "undefined" ||
-                props.invRegisterData?.Del_Address === ""
-                  ? ""
-                  : props.invRegisterData?.Del_Address
-              }
+              value={props.invRegisterData?.Del_Address || ""}
               name="Del_Address"
-              onChange={props.inputHandler}
+              onChange={(e) => {
+                e.target.value = e.target.value || "";
+                if (e.target.value?.length <= 150) {
+                  props.inputHandler(e);
+                } else {
+                  toast.warning("Delivery address can be only 150 characters");
+                  e.preventDefault();
+                }
+              }}
               disabled={
                 props.invRegisterData.Inv_No ||
                 props.invRegisterData.DCStatus === "Cancelled"
@@ -62,7 +55,7 @@ export default function ConsigneeInfo(props) {
               <div className="d-flex col-md-4" style={{ gap: "10px" }}>
                 <label className="form-label">District</label>
                 <input
-                  value={props.invRegisterData?.Cust_Place}
+                  value={props.invRegisterData?.Cust_Place || ""}
                   name="Cust_Place"
                   disabled
                   className="in-field mt-1"
@@ -71,7 +64,7 @@ export default function ConsigneeInfo(props) {
               <div className="d-flex col-md-4" style={{ gap: "10px" }}>
                 <label className="form-label">State</label>
                 <input
-                  value={props.invRegisterData.Cust_State}
+                  value={props.invRegisterData.Cust_State || ""}
                   disabled
                   className="in-field mt-1"
                 />
@@ -81,17 +74,9 @@ export default function ConsigneeInfo(props) {
                   Pin Code
                 </label>
                 <input
-                  type="number"
-                  min="0"
-                  value={
-                    props.invRegisterData?.PIN_Code === null ||
-                    props.invRegisterData?.PIN_Code === "null" ||
-                    props.invRegisterData?.PIN_Code === undefined ||
-                    props.invRegisterData?.PIN_Code === "undefined" ||
-                    props.invRegisterData?.PIN_Code === ""
-                      ? ""
-                      : props.invRegisterData?.PIN_Code
-                  }
+                  // type="number"
+                  // min="0"
+                  value={props.invRegisterData?.PIN_Code || ""}
                   name="PIN_Code"
                   disabled
                   className="in-field mt-1"
@@ -106,15 +91,7 @@ export default function ConsigneeInfo(props) {
                   GST No
                 </label>
                 <input
-                  value={
-                    props.invRegisterData?.GSTNo === null ||
-                    props.invRegisterData?.GSTNo === "null" ||
-                    props.invRegisterData?.GSTNo === undefined ||
-                    props.invRegisterData?.GSTNo === "undefined" ||
-                    props.invRegisterData?.GSTNo === ""
-                      ? ""
-                      : props.invRegisterData?.GSTNo
-                  }
+                  value={props.invRegisterData?.GSTNo || ""}
                   disabled
                   className="in-field mt-1"
                 />
@@ -124,15 +101,7 @@ export default function ConsigneeInfo(props) {
                   GST State
                 </label>
                 <input
-                  value={
-                    props.invRegisterData?.Cust_State === null ||
-                    props.invRegisterData?.Cust_State === "null" ||
-                    props.invRegisterData?.Cust_State === undefined ||
-                    props.invRegisterData?.Cust_State === "undefined" ||
-                    props.invRegisterData?.Cust_State === ""
-                      ? ""
-                      : props.invRegisterData?.Cust_State
-                  }
+                  value={props.invRegisterData?.Cust_State || ""}
                   disabled
                   className="in-field"
                 />
@@ -149,8 +118,18 @@ export default function ConsigneeInfo(props) {
               maxLength={"49"}
               style={{ width: "100%", height: "50px" }}
               name="Special_Instructions"
-              value={props.invRegisterData.Special_Instructions}
-              onChange={props.inputHandler}
+              value={props.invRegisterData.Special_Instructions || ""}
+              onChange={(e) => {
+                e.target.value = e.target.value || "";
+                if (e.target.value?.length <= 40) {
+                  props.inputHandler(e);
+                } else {
+                  toast.warning(
+                    "Schedule Intructions can be only 40 characters"
+                  );
+                  e.preventDefault();
+                }
+              }}
               disabled={
                 props.invRegisterData.Inv_No ||
                 props.invRegisterData.DCStatus === "Cancelled"

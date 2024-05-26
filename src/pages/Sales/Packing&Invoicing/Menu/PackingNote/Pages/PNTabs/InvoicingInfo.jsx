@@ -311,6 +311,16 @@ export default function InvoicingInfo(props) {
     }
   };
 
+  const numbValidations = (e) => {
+    if (
+      e.which === 38 ||
+      e.which === 40 ||
+      ["e", "E", "+", "-"].includes(e.key)
+    ) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <>
       <div>
@@ -333,11 +343,7 @@ export default function InvoicingInfo(props) {
                   }
                   min={props.formatedTodayDate}
                   name="DespatchDate"
-                  onKeyDown={(e) => {
-                    if (e.which === 38 || e.which === 40) {
-                      e.preventDefault();
-                    }
-                  }}
+                  onKeyDown={numbValidations}
                   onChange={props.inputHandler}
                   disabled={
                     props.invRegisterData.Inv_No ||
@@ -416,7 +422,15 @@ export default function InvoicingInfo(props) {
                   // type="text"
                   value={props.invRegisterData?.VehNo}
                   name="VehNo"
-                  onChange={props.inputHandler}
+                  onChange={(e) => {
+                    e.target.value = e.target.value || "";
+                    if (e.target.value?.length <= 45) {
+                      props.inputHandler(e);
+                    } else {
+                      toast.warning("Vehicle Number can be only 45 characters");
+                      e.preventDefault();
+                    }
+                  }}
                   disabled={
                     props.invRegisterData?.TptMode === "By Hand" ||
                     props.invRegisterData.Inv_No?.length > 0 ||
@@ -452,7 +466,17 @@ export default function InvoicingInfo(props) {
                     <input
                       name="Del_ContactName"
                       value={props.invRegisterData.Del_ContactName}
-                      onChange={props.inputHandler}
+                      onChange={(e) => {
+                        e.target.value = e.target.value || "";
+                        if (e.target.value?.length <= 90) {
+                          props.inputHandler(e);
+                        } else {
+                          toast.warning(
+                            "Delivery Person Name can be only 90 characters"
+                          );
+                          e.preventDefault();
+                        }
+                      }}
                       disabled={
                         props.invRegisterData.Inv_No ||
                         props.invRegisterData.DCStatus === "Cancelled"
@@ -475,7 +499,17 @@ export default function InvoicingInfo(props) {
                     <input
                       name="Del_ContactNo"
                       value={props.invRegisterData.Del_ContactNo}
-                      onChange={props.inputHandler}
+                      onChange={(e) => {
+                        e.target.value = e.target.value || "";
+                        if (e.target.value?.length <= 50) {
+                          props.inputHandler(e);
+                        } else {
+                          toast.warning(
+                            "Delivery Person Contact Number can be only 50 characters"
+                          );
+                          e.preventDefault();
+                        }
+                      }}
                       disabled={
                         props.invRegisterData.Inv_No ||
                         props.invRegisterData.DCStatus === "Cancelled"
@@ -521,19 +555,27 @@ export default function InvoicingInfo(props) {
                   <label className="form-label">Discount</label>
                   <input
                     type="number"
-                    min="0"
+                    // min="0"
                     value={props.invRegisterData?.Discount}
                     name="Discount"
-                    onKeyDown={(e) => {
-                      if (e.which === 38 || e.which === 40) {
-                        e.preventDefault();
-                      }
-                    }}
+                    onKeyDown={numbValidations}
                     onChange={(e) => {
+                      e.target.value = e.target.value || 0;
                       if (parseInt(e.target.value) < 0) {
                         e.target.value = parseInt(e.target.value) * -1;
                         toast.warning("Discount can't be negative");
                         props.handleChangeDiscountDelivery(e);
+                      } else if (
+                        parseFloat(props.invRegisterData.Net_Total) +
+                          parseFloat(props.invRegisterData.Del_Chg) <
+                        parseFloat(e.target.value)
+                      ) {
+                        // e.target.value = parseInt(e.target.value) * -1;
+                        toast.warning(
+                          "Discount can't be greater then Net Total + Delivery Charges"
+                        );
+                        e.preventDefault();
+                        // props.handleChangeDiscountDelivery(e);
                       } else {
                         props.handleChangeDiscountDelivery(e);
                       }
@@ -559,15 +601,13 @@ export default function InvoicingInfo(props) {
                   </label>
                   <input
                     type="number"
-                    min="0"
+                    // min="0"
                     value={props.invRegisterData?.Del_Chg}
                     name="Del_Chg"
-                    onKeyDown={(e) => {
-                      if (e.which === 38 || e.which === 40) {
-                        e.preventDefault();
-                      }
-                    }}
+                    onKeyDown={numbValidations}
                     onChange={(e) => {
+                      e.target.value = e.target.value || 0;
+
                       if (parseInt(e.target.value) < 0) {
                         e.target.value = parseInt(e.target.value) * -1;
                         toast.warning("Delivery Charge can't be negative");
@@ -672,7 +712,15 @@ export default function InvoicingInfo(props) {
                   }}
                   value={props.invRegisterData?.Remarks}
                   name="Remarks"
-                  onChange={props.inputHandler}
+                  onChange={(e) => {
+                    e.target.value = e.target.value || "";
+                    if (e.target.value?.length <= 150) {
+                      props.inputHandler(e);
+                    } else {
+                      toast.warning("Remarks can be only 150 characters");
+                      e.preventDefault();
+                    }
+                  }}
                   disabled={
                     props.invRegisterData.Inv_No ||
                     props.invRegisterData.DCStatus === "Cancelled"
@@ -744,14 +792,10 @@ export default function InvoicingInfo(props) {
                   </label>
                   <input
                     type="number"
-                    min={"0"}
+                    // min={"0"}
                     name="PymtAmtRecd"
                     value={props.invRegisterData?.PymtAmtRecd}
-                    onKeyDown={(e) => {
-                      if (e.which === 38 || e.which === 40) {
-                        e.preventDefault();
-                      }
-                    }}
+                    onKeyDown={numbValidations}
                     onChange={(e) => {
                       e.target.value = e.target.value || 0;
 
@@ -791,7 +835,17 @@ export default function InvoicingInfo(props) {
                       style={{ width: "100%" }}
                       name="PaymentReceiptDetails"
                       value={props.invRegisterData?.PaymentReceiptDetails}
-                      onChange={props.inputHandler}
+                      onChange={(e) => {
+                        e.target.value = e.target.value || "";
+                        if (e.target.value?.length <= 40) {
+                          props.inputHandler(e);
+                        } else {
+                          toast.warning(
+                            "Description can be only 40 characters"
+                          );
+                          e.preventDefault();
+                        }
+                      }}
                       disabled={
                         props.invRegisterData.Inv_No?.length > 0 ||
                         props.invRegisterData.DCStatus === "Cancelled"
