@@ -8,53 +8,98 @@ import { apipoints } from "../../../../../../api/PackInv_API/PackingNote/Packing
 
 export default function SetRateModal(props) {
   const updatedRates = props.invDetailsData;
+
   const updatingTheRateFunction = (newRates) => {
+    let newInvRegister = props.invRegisterData || {};
+
     Axios.post(apipoints.updateRatesPN, {
       newRates: newRates,
     }).then((res) => {
       if (res.data) {
-        props.setShowSetRateModal(false);
-        toast.success(res.data);
+        toast.success("Set Rate Successful");
+
+        let newNetTotal = 0;
+        let newRoundOff = 0;
+        let newGrandTotal = 0;
+        // console.log("newRatessss", newRates);
+        for (let i = 0; i < newRates.length; i++) {
+          const element = newRates[i];
+          // console.log("element", element);
+          newNetTotal =
+            newNetTotal +
+            parseFloat(element.Qty) *
+              (parseFloat(element.JW_Rate) + parseFloat(element.Mtrl_rate));
+          // console.log("new net ttoal", newNetTotal);
+        }
+
+        newGrandTotal = Math.round(newNetTotal);
+        newRoundOff = parseFloat(newGrandTotal) - parseFloat(newNetTotal);
+
+        // setting the nettotal , discount, del charg, tax amount, inv total, round off, grand total
+        newInvRegister.Net_Total = newNetTotal.toFixed(2);
+        newInvRegister.Discount = (0).toFixed(2);
+        newInvRegister.Del_Chg = (0).toFixed(2);
+        newInvRegister.TaxAmount = (0).toFixed(2);
+        newInvRegister.InvTotal = newNetTotal.toFixed(2);
+        newInvRegister.Round_Off = newRoundOff.toFixed(2);
+        newInvRegister.GrandTotal = newGrandTotal.toFixed(2);
+
+        // console.log("newInvRegister", newInvRegister);
+
+        Axios.post(apipoints.updatePNProfileData, {
+          invRegisterData: newInvRegister,
+          invTaxData: [],
+        }).then((res) => {
+          if (res) {
+            if (res.data.status === 1) {
+              props.fetchData();
+
+              // set tax dropdown null
+              document.getElementById("taxDropdown").value = "none";
+
+              toast.success(res.data.comment);
+              props.setShowSetRateModal(false);
+            } else if (res.data.status === 0) {
+              toast.error(res.data.comment);
+            } else {
+              toast.error("Uncaught Error");
+            }
+          }
+        });
+
+        // props.setInvRegisterData({
+        //   ...props.invRegisterData,
+        //   Net_Total: newNetTotal.toFixed(2),
+        //   Discount: "0.00",
+        //   Del_Chg: "0.00",
+        //   TaxAmount: "0.00",
+        //   InvTotal: newNetTotal.toFixed(2),
+        //   Round_Off: newRoundOff.toFixed(2),
+        //   GrandTotal: newGrandTotal.toFixed(2),
+        // });
+
+        // // delete tax
+        // // props.setInvTaxData([]);
+        // document.getElementById("taxDropdown").value = "none";
+
+        // //
+        // // props.setShowSetRateModal(false);
+        // // toast.success("Set Rate Successful");
+      } else {
+        toast.warning("Backend Error");
       }
     });
-
-    let newNetTotal = 0;
-    let newRoundOff = 0;
-    let newGrandTotal = 0;
-    // console.log("newRatessss", newRates);
-    for (let i = 0; i < newRates.length; i++) {
-      const element = newRates[i];
-      // console.log("element", element);
-      newNetTotal =
-        newNetTotal +
-        parseFloat(element.Qty) *
-          (parseFloat(element.JW_Rate) + parseFloat(element.Mtrl_rate));
-      // console.log("new net ttoal", newNetTotal);
-    }
-
-    newGrandTotal = Math.round(newNetTotal);
-    newRoundOff = parseFloat(newGrandTotal) - parseFloat(newNetTotal);
-
-    // setting the nettotal , discount, del charg, tax amount, inv total, round off, grand total
-    props.setInvRegisterData({
-      ...props.invRegisterData,
-      Net_Total: newNetTotal.toFixed(2),
-      Discount: "0.00",
-      Del_Chg: "0.00",
-      TaxAmount: "0.00",
-      InvTotal: newNetTotal.toFixed(2),
-      Round_Off: newRoundOff.toFixed(2),
-      GrandTotal: newGrandTotal.toFixed(2),
-    });
-
-    // delete tax
-    props.setInvTaxData([]);
-    document.getElementById("taxDropdown").value = "none";
-    // props.deleteTaxFunc();
-
-    // props.onSave();
   };
 
+  const numbValidations = (e) => {
+    if (
+      e.which === 38 ||
+      e.which === 40 ||
+      ["e", "E", "+", "-"].includes(e.key)
+    ) {
+      e.preventDefault();
+    }
+  };
   return (
     <>
       <Modal
@@ -154,7 +199,7 @@ export default function SetRateModal(props) {
                   <th>SL No</th>
                   <th>Drawing Name</th>
                   <th>Material</th>
-                  <th>JW Cost</th>
+                  <th>Job Work Cost</th>
                   <th>Material Cost</th>
                 </tr>
               </thead>
@@ -169,10 +214,18 @@ export default function SetRateModal(props) {
                       <td>
                         <input
                           type="number"
-                          min="0"
-                          defaultValue={val.JW_Rate}
+                          // min="0"
                           className="border-0"
+                          defaultValue={val.JW_Rate}
+                          onKeyDown={numbValidations}
                           onChange={(e) => {
+                            e.target.value = e.target.value || 0;
+
+                            if (parseInt(e.target.value) < 0) {
+                              e.target.value = parseInt(e.target.value) * -1;
+                              toast.warning("Job Work Cost can't be negative");
+                            }
+
                             updatedRates[i].JW_Rate = e.target.value;
                             updatedRates[i].Unit_Rate = (
                               parseFloat(e.target.value || 0) +
@@ -185,8 +238,23 @@ export default function SetRateModal(props) {
                       <td>
                         <input
                           type="number"
-                          min="0"
+                          // min="0"
                           defaultValue={val.Mtrl_rate}
+                          onKeyDown={numbValidations}
+                          onChange={(e) => {
+                            e.target.value = e.target.value || 0;
+
+                            if (parseInt(e.target.value) < 0) {
+                              e.target.value = parseInt(e.target.value) * -1;
+                              toast.warning("Material Cost can't be negative");
+                            }
+
+                            updatedRates[i].Mtrl_rate = e.target.value;
+                            updatedRates[i].Unit_Rate = (
+                              parseFloat(e.target.value || 0) +
+                              parseFloat(updatedRates[i].JW_Rate || 0)
+                            ).toFixed(2);
+                          }}
                           disabled={
                             props.invRegisterData?.DC_InvType === "Job Work" ||
                             props.setRateConsumerData[0]?.ScheduleType ===
@@ -199,13 +267,6 @@ export default function SetRateModal(props) {
                               ? "border-0 input-disabled"
                               : "border-0"
                           }
-                          onChange={(e) => {
-                            updatedRates[i].Mtrl_rate = e.target.value;
-                            updatedRates[i].Unit_Rate = (
-                              parseFloat(e.target.value || 0) +
-                              parseFloat(updatedRates[i].JW_Rate || 0)
-                            ).toFixed(2);
-                          }}
                         />
                       </td>
                     </tr>

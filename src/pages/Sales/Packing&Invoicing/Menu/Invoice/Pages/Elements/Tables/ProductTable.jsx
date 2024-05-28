@@ -106,7 +106,7 @@ export default function ProductTable(props) {
           element.Mtrl = e.target.value || "";
           element.Excise_CL_no =
             materialData.filter((obj) => obj.Material === e.target.value)[0]
-              .ExciseClNo || "";
+              ?.ExciseClNo || "";
         } else if (e.target.name === "Qty") {
           element[e.target.name] = e.target.value;
           element.DC_Srl_Wt = (
@@ -194,6 +194,25 @@ export default function ProductTable(props) {
     setSortConfig({ key, direction });
   };
 
+  const weightValidations = (e) => {
+    if (
+      e.which === 38 ||
+      e.which === 40 ||
+      ["e", "E", "+", "-"].includes(e.key)
+    ) {
+      e.preventDefault();
+    }
+  };
+
+  const qtyValidations = (e) => {
+    if (
+      e.which === 38 ||
+      e.which === 40 ||
+      ["e", "E", "+", "-", "."].includes(e.key)
+    ) {
+      e.preventDefault();
+    }
+  };
   return (
     <>
       <div className="px-1">
@@ -407,7 +426,15 @@ export default function ProductTable(props) {
                           inputFocus();
                         }}
                         onChange={(e) => {
-                          inputTableRow(e, index);
+                          e.target.value = e.target.value || "";
+                          if (e.target.value?.length <= 200) {
+                            inputTableRow(e, index);
+                          } else {
+                            toast.warning(
+                              "Description of Goods can be only 200 characters"
+                            );
+                            e.preventDefault();
+                          }
                         }}
                         disabled={props.invRegisterData?.DC_No}
                         className={
@@ -432,9 +459,16 @@ export default function ProductTable(props) {
                             inputFocus();
                           }}
                           onChange={(e) => {
-                            inputTableRow(e, index);
+                            e.target.value = e.target.value || "";
+                            if (e.target.value?.length <= 100) {
+                              inputTableRow(e, index);
+                            } else {
+                              toast.warning(
+                                "Material can be only 100 characters"
+                              );
+                              e.preventDefault();
+                            }
                           }}
-                          maxLength={"100"}
                         />
                       ) : (
                         <select
@@ -487,21 +521,35 @@ export default function ProductTable(props) {
                           inputFocus();
                         }}
                         onChange={(e) => {
-                          inputTableRow(e, index);
+                          e.target.value = e.target.value || "";
+                          if (e.target.value?.length <= 45) {
+                            inputTableRow(e, index);
+                          } else {
+                            toast.warning(
+                              "Excise classification can be only 45 characters"
+                            );
+                            e.preventDefault();
+                          }
                         }}
-                        maxLength={"15"}
                       />
                     </td>
                     <td>
                       <input
                         type="number"
-                        min="0"
+                        // min="0"
                         value={tableData.Qty}
                         name="Qty"
                         onFocus={(e) => {
                           inputFocus();
                         }}
+                        onKeyDown={qtyValidations}
                         onChange={(e) => {
+                          e.target.value = e.target.value || 0;
+
+                          if (parseInt(e.target.value) < 0) {
+                            e.target.value = parseInt(e.target.value) * -1;
+                            toast.warning("Qty can't be negative");
+                          }
                           inputTableRow(e, index);
                         }}
                         disabled={
@@ -521,7 +569,7 @@ export default function ProductTable(props) {
                     <td>
                       <input
                         type="number"
-                        min="0"
+                        // min="0"
                         value={tableData.Unit_Wt}
                         disabled={
                           props.invRegisterData.Inv_No?.length > 0 ||
@@ -537,7 +585,14 @@ export default function ProductTable(props) {
                         onFocus={(e) => {
                           inputFocus();
                         }}
+                        onKeyDown={weightValidations}
                         onChange={(e) => {
+                          e.target.value = e.target.value || 0;
+
+                          if (parseInt(e.target.value) < 0) {
+                            e.target.value = parseInt(e.target.value) * -1;
+                            toast.warning("Unit Weight can't be negative");
+                          }
                           inputTableRow(e, index);
                         }}
                       />
@@ -545,7 +600,7 @@ export default function ProductTable(props) {
                     <td>
                       <input
                         type="number"
-                        min="0"
+                        // min="0"
                         value={tableData.DC_Srl_Wt}
                         disabled
                         className="tableRowInput input-disabled"
@@ -561,7 +616,7 @@ export default function ProductTable(props) {
                     <td>
                       <input
                         type="number"
-                        min="0"
+                        // min="0"
                         value={tableData.Unit_Rate}
                         disabled={
                           props.invRegisterData.Inv_No?.length > 0 ||
@@ -577,7 +632,14 @@ export default function ProductTable(props) {
                         onFocus={(e) => {
                           inputFocus();
                         }}
+                        onKeyDown={weightValidations}
                         onChange={(e) => {
+                          e.target.value = e.target.value || 0;
+
+                          if (parseInt(e.target.value) < 0) {
+                            e.target.value = parseInt(e.target.value) * -1;
+                            toast.warning("Unit Rate can't be negative");
+                          }
                           inputTableRow(e, index);
                         }}
                       />
@@ -585,7 +647,7 @@ export default function ProductTable(props) {
                     <td>
                       <input
                         type="number"
-                        min="0"
+                        // min="0"
                         value={tableData.DC_Srl_Amt}
                         disabled
                         className="tableRowInput input-disabled"
@@ -620,7 +682,15 @@ export default function ProductTable(props) {
                             inputFocus();
                           }}
                           onChange={(e) => {
-                            inputTableRow(e, key);
+                            e.target.value = e.target.value || "";
+                            if (e.target.value?.length <= 200) {
+                              inputTableRow(e, key);
+                            } else {
+                              toast.warning(
+                                "Description of Goods can be only 200 characters"
+                              );
+                              e.preventDefault();
+                            }
                           }}
                           disabled={props.invRegisterData?.DC_No}
                           className={
@@ -645,9 +715,16 @@ export default function ProductTable(props) {
                               inputFocus();
                             }}
                             onChange={(e) => {
-                              inputTableRow(e, key);
+                              e.target.value = e.target.value || "";
+                              if (e.target.value?.length <= 100) {
+                                inputTableRow(e, key);
+                              } else {
+                                toast.warning(
+                                  "Material can be only 100 characters"
+                                );
+                                e.preventDefault();
+                              }
                             }}
-                            maxLength={"100"}
                           />
                         ) : (
                           <select
@@ -700,21 +777,35 @@ export default function ProductTable(props) {
                             inputFocus();
                           }}
                           onChange={(e) => {
-                            inputTableRow(e, key);
+                            e.target.value = e.target.value || "";
+                            if (e.target.value?.length <= 45) {
+                              inputTableRow(e, key);
+                            } else {
+                              toast.warning(
+                                "Excise classification can be only 45 characters"
+                              );
+                              e.preventDefault();
+                            }
                           }}
-                          maxLength={"15"}
                         />
                       </td>
                       <td>
                         <input
                           type="number"
-                          min="0"
+                          // min="0"
                           value={tableData.Qty}
                           name="Qty"
                           onFocus={(e) => {
                             inputFocus();
                           }}
+                          onKeyDown={qtyValidations}
                           onChange={(e) => {
+                            e.target.value = e.target.value || 0;
+
+                            if (parseInt(e.target.value) < 0) {
+                              e.target.value = parseInt(e.target.value) * -1;
+                              toast.warning("Qty can't be negative");
+                            }
                             inputTableRow(e, key);
                           }}
                           disabled={
@@ -734,7 +825,7 @@ export default function ProductTable(props) {
                       <td>
                         <input
                           type="number"
-                          min="0"
+                          // min="0"
                           value={tableData.Unit_Wt}
                           disabled={
                             props.invRegisterData.Inv_No?.length > 0 ||
@@ -750,7 +841,14 @@ export default function ProductTable(props) {
                           onFocus={(e) => {
                             inputFocus();
                           }}
+                          onKeyDown={weightValidations}
                           onChange={(e) => {
+                            e.target.value = e.target.value || 0;
+
+                            if (parseInt(e.target.value) < 0) {
+                              e.target.value = parseInt(e.target.value) * -1;
+                              toast.warning("Unit Weight can't be negative");
+                            }
                             inputTableRow(e, key);
                           }}
                         />
@@ -758,7 +856,7 @@ export default function ProductTable(props) {
                       <td>
                         <input
                           type="number"
-                          min="0"
+                          // min="0"
                           value={tableData.DC_Srl_Wt}
                           disabled
                           className="tableRowInput input-disabled"
@@ -774,7 +872,7 @@ export default function ProductTable(props) {
                       <td>
                         <input
                           type="number"
-                          min="0"
+                          // min="0"
                           value={tableData.Unit_Rate}
                           disabled={
                             props.invRegisterData.Inv_No?.length > 0 ||
@@ -790,7 +888,14 @@ export default function ProductTable(props) {
                           onFocus={(e) => {
                             inputFocus();
                           }}
+                          onKeyDown={weightValidations}
                           onChange={(e) => {
+                            e.target.value = e.target.value || 0;
+
+                            if (parseInt(e.target.value) < 0) {
+                              e.target.value = parseInt(e.target.value) * -1;
+                              toast.warning("Unit Rate can't be negative");
+                            }
                             inputTableRow(e, key);
                           }}
                         />
@@ -798,7 +903,7 @@ export default function ProductTable(props) {
                       <td>
                         <input
                           type="number"
-                          min="0"
+                          // min="0"
                           value={tableData.DC_Srl_Amt}
                           disabled
                           className="tableRowInput input-disabled"

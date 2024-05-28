@@ -186,11 +186,13 @@ export default function InvoicingInfo(props) {
         props.invRegisterData.PaymentTerms.length === 0
       ) {
         toast.warning("Please select the Cash Mode");
+        e.preventDefault();
       } else if (
         props.invRegisterData?.BillType === "Credit" &&
         props.invRegisterData.PaymentTerms.length === 0
       ) {
         toast.warning("Please select the Credit Days");
+        e.preventDefault();
       } else if (props.invRegisterData.BillType.length === 0) {
         toast.warning("Please select Bill Type");
         e.preventDefault();
@@ -198,6 +200,7 @@ export default function InvoicingInfo(props) {
         parseFloat(props.invRegisterData.GrandTotal).toFixed(2) < 0.0
       ) {
         toast.warning("Can't create the invoice with negative amount");
+        e.preventDefault();
       } else if (props.invRegisterData.BillType.length > 0) {
         if (props.invRegisterData.BillType === "Cash") {
           if (
@@ -272,6 +275,9 @@ export default function InvoicingInfo(props) {
                 createInvoiceWorkFunc();
               }
             }
+          } else {
+            toast.warning("Please select the cash mode / credit days");
+            e.preventDefault();
           }
         } else {
           createInvoiceWorkFunc();
@@ -282,6 +288,15 @@ export default function InvoicingInfo(props) {
     }
   };
 
+  const numbValidations = (e) => {
+    if (
+      e.which === 38 ||
+      e.which === 40 ||
+      ["e", "E", "+", "-"].includes(e.key)
+    ) {
+      e.preventDefault();
+    }
+  };
   return (
     <>
       <div>
@@ -366,7 +381,17 @@ export default function InvoicingInfo(props) {
                       type="text"
                       name="VehNo"
                       value={props.invRegisterData?.VehNo}
-                      onChange={props.inputHandler}
+                      onChange={(e) => {
+                        e.target.value = e.target.value || "";
+                        if (e.target.value?.length <= 45) {
+                          props.inputHandler(e);
+                        } else {
+                          toast.warning(
+                            "Vehicle Number can be only 45 characters"
+                          );
+                          e.preventDefault();
+                        }
+                      }}
                       disabled={
                         props.invRegisterData?.TptMode === "By Hand" ||
                         props.invRegisterData.Inv_No?.length > 0 ||
@@ -408,10 +433,33 @@ export default function InvoicingInfo(props) {
                     <label className="form-label">Discount</label>
                     <input
                       type="number"
-                      min="0"
+                      // min="0"
                       name="Discount"
                       value={props.invRegisterData?.Discount}
-                      onChange={props.handleChangeDiscountDelivery}
+                      // onChange={props.handleChangeDiscountDelivery}
+
+                      onKeyDown={numbValidations}
+                      onChange={(e) => {
+                        e.target.value = e.target.value || 0;
+                        if (parseInt(e.target.value) < 0) {
+                          e.target.value = parseInt(e.target.value) * -1;
+                          toast.warning("Discount can't be negative");
+                          props.handleChangeDiscountDelivery(e);
+                        } else if (
+                          parseFloat(props.invRegisterData.Net_Total) +
+                            parseFloat(props.invRegisterData.Del_Chg) <
+                          parseFloat(e.target.value)
+                        ) {
+                          // e.target.value = parseInt(e.target.value) * -1;
+                          toast.warning(
+                            "Discount can't be greater then Net Total + Delivery Charges"
+                          );
+                          e.preventDefault();
+                          // props.handleChangeDiscountDelivery(e);
+                        } else {
+                          props.handleChangeDiscountDelivery(e);
+                        }
+                      }}
                       disabled={
                         props.invRegisterData.Inv_No?.length > 0 ||
                         props.invRegisterData.DCStatus === "Cancelled"
@@ -433,10 +481,21 @@ export default function InvoicingInfo(props) {
                     </label>
                     <input
                       type="number"
-                      min="0"
+                      // min="0"
                       name="Del_Chg"
                       value={props.invRegisterData?.Del_Chg}
-                      onChange={props.handleChangeDiscountDelivery}
+                      onKeyDown={numbValidations}
+                      onChange={(e) => {
+                        e.target.value = e.target.value || 0;
+
+                        if (parseInt(e.target.value) < 0) {
+                          e.target.value = parseInt(e.target.value) * -1;
+                          toast.warning("Delivery Charge can't be negative");
+                          props.handleChangeDiscountDelivery(e);
+                        } else {
+                          props.handleChangeDiscountDelivery(e);
+                        }
+                      }}
                       disabled={
                         props.invRegisterData.Inv_No?.length > 0 ||
                         props.invRegisterData.DCStatus === "Cancelled"
@@ -530,11 +589,19 @@ export default function InvoicingInfo(props) {
                     width: "100%",
                     height: "50px",
                   }}
-                  maxLength={"190"}
+                  // maxLength={"190"}
                   name="Remarks"
                   // className="p-1 pb-2"
                   value={props.invRegisterData?.Remarks}
-                  onChange={props.inputHandler}
+                  onChange={(e) => {
+                    e.target.value = e.target.value || "";
+                    if (e.target.value?.length <= 150) {
+                      props.inputHandler(e);
+                    } else {
+                      toast.warning("Remarks can be only 150 characters");
+                      e.preventDefault();
+                    }
+                  }}
                   disabled={
                     props.invRegisterData.Inv_No?.length > 0 ||
                     props.invRegisterData.DCStatus === "Cancelled"
@@ -568,7 +635,17 @@ export default function InvoicingInfo(props) {
                     <input
                       name="Del_ContactName"
                       value={props.invRegisterData.Del_ContactName}
-                      onChange={props.inputHandler}
+                      onChange={(e) => {
+                        e.target.value = e.target.value || "";
+                        if (e.target.value?.length <= 90) {
+                          props.inputHandler(e);
+                        } else {
+                          toast.warning(
+                            "Delivery Person Name can be only 90 characters"
+                          );
+                          e.preventDefault();
+                        }
+                      }}
                       disabled={
                         props.invRegisterData.Inv_No ||
                         props.invRegisterData.DCStatus === "Cancelled"
@@ -591,7 +668,17 @@ export default function InvoicingInfo(props) {
                     <input
                       name="Del_ContactNo"
                       value={props.invRegisterData.Del_ContactNo}
-                      onChange={props.inputHandler}
+                      onChange={(e) => {
+                        e.target.value = e.target.value || "";
+                        if (e.target.value?.length <= 50) {
+                          props.inputHandler(e);
+                        } else {
+                          toast.warning(
+                            "Delivery Person Contact Number can be only 50 characters"
+                          );
+                          e.preventDefault();
+                        }
+                      }}
                       disabled={
                         props.invRegisterData.Inv_No ||
                         props.invRegisterData.DCStatus === "Cancelled"
@@ -625,7 +712,21 @@ export default function InvoicingInfo(props) {
                     <select
                       name="BillType"
                       value={props.invRegisterData.BillType}
-                      onChange={props.inputHandler}
+                      onChange={(e) => {
+                        // console.log("eeeeeeee", e.target.value);
+
+                        let newInvRegister = props.invRegisterData;
+
+                        if (e.target.value === "Cash") {
+                          newInvRegister.PaymentTerms = cashMode[0];
+                        } else {
+                          newInvRegister.PaymentTerms = creditDays[2];
+                        }
+
+                        // console.log("newww", newInvRegister);
+                        props.setInvRegisterData(newInvRegister);
+                        props.inputHandler(e);
+                      }}
                       disabled={
                         props.invRegisterData.Inv_No?.length > 0 ||
                         props.invRegisterData.DCStatus === "Cancelled"
@@ -656,7 +757,7 @@ export default function InvoicingInfo(props) {
                     </label>
                     <select
                       name="PaymentTerms"
-                      value={props.invRegisterData?.PaymentTerms}
+                      value={props.invRegisterData?.PaymentTerms || ""}
                       onChange={props.inputHandler}
                       disabled={
                         props.invRegisterData.Inv_No?.length > 0 ||
@@ -706,10 +807,21 @@ export default function InvoicingInfo(props) {
                     </label>
                     <input
                       type="number"
-                      min={"0"}
+                      // min={"0"}
                       name="PymtAmtRecd"
                       value={props.invRegisterData?.PymtAmtRecd}
-                      onChange={props.inputHandler}
+                      onKeyDown={numbValidations}
+                      onChange={(e) => {
+                        e.target.value = e.target.value || 0;
+
+                        if (parseInt(e.target.value) < 0) {
+                          e.target.value = parseInt(e.target.value) * -1;
+                          toast.warning("Amount Recieved can't be negative");
+                          props.inputHandler(e);
+                        } else {
+                          props.inputHandler(e);
+                        }
+                      }}
                       disabled={
                         props.invRegisterData?.BillType === "Credit" ||
                         props.invRegisterData.Inv_No?.length > 0 ||
@@ -729,10 +841,25 @@ export default function InvoicingInfo(props) {
                       <label className="form-label">Description</label>
                       <textarea
                         rows="4"
-                        style={{ width: "100%" }}
+                        style={{
+                          border: "1px solid lightgray",
+                          borderRadius: "5px",
+                          width: "100%",
+                          // height: "50px",
+                        }}
                         name="PaymentReceiptDetails"
                         value={props.invRegisterData?.PaymentReceiptDetails}
-                        onChange={props.inputHandler}
+                        onChange={(e) => {
+                          e.target.value = e.target.value || "";
+                          if (e.target.value?.length <= 40) {
+                            props.inputHandler(e);
+                          } else {
+                            toast.warning(
+                              "Description can be only 40 characters"
+                            );
+                            e.preventDefault();
+                          }
+                        }}
                         disabled={
                           props.invRegisterData.Inv_No?.length > 0 ||
                           props.invRegisterData.DCStatus === "Cancelled"

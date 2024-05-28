@@ -291,8 +291,11 @@ export default function Form(props) {
   };
 
   const savePN = () => {
+    let newRegisterData = invRegisterData;
+    newRegisterData.DespatchDate =
+      newRegisterData.DespatchDate || formatedTodayDate;
     Axios.post(apipoints.updateInvoice, {
-      invRegisterData: invRegisterData,
+      invRegisterData: newRegisterData,
       invDetailsData: invDetailsData,
       invTaxData: invTaxData,
     }).then((res) => {

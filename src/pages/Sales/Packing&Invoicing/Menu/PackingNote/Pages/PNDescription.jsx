@@ -624,7 +624,7 @@ export default function Profile() {
           invRegisterData={invRegisterData}
           setInvTaxData={setInvTaxData}
           deleteTaxFunc={deleteTaxFunc}
-          onSave={onSave}
+          fetchData={fetchData}
         />
         <ConfirmationModal
           confirmModalOpen={confirmModalOpen}
