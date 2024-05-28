@@ -93,7 +93,7 @@ export default function ThirdTable(props) {
     setSortConfig({ key, direction });
   };
 
-  const numbValidations = (e) => {
+  const weightValidations = (e) => {
     if (
       e.which === 38 ||
       e.which === 40 ||
@@ -103,6 +103,15 @@ export default function ThirdTable(props) {
     }
   };
 
+  const qtyValidations = (e) => {
+    if (
+      e.which === 38 ||
+      e.which === 40 ||
+      ["e", "E", "+", "-", "."].includes(e.key)
+    ) {
+      e.preventDefault();
+    }
+  };
   return (
     <>
       <Table striped className="table-data border" style={{ border: "1px" }}>
@@ -166,13 +175,13 @@ export default function ThirdTable(props) {
               <td>
                 <input
                   type="number"
+                  value={val.Qty}
                   name="Qty"
-                  min={"0"}
+                  // min={"0"}
                   disabled={val.DespStatus != "Draft"}
                   className={val.DespStatus != "Draft" ? "input-disabled" : ""}
                   style={{ background: "none", border: "none" }}
-                  value={val.Qty}
-                  onKeyDown={numbValidations}
+                  onKeyDown={qtyValidations}
                   onChange={(e) => {
                     if (parseInt(e.target.value) < 0) {
                       e.target.value = parseInt(e.target.value) * -1;
@@ -190,12 +199,12 @@ export default function ThirdTable(props) {
                 <input
                   type="number"
                   name="Unit_Wt"
-                  min={"0"}
+                  value={val.Unit_Wt}
+                  // min={"0"}
                   disabled={val.DespStatus != "Draft"}
                   className={val.DespStatus != "Draft" ? "input-disabled" : ""}
                   style={{ background: "none", border: "none" }}
-                  value={val.Unit_Wt}
-                  onKeyDown={numbValidations}
+                  onKeyDown={weightValidations}
                   onChange={(e) => {
                     if (parseFloat(e.target.value).toFixed(1) < 0.0) {
                       e.target.value = parseFloat(e.target.value) * -1;
