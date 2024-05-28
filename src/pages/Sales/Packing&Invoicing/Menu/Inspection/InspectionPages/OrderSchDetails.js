@@ -45,7 +45,7 @@ export default function OrderSchDetails() {
     Axios.post(apipoints.getOrderScheduleData, {
       scheduleID: scheduleID,
     }).then((res) => {
-      console.log("ressss..............1", res.data);
+      //  console.log("ressss..............1", res.data);
       //console.log("ressssonseee tbl data..", res.data);
 
       // console.log(
@@ -75,8 +75,8 @@ export default function OrderSchDetails() {
     });
   };
 
-  console.log("header", headerData);
-  console.log("insAndPack123", insAndPack);
+  //  console.log("header", headerData);
+  //  console.log("insAndPack123", insAndPack);
   const handleRejectionTab = () => {
     // //console.log("entering into handleRejectionTab");
     Axios.post(apipoints.testRejectData, { scheduleID: scheduleID }).then(

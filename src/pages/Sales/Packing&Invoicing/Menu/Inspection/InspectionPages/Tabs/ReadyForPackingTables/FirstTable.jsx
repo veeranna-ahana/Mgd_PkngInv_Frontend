@@ -146,12 +146,20 @@ export default function FirstTable(props) {
                 }
               }}
               style={
+                // less then zerro
                 parseInt(data.QtyCleared) -
                   parseInt(data.QtyPacked) -
-                  parseInt(data.InDraftPN) ===
+                  parseInt(data.InDraftPN) <
                 0
+                  ? { backgroundColor: "#ff9900" }
+                  : // equal to zero
+                  parseInt(data.QtyCleared) -
+                      parseInt(data.QtyPacked) -
+                      parseInt(data.InDraftPN) ===
+                    0
                   ? { backgroundColor: "#9dff9d" }
-                  : parseInt(data.QtyCleared) -
+                  : // greater then zero
+                  parseInt(data.QtyCleared) -
                       parseInt(data.QtyPacked) -
                       parseInt(data.InDraftPN) >
                     0

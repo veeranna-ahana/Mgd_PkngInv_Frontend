@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 import { apipoints } from "../../../../../../api/PackInv_API/Inspection/InspProfi";
 // FirstTable
 
-import FirstTable from "./Tables/FirstTable";
-import SecondTable from "./Tables/SecondTable";
-import ThirdTable from "./Tables/ThirdTable";
+import FirstTable from "./ReadyForPackingTables/FirstTable";
+import SecondTable from "./ReadyForPackingTables/SecondTable";
+import ThirdTable from "./ReadyForPackingTables/ThirdTable";
 import { toast } from "react-toastify";
 import Axios from "axios";
 
@@ -37,6 +37,84 @@ export default function ReadyForPacking(props) {
   const [InspectionAndPackingModal, setInspectionAndPackingModal] =
     useState(false);
 
+  const replaceZeroEmptyWithZero = () => {
+    let arr = [];
+    for (let i = 0; i < props.invDetailsData.length; i++) {
+      const element = props.invDetailsData[i];
+
+      if (parseInt(element.Qty).toString() === "NaN") {
+        element.Qty = 0;
+      }
+
+      if (parseFloat(element.Unit_Wt).toString() === "NaN") {
+        element.Unit_Wt = 0;
+      }
+      arr.push(element);
+
+      props.setInvDetailsData(arr);
+    }
+  };
+
+  const saveDraftPNFunc = () => {
+    if (props.invDetailsData.length === 0) {
+      toast.warning("Please select the packing note for printing");
+    } else {
+      replaceZeroEmptyWithZero();
+      let invDataToPost = [];
+
+      for (let i = 0; i < props.invDetailsData.length; i++) {
+        const element = props.invDetailsData[i];
+
+        // console.log("element", element);
+        // console.log("parse", parseInt(element.Qty).toString() === "NaN");
+        // validation for Qty
+        if (parseInt(element.Qty) < 0) {
+          toast.warning("Qty can't be negative");
+          break;
+        } else if (parseInt(element.Qty) === 0) {
+          toast.warning("Qty can't be zero");
+          break;
+        }
+        // validation for weight
+        else if (parseFloat(element.Unit_Wt) < 0.0) {
+          toast.warning("Weight can't be negative");
+          break;
+        } else if (parseFloat(element.Unit_Wt) === 0.0) {
+          toast.warning("Weight can't be zero");
+          break;
+        } else {
+          element.Qty = parseInt(element.Qty);
+          element.Unit_Wt = parseFloat(element.Unit_Wt).toFixed(3);
+
+          invDataToPost.push(element);
+        }
+      }
+
+      // console.log("invDataToPost", invDataToPost);
+
+      if (invDataToPost.length === props.invDetailsData.length) {
+        // console.log("details data...", props.invDetailsData);
+        Axios.post(apipoints.saveDraftPN, {
+          invDetailsData: invDataToPost,
+        }).then((res) => {
+          if (res.data.flag === 0) {
+            toast.error(res.data.message);
+          } else if (res.data.flag === 1) {
+            props.getOrderScheduleData();
+            // setSelectedRegisterRow({});
+            // props.setInvDetailsData([]);
+            toast.success(res.data.message);
+          } else {
+            // props.getOrderScheduleData();
+
+            toast.error("Uncaught error found");
+          }
+        });
+      } else {
+        // toast.error("Unable to send the data to backend for save");
+      }
+    }
+  };
   const getDCNo = async () => {
     // console.log("todayDate", todayDate);
 
@@ -150,6 +228,7 @@ export default function ReadyForPacking(props) {
     if (props.invDetailsData.length === 0) {
       toast.warning("Please select the packing note for printing");
     } else {
+      saveDraftPNFunc();
       setPrintDraftPNModal(true);
     }
   };
@@ -171,30 +250,6 @@ export default function ReadyForPacking(props) {
         toast.error("Uncaught error found");
       }
     });
-  };
-
-  const saveDraftPNFunc = () => {
-    if (props.invDetailsData.length === 0) {
-      toast.warning("Please select the packing note for printing");
-    } else {
-      // console.log("details data...", props.invDetailsData);
-      Axios.post(apipoints.saveDraftPN, {
-        invDetailsData: props.invDetailsData,
-      }).then((res) => {
-        if (res.data.flag === 0) {
-          toast.error(res.data.message);
-        } else if (res.data.flag === 1) {
-          props.getOrderScheduleData();
-          // setSelectedRegisterRow({});
-          // props.setInvDetailsData([]);
-          toast.success(res.data.message);
-        } else {
-          // props.getOrderScheduleData();
-
-          toast.error("Uncaught error found");
-        }
-      });
-    }
   };
 
   const preparePNFunc = () => {
@@ -395,6 +450,8 @@ export default function ReadyForPacking(props) {
             </div>
             <div style={{ height: "190px", overflow: "auto" }}>
               <ThirdTable
+                orderScheduleDetailsData={props.orderScheduleDetailsData}
+                allInvDetailsData={props.allInvDetailsData}
                 setInvDetailsData={props.setInvDetailsData}
                 invDetailsData={props.invDetailsData}
               />

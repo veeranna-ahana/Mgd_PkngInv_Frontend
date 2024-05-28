@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "react-toastify";
 
 export default function FormHeader(props) {
   return (
@@ -62,18 +63,18 @@ export default function FormHeader(props) {
               PO No.
             </label>
             <input
-              maxLength={"99"}
-              value={
-                props.invRegisterData?.PO_No === null ||
-                props.invRegisterData?.PO_No === "null" ||
-                props.invRegisterData?.PO_No === undefined ||
-                props.invRegisterData?.PO_No === "undefined" ||
-                props.invRegisterData?.PO_No === ""
-                  ? ""
-                  : props.invRegisterData?.PO_No
-              }
+              // maxLength={"99"}
               name="PO_No"
-              onChange={props.inputHandler}
+              value={props.invRegisterData?.PO_No || ""}
+              onChange={(e) => {
+                e.target.value = e.target.value || "";
+                if (e.target.value?.length <= 90) {
+                  props.inputHandler(e);
+                } else {
+                  toast.warning("PO No can be only 90 characters");
+                  e.preventDefault();
+                }
+              }}
               disabled={
                 props.invRegisterData.Inv_No ||
                 props.invRegisterData.DCStatus === "Cancelled"

@@ -2,11 +2,56 @@ import React, { useEffect, useState } from "react";
 import Table from "react-bootstrap/Table";
 
 import { FaArrowUp } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 export default function ThirdTable(props) {
+  // console.log("third table props...", props);
+
   const [sortConfig, setSortConfig] = useState({ key: null, direction: null });
 
   const modifyInvDetailsData = (e, key) => {
+    let totalQtyForDwg = 0;
+    let OrderSchDetailsID = "";
+    // let DwgName = "";
+    if (e.target.name === "Qty") {
+      for (let i = 0; i < props.allInvDetailsData.length; i++) {
+        const element = props.allInvDetailsData[i];
+        if (
+          element.OrderSchDetailsID ===
+            props.invDetailsData[key].OrderSchDetailsID &&
+          element.DespStatus != "Cancelled"
+        ) {
+          OrderSchDetailsID = element.OrderSchDetailsID;
+          totalQtyForDwg =
+            parseInt(totalQtyForDwg) + parseInt(e.target.value || 0);
+          // console.log("element", element);
+        }
+      }
+      // console.log("totalQtyForDwg", totalQtyForDwg);
+      // console.log("OrderSchDetailsID", OrderSchDetailsID);
+
+      for (let i = 0; i < props.orderScheduleDetailsData.length; i++) {
+        const element = props.orderScheduleDetailsData[i];
+        // console.log(
+        //   "orassasasaassasasass",
+        //   element.DwgName,
+        //   ".....",
+        //   element.SchDetailsID
+        // );
+        // DwgName = element.DwgName;
+        if (
+          element.SchDetailsID === OrderSchDetailsID &&
+          parseInt(element.QtyCleared) < parseInt(totalQtyForDwg)
+        ) {
+          toast.warning(
+            `${element.DwgName + " : Pack quantity greater then cleared qty"}`
+          );
+          // console.log("orassasasaassasasass", element.DwgName);
+          // DwgName = element.DwgName;
+        }
+      }
+    }
+
     const newArray = [];
 
     for (let i = 0; i < props.invDetailsData.length; i++) {
@@ -48,6 +93,25 @@ export default function ThirdTable(props) {
     setSortConfig({ key, direction });
   };
 
+  const weightValidations = (e) => {
+    if (
+      e.which === 38 ||
+      e.which === 40 ||
+      ["e", "E", "+", "-"].includes(e.key)
+    ) {
+      e.preventDefault();
+    }
+  };
+
+  const qtyValidations = (e) => {
+    if (
+      e.which === 38 ||
+      e.which === 40 ||
+      ["e", "E", "+", "-", "."].includes(e.key)
+    ) {
+      e.preventDefault();
+    }
+  };
   return (
     <>
       <Table striped className="table-data border" style={{ border: "1px" }}>
@@ -111,13 +175,23 @@ export default function ThirdTable(props) {
               <td>
                 <input
                   type="number"
+                  value={val.Qty}
                   name="Qty"
+                  // min={"0"}
                   disabled={val.DespStatus != "Draft"}
                   className={val.DespStatus != "Draft" ? "input-disabled" : ""}
                   style={{ background: "none", border: "none" }}
-                  value={parseFloat(val.Qty)}
+                  onKeyDown={qtyValidations}
                   onChange={(e) => {
-                    modifyInvDetailsData(e, key);
+                    if (parseInt(e.target.value) < 0) {
+                      e.target.value = parseInt(e.target.value) * -1;
+                      toast.warning("Qty can't be negative");
+                      modifyInvDetailsData(e, key);
+                    } else if (parseInt(e.target.value) === 0) {
+                      toast.warning("Qty can't be zero");
+                    } else {
+                      modifyInvDetailsData(e, key);
+                    }
                   }}
                 />
               </td>
@@ -125,12 +199,22 @@ export default function ThirdTable(props) {
                 <input
                   type="number"
                   name="Unit_Wt"
+                  value={val.Unit_Wt}
+                  // min={"0"}
                   disabled={val.DespStatus != "Draft"}
                   className={val.DespStatus != "Draft" ? "input-disabled" : ""}
                   style={{ background: "none", border: "none" }}
-                  value={parseFloat(val.Unit_Wt)}
+                  onKeyDown={weightValidations}
                   onChange={(e) => {
-                    modifyInvDetailsData(e, key);
+                    if (parseFloat(e.target.value).toFixed(1) < 0.0) {
+                      e.target.value = parseFloat(e.target.value) * -1;
+                      toast.warning("Weight can't be negative");
+                      modifyInvDetailsData(e, key);
+                    } else if (parseFloat(e.target.value).toFixed(1) === 0.0) {
+                      toast.warning("Weight can't be zero");
+                    } else {
+                      modifyInvDetailsData(e, key);
+                    }
                   }}
                 />
               </td>

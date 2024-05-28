@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import Axios from "axios";
 import { apipoints } from "../../../../../../../api/PackInv_API/Invoice/Invoice";
 import { Typeahead } from "react-bootstrap-typeahead";
+import { toast } from "react-toastify";
 
 export default function ConsigneeInfo(props) {
   return (
@@ -94,7 +95,15 @@ export default function ConsigneeInfo(props) {
             <input
               name="PO_No"
               value={props.invRegisterData?.PO_No}
-              onChange={props.inputHandler}
+              onChange={(e) => {
+                e.target.value = e.target.value || "";
+                if (e.target.value?.length <= 90) {
+                  props.inputHandler(e);
+                } else {
+                  toast.warning("PO No can be only 90 characters");
+                  e.preventDefault();
+                }
+              }}
               disabled={
                 props.invRegisterData.Inv_No?.length > 0 ||
                 props.invRegisterData.DCStatus === "Cancelled"
@@ -129,16 +138,16 @@ export default function ConsigneeInfo(props) {
               rows="5"
               style={{ width: "100%", height: "100px" }}
               name="Del_Address"
-              value={
-                props.invRegisterData?.Del_Address === null ||
-                props.invRegisterData?.Del_Address === "null" ||
-                props.invRegisterData?.Del_Address === undefined ||
-                props.invRegisterData?.Del_Address === "undefined" ||
-                props.invRegisterData?.Del_Address === ""
-                  ? ""
-                  : props.invRegisterData?.Del_Address
-              }
-              onChange={props.inputHandler}
+              value={props.invRegisterData?.Del_Address || ""}
+              onChange={(e) => {
+                e.target.value = e.target.value || "";
+                if (e.target.value?.length <= 150) {
+                  props.inputHandler(e);
+                } else {
+                  toast.warning("Delivery address can be only 150 characters");
+                  e.preventDefault();
+                }
+              }}
               disabled={
                 props.invRegisterData.Inv_No?.length > 0 ||
                 props.invRegisterData.DCStatus === "Cancelled"

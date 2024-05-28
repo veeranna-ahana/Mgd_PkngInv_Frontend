@@ -298,7 +298,7 @@ export default function PrintPackingNote(props) {
                     justifyContent: "flex-start",
                   }}
                 >
-                  <Text>{props.invRegisterData?.Printable_DC_Date}</Text>
+                  <Text>{props.invRegisterData?.Printable_Dc_inv_Date}</Text>
                 </View>
                 <View
                   style={{
