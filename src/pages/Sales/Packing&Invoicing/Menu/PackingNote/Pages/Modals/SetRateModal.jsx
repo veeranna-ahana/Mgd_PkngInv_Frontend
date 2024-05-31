@@ -230,6 +230,7 @@ export default function SetRateModal(props) {
 
                             onChangeInput(i, e.target.value, val.Mtrl_rate);
                           }}
+                          style={{ background: "transparent" }}
                         />
                       </td>
 
@@ -261,6 +262,7 @@ export default function SetRateModal(props) {
                               ? "border-0 input-disabled"
                               : "border-0"
                           }
+                          style={{ background: "transparent" }}
                         />
                       </td>
                     </tr>
