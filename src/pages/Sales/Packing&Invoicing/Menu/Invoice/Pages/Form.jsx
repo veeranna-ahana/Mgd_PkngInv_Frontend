@@ -314,6 +314,7 @@ export default function Form(props) {
     savePN();
     Axios.post(apipoints.createInvoice, {
       invRegisterData: invRegisterData,
+      invDetailsData: invDetailsData,
       runningNoData: runningNoData,
     }).then((res) => {
       setInvRegisterData(res.data.registerData[0]);

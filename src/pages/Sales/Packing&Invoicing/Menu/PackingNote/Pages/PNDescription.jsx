@@ -215,6 +215,7 @@ export default function Profile() {
     onSave();
     Axios.post(apipoints.createInvoice, {
       invRegisterData: invRegisterData,
+      invDetailsData: invDetailsData,
       runningNoData: runningNoData,
     }).then((res) => {
       setInvRegisterData(res.data.registerData[0]);
@@ -619,6 +620,7 @@ export default function Profile() {
           setShowSetRateModal={setShowSetRateModal}
           DCInvNo={DCInvNo}
           invDetailsData={invDetailsData}
+          setInvDetailsData={setInvDetailsData}
           setRateConsumerData={setRateConsumerData}
           setInvRegisterData={setInvRegisterData}
           invRegisterData={invRegisterData}
