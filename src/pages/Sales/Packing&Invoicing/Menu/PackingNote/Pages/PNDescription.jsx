@@ -620,6 +620,7 @@ export default function Profile() {
           setShowSetRateModal={setShowSetRateModal}
           DCInvNo={DCInvNo}
           invDetailsData={invDetailsData}
+          setInvDetailsData={setInvDetailsData}
           setRateConsumerData={setRateConsumerData}
           setInvRegisterData={setInvRegisterData}
           invRegisterData={invRegisterData}

@@ -7,13 +7,33 @@ import Axios from "axios";
 import { apipoints } from "../../../../../../api/PackInv_API/PackingNote/PackingNote";
 
 export default function SetRateModal(props) {
-  const updatedRates = props.invDetailsData;
+  const closeModal = () => {
+    props.fetchData();
+    props.setShowSetRateModal(false);
+  };
 
-  const updatingTheRateFunction = (newRates) => {
+  const onChangeInput = (key, JW_Rate, Mtrl_rate) => {
+    let arr = [];
+    for (let i = 0; i < props.invDetailsData.length; i++) {
+      const element = props.invDetailsData[i];
+
+      if (i === key) {
+        element.JW_Rate = parseFloat(JW_Rate || 0);
+        element.Mtrl_rate = parseFloat(Mtrl_rate || 0);
+        element.Unit_Rate =
+          parseFloat(JW_Rate || 0) + parseFloat(Mtrl_rate || 0);
+      }
+      arr.push(element);
+    }
+
+    props.setInvDetailsData(arr);
+  };
+
+  const updatingTheRateFunction = () => {
     let newInvRegister = props.invRegisterData || {};
 
     Axios.post(apipoints.updateRatesPN, {
-      newRates: newRates,
+      newRates: props.invDetailsData,
     }).then((res) => {
       if (res.data) {
         toast.success("Set Rate Successful");
@@ -21,10 +41,10 @@ export default function SetRateModal(props) {
         let newNetTotal = 0;
         let newRoundOff = 0;
         let newGrandTotal = 0;
-        // console.log("newRatessss", newRates);
-        for (let i = 0; i < newRates.length; i++) {
-          const element = newRates[i];
-          // console.log("element", element);
+
+        for (let i = 0; i < props.invDetailsData.length; i++) {
+          const element = props.invDetailsData[i];
+
           newNetTotal =
             newNetTotal +
             parseFloat(element.Qty) *
@@ -52,13 +72,13 @@ export default function SetRateModal(props) {
         }).then((res) => {
           if (res) {
             if (res.data.status === 1) {
-              props.fetchData();
+              // props.fetchData();
 
               // set tax dropdown null
               document.getElementById("taxDropdown").value = "none";
 
               toast.success(res.data.comment);
-              props.setShowSetRateModal(false);
+              closeModal();
             } else if (res.data.status === 0) {
               toast.error(res.data.comment);
             } else {
@@ -66,25 +86,6 @@ export default function SetRateModal(props) {
             }
           }
         });
-
-        // props.setInvRegisterData({
-        //   ...props.invRegisterData,
-        //   Net_Total: newNetTotal.toFixed(2),
-        //   Discount: "0.00",
-        //   Del_Chg: "0.00",
-        //   TaxAmount: "0.00",
-        //   InvTotal: newNetTotal.toFixed(2),
-        //   Round_Off: newRoundOff.toFixed(2),
-        //   GrandTotal: newGrandTotal.toFixed(2),
-        // });
-
-        // // delete tax
-        // // props.setInvTaxData([]);
-        // document.getElementById("taxDropdown").value = "none";
-
-        // //
-        // // props.setShowSetRateModal(false);
-        // // toast.success("Set Rate Successful");
       } else {
         toast.warning("Backend Error");
       }
@@ -100,12 +101,13 @@ export default function SetRateModal(props) {
       e.preventDefault();
     }
   };
+
   return (
     <>
       <Modal
         size="lg"
         show={props.showSetRateModal}
-        onHide={() => props.setShowSetRateModal(false)}
+        onHide={closeModal}
         dialogClassName="modal-90w"
         aria-labelledby="example-custom-modal-styling-title"
       >
@@ -216,7 +218,7 @@ export default function SetRateModal(props) {
                           type="number"
                           // min="0"
                           className="border-0"
-                          defaultValue={val.JW_Rate}
+                          value={val.JW_Rate}
                           onKeyDown={numbValidations}
                           onChange={(e) => {
                             e.target.value = e.target.value || 0;
@@ -226,11 +228,7 @@ export default function SetRateModal(props) {
                               toast.warning("Job Work Cost can't be negative");
                             }
 
-                            updatedRates[i].JW_Rate = e.target.value;
-                            updatedRates[i].Unit_Rate = (
-                              parseFloat(e.target.value || 0) +
-                              parseFloat(updatedRates[i].Mtrl_rate || 0)
-                            ).toFixed(2);
+                            onChangeInput(i, e.target.value, val.Mtrl_rate);
                           }}
                         />
                       </td>
@@ -239,7 +237,7 @@ export default function SetRateModal(props) {
                         <input
                           type="number"
                           // min="0"
-                          defaultValue={val.Mtrl_rate}
+                          value={val.Mtrl_rate}
                           onKeyDown={numbValidations}
                           onChange={(e) => {
                             e.target.value = e.target.value || 0;
@@ -249,11 +247,7 @@ export default function SetRateModal(props) {
                               toast.warning("Material Cost can't be negative");
                             }
 
-                            updatedRates[i].Mtrl_rate = e.target.value;
-                            updatedRates[i].Unit_Rate = (
-                              parseFloat(e.target.value || 0) +
-                              parseFloat(updatedRates[i].JW_Rate || 0)
-                            ).toFixed(2);
+                            onChangeInput(i, val.JW_Rate, e.target.value);
                           }}
                           disabled={
                             props.invRegisterData?.DC_InvType === "Job Work" ||
@@ -276,21 +270,11 @@ export default function SetRateModal(props) {
             </Table>
           </div>
           <div className="" style={{ float: "right" }}>
-            <button
-              className="button-style"
-              onClick={() => {
-                updatingTheRateFunction(updatedRates);
-              }}
-            >
+            <button className="button-style" onClick={updatingTheRateFunction}>
               Save
             </button>
 
-            <button
-              className="button-style"
-              onClick={() => {
-                props.setShowSetRateModal(false);
-              }}
-            >
+            <button className="button-style" onClick={closeModal}>
               Close
             </button>
           </div>
