@@ -1,3 +1,7 @@
+/** @format */
+
+// /** @format */
+
 import React, { useState } from "react";
 import * as AiIcons from "react-icons/ai";
 import * as IoIcons from "react-icons/io";
@@ -27,361 +31,355 @@ import { TbListDetails } from "react-icons/tb";
 import { MdArrowDropDown } from "react-icons/md";
 import { FaRegDotCircle } from "react-icons/fa";
 
-export const PakingInvSidebar = [
-  {
-    title: "Inspection",
-    icon: <RiFileInfoLine />,
-    // subNav: [
-    //   {
-    //     title: "Profile/Fabrication/Services",
-    //     // path: "/PackingAndInvoices/Inspection/Main",
-    //     icon: <TiFlowSwitch />,
-    //     subNav: [
-    //       {
-    //         title: "ScheduleList",
-    //         path: "/PackingAndInvoices/Inspection/ScheduleList",
-    //         icon: <BsReverseLayoutTextWindowReverse />,
-    //       },
-    //       {
-    //         title: "FindSchedule",
-    //         path: "/PackingAndInvoices/Inspection/FindSchedule",
-    //         icon: <TbListDetails />,
-    //       },
-    //     ],
-    //   },
+console.log(JSON.parse(localStorage.getItem("LazerUser")));
 
-    //   // {
-    //   //   title: "Fabrication",
+export const customerSidebar = [
+	{
+		title: "Inspection",
+		icon: <RiFileInfoLine />,
+		// subNav: [
+		//   {
+		//     title: "Profile/Fabrication/Services",
+		//     // path: "/PackingAndInvoices/Inspection/Main",
+		//     icon: <TiFlowSwitch />,
+		//     subNav: [
+		//       {
+		//         title: "ScheduleList",
+		//         path: "/PackingAndInvoices/Inspection/ScheduleList",
+		//         icon: <BsReverseLayoutTextWindowReverse />,
+		//       },
+		//       {
+		//         title: "FindSchedule",
+		//         path: "/PackingAndInvoices/Inspection/FindSchedule",
+		//         icon: <TbListDetails />,
+		//       },
+		//     ],
+		//   },
 
-    //   //   icon: <AiIcons.AiOutlineDeploymentUnit />,
+		//   // {
+		//   //   title: "Fabrication",
 
-    //   //   subNav: [
-    //   //     {
-    //   //       title: "ScheduleList",
-    //   //       path: "/PackingAndInvoices/fabrication/ScheduleList",
-    //   //       icon: <AiIcons.AiOutlineArrowRight />,
-    //   //     },
+		//   //   icon: <AiIcons.AiOutlineDeploymentUnit />,
 
-    //   //     {
-    //   //       title: "FindSchedule",
-    //   //       path: "/PackingAndInvoices/fabrication/FindSchedule",
-    //   //       icon: <AiIcons.AiOutlineArrowRight />,
-    //   //     },
-    //   //   ],
-    //   // },
+		//   //   subNav: [
+		//   //     {
+		//   //       title: "ScheduleList",
+		//   //       path: "/PackingAndInvoices/fabrication/ScheduleList",
+		//   //       icon: <AiIcons.AiOutlineArrowRight />,
+		//   //     },
 
-    //   // {
-    //   //   title: "Services",
-    //   //   icon: <MdIcon.MdOutlineOtherHouses />,
-    //   //   subNav: [
-    //   //     {
-    //   //       title: "ScheduleList",
-    //   //       path: "/PackingAndInvoices/service/ScheduleList",
-    //   //       icon: <AiIcons.AiOutlineArrowRight />,
-    //   //     },
+		//   //     {
+		//   //       title: "FindSchedule",
+		//   //       path: "/PackingAndInvoices/fabrication/FindSchedule",
+		//   //       icon: <AiIcons.AiOutlineArrowRight />,
+		//   //     },
+		//   //   ],
+		//   // },
 
-    //   //     {
-    //   //       title: "FindSchedule",
+		//   // {
+		//   //   title: "Services",
+		//   //   icon: <MdIcon.MdOutlineOtherHouses />,
+		//   //   subNav: [
+		//   //     {
+		//   //       title: "ScheduleList",
+		//   //       path: "/PackingAndInvoices/service/ScheduleList",
+		//   //       icon: <AiIcons.AiOutlineArrowRight />,
+		//   //     },
 
-    //   //       path: "/PackingAndInvoices/service/FindSchedule",
+		//   //     {
+		//   //       title: "FindSchedule",
 
-    //   //       icon: <AiIcons.AiOutlineArrowRight />,
-    //   //     },
-    //   //   ],
-    //   // },
-    // ],
+		//   //       path: "/PackingAndInvoices/service/FindSchedule",
 
-    subNav: [
-      {
-        title: "Profile",
-        icon: <AiOutlineDeploymentUnit />,
-        // path: "/PackingAndInvoices/PackingNote/FabricationOpenForm",
-        subNav: [
-          {
-            title: "ScheduleList",
-            path: "/PackingAndInvoices/Inspection/Profile/ScheduleList",
-            icon: <AiIcons.AiOutlineArrowRight />,
-          },
+		//   //       icon: <AiIcons.AiOutlineArrowRight />,
+		//   //     },
+		//   //   ],
+		//   // },
+		// ],
 
-          {
-            title: "FindSchedule",
-            path: "/PackingAndInvoices/Inspection/Profile/FindSchedule",
-            icon: <AiIcons.AiOutlineArrowRight />,
-          },
-        ],
-      },
+		subNav: [
+			{
+				title: "Profile",
+				icon: <AiOutlineDeploymentUnit />,
+				// path: "/PackingAndInvoices/PackingNote/FabricationOpenForm",
+				subNav: [
+					{
+						title: "ScheduleList",
+						path: "/PackingAndInvoices/Inspection/Profile/ScheduleList",
+						icon: <AiIcons.AiOutlineArrowRight />,
+					},
 
-      {
-        title: "Fabrication",
-        icon: <MdMiscellaneousServices />,
-        // path: "/PackingAndInvoices/PackingNote/ServicesOpenForm",
-        subNav: [
-          {
-            title: "ScheduleList",
-            path: "/PackingAndInvoices/Inspection/Fabrication/ScheduleList",
-            icon: <AiIcons.AiOutlineArrowRight />,
-          },
+					{
+						title: "FindSchedule",
+						path: "/PackingAndInvoices/Inspection/Profile/FindSchedule",
+						icon: <AiIcons.AiOutlineArrowRight />,
+					},
+				],
+			},
 
-          {
-            title: "FindSchedule",
-            path: "/PackingAndInvoices/Inspection/Fabrication/FindSchedule",
-            icon: <AiIcons.AiOutlineArrowRight />,
-          },
-        ],
-      },
+			{
+				title: "Fabrication",
+				icon: <MdMiscellaneousServices />,
+				// path: "/PackingAndInvoices/PackingNote/ServicesOpenForm",
+				subNav: [
+					{
+						title: "ScheduleList",
+						path: "/PackingAndInvoices/Inspection/Fabrication/ScheduleList",
+						icon: <AiIcons.AiOutlineArrowRight />,
+					},
 
-      {
-        title: "Services",
-        icon: <FiSliders />,
-        // path: "/PackingAndInvoices/PackingNote/ProfileOpenForm",
-        subNav: [
-          {
-            title: "ScheduleList",
-            path: "/PackingAndInvoices/Inspection/Services/ScheduleList",
-            icon: <AiIcons.AiOutlineArrowRight />,
-          },
+					{
+						title: "FindSchedule",
+						path: "/PackingAndInvoices/Inspection/Fabrication/FindSchedule",
+						icon: <AiIcons.AiOutlineArrowRight />,
+					},
+				],
+			},
 
-          {
-            title: "FindSchedule",
-            path: "/PackingAndInvoices/Inspection/services/FindSchedule",
-            icon: <AiIcons.AiOutlineArrowRight />,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    title: "Packing Note",
-    icon: <TbPackage />,
-    // icon: <BiIcons.BiPurchaseTag />,
+			{
+				title: "Services",
+				icon: <FiSliders />,
+				// path: "/PackingAndInvoices/PackingNote/ProfileOpenForm",
+				subNav: [
+					{
+						title: "ScheduleList",
+						path: "/PackingAndInvoices/Inspection/Services/ScheduleList",
+						icon: <AiIcons.AiOutlineArrowRight />,
+					},
 
-    subNav: [
-      {
-        title: "Fabrication",
-        icon: <AiOutlineDeploymentUnit />,
+					{
+						title: "FindSchedule",
+						path: "/PackingAndInvoices/Inspection/services/FindSchedule",
+						icon: <AiIcons.AiOutlineArrowRight />,
+					},
+				],
+			},
+		],
+	},
+	{
+		title: "Packing Note",
+		icon: <TbPackage />,
+		// icon: <BiIcons.BiPurchaseTag />,
 
-        path: "/PackingAndInvoices/PackingNote/FabricationOpenForm",
-      },
+		subNav: [
+			{
+				title: "Fabrication",
+				icon: <AiOutlineDeploymentUnit />,
 
-      {
-        title: "Services",
+				path: "/PackingAndInvoices/PackingNote/FabricationOpenForm",
+			},
 
-        icon: <MdMiscellaneousServices />,
+			{
+				title: "Services",
 
-        path: "/PackingAndInvoices/PackingNote/ServicesOpenForm",
-      },
+				icon: <MdMiscellaneousServices />,
 
-      {
-        title: "Profile",
+				path: "/PackingAndInvoices/PackingNote/ServicesOpenForm",
+			},
 
-        icon: <FiSliders />,
+			{
+				title: "Profile",
 
-        path: "/PackingAndInvoices/PackingNote/ProfileOpenForm",
-      },
+				icon: <FiSliders />,
 
-      {
-        title: "Misc",
+				path: "/PackingAndInvoices/PackingNote/ProfileOpenForm",
+			},
 
-        icon: <SiEquinixmetal />,
+			{
+				title: "Misc",
 
-        path: "/PackingAndInvoices/PackingNote/MiscOpenForm",
-      },
-    ],
-  },
+				icon: <SiEquinixmetal />,
 
-  {
-    title: "Invoice",
-    icon: <TbFileInvoice />,
-    subNav: [
-      {
-        title: "Misc Invoice ",
-        icon: <TbFileInvoice />,
-        subNav: [
-          {
-            title: "Create New",
-            icon: <AiIcons.AiOutlineArrowRight />,
-            path: "/PackingAndInvoices/Invoice/MiscInvoice/CreateNew",
-          },
-          {
-            title: "PN List",
-            icon: <AiIcons.AiOutlineArrowRight />,
-            path: "/PackingAndInvoices/Invoice/MiscInvoice/PNList",
-          },
-          {
-            title: "Invoice List",
-            icon: <AiIcons.AiOutlineArrowRight />,
-            path: "/PackingAndInvoices/Invoice/MiscInvoice/InvoiceList",
-          },
-        ],
-      },
-      {
-        title: "Material Scrap Invoice",
-        icon: <TbFileInvoice />,
-        subNav: [
-          {
-            title: "Scrap",
-            icon: <AiIcons.AiOutlineArrowRight />,
-            path: "/PackingAndInvoices/Invoice/MaterialScrapInvoice/Scrap",
-          },
-          {
-            title: "Material Return",
-            icon: <AiIcons.AiOutlineArrowRight />,
-            path: "/PackingAndInvoices/Invoice/MaterialScrapInvoice/MaterialReturn",
-          },
-          {
-            title: "PN List",
-            icon: <AiIcons.AiOutlineArrowRight />,
-            subNav: [
-              {
-                title: "Scrap",
-                icon: <FaRegDotCircle />,
-                path: "/PackingAndInvoices/Invoice/MaterialScrapInvoice/PNList/Scrap",
-              },
-              {
-                title: "Material",
-                icon: <FaRegDotCircle />,
-                path: "/PackingAndInvoices/Invoice/MaterialScrapInvoice/PNList/Material",
-              },
-            ],
-          },
-          {
-            title: "Invoice List",
-            icon: <AiIcons.AiOutlineArrowRight />,
-            path: "/PackingAndInvoices/Invoice/MaterialScrapInvoice/InvoiceList",
-          },
-          {
-            title: "Create New",
-            icon: <AiIcons.AiOutlineArrowRight />,
-            path: "/PackingAndInvoices/Invoice/MaterialScrapInvoice/CreateNew",
-          },
-        ],
-      },
-      {
-        title: "Services Invoice",
-        icon: <TbFileInvoice />,
-        path: "/PackingAndInvoices/Invoice/ServicesInvoice",
-      },
-      {
-        title: "Sales Invoice",
-        icon: <TbFileInvoice />,
-        path: "/PackingAndInvoices/Invoice/SalesInvoice",
-        // path:''
-      },
-      {
-        title: "Fabrication Invoice",
-        icon: <TbFileInvoice />,
-        path: "/PackingAndInvoices/Invoice/FabricationInvoice",
-        // path:''
-      },
-    ],
-    // path:''
-  },
+				path: "/PackingAndInvoices/PackingNote/MiscOpenForm",
+			},
+		],
+	},
 
-  // {
-  //   title: "SetUp",
+	{
+		title: "Invoice",
+		icon: <TbFileInvoice />,
+		subNav: [
+			{
+				title: "Misc Invoice ",
+				icon: <TbFileInvoice />,
+				subNav: [
+					{
+						title: "Create New",
+						icon: <AiIcons.AiOutlineArrowRight />,
+						path: "/PackingAndInvoices/Invoice/MiscInvoice/CreateNew",
+					},
+					{
+						title: "PN List",
+						icon: <AiIcons.AiOutlineArrowRight />,
+						path: "/PackingAndInvoices/Invoice/MiscInvoice/PNList",
+					},
+					{
+						title: "Invoice List",
+						icon: <AiIcons.AiOutlineArrowRight />,
+						path: "/PackingAndInvoices/Invoice/MiscInvoice/InvoiceList",
+					},
+				],
+			},
+			{
+				title: "Material Scrap Invoice",
+				icon: <TbFileInvoice />,
+				subNav: [
+					{
+						title: "Scrap",
+						icon: <AiIcons.AiOutlineArrowRight />,
+						path: "/PackingAndInvoices/Invoice/MaterialScrapInvoice/Scrap",
+					},
+					{
+						title: "Material Return",
+						icon: <AiIcons.AiOutlineArrowRight />,
+						path: "/PackingAndInvoices/Invoice/MaterialScrapInvoice/MaterialReturn",
+					},
+					{
+						title: "PN List",
+						icon: <AiIcons.AiOutlineArrowRight />,
+						subNav: [
+							{
+								title: "Scrap",
+								icon: <FaRegDotCircle />,
+								path: "/PackingAndInvoices/Invoice/MaterialScrapInvoice/PNList/Scrap",
+							},
+							{
+								title: "Material",
+								icon: <FaRegDotCircle />,
+								path: "/PackingAndInvoices/Invoice/MaterialScrapInvoice/PNList/Material",
+							},
+						],
+					},
+					{
+						title: "Invoice List",
+						icon: <AiIcons.AiOutlineArrowRight />,
+						path: "/PackingAndInvoices/Invoice/MaterialScrapInvoice/InvoiceList",
+					},
+					{
+						title: "Create New",
+						icon: <AiIcons.AiOutlineArrowRight />,
+						path: "/PackingAndInvoices/Invoice/MaterialScrapInvoice/CreateNew",
+					},
+				],
+			},
+			{
+				title: "Services Invoice",
+				icon: <TbFileInvoice />,
+				path: "/PackingAndInvoices/Invoice/ServicesInvoice",
+			},
+			{
+				title: "Sales Invoice",
+				icon: <TbFileInvoice />,
+				path: "/PackingAndInvoices/Invoice/SalesInvoice",
+				// path:''
+			},
+			{
+				title: "Fabrication Invoice",
+				icon: <TbFileInvoice />,
+				path: "/PackingAndInvoices/Invoice/FabricationInvoice",
+				// path:''
+			},
+		],
+		// path:''
+	},
+	{
+		title: "ReturnableDC",
+		icon: <MdBackupTable />,
 
-  //   // path: "/materialmanagement/receipt/branchtransfer",
+		subNav: [
+			{
+				title: "Create New",
+				icon: <VscGitPullRequestCreate />,
+				path: "/PackingAndInvoices/ReturnableDC/DCCreateNew",
+			},
 
-  //   icon: <AiIcons.AiOutlineBranches />,
-  // },
+			{
+				title: "DC List",
+				icon: <BsReverseLayoutTextWindowReverse />,
+				// path: "/PackingAndInvoices/ReturnableDC/DCList",
+				subNav: [
+					{
+						title: "Created",
+						icon: <AiIcons.AiOutlineArrowRight />,
+						path: "/PackingAndInvoices/ReturnableDC/DCList/DCListCreated",
+					},
 
-  {
-    title: "ReturnableDC",
-    icon: <MdBackupTable />,
-    subNav: [
-      {
-        title: "Create New",
-        icon: <VscGitPullRequestCreate />,
-        path: "/PackingAndInvoices/ReturnableDC/DCCreateNew",
-      },
+					{
+						title: "Dispatched",
+						icon: <AiIcons.AiOutlineArrowRight />,
+						path: "/PackingAndInvoices/ReturnableDC/DCList/DCListDispatched",
+					},
 
-      {
-        title: "DC List",
-        icon: <BsReverseLayoutTextWindowReverse />,
-        // path: "/PackingAndInvoices/ReturnableDC/DCList",
-        subNav: [
-          {
-            title: "Created",
-            icon: <AiIcons.AiOutlineArrowRight />,
-            path: "/PackingAndInvoices/ReturnableDC/DCList/DCListCreated",
-          },
+					{
+						title: "Closed",
+						icon: <AiIcons.AiOutlineArrowRight />,
+						path: "/PackingAndInvoices/ReturnableDC/DCList/DCListClosed",
+					},
 
-          {
-            title: "Dispatched",
-            icon: <AiIcons.AiOutlineArrowRight />,
-            path: "/PackingAndInvoices/ReturnableDC/DCList/DCListDispatched",
-          },
-
-          {
-            title: "Closed",
-            icon: <AiIcons.AiOutlineArrowRight />,
-            path: "/PackingAndInvoices/ReturnableDC/DCList/DCListClosed",
-          },
-
-          {
-            title: "All",
-            icon: <AiIcons.AiOutlineArrowRight />,
-            path: "/PackingAndInvoices/ReturnableDC/DCList/DCListAll",
-          },
-        ],
-      },
-    ],
-  },
-
-  {
-    title: "Previous Menu",
-
-    path: "/salesHome",
-
-    icon: <RiArrowGoBackFill />,
-
-    iconClosed: <RiIcons.RiArrowDownSFill />,
-
-    iconOpened: <RiIcons.RiArrowUpSFill />,
-  },
+					{
+						title: "All",
+						icon: <AiIcons.AiOutlineArrowRight />,
+						path: "/PackingAndInvoices/ReturnableDC/DCList/DCListAll",
+					},
+				],
+			},
+		],
+	},
+	// {
+	// 	title: "Previous Menu",
+	// 	path: "http://172.16.20.61:3000/salesHome",
+	// 	icon: <MdIcon.MdPreview />,
+	// 	iconClosed: <RiIcons.RiArrowDownSFill />,
+	// 	iconOpened: <RiIcons.RiArrowUpSFill />,
+	// },
+	{
+		title: "Previous Menu",
+		path: "#", // Set path to '#' or simply omit it
+		onClick: () => {
+			console.log("Navigating to port 3000/salesHome");
+			window.location.href = "http://172.16.20.61:3000/home";
+			// window.location.href = "http://192.168.1.25:9000/home";
+		},
+		icon: <MdIcon.MdPreview />,
+		iconClosed: <RiIcons.RiArrowDownSFill />,
+		iconOpened: <RiIcons.RiArrowUpSFill />,
+	},
 ];
-
 export const adminSidebar = [
-  {
-    title: "Users",
-    // path: "/customer",
-    icon: <FaIcon.FaUsers />,
-    iconClosed: <RiIcons.RiArrowDownSFill />,
-    iconOpened: <RiIcons.RiArrowUpSFill />,
-
-    subNav: [
-      {
-        title: "Roles",
-        path: "/admin/roles",
-        icon: <VscTypeHierarchySub />,
-      },
-      {
-        title: "Users",
-        path: "/admin/users",
-        icon: <HiUsers />,
-      },
-    ],
-  },
-  {
-    title: "Access",
-    // path: "/customer",
-    icon: <FaIcon.FaUsers />,
-    iconClosed: <RiIcons.RiArrowDownSFill />,
-    iconOpened: <RiIcons.RiArrowUpSFill />,
-
-    subNav: [
-      {
-        title: "Role Mapping",
-        path: "/admin/mapping",
-        icon: <VscTypeHierarchySub />,
-      },
-    ],
-  },
-  {
-    title: "Previous Menu",
-    path: "/home",
-    icon: <MdIcon.MdPreview />,
-    iconClosed: <RiIcons.RiArrowDownSFill />,
-    iconOpened: <RiIcons.RiArrowUpSFill />,
-  },
+	{
+		title: "Access",
+		icon: <MdIcon.MdOutlineSecurity />,
+		iconClosed: <RiIcons.RiArrowDownSFill />,
+		iconOpened: <RiIcons.RiArrowUpSFill />,
+		subNav: [
+			{
+				title: "Menu Roles",
+				path: "/admin/menuRoles",
+				icon: <AiIcons.AiOutlineMenuFold />,
+			},
+		],
+	},
+	{
+		title: "Users",
+		icon: <FaIcon.FaUsers />,
+		iconClosed: <RiIcons.RiArrowDownSFill />,
+		iconOpened: <RiIcons.RiArrowUpSFill />,
+		subNav: [
+			{
+				title: "Roles",
+				path: "/admin/roles",
+				icon: <VscTypeHierarchySub />,
+			},
+			{
+				title: "Menus",
+				path: "/admin/menus",
+				icon: <BiFoodMenu />,
+			},
+			{
+				title: "Users",
+				path: "/admin/users",
+				icon: <HiUsers />,
+			},
+		],
+	},
 ];
