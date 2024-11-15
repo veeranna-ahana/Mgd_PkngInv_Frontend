@@ -19,7 +19,7 @@ const NestMenu = ({ nestnav }) => {
           onClick={() => {
             nestnav.subNav && showSubnav1();
           }}
-          style={{ cursor: "pointer", paddingLeft: "20px" }}
+          style={{ cursor: "pointer" }}
         >
           <div className="submenu_links">
             <div className="icon" style={{ color: "white" }}>

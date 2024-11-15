@@ -31,7 +31,8 @@ import { TbListDetails } from "react-icons/tb";
 import { MdArrowDropDown } from "react-icons/md";
 import { FaRegDotCircle } from "react-icons/fa";
 
-console.log(JSON.parse(localStorage.getItem("LazerUser")));
+// console.log(JSON.parse(localStorage.getItem("LazerUser")));
+const previousMenuUrl = process.env.REACT_APP_PREVIOUS_MENU_URL;
 
 export const customerSidebar = [
 	{
@@ -325,21 +326,10 @@ export const customerSidebar = [
 			},
 		],
 	},
-	// {
-	// 	title: "Previous Menu",
-	// 	path: "http://172.16.20.61:3000/salesHome",
-	// 	icon: <MdIcon.MdPreview />,
-	// 	iconClosed: <RiIcons.RiArrowDownSFill />,
-	// 	iconOpened: <RiIcons.RiArrowUpSFill />,
-	// },
 	{
 		title: "Previous Menu",
-		path: "#", // Set path to '#' or simply omit it
-		onClick: () => {
-			console.log("Navigating to port 3000/salesHome");
-			window.location.href = "http://172.16.20.61:3000/home";
-			// window.location.href = "http://192.168.1.25:9000/home";
-		},
+		// path: "http://172.16.20.61:3000/salesHome",
+		path: previousMenuUrl,
 		icon: <MdIcon.MdPreview />,
 		iconClosed: <RiIcons.RiArrowDownSFill />,
 		iconOpened: <RiIcons.RiArrowUpSFill />,
