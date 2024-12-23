@@ -18,4 +18,6 @@ export const apipoints = {
   getIVDetails: `${url}/invoice/getIVDetails`,
   getPDFData: `${url}/pdf/getPDFData`,
   insertAndGetRunningNo: `${url}/runningNo/insertAndGetRunningNo`,
+  setAdjustmentName: `${url}/savePDF/set-adjustment-name`,
+  savePDF: `${url}/savePDF/save-pdf`,
 };
