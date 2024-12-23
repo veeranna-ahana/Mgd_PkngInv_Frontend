@@ -180,134 +180,134 @@ const { getRequest, postRequest } = require("../api/apiinstance");
 const { endpoints } = require("../api/constants");
 
 function Login() {
-	const nav = useNavigate();
-	// const location = useLocation();
-	// const queryParams = new URLSearchParams(location.search);
-	// const storedDataParam = queryParams.get("dataToStore");
-	// const storedData = storedDataParam ? JSON.parse(storedDataParam) : null;
-	// console.log("storedData", storedData.userData.Role);
-	const [menuUrls, setMenuUrls] = useState([]);
-	// const { menusData, setMenusData } = useContext(MenusContext); // Use the context
+  const nav = useNavigate();
+  // const location = useLocation();
+  // const queryParams = new URLSearchParams(location.search);
+  // const storedDataParam = queryParams.get("dataToStore");
+  // const storedData = storedDataParam ? JSON.parse(storedDataParam) : null;
+  // console.log("storedData", storedData.userData.Role);
+  const [menuUrls, setMenuUrls] = useState([]);
+  // const { menusData, setMenusData } = useContext(MenusContext); // Use the context
 
-	// Retrieve userData from cookies
-	const userData = JSON.parse(Cookies.get("userData") || "{}");
-	console.log("User Data:", userData);
-	// Set userData into localStorage
-	localStorage.setItem("userData", JSON.stringify(userData));
-	useEffect(() => {
-		if (userData) {
-			const fetchMenuUrls = async () => {
-				try {
-					const role = userData.Role;
-					const username = userData.UserName;
-					if (!role || !username) {
-						console.error(
-							"Role, username, or access token is missing in local storage"
-						);
-						return;
-					}
-					console.log(role, username);
-					// const response = await fetch(endpoints.MenuUrlsAPI, {
-					// 	method: "POST",
-					// 	headers: {
-					// 		"Content-Type": "application/json",
-					// 		// Authorization: `Bearer ${token}`,
-					// 	},
-					// 	body: { role, username },
-					// });
-					// const response = postRequest(
-					// 	baseURL + "/user/fetchMenuUrls",
-					// 	{ role, username },
-					// 	(data) => {
-					// 		console.log(data);
-					// 	}
-					// );
+  // Retrieve userData from cookies
+  const userData = JSON.parse(Cookies.get("userData") || "{}");
+  console.log("User Data:", userData);
+  // Set userData into localStorage
+  localStorage.setItem("userData", JSON.stringify(userData));
+  useEffect(() => {
+    if (userData) {
+      const fetchMenuUrls = async () => {
+        try {
+          const role = userData.Role;
+          const username = userData.UserName;
+          if (!role || !username) {
+            console.error(
+              "Role, username, or access token is missing in local storage"
+            );
+            return;
+          }
+          console.log(role, username);
+          // const response = await fetch(endpoints.MenuUrlsAPI, {
+          // 	method: "POST",
+          // 	headers: {
+          // 		"Content-Type": "application/json",
+          // 		// Authorization: `Bearer ${token}`,
+          // 	},
+          // 	body: { role, username },
+          // });
+          // const response = postRequest(
+          // 	baseURL + "/user/fetchMenuUrls",
+          // 	{ role, username },
+          // 	(data) => {
+          // 		console.log(data);
+          // 	}
+          // );
 
-					// axios.post(
-					// 	baseURL + "/user/fetchMenuUrls",
-					// 	{ role, username }.then((res) => {
-					// 	})
-					// );
+          // axios.post(
+          // 	baseURL + "/user/fetchMenuUrls",
+          // 	{ role, username }.then((res) => {
+          // 	})
+          // );
 
-					axios
-						.post("http://172.16.20.61:3002/packuser/fetchMenuUrls", {
-							role,
-							username,
-						})
-						.then((response) => {
-							console.log(response.data.data);
-							const responseData = response.data;
-							console.log("responseData", responseData);
-							localStorage.setItem("LazerUser", JSON.stringify(responseData));
-						});
-					// if (!response.ok) {
-					// 	throw new Error(`HTTP error! status: ${response.status}`);
-					// }
-					// const responseData = await response.json();
-					// console.log("responseData", responseData);
-					// localStorage.setItem("LazerUser", JSON.stringify(responseData));
-					// // setMenusData(responseData);
+          axios
+            .post("http://localhost:3002/packuser/fetchMenuUrls", {
+              role,
+              username,
+            })
+            .then((response) => {
+              console.log(response.data.data);
+              const responseData = response.data;
+              console.log("responseData", responseData);
+              localStorage.setItem("LazerUser", JSON.stringify(responseData));
+            });
+          // if (!response.ok) {
+          // 	throw new Error(`HTTP error! status: ${response.status}`);
+          // }
+          // const responseData = await response.json();
+          // console.log("responseData", responseData);
+          // localStorage.setItem("LazerUser", JSON.stringify(responseData));
+          // // setMenusData(responseData);
 
-					// const data = await response.json();
-					// setMenuUrls(data.access);
-				} catch (error) {
-					console.error("Error fetching menu URLs:", error);
-				}
-			};
+          // const data = await response.json();
+          // setMenuUrls(data.access);
+        } catch (error) {
+          console.error("Error fetching menu URLs:", error);
+        }
+      };
 
-			fetchMenuUrls();
-			nav("PackingAndInvoices/");
-		}
-		// }, [userData, nav, menusData, setMenusData]);
-	}, [userData]);
-	// useEffect(() => {
-	// 	if (menusData) {
-	// 		console.log("menusData has been updated:", menusData);
-	// 		localStorage.setItem("menusData", menusData);
-	// 	}
-	// }, [menusData]);
+      fetchMenuUrls();
+      nav("PackingAndInvoices/");
+    }
+    // }, [userData, nav, menusData, setMenusData]);
+  }, [userData]);
+  // useEffect(() => {
+  // 	if (menusData) {
+  // 		console.log("menusData has been updated:", menusData);
+  // 		localStorage.setItem("menusData", menusData);
+  // 	}
+  // }, [menusData]);
 
-	let [username, setUsername] = useState("");
-	let [formPassword, setPassword] = useState("");
+  let [username, setUsername] = useState("");
+  let [formPassword, setPassword] = useState("");
 
-	function submitLogin() {
-		postRequest(
-			endpoints.loginAPI,
-			{ username: username, password: formPassword },
-			(data) => {
-				if (data.accessToken) {
-					localStorage.setItem("token", data.accessToken);
-					localStorage.setItem("LazerUser", JSON.stringify(data));
-					// window.location.href = "/home";
-					nav = "/home";
-				} else {
-					alert("Invalid Username/Password");
-				}
-			}
-		);
-	}
+  function submitLogin() {
+    postRequest(
+      endpoints.loginAPI,
+      { username: username, password: formPassword },
+      (data) => {
+        if (data.accessToken) {
+          localStorage.setItem("token", data.accessToken);
+          localStorage.setItem("LazerUser", JSON.stringify(data));
+          // window.location.href = "/home";
+          nav = "/home";
+        } else {
+          alert("Invalid Username/Password");
+        }
+      }
+    );
+  }
 
-	const handleKeyPress = (event) => {
-		if (event.key === "Enter") {
-			console.log("Enter key pressed!");
-			postRequest(
-				endpoints.loginAPI,
-				{ username: username, password: formPassword },
-				(data) => {
-					if (data.accessToken) {
-						localStorage.setItem("token", data.accessToken);
-						localStorage.setItem("LazerUser", JSON.stringify(data));
-						window.location.href = "/home";
-					} else {
-						alert("Invalid Username/Password");
-					}
-				}
-			);
-		}
-	};
-	return (
-		<>
-			{/* <div
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      console.log("Enter key pressed!");
+      postRequest(
+        endpoints.loginAPI,
+        { username: username, password: formPassword },
+        (data) => {
+          if (data.accessToken) {
+            localStorage.setItem("token", data.accessToken);
+            localStorage.setItem("LazerUser", JSON.stringify(data));
+            window.location.href = "/home";
+          } else {
+            alert("Invalid Username/Password");
+          }
+        }
+      );
+    }
+  };
+  return (
+    <>
+      {/* <div
 				className="row d-flex "
 				style={{ backgroundColor: "lightblue", height: "100vh" }}>
 				<div className="col-lg-8">
@@ -399,8 +399,8 @@ function Login() {
 					</div>
 				</div>
 			</div> */}
-		</>
-	);
+    </>
+  );
 }
 
 export default Login;
