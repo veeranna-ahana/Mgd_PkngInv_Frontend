@@ -1,5 +1,5 @@
 import React, { useState, Fragment, useEffect } from "react";
-import { PDFViewer } from "@react-pdf/renderer";
+import { PDFViewer, pdf } from "@react-pdf/renderer";
 import { Table } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { Modal } from "react-bootstrap";
@@ -159,6 +159,39 @@ function OpenRV({
         "An error occurred during the update:",
         error.message || error
       );
+    }
+  };
+
+  const savePdfToServer = async () => {
+    try {
+      const adjustment = "Material_Receipt_Voucher";
+
+      // Step 1: Call the API to set the adjustment name
+      await Axios.post(apipoints.setAdjustmentName, {
+        adjustment,
+      });
+
+      const blob = await pdf(
+        <ReceiptVoucher formData={formData} PDFData={PDFData} />
+      ).toBlob();
+
+      const pdfFormData = new FormData();
+
+      const file = new File([blob], "GeneratedPDF.pdf", {
+        type: "application/pdf",
+      });
+
+      pdfFormData.append("file", file);
+
+      const response = await Axios.post(apipoints.savePDF, pdfFormData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      if (response.status === 200) {
+        toast.success("PDF saved successfully!");
+      }
+    } catch (error) {
+      console.error("Error saving PDF to server:", error);
     }
   };
 
@@ -683,10 +716,26 @@ function OpenRV({
       {pdfModal && (
         <Modal show={pdfModal} onHide={handlePdfClose} fullscreen>
           <Modal.Header closeButton>
-            <Modal.Title>Returnable Material Receipt Voucher</Modal.Title>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <Modal.Title>Returnable Material Receipt Voucher</Modal.Title>
+              <button className="button-style" onClick={savePdfToServer}>
+                Save to Server
+              </button>
+            </div>
           </Modal.Header>
           <Fragment>
-            <PDFViewer width="1200" height="600" filename="somename.pdf">
+            <PDFViewer
+              width="1200"
+              height="600"
+              filename="Material_Receipt_Voucher.pdf"
+            >
               <ReceiptVoucher formData={formData} PDFData={PDFData} />
             </PDFViewer>
           </Fragment>
