@@ -37,4 +37,6 @@ export const apipoints = {
   customerCount: `${url}/pnrdc/customerCount`,
   updateCount: `${url}/pnrdc/updateCount`,
   getPDFData: `${url}/pnrdc/getPDFData`,
+  setAdjustmentName: `${url}/savePDF/set-adjustment-name`,
+  savePDF: `${url}/savePDF/save-pdf`,
 };
